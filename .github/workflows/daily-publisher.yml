@@ -30,8 +30,15 @@ jobs:
           python main.py
       - name: Save generated article
         run: |
+          git status
+          ls -la
+          ls -la articles || true
+
           git config --global user.name "robotics-agent"
           git config --global user.email "agent@github.com"
-          git add -A
-          git commit -m "Generate daily robotics article" || true
+
+          git add articles
+
+          git commit -m "Generate daily robotics article" || echo "Nothing to commit"
+
           git push
