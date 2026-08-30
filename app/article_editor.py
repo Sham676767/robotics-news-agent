@@ -182,7 +182,7 @@ def main() -> None:
         render_markdown(article),
         encoding="utf-8"
     )
-
+    print(f"FILE CREATED: {output_path.resolve()}")
     print(f"Article generated: {output_path}")
 if __name__ == "__main__":
     main()
