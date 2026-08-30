@@ -6,7 +6,7 @@ on:
 jobs:
   article:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,12 +19,12 @@ jobs:
       - name: Select fresh TOP-5
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: nvidia/nemotron-3-ultra-550b-a55b:free
+          OPENROUTER_MODEL: openrouter/free
         run: python -m app.daily_selection
       - name: Generate article draft
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: nvidia/nemotron-3-ultra-550b-a55b:free
+          OPENROUTER_MODEL: openrouter/free
         run: python -m app.article_editor
       - name: Upload draft and TOP-5
         uses: actions/upload-artifact@v4
