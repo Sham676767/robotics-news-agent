@@ -32,12 +32,12 @@ jobs:
         run: |
           git status
           ls -la
-          ls -la articles || true
+          
 
           git config --global user.name "robotics-agent"
           git config --global user.email "agent@github.com"
 
-          git add articles
+          git add .
 
           git commit -m "Generate daily robotics article" || echo "Nothing to commit"
 
