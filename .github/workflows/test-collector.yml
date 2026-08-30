@@ -22,4 +22,6 @@ jobs:
         run: python -m pip install -r requirements.txt
 
       - name: Run collector
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: python -m app
