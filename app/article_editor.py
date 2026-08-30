@@ -173,17 +173,18 @@ def main() -> None:
 
     article = generate_article(top5)
 
-    OUTPUT_PATH.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-    output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
+    OUTPUT_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
 
-    output_path.write_text(
-        render_markdown(article),
-        encoding="utf-8"
-    )
+output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
 
-    print(f"Article generated: {output_path}")
+output_path.write_text(
+    render_markdown(article),
+    encoding="utf-8"
+)
+
+print(f"Article generated: {output_path}")
 if __name__ == "__main__":
     main()
