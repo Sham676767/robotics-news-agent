@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -76,37 +77,59 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         "Каждая карточка является единственным источником фактов для соответствующего блока.\n\n"
         + json.dumps(top5, ensure_ascii=False, indent=2)
     )
-    response = httpx.post(
-        OPENROUTER_URL,
-        headers={
-            "Authorization": f"Bearer {key}",
-            "Content-Type": "application/json",
-            "X-Title": "Robotics News Agent — Article Editor",
-        },
-        json={
-            "model": os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free"),
-            "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": prompt},
-            ],
-            "temperature": 0.2,
-            "max_tokens": 5000,
-        },
-        timeout=90,
-    )
-    response.raise_for_status()
-    data = response.json()
-    choices = data.get("choices") or []
-    if not choices:
-        raise RuntimeError(f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}")
-    message = choices[0].get("message") or {}
-    content = message.get("content")
-    if not content:
-        raise RuntimeError(f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}")
+    payload = {
+        "model": os.getenv("OPENROUTER_MODEL", "openrouter/free"),
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0.2,
+        "max_tokens": 5000,
+    }
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "X-Title": "Robotics News Agent — Article Editor",
+    }
 
-    article = _parse_json(content)
-    validate_article(article, top5)
-    return article
+    last_error: str | None = None
+    for attempt in range(3):
+        try:
+            response = httpx.post(
+                OPENROUTER_URL,
+                headers=headers,
+                json=payload,
+                timeout=120,
+            )
+            if response.status_code in (429, 500, 502, 503, 504):
+                last_error = response.text[:1000]
+                if attempt < 2:
+                    time.sleep(5 * (attempt + 1))
+                    continue
+            response.raise_for_status()
+            data = response.json()
+            choices = data.get("choices") or []
+            if not choices:
+                raise RuntimeError(
+                    f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}"
+                )
+            message = choices[0].get("message") or {}
+            content = message.get("content")
+            if not content:
+                raise RuntimeError(
+                    f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}"
+                )
+            article = _parse_json(content)
+            validate_article(article, top5)
+            return article
+        except (httpx.HTTPError, ValueError, RuntimeError) as exc:
+            last_error = str(exc)
+            if attempt < 2:
+                time.sleep(5 * (attempt + 1))
+                continue
+            raise RuntimeError(f"OpenRouter article generation failed after 3 attempts: {last_error}") from exc
+
+    raise RuntimeError(f"OpenRouter article generation failed: {last_error}")
 
 
 def render_markdown(article: dict[str, Any]) -> str:
