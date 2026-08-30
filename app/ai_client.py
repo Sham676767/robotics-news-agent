@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from typing import Any
 
@@ -33,6 +34,52 @@ def build_ranking_prompt(items: list[dict[str, Any]]) -> str:
     )
 
 
+def _extract_json(text: str) -> Any:
+    """Parse JSON even when a free model adds prose or markdown fences."""
+    text = text.strip()
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines:
+            lines = lines[1:]
+        if lines and lines[-1].strip() == "```":
+            lines = lines[:-1]
+        text = "\n".join(lines).strip()
+
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Recover the first complete JSON array/object embedded in model prose.
+    for opener, closer in (("[", "]"), ("{", "}")):
+        start = text.find(opener)
+        end = text.rfind(closer)
+        if start >= 0 and end > start:
+            candidate = text[start : end + 1]
+            try:
+                return json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+
+    raise ValueError(f"AI did not return parseable JSON: {text[:500]!r}")
+
+
+def _heuristic_fallback(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Emergency fallback: keep the pipeline alive if a free model is unavailable."""
+    ranked = sorted(
+        items,
+        key=lambda item: (
+            len(item.get("summary", "")),
+            len(item.get("topics", [])),
+        ),
+        reverse=True,
+    )
+    return [
+        {"id": item["id"], "score": 0, "reason": "AI ranking unavailable; deterministic fallback"}
+        for item in ranked[:5]
+    ]
+
+
 def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) -> list[dict[str, Any]]:
     key = api_key or os.getenv("OPENROUTER_API_KEY")
     if not key:
@@ -43,7 +90,7 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
     payload = {
         "model": os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL),
         "messages": [
-            {"role": "system", "content": "Отвечай только валидным JSON без markdown."},
+            {"role": "system", "content": "Отвечай только валидным JSON без markdown и пояснений."},
             {"role": "user", "content": build_ranking_prompt(items)},
         ],
         "temperature": 0.1,
@@ -56,18 +103,21 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
     }
 
     last_error: str | None = None
-    for attempt in range(3):
+    # Several attempts are intentional: openrouter/free may route each request
+    # to a different free provider/model, so a transient provider failure should
+    # not kill the daily pipeline.
+    for attempt in range(5):
         try:
             response = httpx.post(
                 OPENROUTER_URL,
                 headers=headers,
                 json=payload,
-                timeout=60,
+                timeout=90,
             )
-            if response.status_code in (429, 500, 502, 503, 504):
+            if response.status_code in (408, 409, 429, 500, 502, 503, 504):
                 last_error = response.text[:1000]
-                if attempt < 2:
-                    time.sleep(5 * (attempt + 1))
+                if attempt < 4:
+                    time.sleep(min(5 * (attempt + 1), 20))
                     continue
             response.raise_for_status()
             data = response.json()
@@ -88,22 +138,19 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
                     f"(finish_reason={finish_reason!r}, refusal={refusal!r}, model={data.get('model')!r})"
                 )
 
-            text = content.strip()
-            if text.startswith("```"):
-                lines = text.splitlines()
-                lines = lines[1:] if lines and lines[0].startswith("```") else lines
-                lines = lines[:-1] if lines and lines[-1].strip() == "```" else lines
-                text = "\n".join(lines).strip()
-
-            result = json.loads(text)
+            result = _extract_json(content)
             if not isinstance(result, list):
                 raise ValueError("AI returned non-list JSON")
-            return result[:5]
+            valid = [item for item in result if isinstance(item, dict) and "id" in item]
+            if not valid:
+                raise ValueError("AI returned no usable ranking items")
+            return valid[:5]
         except (httpx.HTTPError, ValueError, RuntimeError) as exc:
             last_error = str(exc)
-            if attempt < 2:
-                time.sleep(5 * (attempt + 1))
+            if attempt < 4:
+                time.sleep(min(5 * (attempt + 1), 20))
                 continue
-            raise RuntimeError(f"OpenRouter ranking failed after 3 attempts: {last_error}") from exc
 
-    raise RuntimeError(f"OpenRouter ranking failed: {last_error}")
+    print(f"Warning: OpenRouter ranking unavailable after 5 attempts: {last_error}")
+    print("Using deterministic ranking fallback so the daily pipeline can continue.")
+    return _heuristic_fallback(items)
