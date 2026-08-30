@@ -27,3 +27,10 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           python main.py
+      - name: Save generated article
+        run: |
+          git config --global user.name "robotics-agent"
+          git config --global user.email "agent@github.com"
+          git add data/
+          git commit -m "Generate daily robotics article" || true
+          git push
