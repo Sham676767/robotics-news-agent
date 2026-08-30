@@ -20,7 +20,7 @@ def main():
     article = generate_article(top5)
 
     print("Article generated:")
-    print(article[:500])
+    print(str(article)[:500])
 
     print("✅ Pipeline finished")
 
