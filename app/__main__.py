@@ -3,6 +3,8 @@ from __future__ import annotations
 import logging
 
 from .collector import collect_all
+from .database import connect, save_items, count_items
+from .relevance import filter_relevant
 
 
 logging.basicConfig(
@@ -13,8 +15,17 @@ logging.basicConfig(
 
 def main() -> None:
     items = collect_all()
-    print(f"Collected {len(items)} news items")
-    for item in items[:20]:
+    relevant = filter_relevant(items)
+    connection = connect()
+    inserted, duplicates = save_items(connection, relevant)
+
+    print(f"Collected: {len(items)}")
+    print(f"Relevant: {len(relevant)}")
+    print(f"Inserted: {inserted}")
+    print(f"Duplicates: {duplicates}")
+    print(f"Database total: {count_items(connection)}")
+
+    for item in relevant[:20]:
         print(f"- [{item.source}] {item.title}\n  {item.url}")
 
 
