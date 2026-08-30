@@ -166,13 +166,23 @@ def render_markdown(article: dict[str, Any]) -> str:
 
 def main() -> None:
     top5_path = Path("data/latest_top5.json")
-    top5 = json.loads(top5_path.read_text(encoding="utf-8"))
+
+    top5 = json.loads(
+        top5_path.read_text(encoding="utf-8")
+    )
+
     article = generate_article(top5)
-    date = datetime.now().strftime("%Y-%m-%d")
-    output_path = OUTPUT_DIR / f"{date}.md"
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-    render_markdown(article),encoding="utf-8")
-    print(f"Article generated: {output_path}")
+
+    OUTPUT_PATH.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    OUTPUT_PATH.write_text(
+        render_markdown(article),
+        encoding="utf-8"
+    )
+
+    print(f"Article generated: {OUTPUT_PATH}")
 if __name__ == "__main__":
     main()
