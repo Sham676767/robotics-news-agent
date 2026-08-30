@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from typing import List, Dict
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -68,7 +68,7 @@ def build_candidates(limit: int = 12) -> list[dict]:
     ]
 
 
-def select_top5(news): -> list[dict]:
+def select_top5(news) -> List[Dict]:
     candidates = build_candidates()
     selected = rank_with_deepseek(candidates)
     by_id = {item["id"]: item for item in candidates}
