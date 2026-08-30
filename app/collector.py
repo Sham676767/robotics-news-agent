@@ -75,4 +75,8 @@ def collect_all(path: str | Path = "config/sources.yaml") -> list[NewsItem]:
         except Exception:
             logger.exception("Failed to collect source: %s", source.get("name"))
     return all_items
-
+def collect_news(path: str = "config/sources.yaml") -> list[NewsItem]:
+    """
+    Public interface for news collection pipeline.
+    """
+    return collect_all(path)
