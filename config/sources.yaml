@@ -1,50 +1,76 @@
 sources:
+  # English — specialist robotics media
   - name: The Robot Report
     language: en
     url: https://www.therobotreport.com/feed/
     topics: [robotics, humanoid, industrial]
-
   - name: IEEE Spectrum Robotics
     language: en
     url: https://spectrum.ieee.org/feeds/topic/robotics.rss
     topics: [robotics, humanoid, research]
-
   - name: IEEE Spectrum Humanoid Robots
     language: en
     url: https://spectrum.ieee.org/feeds/topic/robotics/humanoid-robots.rss
     topics: [humanoid]
-
   - name: Robohub
     language: en
     url: https://robohub.org/feed/
     topics: [robotics, research, startups]
-
   - name: Robotics & Automation News
     language: en
     url: https://roboticsandautomationnews.com/feed/
     topics: [robotics, automation]
-
   - name: NVIDIA Robotics Blog
     language: en
     url: https://blogs.nvidia.com/blog/category/robotics/feed/
     topics: [robotics, ai]
-
-  - name: Clearpath Robotics
-    language: en
-    url: https://clearpathrobotics.com/blog/feed/
-    topics: [robotics]
-
-  - name: Universal Robots
-    language: en
-    url: https://www.universal-robots.com/blog/rss/
-    topics: [industrial]
-
-  - name: RoboDK
-    language: en
-    url: https://robodk.com/blog/feed/
-    topics: [industrial, simulation]
-
   - name: TechCrunch Robotics
     language: en
     url: https://techcrunch.com/category/robotics/feed/
     topics: [robotics, startups, humanoid]
+
+  # Robot manufacturers / companies
+  - name: Clearpath Robotics
+    language: en
+    url: https://clearpathrobotics.com/blog/feed/
+    topics: [robotics, mobile-robots]
+  - name: Universal Robots
+    language: en
+    url: https://www.universal-robots.com/blog/rss/
+    topics: [industrial]
+  - name: RoboDK
+    language: en
+    url: https://robodk.com/blog/feed/
+    topics: [industrial, simulation]
+  - name: Boston Dynamics
+    language: en
+    url: https://bostondynamics.com/feed/
+    topics: [robotics, robot-dog, humanoid]
+  - name: Agility Robotics
+    language: en
+    url: https://agilityrobotics.com/feed/
+    topics: [humanoid]
+  - name: Unitree Robotics
+    language: en
+    url: https://www.unitree.com/blog/rss.xml
+    topics: [robot-dog, humanoid]
+
+  # Research / science
+  - name: MIT News Robotics
+    language: en
+    url: https://news.mit.edu/topic/robotics/rss
+    topics: [robotics, research]
+  - name: Science Robotics
+    language: en
+    url: https://www.science.org/rss/news_current.xml
+    topics: [robotics, research]
+
+  # General technology sources with frequent robotics coverage
+  - name: Ars Technica Robotics
+    language: en
+    url: https://feeds.arstechnica.com/arstechnica/technology-lab
+    topics: [robotics, technology]
+  - name: IEEE Spectrum Technology
+    language: en
+    url: https://spectrum.ieee.org/feeds/all.rss
+    topics: [robotics, technology]
