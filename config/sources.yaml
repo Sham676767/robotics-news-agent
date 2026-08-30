@@ -1,0 +1,50 @@
+sources:
+  - name: The Robot Report
+    language: en
+    url: https://www.therobotreport.com/feed/
+    topics: [robotics, humanoid, industrial]
+
+  - name: IEEE Spectrum Robotics
+    language: en
+    url: https://spectrum.ieee.org/feeds/topic/robotics.rss
+    topics: [robotics, humanoid, research]
+
+  - name: IEEE Spectrum Humanoid Robots
+    language: en
+    url: https://spectrum.ieee.org/feeds/topic/robotics/humanoid-robots.rss
+    topics: [humanoid]
+
+  - name: Robohub
+    language: en
+    url: https://robohub.org/feed/
+    topics: [robotics, research, startups]
+
+  - name: Robotics & Automation News
+    language: en
+    url: https://roboticsandautomationnews.com/feed/
+    topics: [robotics, automation]
+
+  - name: NVIDIA Robotics Blog
+    language: en
+    url: https://blogs.nvidia.com/blog/category/robotics/feed/
+    topics: [robotics, ai]
+
+  - name: Clearpath Robotics
+    language: en
+    url: https://clearpathrobotics.com/blog/feed/
+    topics: [robotics]
+
+  - name: Universal Robots
+    language: en
+    url: https://www.universal-robots.com/blog/rss/
+    topics: [industrial]
+
+  - name: RoboDK
+    language: en
+    url: https://robodk.com/blog/feed/
+    topics: [industrial, simulation]
+
+  - name: TechCrunch Robotics
+    language: en
+    url: https://techcrunch.com/category/robotics/feed/
+    topics: [robotics, startups, humanoid]
