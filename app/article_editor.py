@@ -37,7 +37,22 @@ def _parse_json(content: str) -> dict[str, Any]:
         if lines and lines[-1].strip() == "```":
             lines = lines[:-1]
         text = "\n".join(lines).strip()
-    data = json.loads(text)
+
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        data = None
+        start = text.find("{")
+        end = text.rfind("}")
+        if start >= 0 and end > start:
+            candidate = text[start : end + 1]
+            try:
+                data = json.loads(candidate)
+            except json.JSONDecodeError:
+                data = None
+        if data is None:
+            raise ValueError(f"AI did not return parseable article JSON: {text[:500]!r}")
+
     if not isinstance(data, dict):
         raise ValueError("AI returned non-object JSON")
     return data
@@ -93,18 +108,18 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     }
 
     last_error: str | None = None
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             response = httpx.post(
                 OPENROUTER_URL,
                 headers=headers,
                 json=payload,
-                timeout=120,
+                timeout=150,
             )
-            if response.status_code in (429, 500, 502, 503, 504):
+            if response.status_code in (408, 409, 429, 500, 502, 503, 504):
                 last_error = response.text[:1000]
-                if attempt < 2:
-                    time.sleep(5 * (attempt + 1))
+                if attempt < 4:
+                    time.sleep(min(5 * (attempt + 1), 20))
                     continue
             response.raise_for_status()
             data = response.json()
@@ -124,12 +139,11 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
             return article
         except (httpx.HTTPError, ValueError, RuntimeError) as exc:
             last_error = str(exc)
-            if attempt < 2:
-                time.sleep(5 * (attempt + 1))
+            if attempt < 4:
+                time.sleep(min(5 * (attempt + 1), 20))
                 continue
-            raise RuntimeError(f"OpenRouter article generation failed after 3 attempts: {last_error}") from exc
 
-    raise RuntimeError(f"OpenRouter article generation failed: {last_error}")
+    raise RuntimeError(f"OpenRouter article generation failed after 5 attempts: {last_error}")
 
 
 def render_markdown(article: dict[str, Any]) -> str:
