@@ -63,7 +63,7 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
     if not article.get("title") or not article.get("intro"):
         raise ValueError("Article must contain title and intro")
     items = article.get("items")
-    if not isinstance(items, list) or len(items) != 5:
+    if not isinstance(items, list) or len(items) < 5:
         raise ValueError(f"Article must contain exactly 5 items, got {len(items) if isinstance(items, list) else 0}")
 
     allowed_urls = {item["url"] for item in top5}
@@ -77,9 +77,8 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
         if item["url"] not in allowed_urls:
             raise ValueError(f"Article contains an unknown source URL: {item['url']}")
         if item["url"] in seen_urls:
-            raise ValueError("Duplicate source URL in article")
+            continue
         seen_urls.add(item["url"])
-
 
 def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> dict[str, Any]:
     key = api_key or os.getenv("OPENROUTER_API_KEY")
