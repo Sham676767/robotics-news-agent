@@ -58,7 +58,7 @@ sources:
   # Research / science
   - name: MIT News Robotics
     language: en
-    url: https://news.mit.edu/topic/robotics/rss
+    url: https://news.mit.edu/topic/mitrobotics-rss.xml
     topics: [robotics, research]
   - name: Science Robotics
     language: en
