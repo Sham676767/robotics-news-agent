@@ -104,7 +104,8 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     headers = {
         "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
-        "X-Title": "Robotics News Agent — Article Editor",
+        # HTTP header values must remain ASCII-safe for broad client compatibility.
+        "X-Title": "Robotics News Agent - Article Editor",
     }
 
     last_error: str | None = None
