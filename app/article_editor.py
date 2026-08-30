@@ -166,7 +166,6 @@ def render_markdown(article: dict[str, Any]) -> str:
 
 def main() -> None:
     top5_path = Path("data/latest_top5.json")
-
     top5 = json.loads(
         top5_path.read_text(encoding="utf-8")
     )
