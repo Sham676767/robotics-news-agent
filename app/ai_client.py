@@ -49,10 +49,7 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
         json={
             "model": os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL),
             "messages": [
-                {
-                    "role": "system",
-                    "content": "Отвечай только валидным JSON без markdown.",
-                },
+                {"role": "system", "content": "Отвечай только валидным JSON без markdown."},
                 {"role": "user", "content": build_ranking_prompt(items)},
             ],
             "temperature": 0.1,
@@ -62,8 +59,29 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
     )
     response.raise_for_status()
     data = response.json()
-    content = data["choices"][0]["message"]["content"]
-    result = json.loads(content)
+
+    choices = data.get("choices") or []
+    if not choices:
+        raise RuntimeError(f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}")
+
+    message = choices[0].get("message") or {}
+    content = message.get("content")
+    if not content:
+        refusal = message.get("refusal")
+        finish_reason = choices[0].get("finish_reason")
+        raise RuntimeError(
+            "OpenRouter returned empty content "
+            f"(finish_reason={finish_reason!r}, refusal={refusal!r}, model={data.get('model')!r})"
+        )
+
+    text = content.strip()
+    if text.startswith("```"):
+        lines = text.splitlines()
+        lines = lines[1:] if lines and lines[0].startswith("```") else lines
+        lines = lines[:-1] if lines and lines[-1].strip() == "```" else lines
+        text = "\n".join(lines).strip()
+
+    result = json.loads(text)
     if not isinstance(result, list):
-        raise ValueError("DeepSeek returned non-list JSON")
+        raise ValueError("AI returned non-list JSON")
     return result[:5]
