@@ -177,8 +177,9 @@ def main() -> None:
         parents=True,
         exist_ok=True
     )
+    output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
 
-    OUTPUT_PATH.write_text(
+    output_path.write_text(
         render_markdown(article),
         encoding="utf-8"
     )
