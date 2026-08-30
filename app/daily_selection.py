@@ -68,7 +68,7 @@ def build_candidates(limit: int = 12) -> list[dict]:
     ]
 
 
-def select_top5() -> list[dict]:
+def select_top5(news): -> list[dict]:
     candidates = build_candidates()
     selected = rank_with_deepseek(candidates)
     by_id = {item["id"]: item for item in candidates}
