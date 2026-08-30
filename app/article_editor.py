@@ -184,6 +184,6 @@ def main() -> None:
         encoding="utf-8"
     )
 
-    print(f"Article generated: {OUTPUT_PATH}")
+    print(f"Article generated: {output_path}")
 if __name__ == "__main__":
     main()
