@@ -75,21 +75,26 @@ def select_top5() -> list[dict]:
 
     result: list[dict] = []
     used_sources: set[str] = set()
-    for position, choice in enumerate(selected, start=1):
+
+    # First take the AI choices, validating IDs and source diversity.
+    for choice in selected:
         try:
             candidate_id = int(choice["id"])
         except (KeyError, TypeError, ValueError):
             continue
         candidate = by_id.get(candidate_id)
-        if not candidate or candidate["source"] in used_sources and len(used_sources) < 3:
+        if not candidate:
             continue
-        used_sources.add(candidate["source"])
+        source = candidate["source"]
+        if source in used_sources and len(used_sources) < 3:
+            continue
+        used_sources.add(source)
         result.append(
             {
-                "rank": position,
+                "rank": len(result) + 1,
                 "id": candidate_id,
                 "title": candidate["title"],
-                "source": candidate["source"],
+                "source": source,
                 "url": candidate["url"],
                 "published_at": candidate["published_at"],
                 "summary": candidate["summary"],
@@ -98,6 +103,63 @@ def select_top5() -> list[dict]:
                 "why_selected": choice.get("reason", ""),
             }
         )
+        if len(result) >= 5:
+            break
+
+    # A free model may return fewer than five usable choices. Fill the gaps
+    # deterministically from the already ranked candidate pool instead of
+    # failing the whole daily run.
+    if len(result) < 5:
+        chosen_ids = {item["id"] for item in result}
+        for candidate in candidates:
+            if candidate["id"] in chosen_ids:
+                continue
+            source = candidate["source"]
+            # Prefer new sources while there are at least three distinct ones.
+            if source in used_sources and len(used_sources) < 3:
+                continue
+            used_sources.add(source)
+            result.append(
+                {
+                    "rank": len(result) + 1,
+                    "id": candidate["id"],
+                    "title": candidate["title"],
+                    "source": source,
+                    "url": candidate["url"],
+                    "published_at": candidate["published_at"],
+                    "summary": candidate["summary"],
+                    "topics": candidate["topics"],
+                    "ai_score": None,
+                    "why_selected": "Filled by deterministic fallback because AI returned fewer than 5 usable choices",
+                }
+            )
+            if len(result) >= 5:
+                break
+
+    # Last resort: candidates are already relevance-ranked and source-capped,
+    # so this remains deterministic and safe if the source pool is small.
+    if len(result) < 5:
+        chosen_ids = {item["id"] for item in result}
+        for candidate in candidates:
+            if candidate["id"] in chosen_ids:
+                continue
+            result.append(
+                {
+                    "rank": len(result) + 1,
+                    "id": candidate["id"],
+                    "title": candidate["title"],
+                    "source": candidate["source"],
+                    "url": candidate["url"],
+                    "published_at": candidate["published_at"],
+                    "summary": candidate["summary"],
+                    "topics": candidate["topics"],
+                    "ai_score": None,
+                    "why_selected": "Final deterministic fallback from ranked candidates",
+                }
+            )
+            if len(result) >= 5:
+                break
+
     return result[:5]
 
 
@@ -105,7 +167,7 @@ def main() -> None:
     selected = select_top5()
     if len(selected) < 5:
         raise RuntimeError(
-            f"AI returned only {len(selected)} valid diverse stories; expected 5"
+            f"Only {len(selected)} usable stories available; expected 5"
         )
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(selected, ensure_ascii=False, indent=2), encoding="utf-8")
