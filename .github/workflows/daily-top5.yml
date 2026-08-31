@@ -1,9 +1,9 @@
 name: Daily TOP-5 selection
 
+# Diagnostic workflow only. Production daily execution is owned by
+# daily-publisher.yml so TOP-5 selection is not run twice every day.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 6 * * *"
 
 jobs:
   top5:
