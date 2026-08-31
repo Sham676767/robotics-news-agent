@@ -7,6 +7,7 @@ from app.collector import collect_news
 from app.daily_selection import select_top5
 from app.article_editor import generate_article, render_markdown, validate_article, OUTPUT_DIR
 from app.fallback_article import generate_fallback_article
+from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 
 ALLOWED_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
@@ -46,6 +47,11 @@ def _timed(label, func):
         print(f"⏱ {label}: {time.perf_counter() - started:.1f}s")
 
 
+def _validate_article_quality(article, top5):
+    validate_article(article, top5)
+    validate_russian_article(article)
+
+
 def main():
     pipeline_started = time.perf_counter()
     started_at = datetime.now()
@@ -72,7 +78,7 @@ def main():
     finally:
         print(f"⏱ Article generation: {time.perf_counter() - article_started:.1f}s")
 
-    _timed("Article quality validation", lambda: validate_article(article, top5))
+    _timed("Article quality validation", lambda: _validate_article_quality(article, top5))
     print("✅ Article quality guard passed")
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
