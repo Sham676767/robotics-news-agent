@@ -5,12 +5,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import feedparser
+import httpx
 import yaml
 from dateutil import parser as date_parser
 
 from .models import NewsItem
 
 logger = logging.getLogger(__name__)
+
+FETCH_TIMEOUT = 15.0
 
 
 def load_sources(path: str | Path = "config/sources.yaml") -> list[dict]:
@@ -41,7 +44,19 @@ def collect_from_source(source: dict, limit: int = 30) -> list[NewsItem]:
     name = source["name"]
     logger.info("Fetching %s", name)
 
-    feed = feedparser.parse(url)
+    try:
+        response = httpx.get(
+            url,
+            timeout=FETCH_TIMEOUT,
+            follow_redirects=True,
+            headers={"User-Agent": "Robotics News Agent/1.0"},
+        )
+        response.raise_for_status()
+        feed = feedparser.parse(response.content)
+    except (httpx.HTTPError, OSError) as exc:
+        logger.warning("Failed to fetch %s: %s", name, exc)
+        return []
+
     if getattr(feed, "bozo", False):
         logger.warning("Feed parser warning for %s: %s", name, feed.bozo_exception)
 
@@ -75,6 +90,8 @@ def collect_all(path: str | Path = "config/sources.yaml") -> list[NewsItem]:
         except Exception:
             logger.exception("Failed to collect source: %s", source.get("name"))
     return all_items
+
+
 def collect_news(path: str = "config/sources.yaml") -> list[NewsItem]:
     """
     Public interface for news collection pipeline.
