@@ -46,9 +46,12 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
     return result
 
 
-def build_candidates(limit: int = 12) -> list[dict]:
-    items = filter_relevant(collect_all())
-    recent = _recent(items)
+def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
+    # Reuse the collection already performed by main.py. This avoids fetching
+    # every RSS source twice in one workflow run.
+    collected = items if items is not None else collect_all()
+    relevant = filter_relevant(collected)
+    recent = _recent(relevant)
     if len(recent) < 5:
         raise RuntimeError(
             f"Only {len(recent)} relevant stories are newer than {MAX_AGE.days} days; "
@@ -107,7 +110,7 @@ def _best_choice_for_topic(
 
 
 def select_top5(news=None) -> List[Dict]:
-    candidates = build_candidates()
+    candidates = build_candidates(items=news)
 
     # Ask AI for a larger ranked pool. We still publish only five stories, but
     # need enough candidates for the deterministic editorial coverage pass below.
