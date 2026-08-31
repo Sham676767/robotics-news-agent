@@ -29,6 +29,28 @@ jobs:
         run: |
           pytest -q
 
+      - name: Validate publication configuration
+        env:
+          VK_ACCESS_TOKEN: ${{ secrets.VK_ACCESS_TOKEN }}
+          VK_TOKEN: ${{ secrets.VK_TOKEN }}
+          VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
+        run: |
+          if [ -z "${VK_ACCESS_TOKEN:-}" ] && [ -z "${VK_TOKEN:-}" ]; then
+            echo "❌ VK access token secret is missing"
+            exit 1
+          fi
+          if [ -z "${VK_GROUP_ID:-}" ]; then
+            echo "❌ VK group ID secret is missing"
+            exit 1
+          fi
+          case "${VK_GROUP_ID}" in
+            ''|*[!0-9]*)
+              echo "❌ VK_GROUP_ID must contain digits only"
+              exit 1
+              ;;
+          esac
+          echo "✅ VK publication configuration is present"
+
       - name: Run agent
         env:
           VK_ACCESS_TOKEN: ${{ secrets.VK_ACCESS_TOKEN }}
