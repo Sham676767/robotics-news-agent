@@ -16,18 +16,34 @@ DEFAULT_TIMEOUT = 20.0
 
 
 def render_vk_message(article: dict[str, Any]) -> str:
-    """Render the structured article as a readable VK wall post."""
-    lines = [f"{article['title']}", "", article["intro"], ""]
+    """Render the structured article as a clean, readable VK wall post."""
+    number_icons = ("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣")
+    lines = [
+        "🤖 РОБОТЫ И ТЕХНОЛОГИИ",
+        "",
+        article["title"].strip(),
+        "",
+        article["intro"].strip(),
+        "",
+        "━━━━━━━━━━━━━━━━━━━━",
+    ]
+
     for index, item in enumerate(article["items"], start=1):
+        icon = number_icons[index - 1] if index <= len(number_icons) else f"{index}."
         lines.extend(
             [
-                f"{index}. {item['headline']}",
-                item["body"],
-                f"Источник: {item['source']}",
-                item["url"],
                 "",
+                f"{icon} {item['headline'].strip()}",
+                "",
+                item["body"].strip(),
+                "",
+                f"🔗 {item['source'].strip()}",
+                item["url"].strip(),
+                "",
+                "━━━━━━━━━━━━━━━━━━━━",
             ]
         )
+
     return "\n".join(lines).strip()
 
 
