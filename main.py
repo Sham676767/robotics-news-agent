@@ -7,7 +7,6 @@ import time
 from app.collector import collect_news
 from app.daily_selection import select_top5
 from app.article_editor import generate_article, render_markdown, validate_article, OUTPUT_DIR
-from app.fallback_article import generate_fallback_article
 from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 
@@ -69,8 +68,6 @@ def main():
     _validate_selected_stories(top5)
     print("✅ TOP-5 editorial guard passed")
 
-    # Persist the exact selection used for this article. The publisher workflow
-    # commits this audit state together with the generated article.
     TOP5_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     TOP5_OUTPUT_PATH.write_text(json.dumps(top5, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"TOP-5 STATE CREATED: {TOP5_OUTPUT_PATH.resolve()}")
@@ -80,9 +77,9 @@ def main():
     try:
         article = generate_article(top5)
     except Exception as exc:
-        print(f"⚠️ AI article generation unavailable: {exc}")
-        print("📝 Using deterministic article fallback so publishing can continue.")
-        article = generate_fallback_article(top5)
+        print(f"❌ AI article generation unavailable: {exc}")
+        print("🛑 Publication aborted: an AI-generated article is required.")
+        raise RuntimeError("AI article generation failed; refusing to publish fallback content") from exc
     finally:
         print(f"⏱ Article generation: {time.perf_counter() - article_started:.1f}s")
 
