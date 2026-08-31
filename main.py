@@ -1,6 +1,9 @@
+from datetime import datetime
+from pathlib import Path
+
 from app.collector import collect_news
 from app.daily_selection import select_top5
-from app.article_editor import generate_article
+from app.article_editor import generate_article, render_markdown, OUTPUT_DIR
 
 
 def main():
@@ -22,6 +25,16 @@ def main():
     print("Article generated:")
     print(str(article)[:500])
 
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
+
+    output_path.write_text(
+        render_markdown(article),
+        encoding="utf-8"
+    )
+
+    print(f"FILE CREATED: {output_path.resolve()}")
     print("✅ Pipeline finished")
 
 
