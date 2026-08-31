@@ -19,12 +19,12 @@ jobs:
       - name: Select fresh TOP-5
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          OPENROUTER_MODEL: openai/gpt-oss-20b:free
         run: python -m app.daily_selection
       - name: Generate article draft
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          OPENROUTER_MODEL: openai/gpt-oss-20b:free
         run: python -m app.article_editor
       - name: Upload draft and TOP-5
         uses: actions/upload-artifact@v4
