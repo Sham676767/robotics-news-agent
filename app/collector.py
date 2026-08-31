@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import html
 import logging
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,6 +22,14 @@ def load_sources(path: str | Path = "config/sources.yaml") -> list[dict]:
     with open(path, "r", encoding="utf-8") as file:
         data = yaml.safe_load(file) or {}
     return data.get("sources", [])
+
+
+def clean_text(value: str) -> str:
+    """Convert RSS HTML summaries into compact plain text for ranking and writing."""
+    text = html.unescape(str(value or ""))
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
 
 def parse_date(entry) -> datetime | None:
@@ -62,12 +72,12 @@ def collect_from_source(source: dict, limit: int = 30) -> list[NewsItem]:
 
     items: list[NewsItem] = []
     for entry in feed.entries[:limit]:
-        title = (entry.get("title") or "").strip()
+        title = clean_text(entry.get("title") or "")
         link = (entry.get("link") or "").strip()
         if not title or not link:
             continue
 
-        summary = (entry.get("summary") or entry.get("description") or "").strip()
+        summary = clean_text(entry.get("summary") or entry.get("description") or "")
         items.append(
             NewsItem(
                 source=name,
@@ -93,7 +103,5 @@ def collect_all(path: str | Path = "config/sources.yaml") -> list[NewsItem]:
 
 
 def collect_news(path: str = "config/sources.yaml") -> list[NewsItem]:
-    """
-    Public interface for news collection pipeline.
-    """
+    """Public interface for news collection pipeline."""
     return collect_all(path)
