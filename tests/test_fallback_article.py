@@ -16,7 +16,7 @@ class FallbackArticleTests(unittest.TestCase):
             for i in range(1, 6)
         ]
 
-    def test_fallback_returns_article_schema(self):
+    def test_fallback_returns_renderable_article_schema(self):
         article = generate_fallback_article(self.top5)
 
         self.assertEqual(len(article["items"]), 5)
@@ -24,13 +24,20 @@ class FallbackArticleTests(unittest.TestCase):
             [item["card_index"] for item in article["items"]],
             [1, 2, 3, 4, 5],
         )
-        self.assertTrue(all(set(item) == {"headline", "body", "card_index"} for item in article["items"]))
+        self.assertTrue(
+            all(
+                set(item) == {"headline", "body", "card_index", "source", "url"}
+                for item in article["items"]
+            )
+        )
 
-    def test_fallback_does_not_put_source_fields_inside_items(self):
+    def test_fallback_carries_source_metadata_from_cards(self):
         article = generate_fallback_article(self.top5)
 
-        self.assertNotIn("url", article["items"][0])
-        self.assertNotIn("source", article["items"][0])
+        self.assertEqual(article["items"][0]["source"], "Source 1")
+        self.assertEqual(article["items"][0]["url"], "https://example.com/news-1")
+        self.assertEqual(article["items"][4]["source"], "Source 5")
+        self.assertEqual(article["items"][4]["url"], "https://example.com/news-5")
 
     def test_fallback_requires_five_cards(self):
         with self.assertRaises(ValueError):
