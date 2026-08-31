@@ -1,6 +1,6 @@
 import unittest
 
-from app.article_editor import _attach_sources, validate_article
+from app.article_editor import _attach_sources, _normalize_article, validate_article
 
 
 class ArticleEditorTests(unittest.TestCase):
@@ -27,6 +27,28 @@ class ArticleEditorTests(unittest.TestCase):
                 for i in range(1, 6)
             ],
         }
+
+    def test_normalize_article_assigns_indexes_by_position(self):
+        article = self.valid_article()
+        for item in article["items"]:
+            item.pop("card_index")
+
+        normalized = _normalize_article(article)
+        self.assertEqual(
+            [item["card_index"] for item in normalized["items"]],
+            [1, 2, 3, 4, 5],
+        )
+
+    def test_normalize_article_overwrites_ai_indexes(self):
+        article = self.valid_article()
+        for i, item in enumerate(article["items"], start=1):
+            item["card_index"] = 6 - i
+
+        normalized = _normalize_article(article)
+        self.assertEqual(
+            [item["card_index"] for item in normalized["items"]],
+            [1, 2, 3, 4, 5],
+        )
 
     def test_validate_accepts_correct_five_card_article(self):
         validate_article(self.valid_article(), self.top5)
