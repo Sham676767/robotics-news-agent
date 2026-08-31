@@ -1,8 +1,8 @@
 from app.vk_publisher import daily_random_id, render_vk_message
 
 
-def test_render_vk_message_keeps_all_five_blocks_and_sources():
-    article = {
+def _article():
+    return {
         "title": "Тестовый дайджест",
         "intro": "Первое предложение. Второе предложение.",
         "items": [
@@ -16,51 +16,30 @@ def test_render_vk_message_keeps_all_five_blocks_and_sources():
         ],
     }
 
-    message = render_vk_message(article)
 
-    assert message.startswith("🤖 РОБОТЫ И ТЕХНОЛОГИИ")
+def test_render_vk_message_keeps_all_five_blocks_and_sources():
+    message = render_vk_message(_article())
+
+    assert message.startswith("🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ НЕДЕЛИ")
     assert "Тестовый дайджест" in message
     for i, icon in enumerate(("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"), start=1):
         assert f"{icon} Новость {i}" in message
+        assert f"🔗 Источник: Источник" in message
         assert f"https://example.com/{i}" in message
-        assert "🔗 Источник" in message
 
 
-def test_render_vk_message_uses_visual_separators():
-    article = {
-        "title": "Заголовок",
-        "intro": "Первое. Второе.",
-        "items": [
-            {
-                "headline": "Новость",
-                "body": "Один. Два. Три.",
-                "source": "Источник",
-                "url": "https://example.com/1",
-            }
-        ] * 5,
-    }
-
-    message = render_vk_message(article)
-    assert message.count("━━━━━━━━━━━━━━━━━━━━") == 6
+def test_render_vk_message_does_not_use_long_visual_separators():
+    message = render_vk_message(_article())
+    assert "━━━━━━━━━━━━━━━━━━━━" not in message
+    assert message.count("\n—\n") == 1
 
 
-def test_render_vk_message_is_not_markdown():
-    article = {
-        "title": "Заголовок",
-        "intro": "Первое. Второе.",
-        "items": [
-            {
-                "headline": "Новость",
-                "body": "Один. Два. Три.",
-                "source": "Источник",
-                "url": "https://example.com/1",
-            }
-        ] * 5,
-    }
-
-    message = render_vk_message(article)
+def test_render_vk_message_is_plain_readable_text():
+    message = render_vk_message(_article())
     assert "[" not in message
     assert "](" not in message
+    assert "РОБОТОТЕХНИКА — ДАЙДЖЕСТ НЕДЕЛИ" in message
+    assert message.endswith("🤖 Пять событий недели без рекламных обещаний и неподтверждённых выводов.")
 
 
 def test_daily_random_id_is_stable_for_reruns():
