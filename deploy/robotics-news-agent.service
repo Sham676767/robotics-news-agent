@@ -1,0 +1,13 @@
+[Unit]
+Description=Robotics News Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/robotics-news-agent
+EnvironmentFile=/etc/robotics-news-agent.env
+ExecStart=/opt/robotics-news-agent/.venv/bin/python main.py
+
+# Do not restart automatically here: the timer controls the schedule and
+# prevents overlapping daily runs.
