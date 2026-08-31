@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Robotics News Agent daily
+
+[Timer]
+OnCalendar=*-*-* 09:00:00 Europe/Moscow
+Persistent=true
+RandomizedDelaySec=30
+Unit=robotics-news-agent.service
+
+[Install]
+WantedBy=timers.target
