@@ -14,7 +14,6 @@ OUTPUT_PATH = Path("data/latest_top5.json")
 
 MAX_AGE = timedelta(days=14)
 MAX_PER_SOURCE = 2
-MIN_TOPIC_DIVERSITY = 3
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 SPECIFIC_TOPICS = ("humanoid", "robot_dog", "exoskeleton")
 
@@ -30,6 +29,19 @@ def _recent(items: list) -> list:
             published_at = published_at.replace(tzinfo=timezone.utc)
         if now - published_at <= MAX_AGE:
             result.append(item)
+    return result
+
+
+def _dedupe(items: list) -> list:
+    """Remove duplicate URLs before ranking so syndicated stories do not crowd TOP-5."""
+    seen: set[str] = set()
+    result = []
+    for item in items:
+        url = (item.url or "").strip()
+        if not url or url in seen:
+            continue
+        seen.add(url)
+        result.append(item)
     return result
 
 
@@ -72,12 +84,16 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
 def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     collected = items if items is not None else collect_all()
     relevant = filter_relevant(collected)
-    recent = _recent(relevant)
+    recent = _dedupe(_recent(relevant))
     if len(recent) < 5:
         raise RuntimeError(
             f"Only {len(recent)} relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale news"
         )
     ranked = _diverse_ranked(recent, limit=limit)
+    if len(ranked) < 5:
+        raise RuntimeError(
+            f"Only {len(ranked)} unique candidates remain after source/topic diversity filtering; expected at least 5"
+        )
     return [
         {
             "id": index,
@@ -213,6 +229,9 @@ def select_top5(news=None) -> List[Dict]:
             if len(result) >= 5:
                 break
 
+    if len(result) < 5:
+        raise RuntimeError(f"Only {len(result)} usable stories available; expected 5")
+
     for index, item in enumerate(result[:5], start=1):
         item["rank"] = index
     return result[:5]
@@ -220,8 +239,6 @@ def select_top5(news=None) -> List[Dict]:
 
 def main() -> None:
     selected = select_top5()
-    if len(selected) < 5:
-        raise RuntimeError(f"Only {len(selected)} usable stories available; expected 5")
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(selected, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Selected {len(selected)} stories")
