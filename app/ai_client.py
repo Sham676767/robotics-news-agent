@@ -12,6 +12,7 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 # Route across currently available free OpenRouter models instead of pinning the
 # daily pipeline to one provider/model that can hit a provider-specific 429.
 DEFAULT_MODEL = "openrouter/free"
+DEFAULT_TIMEOUT = 35.0
 
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 TOPIC_PRIORITY = {"humanoid": 4, "robot_dog": 4, "exoskeleton": 4, "robotics": 2}
@@ -105,15 +106,18 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, 
         "Content-Type": "application/json",
         "X-Title": "Robotics News Agent",
     }
+    timeout = float(os.getenv("OPENROUTER_RANK_TIMEOUT", str(DEFAULT_TIMEOUT)))
 
     last_error: str | None = None
     for attempt in range(2):
         try:
-            response = httpx.post(OPENROUTER_URL, headers=headers, json=payload, timeout=60)
+            response = httpx.post(OPENROUTER_URL, headers=headers, json=payload, timeout=timeout)
             if response.status_code == 429:
                 retry_after = response.headers.get("retry-after")
-                wait = float(retry_after) if retry_after and retry_after.isdigit() else 0.0
-                wait = min(wait, 10.0)
+                try:
+                    wait = min(float(retry_after), 8.0) if retry_after else 0.0
+                except ValueError:
+                    wait = 0.0
                 if wait and attempt == 0:
                     print(f"Warning: OpenRouter rate limit (429); retrying after {wait:g}s.")
                     time.sleep(wait)
@@ -122,7 +126,7 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, 
                 return _heuristic_fallback(items, limit=limit)
             if response.status_code in (408, 409, 500, 502, 503, 504) and attempt == 0:
                 last_error = response.text[:1000]
-                time.sleep(2)
+                time.sleep(1)
                 continue
             response.raise_for_status()
             data = response.json()
@@ -143,7 +147,7 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, 
         except (httpx.HTTPError, ValueError, RuntimeError) as exc:
             last_error = str(exc)
             if attempt == 0:
-                time.sleep(2)
+                time.sleep(1)
                 continue
 
     print(f"Warning: OpenRouter ranking unavailable after 2 attempts: {last_error}")
