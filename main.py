@@ -26,14 +26,10 @@ def _validate_selected_stories(top5):
     for index, item in enumerate(top5, start=1):
         topics = set(item.get("topics") or ())
         if not topics.intersection(ALLOWED_TOPICS):
-            raise RuntimeError(
-                f"TOP-5 story #{index} does not match the four editorial pillars"
-            )
+            raise RuntimeError(f"TOP-5 story #{index} does not match the four editorial pillars")
         if not topics.issubset(ALLOWED_TOPICS):
             unknown = sorted(topics - ALLOWED_TOPICS)
-            raise RuntimeError(
-                f"TOP-5 story #{index} contains unsupported topics: {unknown}"
-            )
+            raise RuntimeError(f"TOP-5 story #{index} contains unsupported topics: {unknown}")
         covered_topics.update(topics.intersection(ALLOWED_TOPICS))
 
     if len(covered_topics) < 3:
@@ -51,6 +47,7 @@ def _timed(label, func):
 
 
 def main():
+    pipeline_started = time.perf_counter()
     started_at = datetime.now()
     print("🤖 Robotics News Agent started")
 
@@ -86,8 +83,7 @@ def main():
     required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
     _timed("VK publication", lambda: publish_to_vk(article, required=required_vk))
 
-    elapsed = time.perf_counter() - started_at.timestamp()
-    print(f"⏱ Pipeline duration: {elapsed:.1f}s")
+    print(f"⏱ Pipeline duration: {time.perf_counter() - pipeline_started:.1f}s")
     print("✅ Pipeline finished")
 
 
