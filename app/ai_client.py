@@ -9,7 +9,9 @@ from typing import Any
 import httpx
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "google/gemma-4-26b-a4b-it:free"
+# Route across currently available free OpenRouter models instead of pinning the
+# daily pipeline to one provider/model that can hit a provider-specific 429.
+DEFAULT_MODEL = "openrouter/free"
 
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 TOPIC_PRIORITY = {"humanoid": 4, "robot_dog": 4, "exoskeleton": 4, "robotics": 2}
@@ -109,7 +111,14 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, 
         try:
             response = httpx.post(OPENROUTER_URL, headers=headers, json=payload, timeout=60)
             if response.status_code == 429:
-                print("Warning: OpenRouter rate limit (429); using deterministic ranking fallback immediately.")
+                retry_after = response.headers.get("retry-after")
+                wait = float(retry_after) if retry_after and retry_after.isdigit() else 0.0
+                wait = min(wait, 10.0)
+                if wait and attempt == 0:
+                    print(f"Warning: OpenRouter rate limit (429); retrying after {wait:g}s.")
+                    time.sleep(wait)
+                    continue
+                print("Warning: OpenRouter rate limit (429); using deterministic ranking fallback.")
                 return _heuristic_fallback(items, limit=limit)
             if response.status_code in (408, 409, 500, 502, 503, 504) and attempt == 0:
                 last_error = response.text[:1000]
