@@ -7,13 +7,14 @@ from pathlib import Path
 from .ai_client import rank_with_deepseek
 from .collector import collect_all
 from .ranking import rank
-from .relevance import filter_relevant
+from .relevance import classify, filter_relevant
 
 OUTPUT_PATH = Path("data/latest_top5.json")
 
 # A daily news product must not quietly publish stale stories.
 MAX_AGE = timedelta(days=14)
 MAX_PER_SOURCE = 2
+MIN_TOPIC_DIVERSITY = 3
 
 
 def _recent(items: list) -> list:
@@ -62,104 +63,105 @@ def build_candidates(limit: int = 12) -> list[dict]:
             "url": item.url,
             "published_at": item.published_at.isoformat() if item.published_at else None,
             "summary": item.summary[:1500],
-            "topics": item.topics,
+            "topics": classify(item),
         }
         for index, item in enumerate(ranked, start=1)
     ]
 
 
-def select_top5(news) -> List[Dict]:
+def _topic_set(item: dict) -> set[str]:
+    return set(item.get("topics") or ())
+
+
+def _pick_result(candidate: dict, choice: dict | None = None, reason: str = "") -> dict:
+    return {
+        "rank": 0,
+        "id": candidate["id"],
+        "title": candidate["title"],
+        "source": candidate["source"],
+        "url": candidate["url"],
+        "published_at": candidate["published_at"],
+        "summary": candidate["summary"],
+        "topics": candidate["topics"],
+        "ai_score": choice.get("score") if choice else None,
+        "why_selected": (choice.get("reason", "") if choice else reason),
+    }
+
+
+def select_top5(news=None) -> List[Dict]:
     candidates = build_candidates()
     selected = rank_with_deepseek(candidates)
     by_id = {item["id"]: item for item in candidates}
 
     result: list[dict] = []
     used_sources: set[str] = set()
+    used_topics: set[str] = set()
 
-    # First take the AI choices, validating IDs and source diversity.
+    # First take valid AI choices. Prefer source and topic diversity, but never
+    # discard a genuinely strong story just to satisfy a diversity heuristic.
+    valid_choices: list[tuple[dict, dict]] = []
     for choice in selected:
         try:
             candidate_id = int(choice["id"])
         except (KeyError, TypeError, ValueError):
             continue
         candidate = by_id.get(candidate_id)
-        if not candidate:
-            continue
+        if candidate:
+            valid_choices.append((choice, candidate))
+
+    # Pass 1: maximize editorial breadth.
+    for choice, candidate in valid_choices:
         source = candidate["source"]
+        topics = _topic_set(candidate)
         if source in used_sources and len(used_sources) < 3:
             continue
+        if topics and topics.issubset(used_topics) and len(used_topics) < MIN_TOPIC_DIVERSITY:
+            continue
+        result.append(_pick_result(candidate, choice))
         used_sources.add(source)
-        result.append(
-            {
-                "rank": len(result) + 1,
-                "id": candidate_id,
-                "title": candidate["title"],
-                "source": source,
-                "url": candidate["url"],
-                "published_at": candidate["published_at"],
-                "summary": candidate["summary"],
-                "topics": candidate["topics"],
-                "ai_score": choice.get("score"),
-                "why_selected": choice.get("reason", ""),
-            }
-        )
+        used_topics.update(topics)
         if len(result) >= 5:
             break
 
-    # A free model may return fewer than five usable choices. Fill the gaps
-    # deterministically from the already ranked candidate pool instead of
-    # failing the whole daily run.
+    # Pass 2: fill from remaining AI choices, allowing repeated topics/sources.
+    if len(result) < 5:
+        chosen_ids = {item["id"] for item in result}
+        for choice, candidate in valid_choices:
+            if candidate["id"] in chosen_ids:
+                continue
+            result.append(_pick_result(candidate, choice))
+            used_sources.add(candidate["source"])
+            used_topics.update(_topic_set(candidate))
+            if len(result) >= 5:
+                break
+
+    # Deterministic fallback from the already relevance/rank ordered pool.
     if len(result) < 5:
         chosen_ids = {item["id"] for item in result}
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
                 continue
             source = candidate["source"]
-            # Prefer new sources while there are at least three distinct ones.
             if source in used_sources and len(used_sources) < 3:
                 continue
+            result.append(_pick_result(candidate, reason="Deterministic fallback from ranked candidates"))
             used_sources.add(source)
-            result.append(
-                {
-                    "rank": len(result) + 1,
-                    "id": candidate["id"],
-                    "title": candidate["title"],
-                    "source": source,
-                    "url": candidate["url"],
-                    "published_at": candidate["published_at"],
-                    "summary": candidate["summary"],
-                    "topics": candidate["topics"],
-                    "ai_score": None,
-                    "why_selected": "Filled by deterministic fallback because AI returned fewer than 5 usable choices",
-                }
-            )
+            used_topics.update(_topic_set(candidate))
             if len(result) >= 5:
                 break
 
-    # Last resort: candidates are already relevance-ranked and source-capped,
-    # so this remains deterministic and safe if the source pool is small.
+    # Last resort if the source pool is genuinely small.
     if len(result) < 5:
         chosen_ids = {item["id"] for item in result}
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
                 continue
-            result.append(
-                {
-                    "rank": len(result) + 1,
-                    "id": candidate["id"],
-                    "title": candidate["title"],
-                    "source": candidate["source"],
-                    "url": candidate["url"],
-                    "published_at": candidate["published_at"],
-                    "summary": candidate["summary"],
-                    "topics": candidate["topics"],
-                    "ai_score": None,
-                    "why_selected": "Final deterministic fallback from ranked candidates",
-                }
-            )
+            result.append(_pick_result(candidate, reason="Final fallback from ranked candidates"))
             if len(result) >= 5:
                 break
 
+    for index, item in enumerate(result[:5], start=1):
+        item["rank"] = index
     return result[:5]
 
 
@@ -173,7 +175,7 @@ def main() -> None:
     OUTPUT_PATH.write_text(json.dumps(selected, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Selected {len(selected)} stories")
     for item in selected:
-        print(f"#{item['rank']} {item['title']} — {item['source']}")
+        print(f"#{item['rank']} {item['title']} — {item['source']} — {', '.join(item['topics'])}")
 
 
 if __name__ == "__main__":
