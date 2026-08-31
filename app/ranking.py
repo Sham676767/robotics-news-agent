@@ -7,17 +7,15 @@ from datetime import datetime, timezone
 from .models import NewsItem
 from .relevance import classify
 
-# Conservative pre-ranking: prioritize concrete robotics significance before
-# freshness and source reputation. Final TOP-5 selection remains AI-assisted.
+# Editorial priority: humanoids, robot dogs and exoskeletons are the strongest
+# signals; general robotics/research remains important as the fourth pillar.
 CATEGORY_WEIGHTS = {
-    "humanoid": 8.0,
-    "robot_dog": 6.5,
-    "exoskeleton": 6.5,
-    "industrial": 6.0,
-    "autonomous": 6.0,
-    "service": 5.5,
+    "humanoid": 9.0,
+    "robot_dog": 8.0,
+    "exoskeleton": 8.0,
+    "robotics": 4.5,
     "research": 5.5,
-    "robotics": 2.0,
+    "industrial": 3.0,
 }
 
 IMPACT_SIGNALS = {
@@ -58,6 +56,9 @@ TECHNICAL_SIGNALS = {
     "gripper": 1.5,
     "dexterity": 2.5,
     "computer vision": 1.5,
+    "gait": 2.0,
+    "wearable robotics": 3.0,
+    "powered exoskeleton": 3.0,
 }
 
 LOW_SIGNAL_TERMS = {
@@ -70,11 +71,20 @@ LOW_SIGNAL_TERMS = {
 }
 
 SOURCE_WEIGHTS = {
-    "IEEE Spectrum Robotics": 1.00,
     "The Robot Report": 1.00,
-    "Robotics & Automation News": 0.95,
-    "Robohub": 0.95,
-    "NVIDIA Robotics": 0.90,
+    "Robohub": 0.98,
+    "TechCrunch Robotics": 0.98,
+    "Tech Xplore Robotics": 0.96,
+    "New Atlas Robotics": 0.90,
+    "Robotiq": 0.88,
+    "NVIDIA Robotics": 0.88,
+    "RoboDK": 0.85,
+    "Boston Dynamics": 0.82,
+    "Clearpath Robotics": 0.82,
+    "Google News Humanoid Robots": 0.72,
+    "Google News Robot Dogs": 0.72,
+    "Google News Exoskeletons": 0.72,
+    "Google News Robotics Research": 0.72,
 }
 
 
@@ -104,7 +114,6 @@ def _category_score(item: NewsItem) -> float:
 
 
 def _source_score(item: NewsItem) -> float:
-    # Source reputation is only a modest tie-breaker.
     return SOURCE_WEIGHTS.get(item.source, 0.70) * 5.0
 
 
