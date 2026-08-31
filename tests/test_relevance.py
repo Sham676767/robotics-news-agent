@@ -51,12 +51,44 @@ def test_autonomous_vehicle_with_humanoid_is_allowed():
     assert "humanoid" in classify(item)
 
 
+def test_drone_with_humanoid_is_allowed():
+    item = NewsItem(
+        source="Test",
+        title="Humanoid robot uses a drone for warehouse inspection",
+        url="https://example.com/9",
+    )
+    assert is_relevant(item)
+    assert "humanoid" in classify(item)
+
+
+def test_autonomous_truck_robotics_story_is_rejected_without_specific_pillar():
+    item = NewsItem(
+        source="Test",
+        title="Autonomous truck company announces new robotics research",
+        url="https://example.com/10",
+    )
+    assert not is_relevant(item)
+
+
+def test_reinforcement_learning_alone_is_rejected():
+    item = NewsItem(
+        source="Test",
+        title="Researchers improve reinforcement learning algorithm",
+        url="https://example.com/11",
+    )
+    assert not is_relevant(item)
+
+
 def test_filter_keeps_only_relevant_items():
     items = [
-        NewsItem(source="Test", title="Humanoid robot enters factory", url="https://example.com/9"),
-        NewsItem(source="Test", title="New smartphone announced", url="https://example.com/10"),
-        NewsItem(source="Test", title="Drone delivery service expands", url="https://example.com/11"),
+        NewsItem(source="Test", title="Humanoid robot enters factory", url="https://example.com/12"),
+        NewsItem(source="Test", title="New smartphone announced", url="https://example.com/13"),
+        NewsItem(source="Test", title="Drone delivery service expands", url="https://example.com/14"),
+        NewsItem(source="Test", title="Powered exoskeleton helps workers lift loads", url="https://example.com/15"),
     ]
     result = filter_relevant(items)
-    assert len(result) == 1
-    assert result[0].url.endswith("/9")
+    assert len(result) == 2
+    assert {item.url for item in result} == {
+        "https://example.com/12",
+        "https://example.com/15",
+    }
