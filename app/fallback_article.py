@@ -7,15 +7,21 @@ TOPIC_LABELS = {
     "humanoid": "гуманоидные роботы",
     "robot_dog": "роботы-собаки",
     "exoskeleton": "экзоскелеты",
-    "robotics": "общая робототехника",
+    "robotics": "робототехника",
 }
 
 
-def _clean_summary(text: str) -> str:
+def _clean_text(text: str) -> str:
     text = re.sub(r"\s+", " ", str(text or "")).strip()
-    if not text:
-        return "Источник содержит краткое описание события без дополнительных деталей."
-    return text.rstrip(".!?…") + "."
+    return text
+
+
+def _russian_ratio(text: str) -> float:
+    letters = [ch for ch in text if ch.isalpha()]
+    if not letters:
+        return 1.0
+    cyrillic = sum("а" <= ch.lower() <= "я" or ch.lower() == "ё" for ch in letters)
+    return cyrillic / len(letters)
 
 
 def _topics(item: dict[str, Any]) -> str:
@@ -23,9 +29,24 @@ def _topics(item: dict[str, Any]) -> str:
     return ", ".join(dict.fromkeys(labels)) or "робототехника"
 
 
+def _is_acceptable_russian_card(item: dict[str, Any]) -> bool:
+    title = _clean_text(item.get("title", ""))
+    summary = _clean_text(item.get("summary", ""))
+    return _russian_ratio(f"{title} {summary}") >= 0.55
+
+
 def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
     if len(top5) != 5:
         raise ValueError("Fallback article requires exactly 5 stories")
+
+    # A deterministic fallback may keep the pipeline alive, but it must never
+    # publish raw English source text as a supposed Russian editorial article.
+    bad_cards = [item for item in top5 if not _is_acceptable_russian_card(item)]
+    if bad_cards:
+        raise RuntimeError(
+            "AI article generation is unavailable and the selected source cards "
+            "are not sufficiently Russian for a safe fallback article"
+        )
 
     topic_names = []
     for item in top5:
@@ -34,24 +55,25 @@ def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
     coverage = ", ".join(topic_names[:4]) or "робототехника"
 
     result = {
-        "title": "Робототехника недели: главные события и новые разработки",
+        "title": "Робототехника недели: главные события в гуманоидных роботах, робо-собаках и экзоскелетах",
         "intro": (
             "В подборку вошли пять свежих событий из мира робототехники. "
-            f"Новости охватывают такие направления, как {coverage}. "
-            "Ниже — краткое изложение фактов по каждому выбранному материалу."
+            f"Основные направления выпуска — {coverage}. "
+            "Ниже приведены только сведения, присутствующие в исходных карточках новостей."
         ),
         "items": [],
     }
 
-    for index, item in enumerate(top5, start=1):
-        title = str(item.get("title") or "Событие в робототехнике").strip()
-        summary = _clean_summary(item.get("summary", ""))
+    for item in top5:
+        title = _clean_text(item.get("title")) or "Событие в робототехнике"
+        summary = _clean_text(item.get("summary")) or "Источник не содержит дополнительного краткого описания."
         topics = _topics(item)
-        source = str(item.get("source") or "Источник")
+        source = _clean_text(item.get("source")) or "Источник"
         body = (
-            f"{title}. "
-            f"{summary} "
-            f"Материал относится к направлению {topics}; дополнительные выводы о технологической или коммерческой зрелости без данных источника делать не следует."
+            f"{summary.rstrip('.!?…')}. "
+            f"Материал относится к направлению {topics}. "
+            "Дополнительные сведения о характеристиках, масштабах внедрения или результате события "
+            "не добавляются без подтверждения в исходной новости."
         )
         result["items"].append(
             {
