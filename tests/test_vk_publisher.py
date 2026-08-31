@@ -1,4 +1,4 @@
-from app.vk_publisher import render_vk_message
+from app.vk_publisher import daily_random_id, render_vk_message
 
 
 def test_render_vk_message_keeps_all_five_blocks_and_sources():
@@ -41,3 +41,12 @@ def test_render_vk_message_is_not_markdown():
     message = render_vk_message(article)
     assert "[" not in message
     assert "](" not in message
+
+
+def test_daily_random_id_is_stable_for_reruns():
+    article_a = {"title": "A", "intro": "B", "items": []}
+    article_b = {"title": "Different", "intro": "Content", "items": []}
+
+    assert daily_random_id(article_a) == daily_random_id(article_a)
+    assert daily_random_id(article_a) == daily_random_id(article_b)
+    assert 0 < daily_random_id(article_a) <= 0x7FFFFFFF
