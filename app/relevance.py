@@ -4,18 +4,22 @@ import re
 
 from .models import NewsItem
 
-# The publication has exactly four editorial pillars. A story must contain an
-# explicit signal for at least one pillar; generic AI/automation news is not enough.
+# The publication has exactly four editorial pillars. Generic AI/automation
+# stories are not enough: the text must explicitly concern robots/robotics,
+# robot dogs, humanoids, or exoskeletons.
 KEYWORDS: dict[str, tuple[str, ...]] = {
     "robotics": (
         "robotics", "robotic system", "robot technology", "robotics company",
-        "robotics startup", "robotics research", "robotics lab", "robotics paper", "robotics study",
-        "robot control", "robot learning", "robot manipulation", "robot perception", "robot navigation",
-        "robot locomotion", "locomotion for robots", "sim-to-real", "simulation-to-real",
-        "imitation learning", "reinforcement learning", "vision-language-action", "vla model",
-        "robot foundation model", "dexterous manipulation", "slam for robots",
+        "robotics startup", "robotics research", "robotics lab", "robotics paper",
+        "robotics study", "robot control", "robot learning", "robot manipulation",
+        "robot perception", "robot navigation", "robot locomotion", "locomotion for robots",
+        "sim-to-real", "simulation-to-real", "robot foundation model", "dexterous manipulation",
+        "slam for robots", "robot arm", "robotic arm", "industrial robot", "service robot",
+        "mobile robot", "warehouse robot", "collaborative robot", "cobot",
         "робототехника", "роботизированная система", "робототехническая компания",
         "управление роботом", "обучение роботов", "манипуляция роботом", "навигация робота",
+        "промышленный робот", "сервисный робот", "мобильный робот", "робот-манипулятор",
+        "роботизированная рука", "коллаборативный робот",
     ),
     "robot_dog": (
         "robot dog", "robotic dog", "quadruped", "robodog", "go2", "spot robot",
@@ -34,8 +38,9 @@ KEYWORDS: dict[str, tuple[str, ...]] = {
     ),
 }
 
-# Adjacent fields are excluded unless the same story also has a strong explicit
-# signal for one of the four editorial pillars.
+# Adjacent fields are excluded unless the same story explicitly contains one
+# of the four pillars. This prevents drone/robotaxi stories from leaking in
+# just because they mention generic robotics or AI research.
 EXCLUDED_PATTERNS = (
     "robotaxi", "autonomous taxi", "autonomous car", "autonomous vehicle",
     "autonomous truck", "self-driving truck", "self driving truck", "self-driving car",
@@ -44,12 +49,13 @@ EXCLUDED_PATTERNS = (
     "роботакси", "беспилотный автомобиль", "автономный автомобиль", "дрон", "дроны",
 )
 
-STRONG_SIGNALS = (
+SPECIFIC_PILLAR_SIGNALS = (
     "humanoid", "humanoid robot", "robot dog", "robotic dog", "quadruped",
-    "exoskeleton", "robotic exoskeleton", "robotics research", "robotics lab",
-    "robot learning", "robot manipulation", "robot control", "гуманоид",
-    "гуманоидный робот", "робот-собака", "робопёс", "робопес", "экзоскелет",
-    "робототехника", "роботизированная система", "роботизированный экзоскелет",
+    "robodog", "four-legged robot", "four legged robot", "exoskeleton",
+    "exo-skeleton", "robotic exoskeleton", "powered exoskeleton", "wearable robot",
+    "экзоскелет", "роботизированный экзоскелет", "силовой костюм", "носимый робот",
+    "гуманоид", "гуманоидный робот", "человекоподобный робот", "двуногий робот",
+    "робот-собака", "робот собака", "робопёс", "робопес", "четвероногий робот",
 )
 
 
@@ -72,7 +78,7 @@ def is_relevant(item: NewsItem) -> bool:
     topics = classify(item)
 
     if any(pattern in text for pattern in EXCLUDED_PATTERNS):
-        return any(signal in text for signal in STRONG_SIGNALS)
+        return any(signal in text for signal in SPECIFIC_PILLAR_SIGNALS)
 
     return bool(topics)
 
