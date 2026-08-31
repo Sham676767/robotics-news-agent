@@ -186,11 +186,28 @@ def _attach_sources(article: dict[str, Any], top5: list[dict[str, Any]]) -> dict
     return result
 
 
+def _retry_delay(response: httpx.Response, attempt: int) -> float:
+    """Respect Retry-After when present, otherwise use capped exponential backoff."""
+    retry_after = response.headers.get("Retry-After")
+    if retry_after:
+        try:
+            return max(0.0, min(float(retry_after), 60.0))
+        except ValueError:
+            pass
+
+    base = float(os.getenv("OPENROUTER_RETRY_BASE_SECONDS", "2"))
+    maximum = float(os.getenv("OPENROUTER_RETRY_MAX_SECONDS", "20"))
+    return min(maximum, base * (2**attempt))
+
+
 def _request_openrouter(
     payload: dict[str, Any], headers: dict[str, str], timeout: float = 120
 ) -> str:
+    max_attempts = max(1, int(os.getenv("OPENROUTER_MAX_ATTEMPTS", "4")))
+    retryable_statuses = {408, 409, 429, 500, 502, 503, 504}
     last_error: str | None = None
-    for attempt in range(2):
+
+    for attempt in range(max_attempts):
         try:
             response = httpx.post(
                 OPENROUTER_URL,
@@ -198,11 +215,18 @@ def _request_openrouter(
                 json=payload,
                 timeout=timeout,
             )
-            if response.status_code in (408, 409, 429, 500, 502, 503, 504):
-                last_error = response.text[:1000]
-                if attempt == 0:
-                    time.sleep(2)
+
+            if response.status_code in retryable_statuses:
+                last_error = f"HTTP {response.status_code}: {response.text[:1000]}"
+                if attempt + 1 < max_attempts:
+                    delay = _retry_delay(response, attempt)
+                    print(
+                        f"⚠️ OpenRouter transient HTTP {response.status_code}; "
+                        f"retry {attempt + 2}/{max_attempts} in {delay:.1f}s"
+                    )
+                    time.sleep(delay)
                     continue
+
             response.raise_for_status()
             data = response.json()
             choices = data.get("choices") or []
@@ -219,10 +243,18 @@ def _request_openrouter(
             return content
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = str(exc)
-            if attempt == 0:
-                time.sleep(2)
+            if attempt + 1 < max_attempts:
+                delay = min(
+                    float(os.getenv("OPENROUTER_RETRY_MAX_SECONDS", "20")),
+                    float(os.getenv("OPENROUTER_RETRY_BASE_SECONDS", "2")) * (2**attempt),
+                )
+                print(
+                    f"⚠️ OpenRouter request error; retry {attempt + 2}/{max_attempts} in {delay:.1f}s: {last_error}"
+                )
+                time.sleep(delay)
                 continue
-    raise RuntimeError(f"OpenRouter request failed after 2 attempts: {last_error}")
+
+    raise RuntimeError(f"OpenRouter request failed after {max_attempts} attempts: {last_error}")
 
 
 def _payload(messages: list[dict[str, str]], model: str) -> dict[str, Any]:
