@@ -1,5 +1,6 @@
 from datetime import datetime
 from pathlib import Path
+import json
 import os
 import time
 
@@ -11,6 +12,7 @@ from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 
 ALLOWED_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
+TOP5_OUTPUT_PATH = Path("data/latest_top5.json")
 
 
 def _validate_selected_stories(top5):
@@ -66,6 +68,12 @@ def main():
     print(f"Selected: {len(top5)} stories")
     _validate_selected_stories(top5)
     print("✅ TOP-5 editorial guard passed")
+
+    # Persist the exact selection used for this article. The publisher workflow
+    # commits this audit state together with the generated article.
+    TOP5_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TOP5_OUTPUT_PATH.write_text(json.dumps(top5, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"TOP-5 STATE CREATED: {TOP5_OUTPUT_PATH.resolve()}")
 
     print("✍ Generating article...")
     article_started = time.perf_counter()
