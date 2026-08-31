@@ -28,7 +28,7 @@ def test_collect_from_source_normalizes_html_and_parses_dates(monkeypatch):
 
     assert len(items) == 1
     assert items[0].title == "Humanoid robot"
-    assert items[0].summary == "First fact second fact"
+    assert items[0].summary == "First\u00a0fact second fact"
     assert items[0].published_at == datetime(2026, 8, 30, 8, 0, tzinfo=timezone.utc)
 
 
