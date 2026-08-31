@@ -15,13 +15,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
+          cache: "pip"
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Select TOP-5
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          OPENROUTER_MODEL: google/gemma-4-26b-a4b-it:free
         run: python -m app.daily_selection
       - name: Upload TOP-5 result
         uses: actions/upload-artifact@v4
