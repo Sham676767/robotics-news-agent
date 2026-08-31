@@ -33,7 +33,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 4. Не усиливай исходный факт. Например, «начала развёртывание» нельзя превращать в «полностью внедрила», а «показала прототип» — в «создала готовый продукт».
 5. Если карточка содержит недостаточно данных для вывода, не дополняй пробелы догадками.
 6. Сохраняй точные числа, единицы, названия компаний и продуктов, если они есть в карточке.
-7. Никогда не придумывай и не копируй URL вручную. Источник и URL будут добавлены программой по номеру карточки.
+7. Никогда не придумывай и не копируй URL вручную. Источник и URL будут добавлены программой по порядку карточек.
 8. Не смешивай факты разных карточек. Каждый блок должен опираться только на свою карточку.
 
 РЕДАКЦИОННЫЕ ПРАВИЛА:
@@ -59,9 +59,8 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 - title: короткий заголовок всей недели;
 - intro: 2–3 предложения с общей картиной;
 - items: ровно 5 блоков;
-- каждый item содержит ТОЛЬКО headline, body и card_index;
-- card_index — целое число от 1 до 5 и означает, из какой карточки взят блок;
-- card_index должен идти строго 1, 2, 3, 4, 5.
+- каждый item содержит ТОЛЬКО headline и body;
+- не добавляй card_index, source или url — это служебные поля, их добавит программа по порядку карточек.
 """
 
 ARTICLE_SCHEMA = {
@@ -78,11 +77,10 @@ ARTICLE_SCHEMA = {
             "items": {
                 "type": "object",
                 "additionalProperties": False,
-                "required": ["headline", "body", "card_index"],
+                "required": ["headline", "body"],
                 "properties": {
                     "headline": {"type": "string"},
                     "body": {"type": "string"},
-                    "card_index": {"type": "integer", "minimum": 1, "maximum": 5},
                 },
             },
         },
@@ -117,6 +115,25 @@ def _parse_json(content: str) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError("AI returned non-object JSON")
     return data
+
+
+def _normalize_article(article: dict[str, Any]) -> dict[str, Any]:
+    """Attach deterministic card indexes; this metadata must not depend on the LLM."""
+    normalized = dict(article)
+    items = article.get("items")
+    if isinstance(items, list) and len(items) == 5:
+        normalized["items"] = []
+        for index, item in enumerate(items, start=1):
+            if isinstance(item, dict):
+                normalized["items"].append(
+                    {
+                        **item,
+                        "card_index": index,
+                    }
+                )
+            else:
+                normalized["items"].append(item)
+    return normalized
 
 
 def _sentence_count(text: str) -> int:
@@ -285,8 +302,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     prompt = (
         "Подготовь одну профессиональную публикацию-дайджест из этих пяти новостей. "
         "Не меняй порядок карточек. Для каждого блока используй только факты соответствующей карточки. "
-        "В каждом item обязательно укажи card_index: 1, 2, 3, 4, 5 соответственно. "
-        "НЕ добавляй source и url — программа подставит их автоматически. "
+        "Верни ровно 5 items с headline и body. НЕ добавляй card_index, source или url — это служебные поля, их добавит программа по порядку карточек. "
         "Особенно строго отделяй факт от интерпретации и не повышай заявленную степень технологической готовности. "
         "Перед выдачей проверь числа, названия, стадии внедрения и соответствие каждого блока своей карточке.\n\n"
         + json.dumps(top5, ensure_ascii=False, indent=2)
@@ -303,16 +319,16 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
 
     draft_content = _request_openrouter(_payload(messages, model), headers)
     try:
-        draft = _parse_json(draft_content)
+        draft = _normalize_article(_parse_json(draft_content))
         validate_article(draft, top5)
         return _attach_sources(draft, top5)
     except (ValueError, RuntimeError) as first_error:
         repair_prompt = (
             "Исправь ТОЛЬКО ошибки в черновике статьи ниже. "
             "Не переписывай удачные части без необходимости. "
-            "Главное: ровно 5 items, card_index строго 1,2,3,4,5, "
+            "Главное: ровно 5 items в исходном порядке, каждый item содержит только headline и body, "
             "каждый блок опирается только на свою карточку, 3–6 предложений в body, "
-            "2–3 предложения в intro. Не добавляй source и url. "
+            "2–3 предложения в intro. Не добавляй card_index, source и url. "
             f"Ошибка проверки: {first_error}\n\n"
             "ЧЕРНОВИК:\n"
             + json.dumps(draft if 'draft' in locals() else {"raw": draft_content[:6000]}, ensure_ascii=False, indent=2)
@@ -324,7 +340,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
             {"role": "user", "content": repair_prompt},
         ]
         repaired_content = _request_openrouter(_payload(repair_messages, model), headers)
-        repaired = _parse_json(repaired_content)
+        repaired = _normalize_article(_parse_json(repaired_content))
         validate_article(repaired, top5)
         return _attach_sources(repaired, top5)
 
