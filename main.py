@@ -1,10 +1,12 @@
 from datetime import datetime
 from pathlib import Path
+import os
 
 from app.collector import collect_news
 from app.daily_selection import select_top5
 from app.article_editor import generate_article, render_markdown, OUTPUT_DIR
 from app.fallback_article import generate_fallback_article
+from app.vk_publisher import publish_to_vk
 
 ALLOWED_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
 
@@ -66,15 +68,13 @@ def main():
     print(str(article)[:500])
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
     output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
-
-    output_path.write_text(
-        render_markdown(article),
-        encoding="utf-8"
-    )
-
+    output_path.write_text(render_markdown(article), encoding="utf-8")
     print(f"FILE CREATED: {output_path.resolve()}")
+
+    required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
+    publish_to_vk(article, required=required_vk)
+
     print("✅ Pipeline finished")
 
 
