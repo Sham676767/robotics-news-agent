@@ -32,7 +32,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 4. Не усиливай исходный факт. Например, «начала развёртывание» нельзя превращать в «полностью внедрила», а «показала прототип» — в «создала готовый продукт».
 5. Если карточка содержит недостаточно данных для вывода, не дополняй пробелы догадками.
 6. Сохраняй точные числа, единицы, названия компаний и продуктов, если они есть в карточке.
-7. Для каждой новости сохраняй URL именно той карточки, из которой взят блок.
+7. Никогда не придумывай и не копируй URL вручную. Источник и URL будут добавлены программой по номеру карточки.
 8. Не смешивай факты разных карточек. Каждый блок должен опираться только на свою карточку.
 
 РЕДАКЦИОННЫЕ ПРАВИЛА:
@@ -54,16 +54,16 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 24. Не добавляй отдельный раздел «Вывод», если он не нужен; смысл должен быть внутри каждого блока и вступления.
 25. Не добавляй факты после ссылки на источник, которых нет в карточке.
 
-СТРУКТУРА:
+ФОРМАТ ВЫВОДА:
 - title: короткий заголовок всей недели;
 - intro: 2–3 предложения с общей картиной;
 - items: ровно 5 блоков;
-- каждый item: headline, body, source, url.
-
-Перед выдачей мысленно проверь каждый блок: «Могу ли я указать конкретное место в карточке, которое подтверждает каждое утверждение?» Если нет — удали утверждение или ослабь его до уровня, подтверждаемого карточкой.
+- каждый item содержит ТОЛЬКО headline, body и card_index;
+- card_index — целое число от 1 до 5 и означает, из какой карточки взят блок;
+- card_index должен идти строго 1, 2, 3, 4, 5.
 
 Верни ТОЛЬКО JSON следующего вида:
-{"title":"...","intro":"...","items":[{"headline":"...","body":"...","source":"...","url":"..."},{"headline":"...","body":"...","source":"...","url":"..."},{"headline":"...","body":"...","source":"...","url":"..."},{"headline":"...","body":"...","source":"...","url":"..."},{"headline":"...","body":"...","source":"...","url":"..."}]}
+{"title":"...","intro":"...","items":[{"headline":"...","body":"...","card_index":1},{"headline":"...","body":"...","card_index":2},{"headline":"...","body":"...","card_index":3},{"headline":"...","body":"...","card_index":4},{"headline":"...","body":"...","card_index":5}]}
 """
 
 
@@ -117,29 +117,89 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
     if not isinstance(items, list) or len(items) != 5:
         raise ValueError(f"Article must contain exactly 5 items, got {len(items) if isinstance(items, list) else 0}")
 
-    allowed_urls = {item["url"] for item in top5}
-    seen_urls: set[str] = set()
+    expected_indexes = list(range(1, 6))
+    actual_indexes: list[int] = []
     for item in items:
         if not isinstance(item, dict):
             raise ValueError("Each article item must be an object")
-        for field in ("headline", "body", "source", "url"):
-            if not isinstance(item.get(field), str) or not item[field].strip():
+        for field in ("headline", "body", "card_index"):
+            if field not in item:
                 raise ValueError(f"Missing article field: {field}")
-        if item["url"] not in allowed_urls:
-            raise ValueError(f"Article contains an unknown source URL: {item['url']}")
-        if item["url"] in seen_urls:
-            raise ValueError(f"Article contains a duplicate source URL: {item['url']}")
-        if not _is_http_url(item["url"]):
-            raise ValueError(f"Article contains an invalid source URL: {item['url']}")
+        if not isinstance(item["headline"], str) or not item["headline"].strip():
+            raise ValueError("Each article headline must be a non-empty string")
+        if not isinstance(item["body"], str) or not item["body"].strip():
+            raise ValueError("Each article body must be a non-empty string")
+        if not isinstance(item["card_index"], int) or isinstance(item["card_index"], bool):
+            raise ValueError("Each article card_index must be an integer")
+        actual_indexes.append(item["card_index"])
         if _sentence_count(item["body"]) not in range(3, 7):
             raise ValueError("Each article body must contain 3-6 sentences")
         if "|" in item["body"]:
             raise ValueError("Article body must not contain Markdown table syntax")
-        seen_urls.add(item["url"])
 
-    if seen_urls != allowed_urls:
-        missing = allowed_urls - seen_urls
-        raise ValueError(f"Article is missing source URLs: {sorted(missing)}")
+    if actual_indexes != expected_indexes:
+        raise ValueError(
+            f"Article card_index sequence must be exactly {expected_indexes}, got {actual_indexes}"
+        )
+
+    for card in top5:
+        url = card.get("url")
+        if not isinstance(url, str) or not _is_http_url(url):
+            raise ValueError(f"Selected story contains an invalid source URL: {url!r}")
+
+
+def _attach_sources(article: dict[str, Any], top5: list[dict[str, Any]]) -> dict[str, Any]:
+    result = {"title": article["title"], "intro": article["intro"], "items": []}
+    for item in article["items"]:
+        card = top5[item["card_index"] - 1]
+        result["items"].append(
+            {
+                "headline": item["headline"],
+                "body": item["body"],
+                "source": str(card.get("source") or card.get("publisher") or "Источник"),
+                "url": card["url"],
+            }
+        )
+    return result
+
+
+def _request_openrouter(
+    payload: dict[str, Any], headers: dict[str, str], timeout: float = 150
+) -> str:
+    last_error: str | None = None
+    for attempt in range(2):
+        try:
+            response = httpx.post(
+                OPENROUTER_URL,
+                headers=headers,
+                json=payload,
+                timeout=timeout,
+            )
+            if response.status_code in (408, 409, 429, 500, 502, 503, 504):
+                last_error = response.text[:1000]
+                if attempt == 0:
+                    time.sleep(3)
+                    continue
+            response.raise_for_status()
+            data = response.json()
+            choices = data.get("choices") or []
+            if not choices:
+                raise RuntimeError(
+                    f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}"
+                )
+            message = choices[0].get("message") or {}
+            content = message.get("content")
+            if not content:
+                raise RuntimeError(
+                    f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}"
+                )
+            return content
+        except (httpx.HTTPError, RuntimeError) as exc:
+            last_error = str(exc)
+            if attempt == 0:
+                time.sleep(3)
+                continue
+    raise RuntimeError(f"OpenRouter request failed after 2 attempts: {last_error}")
 
 
 def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> dict[str, Any]:
@@ -152,8 +212,10 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     prompt = (
         "Подготовь одну профессиональную публикацию-дайджест из этих пяти новостей. "
         "Не меняй порядок карточек. Для каждого блока используй только факты соответствующей карточки. "
+        "В каждом item обязательно укажи card_index: 1, 2, 3, 4, 5 соответственно. "
+        "НЕ добавляй source и url — программа подставит их автоматически. "
         "Особенно строго отделяй факт от интерпретации и не повышай заявленную степень технологической готовности. "
-        "Перед выдачей проверь числа, названия, стадии внедрения и URL.\n\n"
+        "Перед выдачей проверь числа, названия, стадии внедрения и соответствие каждого блока своей карточке.\n\n"
         + json.dumps(top5, ensure_ascii=False, indent=2)
     )
     payload = {
@@ -171,43 +233,35 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         "X-Title": "Robotics News Agent - Article Editor",
     }
 
-    last_error: str | None = None
-    for attempt in range(5):
-        try:
-            response = httpx.post(
-                OPENROUTER_URL,
-                headers=headers,
-                json=payload,
-                timeout=150,
-            )
-            if response.status_code in (408, 409, 429, 500, 502, 503, 504):
-                last_error = response.text[:1000]
-                if attempt < 4:
-                    time.sleep(min(5 * (attempt + 1), 20))
-                    continue
-            response.raise_for_status()
-            data = response.json()
-            choices = data.get("choices") or []
-            if not choices:
-                raise RuntimeError(
-                    f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}"
-                )
-            message = choices[0].get("message") or {}
-            content = message.get("content")
-            if not content:
-                raise RuntimeError(
-                    f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}"
-                )
-            article = _parse_json(content)
-            validate_article(article, top5)
-            return article
-        except (httpx.HTTPError, ValueError, RuntimeError) as exc:
-            last_error = str(exc)
-            if attempt < 4:
-                time.sleep(min(5 * (attempt + 1), 20))
-                continue
-
-    raise RuntimeError(f"OpenRouter article generation failed after 5 attempts: {last_error}")
+    draft_content = _request_openrouter(payload, headers)
+    try:
+        draft = _parse_json(draft_content)
+        validate_article(draft, top5)
+        return _attach_sources(draft, top5)
+    except (ValueError, RuntimeError) as first_error:
+        repair_prompt = (
+            "Исправь ТОЛЬКО ошибки в черновике статьи ниже. "
+            "Не переписывай удачные части без необходимости. "
+            "Главное: ровно 5 items, card_index строго 1,2,3,4,5, "
+            "каждый блок опирается только на свою карточку, 3–6 предложений в body, "
+            "2–3 предложения в intro. Не добавляй source и url. "
+            f"Ошибка проверки: {first_error}\n\n"
+            "ЧЕРНОВИК:\n"
+            + json.dumps(draft if 'draft' in locals() else {"raw": draft_content[:6000]}, ensure_ascii=False, indent=2)
+            + "\n\nКАРТОЧКИ:\n"
+            + json.dumps(top5, ensure_ascii=False, indent=2)
+        )
+        repair_payload = {
+            **payload,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": repair_prompt},
+            ],
+        }
+        repaired_content = _request_openrouter(repair_payload, headers)
+        repaired = _parse_json(repaired_content)
+        validate_article(repaired, top5)
+        return _attach_sources(repaired, top5)
 
 
 def render_markdown(article: dict[str, Any]) -> str:
