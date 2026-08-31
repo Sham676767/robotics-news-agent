@@ -21,7 +21,7 @@ jobs:
       - name: Select TOP-5
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openai/gpt-oss-20b:free
+          OPENROUTER_MODEL: openrouter/free
         run: python -m app.daily_selection
       - name: Upload TOP-5 result
         uses: actions/upload-artifact@v4
