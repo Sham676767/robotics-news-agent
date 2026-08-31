@@ -9,8 +9,6 @@ from typing import Any
 import httpx
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-# Route across currently available free OpenRouter models instead of pinning the
-# daily pipeline to one provider/model that can hit a provider-specific 429.
 DEFAULT_MODEL = "openrouter/free"
 DEFAULT_TIMEOUT = 35.0
 
@@ -34,7 +32,7 @@ def build_ranking_prompt(items: list[dict[str, Any]], limit: int = 5) -> str:
         "Ты редактор новостного проекта, посвящённого только четырём направлениям: "
         "1) робототехника, 2) роботы-собаки, 3) гуманоидные роботы, 4) экзоскелеты. "
         f"Ранжируй до {limit} самых интересных событий из переданных карточек. "
-        "Карточки уже прошли тематический фильтр. Не добавляй никаких внешних историй и не меняй id. "
+        "Карточки уже прошли тематический фильтр. Не добавляй внешние истории и не меняй id. "
         "Особенно повышай приоритет новостей, где явно указаны humanoid, robot dog/quadruped или exoskeleton. "
         "Новости про robotaxi, автомобили, дроны и другую тематику не должны получать приоритет, "
         "если они не являются частью одной из четырёх тем. Не придумывай факты. "
@@ -81,6 +79,46 @@ def _heuristic_fallback(items: list[dict[str, Any]], limit: int = 5) -> list[dic
         }
         for item in ranked[:limit]
     ]
+
+
+def _normalise_ai_ranking(result: Any, items: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
+    """Keep only unique, known candidate IDs and fill missing slots deterministically."""
+    if not isinstance(result, list):
+        raise ValueError("AI returned non-list JSON")
+
+    known_ids = {item["id"] for item in items}
+    seen: set[int] = set()
+    valid: list[dict[str, Any]] = []
+    for item in result:
+        if not isinstance(item, dict):
+            continue
+        try:
+            candidate_id = int(item["id"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if candidate_id not in known_ids or candidate_id in seen:
+            continue
+        seen.add(candidate_id)
+        valid.append({
+            "id": candidate_id,
+            "score": item.get("score", 0),
+            "reason": str(item.get("reason", ""))[:500],
+        })
+        if len(valid) >= limit:
+            break
+
+    if not valid:
+        raise ValueError("AI returned no usable ranking items")
+
+    # If the model omitted valid candidates, append deterministic choices rather
+    # than making the caller guess whether the ranking is complete.
+    if len(valid) < limit:
+        fallback = _heuristic_fallback(
+            [item for item in items if item["id"] not in seen],
+            limit=limit - len(valid),
+        )
+        valid.extend(fallback)
+    return valid[:limit]
 
 
 def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, limit: int = 5) -> list[dict[str, Any]]:
@@ -137,13 +175,7 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, 
             content = message.get("content")
             if not content:
                 raise RuntimeError("OpenRouter returned empty ranking content")
-            result = _extract_json(content)
-            if not isinstance(result, list):
-                raise ValueError("AI returned non-list JSON")
-            valid = [item for item in result if isinstance(item, dict) and "id" in item]
-            if not valid:
-                raise ValueError("AI returned no usable ranking items")
-            return valid[:limit]
+            return _normalise_ai_ranking(_extract_json(content), items, limit)
         except (httpx.HTTPError, ValueError, RuntimeError) as exc:
             last_error = str(exc)
             if attempt == 0:
