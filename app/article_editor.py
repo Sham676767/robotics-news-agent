@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 import httpx
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+DEFAULT_MODEL = "google/gemma-4-26b-a4b-it:free"
 OUTPUT_DIR = Path("articles")
 
 SYSTEM_PROMPT = """Ты старший редактор профессионального русскоязычного медиа о робототехнике.
@@ -61,10 +62,32 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 - каждый item содержит ТОЛЬКО headline, body и card_index;
 - card_index — целое число от 1 до 5 и означает, из какой карточки взят блок;
 - card_index должен идти строго 1, 2, 3, 4, 5.
-
-Верни ТОЛЬКО JSON следующего вида:
-{"title":"...","intro":"...","items":[{"headline":"...","body":"...","card_index":1},{"headline":"...","body":"...","card_index":2},{"headline":"...","body":"...","card_index":3},{"headline":"...","body":"...","card_index":4},{"headline":"...","body":"...","card_index":5}]}
 """
+
+ARTICLE_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "required": ["title", "intro", "items"],
+    "properties": {
+        "title": {"type": "string"},
+        "intro": {"type": "string"},
+        "items": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5,
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["headline", "body", "card_index"],
+                "properties": {
+                    "headline": {"type": "string"},
+                    "body": {"type": "string"},
+                    "card_index": {"type": "integer", "minimum": 1, "maximum": 5},
+                },
+            },
+        },
+    },
+}
 
 
 def _parse_json(content: str) -> dict[str, Any]:
@@ -164,7 +187,7 @@ def _attach_sources(article: dict[str, Any], top5: list[dict[str, Any]]) -> dict
 
 
 def _request_openrouter(
-    payload: dict[str, Any], headers: dict[str, str], timeout: float = 150
+    payload: dict[str, Any], headers: dict[str, str], timeout: float = 120
 ) -> str:
     last_error: str | None = None
     for attempt in range(2):
@@ -178,7 +201,7 @@ def _request_openrouter(
             if response.status_code in (408, 409, 429, 500, 502, 503, 504):
                 last_error = response.text[:1000]
                 if attempt == 0:
-                    time.sleep(3)
+                    time.sleep(2)
                     continue
             response.raise_for_status()
             data = response.json()
@@ -197,9 +220,26 @@ def _request_openrouter(
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = str(exc)
             if attempt == 0:
-                time.sleep(3)
+                time.sleep(2)
                 continue
     raise RuntimeError(f"OpenRouter request failed after 2 attempts: {last_error}")
+
+
+def _payload(messages: list[dict[str, str]], model: str) -> dict[str, Any]:
+    return {
+        "model": model,
+        "messages": messages,
+        "temperature": 0.15,
+        "max_tokens": 5000,
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "robotics_weekly_digest",
+                "strict": True,
+                "schema": ARTICLE_SCHEMA,
+            },
+        },
+    }
 
 
 def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> dict[str, Any]:
@@ -209,6 +249,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     if len(top5) != 5:
         raise ValueError("Article editor requires exactly 5 selected stories")
 
+    model = os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL)
     prompt = (
         "Подготовь одну профессиональную публикацию-дайджест из этих пяти новостей. "
         "Не меняй порядок карточек. Для каждого блока используй только факты соответствующей карточки. "
@@ -218,22 +259,17 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         "Перед выдачей проверь числа, названия, стадии внедрения и соответствие каждого блока своей карточке.\n\n"
         + json.dumps(top5, ensure_ascii=False, indent=2)
     )
-    payload = {
-        "model": os.getenv("OPENROUTER_MODEL", "openrouter/free"),
-        "messages": [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 0.15,
-        "max_tokens": 6000,
-    }
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": prompt},
+    ]
     headers = {
         "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
         "X-Title": "Robotics News Agent - Article Editor",
     }
 
-    draft_content = _request_openrouter(payload, headers)
+    draft_content = _request_openrouter(_payload(messages, model), headers)
     try:
         draft = _parse_json(draft_content)
         validate_article(draft, top5)
@@ -251,14 +287,11 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
             + "\n\nКАРТОЧКИ:\n"
             + json.dumps(top5, ensure_ascii=False, indent=2)
         )
-        repair_payload = {
-            **payload,
-            "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": repair_prompt},
-            ],
-        }
-        repaired_content = _request_openrouter(repair_payload, headers)
+        repair_messages = [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": repair_prompt},
+        ]
+        repaired_content = _request_openrouter(_payload(repair_messages, model), headers)
         repaired = _parse_json(repaired_content)
         validate_article(repaired, top5)
         return _attach_sources(repaired, top5)
