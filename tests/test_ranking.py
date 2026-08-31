@@ -9,11 +9,13 @@ def test_humanoid_news_scores_above_generic_robot_news():
     humanoid = NewsItem(
         source="IEEE Spectrum Robotics",
         title="Company unveils new humanoid robot for commercial deployment",
+        url="https://example.com/humanoid",
         published_at=now,
     )
     generic = NewsItem(
         source="Unknown",
         title="Robotics industry event announced",
+        url="https://example.com/generic",
         published_at=now,
     )
 
@@ -22,10 +24,16 @@ def test_humanoid_news_scores_above_generic_robot_news():
 
 def test_fresh_news_scores_above_old_news_when_otherwise_equal():
     now = datetime.now(timezone.utc)
-    fresh = NewsItem(source="Unknown", title="Humanoid robot update", published_at=now)
+    fresh = NewsItem(
+        source="Unknown",
+        title="Humanoid robot update",
+        url="https://example.com/fresh",
+        published_at=now,
+    )
     old = NewsItem(
         source="Unknown",
         title="Humanoid robot update",
+        url="https://example.com/old",
         published_at=now - timedelta(days=14),
     )
 
@@ -35,7 +43,12 @@ def test_fresh_news_scores_above_old_news_when_otherwise_equal():
 def test_rank_returns_requested_number():
     now = datetime.now(timezone.utc)
     items = [
-        NewsItem(source="Unknown", title=f"Humanoid robot story {i}", published_at=now)
+        NewsItem(
+            source="Unknown",
+            title=f"Humanoid robot story {i}",
+            url=f"https://example.com/{i}",
+            published_at=now,
+        )
         for i in range(10)
     ]
 
