@@ -43,11 +43,10 @@ def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
         "items": [],
     }
 
-    for item in top5:
+    for card_index, item in enumerate(top5, start=1):
         title = _clean_text(item.get("title")) or "Событие в робототехнике"
         summary = _clean_text(item.get("summary"))
         topics = _topics(item)
-        source = _clean_text(item.get("source")) or "Источник"
         if summary:
             body = (
                 f"{summary.rstrip('.!?…')}. "
@@ -63,8 +62,7 @@ def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
         result["items"].append({
             "headline": title,
             "body": body,
-            "source": source,
-            "url": item["url"],
+            "card_index": card_index,
         })
 
     return result
