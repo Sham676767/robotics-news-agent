@@ -81,6 +81,8 @@ def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
             "headline": title,
             "body": body,
             "card_index": card_index,
+            "source": str(item.get("source") or item.get("publisher") or "Источник"),
+            "url": item.get("url"),
         })
 
     return result
