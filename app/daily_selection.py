@@ -39,9 +39,9 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
     per_source: dict[str, int] = {}
     covered_specific: set[str] = set()
 
-    # First reserve space for the three editorial pillars when they exist in
-    # the ranked pool. Without this pass, the generic high-score stories can
-    # crowd a niche pillar out before the AI ever gets a chance to choose it.
+    # Reserve candidate slots for the three specific editorial pillars when
+    # they exist in the ranked pool. Otherwise generic high-score stories can
+    # crowd a niche pillar out before the AI ranking stage sees it.
     for item in ranked:
         if len(result) >= limit:
             break
@@ -56,7 +56,8 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
         per_source[item.source] = count + 1
         covered_specific.update(new_specific)
 
-    # Fill the remaining candidate slots in normal editorial/ranking order.
+    # Fill remaining slots in normal editorial/ranking order while preserving
+    # the per-source cap.
     selected_urls = {item.url for item in result}
     for item in ranked:
         if len(result) >= limit:
