@@ -15,6 +15,7 @@ OUTPUT_PATH = Path("data/latest_top5.json")
 MAX_AGE = timedelta(days=14)
 MAX_PER_SOURCE = 2
 MIN_TOPIC_DIVERSITY = 3
+CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 
 
 def _recent(items: list) -> list:
@@ -88,6 +89,29 @@ def _pick_result(candidate: dict, choice: dict | None = None, reason: str = "") 
     }
 
 
+def _best_choice_for_topic(
+    choices: list[tuple[dict, dict]], topic: str, used_ids: set[int], used_sources: set[str]
+) -> tuple[dict, dict] | None:
+    """Pick the strongest unused story that covers a requested core topic."""
+    eligible = [
+        pair
+        for pair in choices
+        if pair[1]["id"] not in used_ids
+        and topic in _topic_set(pair[1])
+    ]
+    if not eligible:
+        return None
+
+    # Prefer a new source while keeping the AI score as the primary quality signal.
+    return max(
+        eligible,
+        key=lambda pair: (
+            pair[1]["source"] not in used_sources,
+            float(pair[0].get("score") or 0),
+        ),
+    )
+
+
 def select_top5(news=None) -> List[Dict]:
     candidates = build_candidates()
     selected = rank_with_deepseek(candidates)
@@ -96,9 +120,8 @@ def select_top5(news=None) -> List[Dict]:
     result: list[dict] = []
     used_sources: set[str] = set()
     used_topics: set[str] = set()
+    chosen_ids: set[int] = set()
 
-    # First take valid AI choices. Prefer source and topic diversity, but never
-    # discard a genuinely strong story just to satisfy a diversity heuristic.
     valid_choices: list[tuple[dict, dict]] = []
     for choice in selected:
         try:
@@ -109,35 +132,42 @@ def select_top5(news=None) -> List[Dict]:
         if candidate:
             valid_choices.append((choice, candidate))
 
-    # Pass 1: maximize editorial breadth.
-    for choice, candidate in valid_choices:
-        source = candidate["source"]
-        topics = _topic_set(candidate)
-        if source in used_sources and len(used_sources) < 3:
+    # Pass 1: explicitly cover the four editorial pillars whenever the candidate
+    # pool contains a story for them. This prevents a strong but narrow AI ranking
+    # from producing a five-story digest dominated by one topic.
+    for topic in CORE_TOPICS:
+        picked = _best_choice_for_topic(valid_choices, topic, chosen_ids, used_sources)
+        if not picked:
             continue
-        if topics and topics.issubset(used_topics) and len(used_topics) < MIN_TOPIC_DIVERSITY:
-            continue
+        choice, candidate = picked
         result.append(_pick_result(candidate, choice))
-        used_sources.add(source)
-        used_topics.update(topics)
+        chosen_ids.add(candidate["id"])
+        used_sources.add(candidate["source"])
+        used_topics.update(_topic_set(candidate))
         if len(result) >= 5:
             break
 
-    # Pass 2: fill from remaining AI choices, allowing repeated topics/sources.
+    # Pass 2: use remaining AI choices to fill the fifth slot (or any slots left
+    # when one of the core topics was absent from the current news pool).
     if len(result) < 5:
-        chosen_ids = {item["id"] for item in result}
         for choice, candidate in valid_choices:
             if candidate["id"] in chosen_ids:
                 continue
+            source = candidate["source"]
+            topics = _topic_set(candidate)
+            if source in used_sources and len(used_sources) < 3:
+                continue
+            if topics and topics.issubset(used_topics) and len(used_topics) < MIN_TOPIC_DIVERSITY:
+                continue
             result.append(_pick_result(candidate, choice))
-            used_sources.add(candidate["source"])
-            used_topics.update(_topic_set(candidate))
+            chosen_ids.add(candidate["id"])
+            used_sources.add(source)
+            used_topics.update(topics)
             if len(result) >= 5:
                 break
 
-    # Deterministic fallback from the already relevance/rank ordered pool.
+    # Pass 3: deterministic fallback from the already relevance/rank ordered pool.
     if len(result) < 5:
-        chosen_ids = {item["id"] for item in result}
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
                 continue
@@ -145,6 +175,7 @@ def select_top5(news=None) -> List[Dict]:
             if source in used_sources and len(used_sources) < 3:
                 continue
             result.append(_pick_result(candidate, reason="Deterministic fallback from ranked candidates"))
+            chosen_ids.add(candidate["id"])
             used_sources.add(source)
             used_topics.update(_topic_set(candidate))
             if len(result) >= 5:
@@ -152,11 +183,11 @@ def select_top5(news=None) -> List[Dict]:
 
     # Last resort if the source pool is genuinely small.
     if len(result) < 5:
-        chosen_ids = {item["id"] for item in result}
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
                 continue
             result.append(_pick_result(candidate, reason="Final fallback from ranked candidates"))
+            chosen_ids.add(candidate["id"])
             if len(result) >= 5:
                 break
 
