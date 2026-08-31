@@ -42,16 +42,15 @@ def _validate_selected_stories(top5):
 
 
 def main():
+    started_at = datetime.now()
     print("🤖 Robotics News Agent started")
 
     print("📰 Collecting news...")
     news = collect_news()
-
     print(f"Collected: {len(news)} items")
 
     print("🧠 Selecting TOP-5...")
     top5 = select_top5(news)
-
     print(f"Selected: {len(top5)} stories")
     _validate_selected_stories(top5)
     print("✅ TOP-5 editorial guard passed")
@@ -64,21 +63,19 @@ def main():
         print("📝 Using deterministic article fallback so publishing can continue.")
         article = generate_fallback_article(top5)
 
-    # Never publish or save an article that bypassed the same quality gate.
     validate_article(article, top5)
     print("✅ Article quality guard passed")
 
-    print("Article generated:")
-    print(str(article)[:500])
-
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
+    output_path = OUTPUT_DIR / f"{started_at.strftime('%Y-%m-%d')}.md"
     output_path.write_text(render_markdown(article), encoding="utf-8")
     print(f"FILE CREATED: {output_path.resolve()}")
 
     required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
     publish_to_vk(article, required=required_vk)
 
+    elapsed = (datetime.now() - started_at).total_seconds()
+    print(f"⏱ Pipeline duration: {elapsed:.1f}s")
     print("✅ Pipeline finished")
 
 
