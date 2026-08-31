@@ -12,6 +12,7 @@ import httpx
 VK_API_URL = "https://api.vk.com/method/wall.post"
 DEFAULT_API_VERSION = "5.199"
 DEFAULT_TIMEZONE = "Europe/Moscow"
+DEFAULT_TIMEOUT = 20.0
 
 
 def render_vk_message(article: dict[str, Any]) -> str:
@@ -35,7 +36,6 @@ def daily_random_id(article: dict[str, Any]) -> int:
     timezone = ZoneInfo(os.getenv("TIMEZONE", DEFAULT_TIMEZONE))
     date_key = datetime.now(timezone).date().isoformat()
     digest = hashlib.sha256(f"robotics-news-agent:{date_key}".encode()).digest()
-    # Keep the value inside the positive signed 32-bit range accepted by VK.
     return int.from_bytes(digest[:4], "big") & 0x7FFFFFFF
 
 
@@ -74,22 +74,24 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
         "random_id": daily_random_id(article),
     }
 
+    timeout = float(os.getenv("VK_PUBLISH_TIMEOUT", str(DEFAULT_TIMEOUT)))
     last_error: str | None = None
     for attempt in range(2):
         try:
-            response = httpx.post(VK_API_URL, data=payload, timeout=30)
+            response = httpx.post(VK_API_URL, data=payload, timeout=timeout)
             if response.status_code in (408, 429, 500, 502, 503, 504):
                 last_error = f"HTTP {response.status_code}: {response.text[:500]}"
                 if attempt == 0:
-                    time.sleep(2)
+                    time.sleep(1)
                     continue
+                raise RuntimeError(last_error)
             response.raise_for_status()
             data = response.json()
             if "error" in data:
                 error = data["error"]
                 last_error = f"VK API error {error.get('error_code')}: {error.get('error_msg')}"
                 if attempt == 0 and int(error.get("error_code", 0)) in {6, 9, 10, 29}:
-                    time.sleep(2)
+                    time.sleep(1)
                     continue
                 raise RuntimeError(last_error)
 
@@ -101,7 +103,7 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = str(exc)
             if attempt == 0:
-                time.sleep(2)
+                time.sleep(1)
                 continue
 
     raise RuntimeError(f"VK publication failed after 2 attempts: {last_error}")
