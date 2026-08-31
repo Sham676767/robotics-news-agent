@@ -12,6 +12,11 @@ concurrency:
   group: robotics-daily-publisher
   cancel-in-progress: false
 
+# The publisher only needs to read the repository and push the generated
+# article/top-5 state back to main. Keep the default token scope minimal.
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -71,12 +76,13 @@ jobs:
 
       - name: Save generated article
         run: |
-          git status
-          ls -la
+          git status --short
 
           git config --global user.name "robotics-agent"
           git config --global user.email "agent@github.com"
 
-          git add .
-          git commit -m "Generate daily robotics article" || echo "Nothing to commit"
+          # Commit only intended runtime outputs. Never add caches, local
+          # environment files, or other runner artifacts to the repository.
+          git add articles/ data/latest_top5.json
+          git diff --cached --quiet || git commit -m "Generate daily robotics article"
           git push
