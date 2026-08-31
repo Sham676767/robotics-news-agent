@@ -12,7 +12,7 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MODEL = "openrouter/free"
 
 
-def build_ranking_prompt(items: list[dict[str, Any]]) -> str:
+def build_ranking_prompt(items: list[dict[str, Any]], limit: int = 5) -> str:
     compact = [
         {
             "id": item["id"],
@@ -26,9 +26,11 @@ def build_ranking_prompt(items: list[dict[str, Any]]) -> str:
     ]
     return (
         "Ты редактор новостного проекта о робототехнике. "
-        "Выбери до 5 самых интересных и потенциально вирусных событий. "
+        f"Ранжируй до {limit} самых интересных и потенциально вирусных событий. "
         "Не придумывай факты. Оценивай новизну, общественный интерес, "
         "технологическую значимость, свежесть и качество источника. "
+        "Важно: верни достаточно кандидатов из разных тематик, если они есть в списке; "
+        "не ограничивайся только гуманоидными роботами. "
         "Верни только JSON-массив объектов с полями id, score, reason.\n\n"
         + json.dumps(compact, ensure_ascii=False)
     )
@@ -50,7 +52,6 @@ def _extract_json(text: str) -> Any:
     except json.JSONDecodeError:
         pass
 
-    # Recover the first complete JSON array/object embedded in model prose.
     for opener, closer in (("[", "]"), ("{", "}")):
         start = text.find(opener)
         end = text.rfind(closer)
@@ -64,7 +65,7 @@ def _extract_json(text: str) -> Any:
     raise ValueError(f"AI did not return parseable JSON: {text[:500]!r}")
 
 
-def _heuristic_fallback(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _heuristic_fallback(items: list[dict[str, Any]], limit: int = 5) -> list[dict[str, Any]]:
     """Emergency fallback: keep the pipeline alive if a free model is unavailable."""
     ranked = sorted(
         items,
@@ -76,25 +77,30 @@ def _heuristic_fallback(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
     )
     return [
         {"id": item["id"], "score": 0, "reason": "AI ranking unavailable; deterministic fallback"}
-        for item in ranked[:5]
+        for item in ranked[:limit]
     ]
 
 
-def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) -> list[dict[str, Any]]:
+def rank_with_deepseek(
+    items: list[dict[str, Any]],
+    api_key: str | None = None,
+    limit: int = 5,
+) -> list[dict[str, Any]]:
     key = api_key or os.getenv("OPENROUTER_API_KEY")
     if not key:
         raise RuntimeError("OPENROUTER_API_KEY is not configured")
     if not items:
         return []
 
+    limit = max(1, min(limit, len(items)))
     payload = {
         "model": os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL),
         "messages": [
             {"role": "system", "content": "Отвечай только валидным JSON без markdown и пояснений."},
-            {"role": "user", "content": build_ranking_prompt(items)},
+            {"role": "user", "content": build_ranking_prompt(items, limit=limit)},
         ],
         "temperature": 0.1,
-        "max_tokens": 1200,
+        "max_tokens": max(1200, limit * 220),
     }
     headers = {
         "Authorization": f"Bearer {key}",
@@ -103,9 +109,6 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
     }
 
     last_error: str | None = None
-    # Several attempts are intentional: openrouter/free may route each request
-    # to a different free provider/model, so a transient provider failure should
-    # not kill the daily pipeline.
     for attempt in range(5):
         try:
             response = httpx.post(
@@ -144,7 +147,7 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
             valid = [item for item in result if isinstance(item, dict) and "id" in item]
             if not valid:
                 raise ValueError("AI returned no usable ranking items")
-            return valid[:5]
+            return valid[:limit]
         except (httpx.HTTPError, ValueError, RuntimeError) as exc:
             last_error = str(exc)
             if attempt < 4:
@@ -153,4 +156,4 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None) 
 
     print(f"Warning: OpenRouter ranking unavailable after 5 attempts: {last_error}")
     print("Using deterministic ranking fallback so the daily pipeline can continue.")
-    return _heuristic_fallback(items)
+    return _heuristic_fallback(items, limit=limit)
