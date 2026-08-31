@@ -4,6 +4,7 @@ from typing import List, Dict
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 from .ai_client import rank_with_deepseek
 from .collector import collect_all
@@ -18,6 +19,32 @@ CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 SPECIFIC_TOPICS = ("humanoid", "robot_dog", "exoskeleton")
 
 
+def _canonical_url(url: str) -> str:
+    parsed = urlsplit(url.strip())
+    query = "&".join(
+        part for part in parsed.query.split("&")
+        if part and not part.lower().startswith(("utm_", "fbclid=", "gclid="))
+    )
+    path = parsed.path.rstrip("/") or "/"
+    return urlunsplit((parsed.scheme.lower(), parsed.netloc.lower(), path, query, ""))
+
+
+def _dedupe(items: list) -> list:
+    """Remove duplicate URLs, including common tracking-parameter variants."""
+    seen: set[str] = set()
+    result = []
+    for item in items:
+        url = (item.url or "").strip()
+        if not url:
+            continue
+        canonical = _canonical_url(url)
+        if canonical in seen:
+            continue
+        seen.add(canonical)
+        result.append(item)
+    return result
+
+
 def _recent(items: list) -> list:
     now = datetime.now(timezone.utc)
     result = []
@@ -29,19 +56,6 @@ def _recent(items: list) -> list:
             published_at = published_at.replace(tzinfo=timezone.utc)
         if now - published_at <= MAX_AGE:
             result.append(item)
-    return result
-
-
-def _dedupe(items: list) -> list:
-    """Remove duplicate URLs before ranking so syndicated stories do not crowd TOP-5."""
-    seen: set[str] = set()
-    result = []
-    for item in items:
-        url = (item.url or "").strip()
-        if not url or url in seen:
-            continue
-        seen.add(url)
-        result.append(item)
     return result
 
 
@@ -65,18 +79,19 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
         per_source[item.source] = count + 1
         covered_specific.update(new_specific)
 
-    selected_urls = {item.url for item in result}
+    selected_urls = {_canonical_url(item.url) for item in result}
     for item in ranked:
         if len(result) >= limit:
             break
-        if item.url in selected_urls:
+        canonical = _canonical_url(item.url)
+        if canonical in selected_urls:
             continue
         count = per_source.get(item.source, 0)
         if count >= MAX_PER_SOURCE:
             continue
         result.append(item)
         per_source[item.source] = count + 1
-        selected_urls.add(item.url)
+        selected_urls.add(canonical)
 
     return result
 
@@ -87,7 +102,7 @@ def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     recent = _dedupe(_recent(relevant))
     if len(recent) < 5:
         raise RuntimeError(
-            f"Only {len(recent)} relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale news"
+            f"Only {len(recent)} unique relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale or duplicate news"
         )
     ranked = _diverse_ranked(recent, limit=limit)
     if len(ranked) < 5:
