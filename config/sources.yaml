@@ -1,76 +1,62 @@
 sources:
-  # English — specialist robotics media
+  # Core robotics media
   - name: The Robot Report
     language: en
     url: https://www.therobotreport.com/feed/
-    topics: [robotics, humanoid, industrial]
-  - name: IEEE Spectrum Robotics
-    language: en
-    url: https://spectrum.ieee.org/feeds/topic/robotics.rss
-    topics: [robotics, humanoid, research]
-  - name: IEEE Spectrum Humanoid Robots
-    language: en
-    url: https://spectrum.ieee.org/feeds/topic/robotics/humanoid-robots.rss
-    topics: [humanoid]
+    topics: [robotics, humanoid, exoskeleton]
   - name: Robohub
     language: en
     url: https://robohub.org/feed/
-    topics: [robotics, research, startups]
-  - name: Robotics & Automation News
-    language: en
-    url: https://roboticsandautomationnews.com/feed/
-    topics: [robotics, automation]
-  - name: NVIDIA Robotics Blog
-    language: en
-    url: https://blogs.nvidia.com/blog/category/robotics/feed/
-    topics: [robotics, ai]
+    topics: [robotics, research, humanoid, robot-dog, exoskeleton]
   - name: TechCrunch Robotics
     language: en
     url: https://techcrunch.com/category/robotics/feed/
-    topics: [robotics, startups, humanoid]
-
-  # Robot manufacturers / companies
-  - name: Clearpath Robotics
+    topics: [robotics, humanoid, robot-dog, exoskeleton]
+  - name: New Atlas Robotics
     language: en
-    url: https://clearpathrobotics.com/blog/feed/
-    topics: [robotics, mobile-robots]
-  - name: Universal Robots
+    url: https://newatlas.com/robotics/index.rss
+    topics: [robotics, humanoid, robot-dog, exoskeleton]
+  - name: Tech Xplore Robotics
     language: en
-    url: https://www.universal-robots.com/blog/rss/
-    topics: [industrial]
+    url: https://techxplore.com/rss-feed/robotics-news/
+    topics: [robotics, humanoid, research, exoskeleton]
+  - name: Robotiq
+    language: en
+    url: https://blog.robotiq.com/rss.xml
+    topics: [robotics, industrial]
+  - name: NVIDIA Robotics
+    language: en
+    url: https://blogs.nvidia.com/blog/tag/robotics/feed/
+    topics: [robotics, humanoid, research]
   - name: RoboDK
     language: en
     url: https://robodk.com/blog/feed/
-    topics: [industrial, simulation]
+    topics: [robotics, industrial, research]
+
+  # Robot companies / platforms
   - name: Boston Dynamics
     language: en
     url: https://bostondynamics.com/feed/
     topics: [robotics, robot-dog, humanoid]
-  - name: Agility Robotics
+  - name: Clearpath Robotics
     language: en
-    url: https://agilityrobotics.com/feed/
+    url: https://clearpathrobotics.com/blog/feed/
+    topics: [robotics]
+
+  # Dedicated topic feeds. These keep the daily pool aligned with the editorial scope.
+  - name: Google News Humanoid Robots
+    language: en
+    url: https://news.google.com/rss/search?q=humanoid+robots&hl=en-US&gl=US&ceid=US:en
     topics: [humanoid]
-  - name: Unitree Robotics
+  - name: Google News Robot Dogs
     language: en
-    url: https://www.unitree.com/blog/rss.xml
-    topics: [robot-dog, humanoid]
-
-  # Research / science
-  - name: MIT News Robotics
+    url: https://news.google.com/rss/search?q=robot+dogs+quadruped+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [robot-dog]
+  - name: Google News Exoskeletons
     language: en
-    url: https://news.mit.edu/topic/mitrobotics-rss.xml
+    url: https://news.google.com/rss/search?q=robotic+exoskeletons+wearable+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [exoskeleton]
+  - name: Google News Robotics Research
+    language: en
+    url: https://news.google.com/rss/search?q=robotics+research+robots&hl=en-US&gl=US&ceid=US:en
     topics: [robotics, research]
-  - name: Science Robotics
-    language: en
-    url: https://www.science.org/rss/news_current.xml
-    topics: [robotics, research]
-
-  # General technology sources with frequent robotics coverage
-  - name: Ars Technica Robotics
-    language: en
-    url: https://feeds.arstechnica.com/arstechnica/technology-lab
-    topics: [robotics, technology]
-  - name: IEEE Spectrum Technology
-    language: en
-    url: https://spectrum.ieee.org/feeds/all.rss
-    topics: [robotics, technology]
