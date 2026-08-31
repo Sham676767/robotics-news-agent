@@ -1,6 +1,7 @@
 from datetime import datetime
 from pathlib import Path
 import os
+import time
 
 from app.collector import collect_news
 from app.daily_selection import select_top5
@@ -41,29 +42,40 @@ def _validate_selected_stories(top5):
         )
 
 
+def _timed(label, func):
+    started = time.perf_counter()
+    try:
+        return func()
+    finally:
+        print(f"⏱ {label}: {time.perf_counter() - started:.1f}s")
+
+
 def main():
     started_at = datetime.now()
     print("🤖 Robotics News Agent started")
 
     print("📰 Collecting news...")
-    news = collect_news()
+    news = _timed("News collection", collect_news)
     print(f"Collected: {len(news)} items")
 
     print("🧠 Selecting TOP-5...")
-    top5 = select_top5(news)
+    top5 = _timed("TOP-5 selection", lambda: select_top5(news))
     print(f"Selected: {len(top5)} stories")
     _validate_selected_stories(top5)
     print("✅ TOP-5 editorial guard passed")
 
     print("✍ Generating article...")
+    article_started = time.perf_counter()
     try:
         article = generate_article(top5)
     except Exception as exc:
         print(f"⚠️ AI article generation unavailable: {exc}")
         print("📝 Using deterministic article fallback so publishing can continue.")
         article = generate_fallback_article(top5)
+    finally:
+        print(f"⏱ Article generation: {time.perf_counter() - article_started:.1f}s")
 
-    validate_article(article, top5)
+    _timed("Article quality validation", lambda: validate_article(article, top5))
     print("✅ Article quality guard passed")
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -72,9 +84,9 @@ def main():
     print(f"FILE CREATED: {output_path.resolve()}")
 
     required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
-    publish_to_vk(article, required=required_vk)
+    _timed("VK publication", lambda: publish_to_vk(article, required=required_vk))
 
-    elapsed = (datetime.now() - started_at).total_seconds()
+    elapsed = time.perf_counter() - started_at.timestamp()
     print(f"⏱ Pipeline duration: {elapsed:.1f}s")
     print("✅ Pipeline finished")
 
