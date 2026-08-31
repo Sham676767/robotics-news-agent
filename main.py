@@ -4,6 +4,7 @@ from pathlib import Path
 from app.collector import collect_news
 from app.daily_selection import select_top5
 from app.article_editor import generate_article, render_markdown, OUTPUT_DIR
+from app.fallback_article import generate_fallback_article
 
 
 def main():
@@ -20,7 +21,12 @@ def main():
     print(f"Selected: {len(top5)} stories")
 
     print("✍ Generating article...")
-    article = generate_article(top5)
+    try:
+        article = generate_article(top5)
+    except Exception as exc:
+        print(f"⚠️ AI article generation unavailable: {exc}")
+        print("📝 Using deterministic article fallback so publishing can continue.")
+        article = generate_fallback_article(top5)
 
     print("Article generated:")
     print(str(article)[:500])
