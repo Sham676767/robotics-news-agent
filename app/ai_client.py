@@ -11,13 +11,34 @@ import httpx
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MODEL = "google/gemma-4-26b-a4b-it:free"
 
+CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
+TOPIC_PRIORITY = {"humanoid": 4, "robot_dog": 4, "exoskeleton": 4, "robotics": 2}
+
 
 def build_ranking_prompt(items: list[dict[str, Any]], limit: int = 5) -> str:
-    compact = [{"id": i["id"], "title": i["title"], "source": i["source"], "published_at": i.get("published_at"), "summary": i.get("summary", "")[:1200], "topics": i.get("topics", [])} for i in items]
-    return ("Ты редактор новостного проекта о робототехнике. "
-            f"Ранжируй до {limit} самых интересных событий. Не придумывай факты. "
-            "Оценивай новизну, общественный интерес, технологическую значимость, свежесть и качество источника. "
-            "Верни только JSON-массив объектов с полями id, score, reason.\n\n" + json.dumps(compact, ensure_ascii=False))
+    compact = [
+        {
+            "id": i["id"],
+            "title": i["title"],
+            "source": i["source"],
+            "published_at": i.get("published_at"),
+            "summary": i.get("summary", "")[:1200],
+            "topics": i.get("topics", []),
+        }
+        for i in items
+    ]
+    return (
+        "Ты редактор новостного проекта, посвящённого только четырём направлениям: "
+        "1) робототехника, 2) роботы-собаки, 3) гуманоидные роботы, 4) экзоскелеты. "
+        f"Ранжируй до {limit} самых интересных событий из переданных карточек. "
+        "Карточки уже прошли тематический фильтр. Не добавляй никаких внешних историй и не меняй id. "
+        "Особенно повышай приоритет новостей, где явно указаны humanoid, robot dog/quadruped или exoskeleton. "
+        "Новости про robotaxi, автомобили, дроны и другую тематику не должны получать приоритет, "
+        "если они не являются частью одной из четырёх тем. Не придумывай факты. "
+        "Оценивай новизну, общественный интерес, технологическую значимость, свежесть и качество источника. "
+        "Верни только JSON-массив объектов с полями id, score, reason.\n\n"
+        + json.dumps(compact, ensure_ascii=False)
+    )
 
 
 def _extract_json(text: str) -> Any:
@@ -42,8 +63,21 @@ def _extract_json(text: str) -> Any:
 
 
 def _heuristic_fallback(items: list[dict[str, Any]], limit: int = 5) -> list[dict[str, Any]]:
-    ranked = sorted(items, key=lambda item: (len(item.get("summary", "")), len(item.get("topics", []))), reverse=True)
-    return [{"id": item["id"], "score": 0, "reason": "AI ranking unavailable; deterministic fallback"} for item in ranked[:limit]]
+    def fallback_score(item: dict[str, Any]) -> tuple[float, float, float]:
+        topics = set(item.get("topics") or ())
+        pillar = max((TOPIC_PRIORITY.get(topic, 0) for topic in topics), default=0)
+        specificity = sum(TOPIC_PRIORITY.get(topic, 0) for topic in topics)
+        return (pillar, specificity, len(item.get("summary", "")))
+
+    ranked = sorted(items, key=fallback_score, reverse=True)
+    return [
+        {
+            "id": item["id"],
+            "score": 0,
+            "reason": "AI ranking unavailable; deterministic topic-priority fallback",
+        }
+        for item in ranked[:limit]
+    ]
 
 
 def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, limit: int = 5) -> list[dict[str, Any]]:
@@ -64,7 +98,11 @@ def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, 
         "temperature": 0.1,
         "max_tokens": max(1200, limit * 220),
     }
-    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json", "X-Title": "Robotics News Agent"}
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "X-Title": "Robotics News Agent",
+    }
 
     last_error: str | None = None
     for attempt in range(2):
