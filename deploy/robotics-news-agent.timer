@@ -2,6 +2,8 @@
 Description=Run Robotics News Agent daily
 
 [Timer]
+# Daily run at 09:00 Europe/Moscow. On the VPS, keep the host timezone in UTC
+# and let systemd interpret the schedule explicitly in this timezone.
 OnCalendar=*-*-* 09:00:00 Europe/Moscow
 Persistent=true
 RandomizedDelaySec=30
