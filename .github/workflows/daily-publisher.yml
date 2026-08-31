@@ -2,6 +2,9 @@ name: Daily Robotics Publisher
 
 on:
   workflow_dispatch:
+  schedule:
+    # 09:00 Moscow/Helsinki summer time (UTC+3).
+    - cron: "0 6 * * *"
 
 jobs:
   publish:
@@ -31,7 +34,7 @@ jobs:
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: google/gemma-4-31b-it:free
+          OPENROUTER_MODEL: openrouter/free
         run: |
           python main.py
 
