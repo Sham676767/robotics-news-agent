@@ -16,10 +16,17 @@ def _clean_text(text: str) -> str:
 
 
 def _one_sentence(text: str) -> str:
-    """Keep source wording compact so the fallback always has predictable sentence count."""
+    """Keep source wording compact so the fallback has predictable sentence count."""
     cleaned = _clean_text(text)
     cleaned = re.sub(r"[.!?…]+", " ", cleaned)
     return _clean_text(cleaned).rstrip(".,;:")
+
+
+def _language_ratio(text: str) -> float:
+    cyrillic = len(re.findall(r"[А-Яа-яЁё]", text or ""))
+    latin = len(re.findall(r"[A-Za-z]", text or ""))
+    letters = cyrillic + latin
+    return cyrillic / letters if letters else 0.0
 
 
 def _topics(item: dict[str, Any]) -> str:
@@ -55,12 +62,14 @@ def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
         summary = _one_sentence(item.get("summary"))
         topics = _topics(item)
 
-        # Always emit exactly three sentences so the article quality guard
-        # cannot reject the deterministic fallback because of source punctuation.
-        if summary:
+        # Source cards may contain English summaries. Do not copy a predominantly
+        # English summary into Russian editorial prose when the LLM is unavailable.
+        # The headline remains the exact source title, while the body stays safe
+        # and Russian instead of failing the publication language guard.
+        if summary and _language_ratio(summary) >= 0.45:
             first_sentence = f"{summary}."
         else:
-            first_sentence = f"Источник сообщает о событии «{title}»."
+            first_sentence = "В исходной карточке описано событие в сфере робототехники."
 
         body = (
             f"{first_sentence} "
