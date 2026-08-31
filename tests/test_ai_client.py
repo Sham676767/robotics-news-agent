@@ -17,4 +17,5 @@ def test_ranking_prompt_is_compact_and_structured():
 
     assert "Humanoid robot demo" in prompt
     assert '"id": 1' in prompt
-    assert "валидным JSON" in prompt
+    assert "JSON" in prompt
+    assert "robotaxi" in prompt
