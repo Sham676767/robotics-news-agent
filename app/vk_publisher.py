@@ -32,7 +32,7 @@ def render_vk_message(article: dict[str, Any]) -> str:
 
 
 def daily_random_id(article: dict[str, Any]) -> int:
-    """Return a deterministic VK random_id, making daily reruns idempotent."""
+    """Return a deterministic VK random_id for the current publication day."""
     timezone = ZoneInfo(os.getenv("TIMEZONE", DEFAULT_TIMEZONE))
     date_key = datetime.now(timezone).date().isoformat()
     digest = hashlib.sha256(f"robotics-news-agent:{date_key}".encode()).digest()
@@ -46,12 +46,7 @@ def _config() -> tuple[str | None, str | None]:
 
 
 def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | None:
-    """Publish an article to the configured VK group.
-
-    Missing VK credentials are a no-op unless ``required`` is true. Network
-    failures are retried once for transient errors. A deterministic daily
-    ``random_id`` prevents duplicate posts when the workflow is rerun.
-    """
+    """Publish an article to VK, with bounded retries for transient failures."""
     token, group_id = _config()
     if not token or not group_id:
         message = "VK publication skipped: VK_ACCESS_TOKEN/VK_TOKEN or VK_GROUP_ID is not configured"
@@ -75,7 +70,9 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
     }
 
     timeout = float(os.getenv("VK_PUBLISH_TIMEOUT", str(DEFAULT_TIMEOUT)))
+    retryable_api_errors = {6, 9, 10, 29}
     last_error: str | None = None
+
     for attempt in range(2):
         try:
             response = httpx.post(VK_API_URL, data=payload, timeout=timeout)
@@ -85,12 +82,14 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
                     time.sleep(1)
                     continue
                 raise RuntimeError(last_error)
+
             response.raise_for_status()
             data = response.json()
             if "error" in data:
                 error = data["error"]
-                last_error = f"VK API error {error.get('error_code')}: {error.get('error_msg')}"
-                if attempt == 0 and int(error.get("error_code", 0)) in {6, 9, 10, 29}:
+                code = int(error.get("error_code", 0))
+                last_error = f"VK API error {code}: {error.get('error_msg')}"
+                if attempt == 0 and code in retryable_api_errors:
                     time.sleep(1)
                     continue
                 raise RuntimeError(last_error)
@@ -100,10 +99,11 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
                 raise RuntimeError(f"VK API returned unexpected response: {data}")
             print(f"📣 VK publication succeeded: post_id={post_id}, random_id={payload['random_id']}")
             return post_id
-        except (httpx.HTTPError, RuntimeError) as exc:
+        except httpx.HTTPError as exc:
             last_error = str(exc)
             if attempt == 0:
                 time.sleep(1)
                 continue
+            raise RuntimeError(f"VK publication failed after 2 attempts: {last_error}") from exc
 
     raise RuntimeError(f"VK publication failed after 2 attempts: {last_error}")
