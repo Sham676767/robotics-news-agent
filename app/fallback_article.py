@@ -21,11 +21,7 @@ def _topics(item: dict[str, Any]) -> str:
 
 
 def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
-    """Generate a safe article without an LLM.
-
-    Source cards may be English. The fallback therefore does not reject cards
-    based on language and never invents facts beyond title, summary and topic.
-    """
+    """Generate a safe article without an LLM using only source-card facts."""
     if len(top5) != 5:
         raise ValueError("Fallback article requires exactly 5 stories")
 
@@ -61,7 +57,8 @@ def generate_fallback_article(top5: list[dict[str, Any]]) -> dict[str, Any]:
         else:
             body = (
                 f"Источник сообщает о событии «{title}». "
-                f"Материал относится к направлению {topics}."
+                f"Материал относится к направлению {topics}. "
+                "Другие характеристики события в исходной карточке не указаны."
             )
         result["items"].append({
             "headline": title,
