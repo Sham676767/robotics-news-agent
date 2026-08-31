@@ -70,7 +70,10 @@ jobs:
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          # Pin the article/ranking model instead of the random free router.
+          # This model currently supports structured outputs, which the
+          # article editor requires for strict JSON validation.
+          OPENROUTER_MODEL: google/gemma-4-26b-a4b-it:free
         run: |
           python main.py
 
