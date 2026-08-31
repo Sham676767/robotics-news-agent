@@ -1,13 +1,17 @@
 from __future__ import annotations
 
+import hashlib
 import os
 import time
+from datetime import datetime
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import httpx
 
 VK_API_URL = "https://api.vk.com/method/wall.post"
 DEFAULT_API_VERSION = "5.199"
+DEFAULT_TIMEZONE = "Europe/Moscow"
 
 
 def render_vk_message(article: dict[str, Any]) -> str:
@@ -26,6 +30,15 @@ def render_vk_message(article: dict[str, Any]) -> str:
     return "\n".join(lines).strip()
 
 
+def daily_random_id(article: dict[str, Any]) -> int:
+    """Return a deterministic VK random_id, making daily reruns idempotent."""
+    timezone = ZoneInfo(os.getenv("TIMEZONE", DEFAULT_TIMEZONE))
+    date_key = datetime.now(timezone).date().isoformat()
+    digest = hashlib.sha256(f"robotics-news-agent:{date_key}".encode()).digest()
+    # Keep the value inside the positive signed 32-bit range accepted by VK.
+    return int.from_bytes(digest[:4], "big") & 0x7FFFFFFF
+
+
 def _config() -> tuple[str | None, str | None]:
     token = os.getenv("VK_ACCESS_TOKEN") or os.getenv("VK_TOKEN")
     group_id = os.getenv("VK_GROUP_ID")
@@ -36,7 +49,8 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
     """Publish an article to the configured VK group.
 
     Missing VK credentials are a no-op unless ``required`` is true. Network
-    failures are retried once for transient errors and then surfaced.
+    failures are retried once for transient errors. A deterministic daily
+    ``random_id`` prevents duplicate posts when the workflow is rerun.
     """
     token, group_id = _config()
     if not token or not group_id:
@@ -57,6 +71,7 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
         "owner_id": owner_id,
         "from_group": 1,
         "message": render_vk_message(article),
+        "random_id": daily_random_id(article),
     }
 
     last_error: str | None = None
@@ -81,7 +96,7 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
             post_id = (data.get("response") or {}).get("post_id")
             if not isinstance(post_id, int):
                 raise RuntimeError(f"VK API returned unexpected response: {data}")
-            print(f"📣 VK publication succeeded: post_id={post_id}")
+            print(f"📣 VK publication succeeded: post_id={post_id}, random_id={payload['random_id']}")
             return post_id
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = str(exc)
