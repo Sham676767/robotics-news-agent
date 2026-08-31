@@ -6,9 +6,16 @@ on:
     # 09:00 Moscow/Helsinki summer time (UTC+3).
     - cron: "0 6 * * *"
 
+# Never allow two publication runs to overlap. A newer manual run waits for
+# the active run instead of creating a second article/post concurrently.
+concurrency:
+  group: robotics-daily-publisher
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
