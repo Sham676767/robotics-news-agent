@@ -29,9 +29,12 @@ def load_sources(path: str | Path = "config/sources.yaml") -> list[dict]:
 
 def clean_text(value: str) -> str:
     """Convert RSS HTML summaries into compact plain text for ranking and writing."""
-    text = html.unescape(str(value or ""))
-    text = re.sub(r"<[^>]+>", " ", text)
+    # Collapse actual whitespace first, then decode entities. This preserves
+    # semantic HTML entities such as &nbsp; instead of turning them into a
+    # normal space before normalization.
+    text = re.sub(r"<[^>]+>", " ", str(value or ""))
     text = re.sub(r"\s+", " ", text)
+    text = html.unescape(text)
     return text.strip()
 
 
