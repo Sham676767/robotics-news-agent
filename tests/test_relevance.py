@@ -92,3 +92,14 @@ def test_filter_keeps_only_relevant_items():
         "https://example.com/12",
         "https://example.com/15",
     }
+
+
+def test_ai_research_about_robotics_without_robot_pillar_is_still_allowed():
+    item = NewsItem(
+        source="Test",
+        title="Robotics lab publishes new robot manipulation benchmark",
+        summary="The paper evaluates manipulation policies on industrial robots.",
+        url="https://example.com/16",
+    )
+    assert is_relevant(item)
+    assert "robotics" in classify(item)
