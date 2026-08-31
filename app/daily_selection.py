@@ -11,7 +11,6 @@ from .relevance import classify, filter_relevant
 
 OUTPUT_PATH = Path("data/latest_top5.json")
 
-# A daily news product must not quietly publish stale stories.
 MAX_AGE = timedelta(days=14)
 MAX_PER_SOURCE = 2
 MIN_TOPIC_DIVERSITY = 3
@@ -92,17 +91,12 @@ def _pick_result(candidate: dict, choice: dict | None = None, reason: str = "") 
 def _best_choice_for_topic(
     choices: list[tuple[dict, dict]], topic: str, used_ids: set[int], used_sources: set[str]
 ) -> tuple[dict, dict] | None:
-    """Pick the strongest unused story that covers a requested core topic."""
     eligible = [
-        pair
-        for pair in choices
-        if pair[1]["id"] not in used_ids
-        and topic in _topic_set(pair[1])
+        pair for pair in choices
+        if pair[1]["id"] not in used_ids and topic in _topic_set(pair[1])
     ]
     if not eligible:
         return None
-
-    # Prefer a new source while keeping the AI score as the primary quality signal.
     return max(
         eligible,
         key=lambda pair: (
@@ -114,7 +108,10 @@ def _best_choice_for_topic(
 
 def select_top5(news=None) -> List[Dict]:
     candidates = build_candidates()
-    selected = rank_with_deepseek(candidates)
+
+    # Ask AI for a larger ranked pool. We still publish only five stories, but
+    # need enough candidates for the deterministic editorial coverage pass below.
+    selected = rank_with_deepseek(candidates, limit=len(candidates))
     by_id = {item["id"]: item for item in candidates}
 
     result: list[dict] = []
@@ -132,9 +129,7 @@ def select_top5(news=None) -> List[Dict]:
         if candidate:
             valid_choices.append((choice, candidate))
 
-    # Pass 1: explicitly cover the four editorial pillars whenever the candidate
-    # pool contains a story for them. This prevents a strong but narrow AI ranking
-    # from producing a five-story digest dominated by one topic.
+    # Pass 1: cover each core editorial pillar when the candidate pool contains it.
     for topic in CORE_TOPICS:
         picked = _best_choice_for_topic(valid_choices, topic, chosen_ids, used_sources)
         if not picked:
@@ -147,8 +142,7 @@ def select_top5(news=None) -> List[Dict]:
         if len(result) >= 5:
             break
 
-    # Pass 2: use remaining AI choices to fill the fifth slot (or any slots left
-    # when one of the core topics was absent from the current news pool).
+    # Pass 2: fill remaining slots from the AI ranking while preserving diversity.
     if len(result) < 5:
         for choice, candidate in valid_choices:
             if candidate["id"] in chosen_ids:
@@ -166,7 +160,7 @@ def select_top5(news=None) -> List[Dict]:
             if len(result) >= 5:
                 break
 
-    # Pass 3: deterministic fallback from the already relevance/rank ordered pool.
+    # Pass 3: deterministic fallback from the relevance/rank ordered pool.
     if len(result) < 5:
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
@@ -181,7 +175,6 @@ def select_top5(news=None) -> List[Dict]:
             if len(result) >= 5:
                 break
 
-    # Last resort if the source pool is genuinely small.
     if len(result) < 5:
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
@@ -199,9 +192,7 @@ def select_top5(news=None) -> List[Dict]:
 def main() -> None:
     selected = select_top5()
     if len(selected) < 5:
-        raise RuntimeError(
-            f"Only {len(selected)} usable stories available; expected 5"
-        )
+        raise RuntimeError(f"Only {len(selected)} usable stories available; expected 5")
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(selected, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Selected {len(selected)} stories")
