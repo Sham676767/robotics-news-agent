@@ -19,17 +19,17 @@ def render_vk_message(article: dict[str, Any]) -> str:
     """Render the structured article as a clean, readable VK wall post."""
     number_icons = ("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣")
     lines = [
-        "🤖 РОБОТЫ И ТЕХНОЛОГИИ",
+        "🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ НЕДЕЛИ",
         "",
         article["title"].strip(),
         "",
         article["intro"].strip(),
-        "",
-        "━━━━━━━━━━━━━━━━━━━━",
     ]
 
     for index, item in enumerate(article["items"], start=1):
         icon = number_icons[index - 1] if index <= len(number_icons) else f"{index}."
+        source = item["source"].strip()
+        url = item["url"].strip()
         lines.extend(
             [
                 "",
@@ -37,13 +37,18 @@ def render_vk_message(article: dict[str, Any]) -> str:
                 "",
                 item["body"].strip(),
                 "",
-                f"🔗 {item['source'].strip()}",
-                item["url"].strip(),
-                "",
-                "━━━━━━━━━━━━━━━━━━━━",
+                f"🔗 Источник: {source}",
+                url,
             ]
         )
 
+    lines.extend(
+        [
+            "",
+            "—",
+            "🤖 Пять событий недели без рекламных обещаний и неподтверждённых выводов.",
+        ]
+    )
     return "\n".join(lines).strip()
 
 
