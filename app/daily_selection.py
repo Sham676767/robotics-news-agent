@@ -39,9 +39,6 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
     per_source: dict[str, int] = {}
     covered_specific: set[str] = set()
 
-    # Reserve candidate slots for the three specific editorial pillars when
-    # they exist in the ranked pool. Otherwise generic high-score stories can
-    # crowd a niche pillar out before the AI ranking stage sees it.
     for item in ranked:
         if len(result) >= limit:
             break
@@ -56,8 +53,6 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
         per_source[item.source] = count + 1
         covered_specific.update(new_specific)
 
-    # Fill remaining slots in normal editorial/ranking order while preserving
-    # the per-source cap.
     selected_urls = {item.url for item in result}
     for item in ranked:
         if len(result) >= limit:
@@ -75,15 +70,12 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
 
 
 def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
-    # Reuse the collection already performed by main.py. This avoids fetching
-    # every RSS source twice in one workflow run.
     collected = items if items is not None else collect_all()
     relevant = filter_relevant(collected)
     recent = _recent(relevant)
     if len(recent) < 5:
         raise RuntimeError(
-            f"Only {len(recent)} relevant stories are newer than {MAX_AGE.days} days; "
-            "refusing to publish stale news"
+            f"Only {len(recent)} relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale news"
         )
     ranked = _diverse_ranked(recent, limit=limit)
     return [
@@ -119,20 +111,11 @@ def _pick_result(candidate: dict, choice: dict | None = None, reason: str = "") 
     }
 
 
-def _score_coverage(
-    candidate: dict,
-    choice: dict,
-    covered_topics: set[str],
-    used_sources: set[str],
-) -> tuple[float, ...]:
+def _score_coverage(candidate: dict, choice: dict, covered_topics: set[str], used_sources: set[str]) -> tuple[float, ...]:
     topics = _topic_set(candidate)
     uncovered_specific = topics.intersection(SPECIFIC_TOPICS) - covered_topics
     uncovered_core = topics.intersection(CORE_TOPICS) - covered_topics
     source_bonus = 1 if candidate["source"] not in used_sources else 0
-
-    # Specific pillars are much more valuable than generic "robotics" coverage.
-    # A story about both a humanoid and an exoskeleton can therefore fill two
-    # editorial gaps at once instead of being treated as only one category.
     return (
         float(len(uncovered_specific)),
         float(len(uncovered_core)),
@@ -141,30 +124,14 @@ def _score_coverage(
     )
 
 
-def _best_coverage_choice(
-    choices: list[tuple[dict, dict]],
-    covered_topics: set[str],
-    used_ids: set[int],
-    used_sources: set[str],
-) -> tuple[dict, dict] | None:
-    eligible = [
-        pair for pair in choices
-        if pair[1]["id"] not in used_ids
-    ]
+def _best_coverage_choice(choices: list[tuple[dict, dict]], covered_topics: set[str], used_ids: set[int], used_sources: set[str]) -> tuple[dict, dict] | None:
+    eligible = [pair for pair in choices if pair[1]["id"] not in used_ids]
     if not eligible:
         return None
-    return max(
-        eligible,
-        key=lambda pair: _score_coverage(pair[1], pair[0], covered_topics, used_sources),
-    )
+    return max(eligible, key=lambda pair: _score_coverage(pair[1], pair[0], covered_topics, used_sources))
 
 
-def _best_ranked_fill(
-    choices: list[tuple[dict, dict]],
-    covered_topics: set[str],
-    used_ids: set[int],
-    used_sources: set[str],
-) -> tuple[dict, dict] | None:
+def _best_ranked_fill(choices: list[tuple[dict, dict]], covered_topics: set[str], used_ids: set[int], used_sources: set[str]) -> tuple[dict, dict] | None:
     eligible = []
     for choice, candidate in choices:
         if candidate["id"] in used_ids:
@@ -175,23 +142,11 @@ def _best_ranked_fill(
         eligible.append((choice, candidate, source_bonus, new_topics))
     if not eligible:
         return None
-
-    # Once the specific pillars are covered, return to editorial quality/AI rank.
-    return max(
-        eligible,
-        key=lambda row: (
-            row[2],
-            len(row[3]),
-            float(row[0].get("score") or 0),
-        ),
-    )[:2]
+    return max(eligible, key=lambda row: (row[2], len(row[3]), float(row[0].get("score") or 0)))[:2]
 
 
 def select_top5(news=None) -> List[Dict]:
     candidates = build_candidates(items=news)
-
-    # AI ranks a pool larger than five; deterministic selection below enforces
-    # the editorial topic mix even when the AI prefers one topic repeatedly.
     selected = rank_with_deepseek(candidates, limit=len(candidates))
     by_id = {item["id"]: item for item in candidates}
 
@@ -210,17 +165,9 @@ def select_top5(news=None) -> List[Dict]:
     covered_topics: set[str] = set()
     chosen_ids: set[int] = set()
 
-    # Pass 1: greedily maximize coverage of the three specific pillars.
-    # This avoids wasting several slots on humanoid stories when a strong
-    # robot-dog or exoskeleton story is also available.
     target_topics = set(SPECIFIC_TOPICS)
     while len(result) < 5 and not target_topics.issubset(covered_topics):
-        picked = _best_coverage_choice(
-            valid_choices,
-            covered_topics,
-            chosen_ids,
-            used_sources,
-        )
+        picked = _best_coverage_choice(valid_choices, covered_topics, chosen_ids, used_sources)
         if not picked:
             break
         choice, candidate = picked
@@ -232,36 +179,23 @@ def select_top5(news=None) -> List[Dict]:
         used_sources.add(candidate["source"])
         covered_topics.update(_topic_set(candidate))
 
-    # Pass 2: if general robotics has not appeared yet, prefer a general
-    # robotics story after the specific pillars have been covered.
     if len(result) < 5:
         robotics_choices = [
             pair for pair in valid_choices
-            if pair[1]["id"] not in chosen_ids
-            and "robotics" in _topic_set(pair[1])
+            if pair[1]["id"] not in chosen_ids and "robotics" in _topic_set(pair[1])
         ]
         if robotics_choices:
             choice, candidate = max(
                 robotics_choices,
-                key=lambda pair: (
-                    pair[1]["source"] not in used_sources,
-                    float(pair[0].get("score") or 0),
-                ),
+                key=lambda pair: (pair[1]["source"] not in used_sources, float(pair[0].get("score") or 0)),
             )
             result.append(_pick_result(candidate, choice))
             chosen_ids.add(candidate["id"])
             used_sources.add(candidate["source"])
             covered_topics.update(_topic_set(candidate))
 
-    # Pass 3: fill remaining slots by AI rank while still preferring a new
-    # source/topic. We never invent a topic that is absent from the classifier.
     while len(result) < 5:
-        picked = _best_ranked_fill(
-            valid_choices,
-            covered_topics,
-            chosen_ids,
-            used_sources,
-        )
+        picked = _best_ranked_fill(valid_choices, covered_topics, chosen_ids, used_sources)
         if not picked:
             break
         choice, candidate = picked
@@ -270,26 +204,11 @@ def select_top5(news=None) -> List[Dict]:
         used_sources.add(candidate["source"])
         covered_topics.update(_topic_set(candidate))
 
-    # Pass 4: deterministic fallback from the relevance/rank ordered pool.
     if len(result) < 5:
         for candidate in candidates:
             if candidate["id"] in chosen_ids:
-                continue
-            source = candidate["source"]
-            if source in used_sources and len(used_sources) < 3:
                 continue
             result.append(_pick_result(candidate, reason="Deterministic fallback from ranked candidates"))
-            chosen_ids.add(candidate["id"])
-            used_sources.add(source)
-            covered_topics.update(_topic_set(candidate))
-            if len(result) >= 5:
-                break
-
-    if len(result) < 5:
-        for candidate in candidates:
-            if candidate["id"] in chosen_ids:
-                continue
-            result.append(_pick_result(candidate, reason="Final fallback from ranked candidates"))
             chosen_ids.add(candidate["id"])
             if len(result) >= 5:
                 break
@@ -306,8 +225,6 @@ def main() -> None:
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(selected, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Selected {len(selected)} stories")
-    for item in selected:
-        print(f"#{item['rank']} {item['title']} — {item['source']} — {', '.join(item['topics'])}")
 
 
 if __name__ == "__main__":
