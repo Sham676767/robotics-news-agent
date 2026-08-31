@@ -43,6 +43,18 @@ class ArticleEditorTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_article(article, self.top5)
 
+    def test_validate_rejects_wrong_body_length(self):
+        article = self.valid_article()
+        article["items"][0]["body"] = "Слишком коротко."
+        with self.assertRaises(ValueError):
+            validate_article(article, self.top5)
+
+    def test_validate_rejects_invalid_source_url(self):
+        top5 = list(self.top5)
+        top5[0] = dict(top5[0], url="not-a-url")
+        with self.assertRaises(ValueError):
+            validate_article(self.valid_article(), top5)
+
     def test_attach_sources_uses_card_index_not_ai_urls(self):
         article = self.valid_article()
         attached = _attach_sources(article, self.top5)
