@@ -4,8 +4,8 @@ import re
 
 from .models import NewsItem
 
-# Seven editorial pillars used by the robotics publication.
-# A story may belong to more than one pillar; this is useful for later ranking.
+# Editorial scope: stories must fit one of these concrete robotics pillars.
+# Generic mentions of "AI", "automation", autonomous vehicles, or drones are not enough.
 KEYWORDS: dict[str, tuple[str, ...]] = {
     "humanoid": (
         "humanoid", "humanoid robot", "android robot", "bipedal robot", "biped robot",
@@ -19,14 +19,14 @@ KEYWORDS: dict[str, tuple[str, ...]] = {
         "powered exoskeleton", "assistive exoskeleton",
     ),
     "industrial": (
-        "industrial robot", "factory robot", "robotic arm", "robot arm", "manipulator", "cobot",
-        "collaborative robot", "welding robot", "palletizing robot", "pick-and-place", "machine tending",
-        "manufacturing robot",
+        "industrial robot", "factory robot", "robotic arm", "robot arm", "robotic manipulator", "manipulator",
+        "cobot", "collaborative robot", "welding robot", "palletizing robot", "pick-and-place",
+        "machine tending", "manufacturing robot", "industrial robotics",
     ),
     "autonomous": (
         "autonomous robot", "autonomous robotics", "mobile robot", "amr", "autonomous mobile robot",
-        "warehouse robot", "delivery robot", "logistics robot", "warehouse automation", "robot fleet",
-        "autonomous forklift", "sorting robot", "fulfillment robot",
+        "warehouse robot", "delivery robot", "logistics robot", "warehouse automation robot", "robot fleet",
+        "autonomous forklift", "sorting robot", "fulfillment robot", "mobile manipulation robot",
     ),
     "service": (
         "service robot", "robotic assistant", "medical robot", "surgical robot", "rehabilitation robot",
@@ -38,19 +38,17 @@ KEYWORDS: dict[str, tuple[str, ...]] = {
         "robot navigation", "robot control", "robotics paper", "robotics study", "sim-to-real",
         "simulation-to-real", "imitation learning", "reinforcement learning", "vision-language-action",
         "vla model", "robot foundation model", "robot foundation models", "dexterous manipulation",
-        "locomotion", "slam for robots",
-    ),
-    "robotics": (
-        "robotics", "robotic", "robot", "robotics company", "robotics startup", "robot maker",
-        "robot manufacturer",
+        "robot locomotion", "locomotion for robots", "slam for robots",
     ),
 }
 
-# Generic context is accepted only together with a concrete robotics signal.
-CONTEXT_TERMS = (
-    "automation", "autonomous", "artificial intelligence", "physical ai", "embodied ai",
-    "manufacturing", "warehouse", "factory", "mobility", "computer vision", "robot learning",
-    "robot control", "robot manipulation", "robot navigation", "robot perception",
+# Explicit exclusions prevent the relevance layer from drifting into adjacent fields.
+# Autonomous cars/trucks/taxis and drones are outside the publication's current seven pillars.
+EXCLUDED_PATTERNS = (
+    "robotaxi", "robotaxi", "autonomous taxi", "autonomous car", "autonomous vehicle",
+    "autonomous truck", "self-driving truck", "self driving truck", "self-driving car",
+    "self driving car", "autonomous driving", "self-driving", "self driving",
+    "drone", "drones", "uav", "unmanned aerial vehicle",
 )
 
 
@@ -69,17 +67,24 @@ def classify(item: NewsItem) -> tuple[str, ...]:
 
 
 def is_relevant(item: NewsItem) -> bool:
-    topics = classify(item)
-    if not topics:
-        return False
-
-    # Any specific pillar is enough to qualify a robotics story.
-    if set(topics) - {"robotics"}:
-        return True
-
-    # A generic mention of "robot" needs supporting technical/industry context.
     text = _normalized(f"{item.title} {item.summary}")
-    return any(term in text for term in CONTEXT_TERMS)
+    if any(pattern in text for pattern in EXCLUDED_PATTERNS):
+        # Allow an article only when the excluded adjacent field is incidental and a
+        # concrete in-scope robotics topic is clearly present.
+        concrete_topics = classify(item)
+        if not concrete_topics:
+            return False
+        robotics_signals = (
+            "humanoid", "robot dog", "robotic dog", "quadruped", "exoskeleton", "robotic arm",
+            "industrial robot", "warehouse robot", "mobile robot", "service robot", "medical robot",
+            "surgical robot", "robot learning", "robot manipulation", "robot control", "robotics research",
+        )
+        if not any(signal in text for signal in robotics_signals):
+            return False
+
+    # A story must match a concrete editorial pillar. Generic "robot/robotics" mentions
+    # are intentionally not sufficient, which removes adjacent autonomous-vehicle/drone noise.
+    return bool(classify(item))
 
 
 def filter_relevant(items: list[NewsItem]) -> list[NewsItem]:
