@@ -1,5 +1,7 @@
 name: Generate article draft
 
+# Manual editorial QA workflow. Production daily execution is owned by
+# daily-publisher.yml; this workflow intentionally has no schedule.
 on:
   workflow_dispatch:
 
