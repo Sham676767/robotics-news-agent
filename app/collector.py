@@ -3,6 +3,7 @@ from __future__ import annotations
 import html
 import logging
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -15,7 +16,9 @@ from .models import NewsItem
 
 logger = logging.getLogger(__name__)
 
-FETCH_TIMEOUT = 15.0
+# Keep a single dead/broken feed from blocking the whole daily pipeline.
+FETCH_TIMEOUT = 8.0
+MAX_WORKERS = 8
 
 
 def load_sources(path: str | Path = "config/sources.yaml") -> list[dict]:
@@ -93,12 +96,23 @@ def collect_from_source(source: dict, limit: int = 30) -> list[NewsItem]:
 
 
 def collect_all(path: str | Path = "config/sources.yaml") -> list[NewsItem]:
+    sources = load_sources(path)
     all_items: list[NewsItem] = []
-    for source in load_sources(path):
-        try:
-            all_items.extend(collect_from_source(source))
-        except Exception:
-            logger.exception("Failed to collect source: %s", source.get("name"))
+
+    # Fetch independent RSS feeds concurrently. This makes the pipeline's
+    # runtime depend mostly on the slowest few feeds instead of their sum.
+    with ThreadPoolExecutor(max_workers=min(MAX_WORKERS, max(1, len(sources)))) as executor:
+        futures = {
+            executor.submit(collect_from_source, source): source
+            for source in sources
+        }
+        for future in as_completed(futures):
+            source = futures[future]
+            try:
+                all_items.extend(future.result())
+            except Exception:
+                logger.exception("Failed to collect source: %s", source.get("name"))
+
     return all_items
 
 
