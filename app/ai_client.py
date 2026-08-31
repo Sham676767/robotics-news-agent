@@ -2,14 +2,13 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import time
 from typing import Any
 
 import httpx
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "openrouter/free"
+DEFAULT_MODEL = "google/gemma-4-26b-a4b-it:free"
 DEFAULT_TIMEOUT = 35.0
 
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
@@ -110,8 +109,6 @@ def _normalise_ai_ranking(result: Any, items: list[dict[str, Any]], limit: int) 
     if not valid:
         raise ValueError("AI returned no usable ranking items")
 
-    # If the model omitted valid candidates, append deterministic choices rather
-    # than making the caller guess whether the ranking is complete.
     if len(valid) < limit:
         fallback = _heuristic_fallback(
             [item for item in items if item["id"] not in seen],
