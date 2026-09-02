@@ -68,9 +68,6 @@ LOW_SIGNAL_TERMS = {
     "concept": 2.0,
 }
 
-# Strong negative signals: these usually describe roundups, aggregators,
-# legal/general-interest reposts, or malformed feed titles rather than one
-# concrete robotics event.
 EDITORIAL_NOISE_PATTERNS = (
     "top 10",
     "top 5",
@@ -90,6 +87,22 @@ EDITORIAL_NOISE_PATTERNS = (
     "week in review",
     "what happened in",
     "what you missed",
+)
+
+# Research/community articles that discuss publishing, peer review or the
+# research ecosystem rather than a concrete robot, capability or deployment.
+RESEARCH_COMMENTARY_PATTERNS = (
+    "paper deluge",
+    "peer review",
+    "publishing",
+    "publication growth",
+    "future of peer review",
+    "research ecosystem",
+    "research community",
+    "panel on",
+    "panel discussion",
+    "conference panel",
+    "notes from an icra panel",
 )
 
 AGGREGATOR_SOURCES = {
@@ -171,6 +184,16 @@ def _editorial_noise_penalty(item: NewsItem) -> float:
         if pattern in title or pattern in summary:
             penalty += 18.0
             break
+
+    # Strongly demote research meta-discussion without a concrete robot/event.
+    research_hits = sum(1 for pattern in RESEARCH_COMMENTARY_PATTERNS if pattern in combined)
+    if research_hits >= 2:
+        penalty += 30.0
+    elif research_hits == 1 and not any(
+        signal in combined
+        for signal in ("robot", "humanoid", "quadruped", "exoskeleton", "deployment", "production", "launch")
+    ):
+        penalty += 22.0
 
     if item.source in AGGREGATOR_SOURCES:
         penalty += 7.0
