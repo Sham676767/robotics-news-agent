@@ -16,7 +16,6 @@ from .models import NewsItem
 
 logger = logging.getLogger(__name__)
 
-# Keep a single dead/broken feed from blocking the whole daily pipeline.
 FETCH_TIMEOUT = 8.0
 MAX_WORKERS = 8
 
@@ -28,10 +27,6 @@ def load_sources(path: str | Path = "config/sources.yaml") -> list[dict]:
 
 
 def clean_text(value: str) -> str:
-    """Convert RSS HTML summaries into compact plain text for ranking and writing."""
-    # Collapse actual whitespace first, then decode entities. This preserves
-    # semantic HTML entities such as &nbsp; instead of turning them into a
-    # normal space before normalization.
     text = re.sub(r"<[^>]+>", " ", str(value or ""))
     text = re.sub(r"\s+", " ", text)
     text = html.unescape(text)
@@ -52,6 +47,43 @@ def parse_date(entry) -> datetime | None:
             return datetime(*struct[:6], tzinfo=timezone.utc)
         except (TypeError, ValueError):
             pass
+    return None
+
+
+def _feed_image_url(entry, page_url: str) -> str | None:
+    """Extract the best image URL exposed directly by an RSS/Atom entry."""
+    candidates: list[str] = []
+
+    media_content = entry.get("media_content") or []
+    media_thumbnail = entry.get("media_thumbnail") or []
+    enclosures = entry.get("enclosures") or []
+
+    for item in [*media_content, *media_thumbnail, *enclosures]:
+        if not isinstance(item, dict):
+            continue
+        url = item.get("url") or item.get("href")
+        media_type = str(item.get("type") or item.get("medium") or "").lower()
+        if url and (not media_type or "image" in media_type):
+            candidates.append(str(url))
+
+    # feedparser may expose namespaced fields as a flat key on some feeds.
+    for key in ("media_url", "image_url", "thumbnail", "image"):
+        value = entry.get(key)
+        if isinstance(value, str) and value.strip():
+            candidates.append(value.strip())
+        elif isinstance(value, dict):
+            url = value.get("url") or value.get("href")
+            if url:
+                candidates.append(str(url))
+
+    for value in candidates:
+        value = value.strip()
+        if value.startswith("//"):
+            value = "https:" + value
+        if value.startswith(("http://", "https://")):
+            return value
+        if value.startswith(("/", "./")):
+            return httpx.URL(page_url).join(value).human_repr()
     return None
 
 
@@ -84,6 +116,7 @@ def collect_from_source(source: dict, limit: int = 30) -> list[NewsItem]:
             continue
 
         summary = clean_text(entry.get("summary") or entry.get("description") or "")
+        image_url = _feed_image_url(entry, link)
         items.append(
             NewsItem(
                 source=name,
@@ -93,6 +126,7 @@ def collect_from_source(source: dict, limit: int = 30) -> list[NewsItem]:
                 summary=summary,
                 language=source.get("language", ""),
                 topics=tuple(source.get("topics", [])),
+                image_url=image_url,
             )
         )
     return items
@@ -102,8 +136,6 @@ def collect_all(path: str | Path = "config/sources.yaml") -> list[NewsItem]:
     sources = load_sources(path)
     all_items: list[NewsItem] = []
 
-    # Fetch independent RSS feeds concurrently. This makes the pipeline's
-    # runtime depend mostly on the slowest few feeds instead of their sum.
     with ThreadPoolExecutor(max_workers=min(MAX_WORKERS, max(1, len(sources)))) as executor:
         futures = {
             executor.submit(collect_from_source, source): source
