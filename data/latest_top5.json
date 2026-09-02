@@ -1,7 +1,7 @@
 [
   {
     "rank": 1,
-    "id": 10,
+    "id": 9,
     "title": "Sub-$1,700 household robot promises to handle chores and more",
     "source": "New Atlas Robotics",
     "url": "https://newatlas.com/robotics/household-robot-chores-nori-a3/",
@@ -12,7 +12,8 @@
       "humanoid"
     ],
     "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback"
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://assets.newatlas.com/dims4/default/cd834dc/2147483647/strip/true/crop/1902x999+0+35/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F16%2F95%2F5ec1612e48c38416a1d77c0569b1%2Ffor-its-second-batch-this-fall-nori-will-assemble-100-a3s-in-its-san-francisco-facility.jpg&na.image_optimisation=0"
   },
   {
     "rank": 2,
@@ -26,48 +27,54 @@
       "robot_dog"
     ],
     "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback"
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": null
   },
   {
     "rank": 3,
-    "id": 6,
-    "title": "How Locus Robotics is getting a grasp on one of robotics biggest challenges: manipulation",
+    "id": 1,
+    "title": "Top 10 robotics stories of August 2026",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/locus-getting-grasp-one-robotics-biggest-challenges-manipulation/",
-    "published_at": "2026-08-28T13:29:51+00:00",
-    "summary": "Locus Robotics recently acquired Nexera Robotics, which create unique soft picking technology, bolstering its manipulation capabilities. The post How Locus Robotics is getting a grasp on one of robotics biggest challenges: manipulation appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/top-10-robotics-stories-of-august-2026/",
+    "published_at": "2026-09-01T18:56:28+00:00",
+    "summary": "August 2026's top 10 stories included large funding rounds, updates in the humanoid robot industry, and the latest physical AI models. The post Top 10 robotics stories of August 2026 appeared first on The Robot Report .",
     "topics": [
-      "robotics"
+      "robotics",
+      "humanoid"
     ],
     "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback"
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/TRR-augusttop1026-featured.jpg"
   },
   {
     "rank": 4,
-    "id": 9,
-    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
-    "source": "Robohub",
-    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
-    "published_at": "2026-08-31T09:18:24+00:00",
-    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
+    "id": 10,
+    "title": "Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills - The National Law Review",
+    "source": "Google News Robotics Research",
+    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOcFQ1ZG9peHlaNGNPWl9LTldXSXFDZWxvaEFwbnZ3dDVBUkFCN2premNiLW93R2E4TkpJU0VJazRuUW92R29fSzUyeHFROExmYlV3SXpQOWt0WUxTZUhQaWlpc3JmTkxsRlVUX1NaUEhwV0t4QXNKSEp0c0hWc0xSYkliemQ1NlBlMHlaUkxWdFJvNHRfWXVVTFoxcmhaOU9vUVNMUlBYODBsY2xUTjRUdA?oc=5",
+    "published_at": "2026-09-01T11:10:04+00:00",
+    "summary": "Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills    The National Law Review",
     "topics": [
+      "robotics",
       "humanoid"
     ],
     "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback"
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300"
   },
   {
     "rank": 5,
-    "id": 1,
-    "title": "As US Bans Chinese Robots, Serbia Launches Mass Humanoid Production - Radio Free Europe/Radio Liberty",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOM0tTTWtJaFp0cE9VbHNibFhyeXpCbEhMRGlQTVVPM0ZjSHFPTVhKTUVRVTEtcWF0NURTY3JCNkdiVHgwSXc1NC1vWWpDVWFDbkxsREVnNTdIUmNIUVRSU2lDWXZLa1BBLUJXU09HQlVyZ1BKRmtUUnV3aUluWTRoTXRWZFBXVllSbHZv0gGOAUFVX3lxTE81RDQ2TFZKQlBNZlBmMjA5Y1pEWUhsRnhiMU5xdktZRzVZZG9tQy1zdDdweXNMbksxSUt0UkRxTU0wc2xoaHVLUWRXd2NUeUEtQVlpTjhTSHF2OFlCWndHWFJzc2V3QWVya3hhaE9vNmNlUmRzeGtQcTkxVmhLQzdPUEotZkI2OC1QQy10d3c?oc=5",
-    "published_at": "2026-08-31T14:21:58+00:00",
-    "summary": "As US Bans Chinese Robots, Serbia Launches Mass Humanoid Production    Radio Free Europe/Radio Liberty",
+    "id": 8,
+    "title": "First 11 vs 11 humanoid soccer game played at RoboCup 2026",
+    "source": "Robohub",
+    "url": "https://robohub.org/first-11-vs-11-humanoid-soccer-game-played-at-robocup-2026/",
+    "published_at": "2026-08-28T06:25:01+00:00",
+    "summary": "Action from the 11 vs 11 humanoid match at RoboCup 2026. Photo credit: RoboCup Federation. RoboCup 2026 saw history made, as two teams of 11 humanoids took to the soccer field, the first time a full complement of robots has competed. The game saw B-Human (Bremen, Germany) take on HTWK Robots (Leipzig, Germany), with both […]",
     "topics": [
       "humanoid"
     ],
     "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback"
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg"
   }
 ]
