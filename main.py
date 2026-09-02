@@ -6,7 +6,7 @@ import time
 
 from app.collector import collect_news
 from app.daily_selection import select_top5
-from app.article_editor import generate_article, render_markdown, validate_article, OUTPUT_DIR
+from app.article_editor import generate_article, render_markdown, validate_article, _normalize_article, OUTPUT_DIR
 from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 
@@ -49,7 +49,9 @@ def _timed(label, func):
 
 
 def _validate_article_quality(article, top5):
-    validate_article(article, top5)
+    # generate_article returns the public article without service metadata.
+    # Normalize a copy only for structural validation so card_index stays internal.
+    validate_article(_normalize_article(article), top5)
     validate_russian_article(article)
 
 
