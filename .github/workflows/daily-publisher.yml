@@ -72,7 +72,8 @@ jobs:
           VK_PUBLISH_REQUIRED: "true"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: google/gemma-4-31b-it:free
-          OPENROUTER_MAX_ATTEMPTS: "1"
+          OPENROUTER_FALLBACK_MODELS: google/gemma-4-26b-a4b-it:free,openai/gpt-oss-120b:free
+          OPENROUTER_MAX_ATTEMPTS: "2"
         run: |
           python main.py
 
