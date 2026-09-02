@@ -18,6 +18,27 @@ MAX_PER_SOURCE = 2
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 SPECIFIC_TOPICS = ("humanoid", "robot_dog", "exoskeleton")
 
+# Daily digest rule: one card should describe one concrete event, not a roundup,
+# monthly review, or "top stories" article. Keep this list conservative so useful
+# technical articles are not accidentally filtered out.
+EDITORIAL_REJECT_TERMS = (
+    "top 10 stories",
+    "top 10 robotics",
+    "top 5 stories",
+    "top 5 robotics",
+    "best robotics stories",
+    "robotics stories of",
+    "month in review",
+    "weekly roundup",
+    "monthly roundup",
+    "news roundup",
+    "robotics roundup",
+    "robotics news roundup",
+    "what happened in",
+    "this week in robotics",
+    "this week's robotics news",
+)
+
 
 def _canonical_url(url: str) -> str:
     parsed = urlsplit(url.strip())
@@ -43,6 +64,16 @@ def _dedupe(items: list) -> list:
         seen.add(canonical)
         result.append(item)
     return result
+
+
+def _is_editorial_roundup(item) -> bool:
+    text = f"{item.title} {item.summary}".lower()
+    return any(term in text for term in EDITORIAL_REJECT_TERMS)
+
+
+def _filter_editorial(items: list) -> list:
+    """Keep concrete news events; remove listicles, roundups and period reviews."""
+    return [item for item in items if not _is_editorial_roundup(item)]
 
 
 def _recent(items: list) -> list:
@@ -99,7 +130,8 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
 def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     collected = items if items is not None else collect_all()
     relevant = filter_relevant(collected)
-    recent = _dedupe(_recent(relevant))
+    editorial = _filter_editorial(relevant)
+    recent = _dedupe(_recent(editorial))
     if len(recent) < 5:
         raise RuntimeError(
             f"Only {len(recent)} unique relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale or duplicate news"
