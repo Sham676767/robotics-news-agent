@@ -75,6 +75,9 @@ jobs:
           # models), which can return text such as "User Safety: safe"
           # instead of the requested article JSON.
           OPENROUTER_MODEL: google/gemma-4-31b-it:free
+          # A 429 can mean the account/day quota is exhausted. Blind retries
+          # only consume more quota, so the production workflow fails fast.
+          OPENROUTER_MAX_ATTEMPTS: "1"
         run: |
           python main.py
 
