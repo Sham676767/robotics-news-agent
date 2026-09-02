@@ -6,8 +6,6 @@ on:
     # 09:00 Moscow/Helsinki summer time (UTC+3).
     - cron: "0 6 * * *"
 
-# Never allow two publication runs to overlap. A newer manual run waits for
-# the active run instead of creating a second article/post concurrently.
 concurrency:
   group: robotics-daily-publisher
   cancel-in-progress: false
@@ -44,7 +42,7 @@ jobs:
           VK_ACCESS_TOKEN: ${{ secrets.VK_ACCESS_TOKEN }}
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           if [ -z "${VK_ACCESS_TOKEN:-}" ] && [ -z "${VK_TOKEN:-}" ]; then
             echo "❌ VK access token secret is missing"
@@ -60,11 +58,11 @@ jobs:
               exit 1
               ;;
           esac
-          if [ -z "${GEMINI_API_KEY:-}" ]; then
-            echo "❌ GEMINI_API_KEY secret is missing"
+          if [ -z "${OPENROUTER_API_KEY:-}" ]; then
+            echo "❌ OPENROUTER_API_KEY secret is missing"
             exit 1
           fi
-          echo "✅ VK and Gemini publication configuration is present"
+          echo "✅ VK and OpenRouter publication configuration is present"
 
       - name: Run agent
         env:
@@ -72,13 +70,6 @@ jobs:
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # Stable Gemini model with structured output support. The free tier
-          # is sufficient for our one daily article generation workflow.
-          GEMINI_MODEL: gemini-2.5-flash
-          # Keep OpenRouter only for the optional TOP-5 AI ranking path. If its
-          # free quota is exhausted, the selector already has a deterministic
-          # fallback and the article generation does not depend on OpenRouter.
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: google/gemma-4-31b-it:free
           OPENROUTER_MAX_ATTEMPTS: "1"
