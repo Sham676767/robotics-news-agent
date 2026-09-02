@@ -1,7 +1,7 @@
 [
   {
     "rank": 1,
-    "id": 7,
+    "id": 6,
     "title": "Sub-$1,700 household robot promises to handle chores and more",
     "source": "New Atlas Robotics",
     "url": "https://newatlas.com/robotics/household-robot-chores-nori-a3/",
@@ -32,21 +32,36 @@
   },
   {
     "rank": 3,
-    "id": 5,
-    "title": "Surviving the paper deluge: Notes from an ICRA panel on publishing, LLMs, and the future of peer review",
-    "source": "Robohub",
-    "url": "https://robohub.org/surviving-the-paper-deluge-notes-from-an-icra-panel-on-publishing-llms-and-the-future-of-peer-review/",
-    "published_at": "2026-09-02T07:58:49+00:00",
-    "summary": "A recent ICRA panel titled “Surviving the Paper Deluge” brought together leading robotics researchers who have grappled with the overwhelming number of robotics papers being published today. The discussion ranged from hard numbers on publication growth, through the promises and risks of large language models (LLMs), to radical proposals for reshaping peer review as we […]",
+    "id": 4,
+    "title": "Learn why food is physical AI’s hardest problem at RoboBusiness",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/",
+    "published_at": "2026-09-02T17:37:50+00:00",
+    "summary": "Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/08/bigstock-Stack-Of-Paperwork-And-Documen-283334074.jpg"
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg"
   },
   {
     "rank": 4,
+    "id": 10,
+    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
+    "source": "Robohub",
+    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
+    "published_at": "2026-08-31T09:18:24+00:00",
+    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
+  },
+  {
+    "rank": 5,
     "id": 12,
     "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
     "source": "TechCrunch Robotics",
@@ -59,20 +74,5 @@
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
     "image_url": "https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848"
-  },
-  {
-    "rank": 5,
-    "id": 9,
-    "title": "Europe's first humanoid robot mass-production base begins production in China-Serbia joint project - Global Times",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBXTHJUWjFHX0tOMDZCZzAzclFlZHR0Wkp5YV80cTNXQXUxNEkxU3pxd3pRbEpUU0JHcUh3MDlZMlptR2tXaGFGWUJQeXZuRjJiNVQ5c1M4eEU3ZjBGNWlBaDhB?oc=5",
-    "published_at": "2026-08-30T07:13:00+00:00",
-    "summary": "Europe's first humanoid robot mass-production base begins production in China-Serbia joint project    Global Times",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300"
   }
 ]

@@ -26,19 +26,31 @@ Cats, dogs, wolves and other agile four-legged animals can easily jump and squee
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 **Изображение:** не найдено
 
-## 3. Surviving the paper deluge: Notes from an ICRA panel on publishing, LLMs, and the future of peer review
+## 3. Learn why food is physical AI’s hardest problem at RoboBusiness
 
-**Источник:** Robohub
-**Дата:** 2026-09-02T07:58:49+00:00
+**Источник:** The Robot Report
+**Дата:** 2026-09-02T17:37:50+00:00
 **Язык:** не указан
 **Темы:** robotics
 
-A recent ICRA panel titled “Surviving the Paper Deluge” brought together leading robotics researchers who have grappled with the overwhelming number of robotics papers being published today. The discussion ranged from hard numbers on publication growth, through the promises and risks of large language models (LLMs), to radical proposals for reshaping peer review as we […]
+Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .
 
-**Ссылка:** https://robohub.org/surviving-the-paper-deluge-notes-from-an-icra-panel-on-publishing-llms-and-the-future-of-peer-review/
-**Изображение:** https://robohub.org/wp-content/uploads/2026/08/bigstock-Stack-Of-Paperwork-And-Documen-283334074.jpg
+**Ссылка:** https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/
+**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg
 
-## 4. Chinese automakers are following Tesla’s bet that robots are the next big profit machine
+## 4. When expressive humanoid robots are awkward, people become wary – new brain study
+
+**Источник:** Robohub
+**Дата:** 2026-08-31T09:18:24+00:00
+**Язык:** не указан
+**Темы:** humanoid
+
+Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]
+
+**Ссылка:** https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/
+**Изображение:** https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg
+
+## 5. Chinese automakers are following Tesla’s bet that robots are the next big profit machine
 
 **Источник:** TechCrunch Robotics
 **Дата:** 2026-08-28T23:24:27+00:00
@@ -49,15 +61,3 @@ Technical progress has encouraged a new batch of companies to jump in on the pro
 
 **Ссылка:** https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/
 **Изображение:** https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848
-
-## 5. Europe's first humanoid robot mass-production base begins production in China-Serbia joint project - Global Times
-
-**Источник:** Google News Humanoid Robots
-**Дата:** 2026-08-30T07:13:00+00:00
-**Язык:** не указан
-**Темы:** humanoid
-
-Europe's first humanoid robot mass-production base begins production in China-Serbia joint project    Global Times
-
-**Ссылка:** https://news.google.com/rss/articles/CBMiYkFVX3lxTFBXTHJUWjFHX0tOMDZCZzAzclFlZHR0Wkp5YV80cTNXQXUxNEkxU3pxd3pRbEpUU0JHcUh3MDlZMlptR2tXaGFGWUJQeXZuRjJiNVQ5c1M4eEU3ZjBGNWlBaDhB?oc=5
-**Изображение:** https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300
