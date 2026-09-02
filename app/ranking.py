@@ -7,8 +7,6 @@ from datetime import datetime, timezone
 from .models import NewsItem
 from .relevance import classify
 
-# Editorial priority: humanoids, robot dogs and exoskeletons are the strongest
-# signals; general robotics/research remains important as the fourth pillar.
 CATEGORY_WEIGHTS = {
     "humanoid": 9.0,
     "robot_dog": 8.0,
@@ -70,24 +68,42 @@ LOW_SIGNAL_TERMS = {
     "concept": 2.0,
 }
 
-# These are useful for human readers but poor candidates for a daily "one story = one event"
-# news digest. Strong editorial rejection is handled in daily_selection.py; this penalty keeps
-# the ranking sensible even when selection is called independently.
-ROUNDUP_TERMS = {
-    "top 10": 8.0,
-    "top 10 stories": 10.0,
-    "top 5": 8.0,
-    "best robotics stories": 9.0,
-    "robotics stories of": 9.0,
-    "month in review": 10.0,
-    "weekly roundup": 10.0,
-    "monthly roundup": 10.0,
-    "news roundup": 9.0,
-    "robotics roundup": 9.0,
-    "what happened in": 8.0,
-    "this week's robotics": 7.0,
-    "this week in robotics": 8.0,
+# Strong negative signals: these usually describe roundups, aggregators,
+# legal/general-interest reposts, or malformed feed titles rather than one
+# concrete robotics event.
+EDITORIAL_NOISE_PATTERNS = (
+    "top 10",
+    "top 5",
+    "best robotics stories",
+    "robotics stories of",
+    "weekly roundup",
+    "monthly roundup",
+    "weekly round-up",
+    "monthly round-up",
+    "news roundup",
+    "news round-up",
+    "robotics roundup",
+    "robotics round-up",
+    "this week in robotics",
+    "this month in robotics",
+    "month in review",
+    "week in review",
+    "what happened in",
+    "what you missed",
+)
+
+AGGREGATOR_SOURCES = {
+    "Google News Humanoid Robots",
+    "Google News Robot Dogs",
+    "Google News Exoskeletons",
+    "Google News Robotics Research",
 }
+
+LOW_VALUE_DOMAINS = (
+    "national law review",
+    "law review",
+    "legal",
+)
 
 SOURCE_WEIGHTS = {
     "The Robot Report": 1.00,
@@ -122,8 +138,7 @@ def _recency_score(published_at: datetime | None, now: datetime | None = None) -
     if published_at.tzinfo is None:
         published_at = published_at.replace(tzinfo=timezone.utc)
     hours = max(0.0, (now - published_at).total_seconds() / 3600)
-    # Fresh stories should win more decisively over week-old stories.
-    return 16.0 * math.exp(-hours / 60.0)
+    return 12.0 * math.exp(-hours / 72.0)
 
 
 def _category_score(item: NewsItem) -> float:
@@ -146,15 +161,40 @@ def _title_bonus(item: NewsItem) -> float:
     return min(sum(1.0 for term in concrete if term in title), 5.0)
 
 
+def _editorial_noise_penalty(item: NewsItem) -> float:
+    title = re.sub(r"\s+", " ", item.title.lower()).strip()
+    summary = re.sub(r"\s+", " ", item.summary.lower()).strip()
+    combined = f"{title} {summary}"
+    penalty = 0.0
+
+    for pattern in EDITORIAL_NOISE_PATTERNS:
+        if pattern in title or pattern in summary:
+            penalty += 18.0
+            break
+
+    if item.source in AGGREGATOR_SOURCES:
+        penalty += 7.0
+
+    if any(term in combined for term in LOW_VALUE_DOMAINS):
+        penalty += 10.0
+
+    # Feed/parser artifacts often glue a publisher name onto the title.
+    if title.count(" - ") >= 2 or title.count(" | ") >= 2:
+        penalty += 5.0
+    if len(title) > 150:
+        penalty += 3.0
+
+    return penalty
+
+
 def _noise_penalty(item: NewsItem) -> float:
     text = _text(item)
     penalty = _keyword_score(text, LOW_SIGNAL_TERMS)
-    penalty += _keyword_score(text, ROUNDUP_TERMS)
     if len(re.sub(r"\s+", " ", item.summary).strip()) < 80:
         penalty += 1.5
     if item.title.count("!") >= 2:
         penalty += 1.0
-    return penalty
+    return penalty + _editorial_noise_penalty(item)
 
 
 def score(item: NewsItem, now: datetime | None = None) -> float:
