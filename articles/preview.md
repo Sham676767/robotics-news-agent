@@ -26,19 +26,7 @@ Cats, dogs, wolves and other agile four-legged animals can easily jump and squee
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 **Изображение:** не найдено
 
-## 3. Top 10 robotics stories of August 2026
-
-**Источник:** The Robot Report
-**Дата:** 2026-09-01T18:56:28+00:00
-**Язык:** не указан
-**Темы:** robotics, humanoid
-
-August 2026's top 10 stories included large funding rounds, updates in the humanoid robot industry, and the latest physical AI models. The post Top 10 robotics stories of August 2026 appeared first on The Robot Report .
-
-**Ссылка:** https://www.therobotreport.com/top-10-robotics-stories-of-august-2026/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/TRR-augusttop1026-featured.jpg
-
-## 4. Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills - The National Law Review
+## 3. Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills - The National Law Review
 
 **Источник:** Google News Robotics Research
 **Дата:** 2026-09-01T11:10:04+00:00
@@ -50,7 +38,7 @@ Booster Robotics Powers Science Robotics Research Article on Vision-Driven Human
 **Ссылка:** https://news.google.com/rss/articles/CBMisAFBVV95cUxOcFQ1ZG9peHlaNGNPWl9LTldXSXFDZWxvaEFwbnZ3dDVBUkFCN2premNiLW93R2E4TkpJU0VJazRuUW92R29fSzUyeHFROExmYlV3SXpQOWt0WUxTZUhQaWlpc3JmTkxsRlVUX1NaUEhwV0t4QXNKSEp0c0hWc0xSYkliemQ1NlBlMHlaUkxWdFJvNHRfWXVVTFoxcmhaOU9vUVNMUlBYODBsY2xUTjRUdA?oc=5
 **Изображение:** https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300
 
-## 5. First 11 vs 11 humanoid soccer game played at RoboCup 2026
+## 4. First 11 vs 11 humanoid soccer game played at RoboCup 2026
 
 **Источник:** Robohub
 **Дата:** 2026-08-28T06:25:01+00:00
@@ -61,3 +49,15 @@ Action from the 11 vs 11 humanoid match at RoboCup 2026. Photo credit: RoboCup F
 
 **Ссылка:** https://robohub.org/first-11-vs-11-humanoid-soccer-game-played-at-robocup-2026/
 **Изображение:** https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg
+
+## 5. Europe's first humanoid robot mass-production base begins production in China-Serbia joint project - Global Times
+
+**Источник:** Google News Humanoid Robots
+**Дата:** 2026-08-30T07:13:00+00:00
+**Язык:** не указан
+**Темы:** humanoid
+
+Europe's first humanoid robot mass-production base begins production in China-Serbia joint project    Global Times
+
+**Ссылка:** https://news.google.com/rss/articles/CBMiYkFVX3lxTFBXTHJUWjFHX0tOMDZCZzAzclFlZHR0Wkp5YV80cTNXQXUxNEkxU3pxd3pRbEpUU0JHcUh3MDlZMlptR2tXaGFGWUJQeXZuRjJiNVQ5c1M4eEU3ZjBGNWlBaDhB?oc=5
+**Изображение:** https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300

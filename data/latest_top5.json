@@ -1,7 +1,7 @@
 [
   {
     "rank": 1,
-    "id": 9,
+    "id": 10,
     "title": "Sub-$1,700 household robot promises to handle chores and more",
     "source": "New Atlas Robotics",
     "url": "https://newatlas.com/robotics/household-robot-chores-nori-a3/",
@@ -32,23 +32,7 @@
   },
   {
     "rank": 3,
-    "id": 1,
-    "title": "Top 10 robotics stories of August 2026",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/top-10-robotics-stories-of-august-2026/",
-    "published_at": "2026-09-01T18:56:28+00:00",
-    "summary": "August 2026's top 10 stories included large funding rounds, updates in the humanoid robot industry, and the latest physical AI models. The post Top 10 robotics stories of August 2026 appeared first on The Robot Report .",
-    "topics": [
-      "robotics",
-      "humanoid"
-    ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/TRR-augusttop1026-featured.jpg"
-  },
-  {
-    "rank": 4,
-    "id": 10,
+    "id": 9,
     "title": "Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills - The National Law Review",
     "source": "Google News Robotics Research",
     "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOcFQ1ZG9peHlaNGNPWl9LTldXSXFDZWxvaEFwbnZ3dDVBUkFCN2premNiLW93R2E4TkpJU0VJazRuUW92R29fSzUyeHFROExmYlV3SXpQOWt0WUxTZUhQaWlpc3JmTkxsRlVUX1NaUEhwV0t4QXNKSEp0c0hWc0xSYkliemQ1NlBlMHlaUkxWdFJvNHRfWXVVTFoxcmhaOU9vUVNMUlBYODBsY2xUTjRUdA?oc=5",
@@ -63,7 +47,7 @@
     "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300"
   },
   {
-    "rank": 5,
+    "rank": 4,
     "id": 8,
     "title": "First 11 vs 11 humanoid soccer game played at RoboCup 2026",
     "source": "Robohub",
@@ -76,5 +60,20 @@
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
     "image_url": "https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg"
+  },
+  {
+    "rank": 5,
+    "id": 5,
+    "title": "Europe's first humanoid robot mass-production base begins production in China-Serbia joint project - Global Times",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBXTHJUWjFHX0tOMDZCZzAzclFlZHR0Wkp5YV80cTNXQXUxNEkxU3pxd3pRbEpUU0JHcUh3MDlZMlptR2tXaGFGWUJQeXZuRjJiNVQ5c1M4eEU3ZjBGNWlBaDhB?oc=5",
+    "published_at": "2026-08-30T07:13:00+00:00",
+    "summary": "Europe's first humanoid robot mass-production base begins production in China-Serbia joint project    Global Times",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300"
   }
 ]
