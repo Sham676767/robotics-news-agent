@@ -14,11 +14,11 @@
 **Изображение:** не найдено
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 
-## 3. Learn why food is physical AI’s hardest problem at RoboBusiness
+## 3. HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption
 
 **Источник:** The Robot Report
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg
-**Ссылка:** https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/
+**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg
+**Ссылка:** https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/
 
 ## 4. When expressive humanoid robots are awkward, people become wary – new brain study
 
