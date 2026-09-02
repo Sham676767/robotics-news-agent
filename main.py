@@ -8,6 +8,7 @@ from app.collector import collect_news
 from app.daily_selection import select_top5
 from app.gemini_editor import generate_article
 from app.article_editor import render_markdown, validate_article, _normalize_article, OUTPUT_DIR
+from app.image_fetcher import enrich_with_images
 from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 
@@ -68,6 +69,11 @@ def main():
     print(f"Selected: {len(top5)} stories")
     _validate_selected_stories(top5)
     print("✅ TOP-5 editorial guard passed")
+
+    print("🖼️ Finding source images...")
+    top5 = _timed("Image discovery", lambda: enrich_with_images(top5))
+    image_count = sum(bool(item.get("image_url")) for item in top5)
+    print(f"Images found: {image_count}/5")
 
     TOP5_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     TOP5_OUTPUT_PATH.write_text(json.dumps(top5, ensure_ascii=False, indent=2), encoding="utf-8")
