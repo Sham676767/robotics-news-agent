@@ -70,9 +70,11 @@ jobs:
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          # Let OpenRouter choose an available free model that supports the
-          # structured-output request instead of pinning one rate-limited pool.
-          OPENROUTER_MODEL: openrouter/free
+          # Use a deterministic free model. openrouter/free may route a
+          # request to an unsuitable free endpoint (including guardrail
+          # models), which can return text such as "User Safety: safe"
+          # instead of the requested article JSON.
+          OPENROUTER_MODEL: google/gemma-4-31b-it:free
         run: |
           python main.py
 
