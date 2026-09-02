@@ -1,0 +1,78 @@
+[
+  {
+    "rank": 1,
+    "id": 6,
+    "title": "Sub-$1,700 household robot promises to handle chores and more",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/household-robot-chores-nori-a3/",
+    "published_at": "2026-08-25T15:47:29+00:00",
+    "summary": "Are household humanoid robots getting cheaper already? We've only just begun seeing companies start to make promises and accept pre-orders for machines that can do your laundry and tidy up the living room. A San Francisco-based startup is now making one that you can bring home for just US$1,688. Continue Reading Category: Robotics , Engineering Tags: Robot , Tele-operation , Humanoid , assistant robot",
+    "topics": [
+      "robotics",
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": null
+  },
+  {
+    "rank": 2,
+    "id": 2,
+    "title": "Four-legged robot learns dog-like movements to leap through tight spaces",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html",
+    "published_at": "2026-08-31T09:20:09+00:00",
+    "summary": "Cats, dogs, wolves and other agile four-legged animals can easily jump and squeeze through tight spaces while moving at high speed. Reproducing similar agile motions and skills in quadrupedal robots has so far proved challenging.",
+    "topics": [
+      "robot_dog"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": null
+  },
+  {
+    "rank": 3,
+    "id": 4,
+    "title": "Learn why food is physical AI’s hardest problem at RoboBusiness",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/",
+    "published_at": "2026-09-02T17:37:50+00:00",
+    "summary": "Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg"
+  },
+  {
+    "rank": 4,
+    "id": 10,
+    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
+    "source": "Robohub",
+    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
+    "published_at": "2026-08-31T09:18:24+00:00",
+    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
+  },
+  {
+    "rank": 5,
+    "id": 12,
+    "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
+    "source": "TechCrunch Robotics",
+    "url": "https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/",
+    "published_at": "2026-08-28T23:24:27+00:00",
+    "summary": "Technical progress has encouraged a new batch of companies to jump in on the promise of profits from humanoid robots. And they're all Chinese automakers.",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848"
+  }
+]
