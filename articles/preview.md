@@ -26,29 +26,29 @@ Cats, dogs, wolves and other agile four-legged animals can easily jump and squee
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 **Изображение:** не найдено
 
-## 3. Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills - The National Law Review
-
-**Источник:** Google News Robotics Research
-**Дата:** 2026-09-01T11:10:04+00:00
-**Язык:** не указан
-**Темы:** robotics, humanoid
-
-Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills    The National Law Review
-
-**Ссылка:** https://news.google.com/rss/articles/CBMisAFBVV95cUxOcFQ1ZG9peHlaNGNPWl9LTldXSXFDZWxvaEFwbnZ3dDVBUkFCN2premNiLW93R2E4TkpJU0VJazRuUW92R29fSzUyeHFROExmYlV3SXpQOWt0WUxTZUhQaWlpc3JmTkxsRlVUX1NaUEhwV0t4QXNKSEp0c0hWc0xSYkliemQ1NlBlMHlaUkxWdFJvNHRfWXVVTFoxcmhaOU9vUVNMUlBYODBsY2xUTjRUdA?oc=5
-**Изображение:** https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300
-
-## 4. First 11 vs 11 humanoid soccer game played at RoboCup 2026
+## 3. Surviving the paper deluge: Notes from an ICRA panel on publishing, LLMs, and the future of peer review
 
 **Источник:** Robohub
-**Дата:** 2026-08-28T06:25:01+00:00
+**Дата:** 2026-09-02T07:58:49+00:00
+**Язык:** не указан
+**Темы:** robotics
+
+A recent ICRA panel titled “Surviving the Paper Deluge” brought together leading robotics researchers who have grappled with the overwhelming number of robotics papers being published today. The discussion ranged from hard numbers on publication growth, through the promises and risks of large language models (LLMs), to radical proposals for reshaping peer review as we […]
+
+**Ссылка:** https://robohub.org/surviving-the-paper-deluge-notes-from-an-icra-panel-on-publishing-llms-and-the-future-of-peer-review/
+**Изображение:** https://robohub.org/wp-content/uploads/2026/08/bigstock-Stack-Of-Paperwork-And-Documen-283334074.jpg
+
+## 4. Chinese automakers are following Tesla’s bet that robots are the next big profit machine
+
+**Источник:** TechCrunch Robotics
+**Дата:** 2026-08-28T23:24:27+00:00
 **Язык:** не указан
 **Темы:** humanoid
 
-Action from the 11 vs 11 humanoid match at RoboCup 2026. Photo credit: RoboCup Federation. RoboCup 2026 saw history made, as two teams of 11 humanoids took to the soccer field, the first time a full complement of robots has competed. The game saw B-Human (Bremen, Germany) take on HTWK Robots (Leipzig, Germany), with both […]
+Technical progress has encouraged a new batch of companies to jump in on the promise of profits from humanoid robots. And they're all Chinese automakers.
 
-**Ссылка:** https://robohub.org/first-11-vs-11-humanoid-soccer-game-played-at-robocup-2026/
-**Изображение:** https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg
+**Ссылка:** https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/
+**Изображение:** https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848
 
 ## 5. Europe's first humanoid robot mass-production base begins production in China-Serbia joint project - Global Times
 
