@@ -15,6 +15,10 @@ from app.language_guard import validate_russian_article
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MODEL = "google/gemma-4-31b-it:free"
+DEFAULT_FALLBACK_MODELS = [
+    "google/gemma-4-26b-a4b-it:free",
+    "openai/gpt-oss-120b:free",
+]
 OUTPUT_DIR = Path("articles")
 
 SYSTEM_PROMPT = """Ты старший редактор профессионального русскоязычного медиа о робототехнике.
@@ -99,7 +103,6 @@ def _parse_json(content: str) -> dict[str, Any]:
         if lines and lines[-1].strip() == "```":
             lines = lines[:-1]
         text = "\n".join(lines).strip()
-
     try:
         data = json.loads(text)
     except json.JSONDecodeError:
@@ -107,33 +110,25 @@ def _parse_json(content: str) -> dict[str, Any]:
         start = text.find("{")
         end = text.rfind("}")
         if start >= 0 and end > start:
-            candidate = text[start : end + 1]
             try:
-                data = json.loads(candidate)
+                data = json.loads(text[start : end + 1])
             except json.JSONDecodeError:
                 data = None
         if data is None:
             raise ValueError(f"AI did not return parseable article JSON: {text[:500]!r}")
-
     if not isinstance(data, dict):
         raise ValueError("AI returned non-object JSON")
     return data
 
 
 def _normalize_article(article: dict[str, Any]) -> dict[str, Any]:
-    """Attach deterministic card indexes; this metadata must not depend on the LLM."""
     normalized = dict(article)
     items = article.get("items")
     if isinstance(items, list) and len(items) == 5:
         normalized["items"] = []
         for index, item in enumerate(items, start=1):
             if isinstance(item, dict):
-                normalized["items"].append(
-                    {
-                        **item,
-                        "card_index": index,
-                    }
-                )
+                normalized["items"].append({**item, "card_index": index})
             else:
                 normalized["items"].append(item)
     return normalized
@@ -160,7 +155,6 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
     if not isinstance(items, list) or len(items) != 5:
         raise ValueError(f"Article must contain exactly 5 items, got {len(items) if isinstance(items, list) else 0}")
 
-    expected_indexes = list(range(1, 6))
     actual_indexes: list[int] = []
     for item in items:
         if not isinstance(item, dict):
@@ -180,10 +174,8 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
         if "|" in item["body"]:
             raise ValueError("Article body must not contain Markdown table syntax")
 
-    if actual_indexes != expected_indexes:
-        raise ValueError(
-            f"Article card_index sequence must be exactly {expected_indexes}, got {actual_indexes}"
-        )
+    if actual_indexes != [1, 2, 3, 4, 5]:
+        raise ValueError(f"Article card_index sequence must be exactly [1, 2, 3, 4, 5], got {actual_indexes}")
 
     for card in top5:
         url = card.get("url")
@@ -195,71 +187,54 @@ def _attach_sources(article: dict[str, Any], top5: list[dict[str, Any]]) -> dict
     result = {"title": article["title"], "intro": article["intro"], "items": []}
     for item in article["items"]:
         card = top5[item["card_index"] - 1]
-        result["items"].append(
-            {
-                "headline": item["headline"],
-                "body": item["body"],
-                "source": str(card.get("source") or card.get("publisher") or "Источник"),
-                "url": card["url"],
-            }
-        )
+        result["items"].append({
+            "headline": item["headline"],
+            "body": item["body"],
+            "source": str(card.get("source") or card.get("publisher") or "Источник"),
+            "url": card["url"],
+        })
     return result
 
 
 def _retry_delay(response: httpx.Response, attempt: int) -> float:
-    """Respect Retry-After when present, otherwise use capped exponential backoff."""
     retry_after = response.headers.get("Retry-After")
     if retry_after:
         try:
             return max(0.0, min(float(retry_after), 60.0))
         except ValueError:
             pass
-
     base = float(os.getenv("OPENROUTER_RETRY_BASE_SECONDS", "2"))
     maximum = float(os.getenv("OPENROUTER_RETRY_MAX_SECONDS", "20"))
     return min(maximum, base * (2**attempt))
 
 
-def _request_openrouter(
-    payload: dict[str, Any], headers: dict[str, str], timeout: float = 120
-) -> str:
+def _request_openrouter(payload: dict[str, Any], headers: dict[str, str], timeout: float = 120) -> str:
     max_attempts = max(1, int(os.getenv("OPENROUTER_MAX_ATTEMPTS", "4")))
     retryable_statuses = {408, 409, 429, 500, 502, 503, 504}
     last_error: str | None = None
 
     for attempt in range(max_attempts):
         try:
-            response = httpx.post(
-                OPENROUTER_URL,
-                headers=headers,
-                json=payload,
-                timeout=timeout,
-            )
-
+            response = httpx.post(OPENROUTER_URL, headers=headers, json=payload, timeout=timeout)
             if response.status_code in retryable_statuses:
                 last_error = f"HTTP {response.status_code}: {response.text[:1000]}"
                 if attempt + 1 < max_attempts:
                     delay = _retry_delay(response, attempt)
-                    print(
-                        f"⚠️ OpenRouter transient HTTP {response.status_code}; "
-                        f"retry {attempt + 2}/{max_attempts} in {delay:.1f}s"
-                    )
+                    print(f"⚠️ OpenRouter transient HTTP {response.status_code}; retry {attempt + 2}/{max_attempts} in {delay:.1f}s")
                     time.sleep(delay)
                     continue
-
             response.raise_for_status()
             data = response.json()
             choices = data.get("choices") or []
             if not choices:
-                raise RuntimeError(
-                    f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}"
-                )
+                raise RuntimeError(f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}")
             message = choices[0].get("message") or {}
             content = message.get("content")
             if not content:
-                raise RuntimeError(
-                    f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}"
-                )
+                raise RuntimeError(f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}")
+            used_model = data.get("model")
+            if used_model:
+                print(f"✅ OpenRouter article response model: {used_model}")
             return content
         except (httpx.HTTPError, RuntimeError) as exc:
             last_error = str(exc)
@@ -268,17 +243,25 @@ def _request_openrouter(
                     float(os.getenv("OPENROUTER_RETRY_MAX_SECONDS", "20")),
                     float(os.getenv("OPENROUTER_RETRY_BASE_SECONDS", "2")) * (2**attempt),
                 )
-                print(
-                    f"⚠️ OpenRouter request error; retry {attempt + 2}/{max_attempts} in {delay:.1f}s: {last_error}"
-                )
+                print(f"⚠️ OpenRouter request error; retry {attempt + 2}/{max_attempts} in {delay:.1f}s: {last_error}")
                 time.sleep(delay)
                 continue
-
     raise RuntimeError(f"OpenRouter request failed after {max_attempts} attempts: {last_error}")
 
 
-def _payload(messages: list[dict[str, str]], model: str) -> dict[str, Any]:
-    return {
+def _fallback_models(primary_model: str) -> list[str]:
+    raw = os.getenv("OPENROUTER_FALLBACK_MODELS", "")
+    configured = [item.strip() for item in raw.split(",") if item.strip()]
+    models = [primary_model, *configured, *DEFAULT_FALLBACK_MODELS]
+    unique: list[str] = []
+    for model in models:
+        if model not in unique:
+            unique.append(model)
+    return unique
+
+
+def _payload(messages: list[dict[str, str]], model: str, models: list[str]) -> dict[str, Any]:
+    payload: dict[str, Any] = {
         "model": model,
         "messages": messages,
         "temperature": 0.15,
@@ -292,6 +275,10 @@ def _payload(messages: list[dict[str, str]], model: str) -> dict[str, Any]:
             },
         },
     }
+    if len(models) > 1:
+        payload["models"] = models
+        payload["route"] = "fallback"
+    return payload
 
 
 def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> dict[str, Any]:
@@ -302,6 +289,8 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         raise ValueError("Article editor requires exactly 5 selected stories")
 
     model = os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL)
+    models = _fallback_models(model)
+    print(f"🤖 OpenRouter model chain: {' → '.join(models)}")
     prompt = (
         "Подготовь одну профессиональную публикацию-дайджест из этих пяти новостей. "
         "Не меняй порядок карточек. Для каждого блока используй только факты соответствующей карточки. "
@@ -322,7 +311,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         "X-Title": "Robotics News Agent - Article Editor",
     }
 
-    draft_content = _request_openrouter(_payload(messages, model), headers)
+    draft_content = _request_openrouter(_payload(messages, model, models), headers)
     try:
         draft = _normalize_article(_parse_json(draft_content))
         validate_article(draft, top5)
@@ -347,7 +336,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": repair_prompt},
         ]
-        repaired_content = _request_openrouter(_payload(repair_messages, model), headers)
+        repaired_content = _request_openrouter(_payload(repair_messages, model, models), headers)
         repaired = _normalize_article(_parse_json(repaired_content))
         validate_article(repaired, top5)
         repaired_public = _attach_sources(repaired, top5)
@@ -358,25 +347,21 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
 def render_markdown(article: dict[str, Any]) -> str:
     lines = [f"# {article['title']}", "", article["intro"], ""]
     for index, item in enumerate(article["items"], start=1):
-        lines.extend(
-            [
-                f"## {index}. {item['headline']}",
-                "",
-                item["body"],
-                "",
-                f"Источник: [{item['source']}]({item['url']})",
-                "",
-            ]
-        )
+        lines.extend([
+            f"## {index}. {item['headline']}",
+            "",
+            item["body"],
+            "",
+            f"Источник: [{item['source']}]({item['url']})",
+            "",
+        ])
     return "\n".join(lines).rstrip() + "\n"
 
 
 def main() -> None:
     top5_path = Path("data/latest_top5.json")
     top5 = json.loads(top5_path.read_text(encoding="utf-8"))
-
     article = generate_article(top5)
-
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
     output_path.write_text(render_markdown(article), encoding="utf-8")
