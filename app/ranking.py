@@ -70,6 +70,25 @@ LOW_SIGNAL_TERMS = {
     "concept": 2.0,
 }
 
+# These are useful for human readers but poor candidates for a daily "one story = one event"
+# news digest. Strong editorial rejection is handled in daily_selection.py; this penalty keeps
+# the ranking sensible even when selection is called independently.
+ROUNDUP_TERMS = {
+    "top 10": 8.0,
+    "top 10 stories": 10.0,
+    "top 5": 8.0,
+    "best robotics stories": 9.0,
+    "robotics stories of": 9.0,
+    "month in review": 10.0,
+    "weekly roundup": 10.0,
+    "monthly roundup": 10.0,
+    "news roundup": 9.0,
+    "robotics roundup": 9.0,
+    "what happened in": 8.0,
+    "this week's robotics": 7.0,
+    "this week in robotics": 8.0,
+}
+
 SOURCE_WEIGHTS = {
     "The Robot Report": 1.00,
     "Robohub": 0.98,
@@ -103,7 +122,8 @@ def _recency_score(published_at: datetime | None, now: datetime | None = None) -
     if published_at.tzinfo is None:
         published_at = published_at.replace(tzinfo=timezone.utc)
     hours = max(0.0, (now - published_at).total_seconds() / 3600)
-    return 12.0 * math.exp(-hours / 72.0)
+    # Fresh stories should win more decisively over week-old stories.
+    return 16.0 * math.exp(-hours / 60.0)
 
 
 def _category_score(item: NewsItem) -> float:
@@ -129,6 +149,7 @@ def _title_bonus(item: NewsItem) -> float:
 def _noise_penalty(item: NewsItem) -> float:
     text = _text(item)
     penalty = _keyword_score(text, LOW_SIGNAL_TERMS)
+    penalty += _keyword_score(text, ROUNDUP_TERMS)
     if len(re.sub(r"\s+", " ", item.summary).strip()) < 80:
         penalty += 1.5
     if item.title.count("!") >= 2:
