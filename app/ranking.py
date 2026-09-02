@@ -89,6 +89,25 @@ EDITORIAL_NOISE_PATTERNS = (
     "what you missed",
 )
 
+PROMO_PATTERNS = (
+    "learn why",
+    "join us",
+    "register now",
+    "register for",
+    "save your spot",
+    "meet us at",
+    "see us at",
+    "visit us at",
+    "at robobusiness",
+    "at robobusiness",
+    "conference session",
+    "conference panel",
+    "webinar",
+    "fireside chat",
+    "panel discussion",
+    "speakers include",
+)
+
 # Research/community articles that discuss publishing, peer review or the
 # research ecosystem rather than a concrete robot, capability or deployment.
 RESEARCH_COMMENTARY_PATTERNS = (
@@ -184,6 +203,12 @@ def _editorial_noise_penalty(item: NewsItem) -> float:
         if pattern in title or pattern in summary:
             penalty += 18.0
             break
+
+    promo_hits = sum(1 for pattern in PROMO_PATTERNS if pattern in combined)
+    if promo_hits >= 2:
+        penalty += 32.0
+    elif promo_hits == 1:
+        penalty += 18.0
 
     # Strongly demote research meta-discussion without a concrete robot/event.
     research_hits = sum(1 for pattern in RESEARCH_COMMENTARY_PATTERNS if pattern in combined)
