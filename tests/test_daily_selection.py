@@ -42,6 +42,25 @@ def test_partnership_platform_and_market_material_is_promotional_without_concret
     assert daily_selection._is_promotional(item)
 
 
+def test_filter_editorial_drops_google_news_when_five_direct_materials_exist():
+    items = [
+        NewsItem(source=f"Direct {index}", title=f"Robot event {index}", url=f"https://example.com/direct-{index}")
+        for index in range(5)
+    ]
+    items.append(
+        NewsItem(
+            source="Google News Robotics Research",
+            title="Video: 3D-printed Berkeley Humanoid Lite - Interesting Engineering",
+            url="https://example.com/aggregated",
+        )
+    )
+
+    filtered = daily_selection._filter_editorial(items)
+
+    assert len(filtered) == 5
+    assert all(not item.source.startswith("Google News") for item in filtered)
+
+
 def test_top5_prefers_specific_topic_coverage(monkeypatch):
     candidates = [
         _candidate(1, "Humanoid robot enters factory", "A", ("humanoid", "robotics")),
