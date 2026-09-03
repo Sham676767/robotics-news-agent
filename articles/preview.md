@@ -26,19 +26,7 @@ Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de 
 **Ссылка:** https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/
 **Изображение:** https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg
 
-## 3. HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption
-
-**Источник:** The Robot Report
-**Дата:** 2026-09-01T13:45:36+00:00
-**Язык:** не указан
-**Темы:** robotics
-
-The initiative is intended to help businesses in Australia identify automation opportunities, test them, and connect with local suppliers. The post HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption appeared first on The Robot Report .
-
-**Ссылка:** https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg
-
-## 4. A humanoid robot's social expressiveness may backfire when it makes mistakes
+## 3. A humanoid robot's social expressiveness may backfire when it makes mistakes
 
 **Источник:** Tech Xplore Robotics
 **Дата:** 2026-08-28T08:00:03+00:00
@@ -50,7 +38,7 @@ For robots to be successfully deployed in real-world environments, humans should
 **Ссылка:** https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html
 **Изображение:** не найдено
 
-## 5. Chinese automakers are following Tesla’s bet that robots are the next big profit machine
+## 4. Chinese automakers are following Tesla’s bet that robots are the next big profit machine
 
 **Источник:** TechCrunch Robotics
 **Дата:** 2026-08-28T23:24:27+00:00
@@ -61,3 +49,15 @@ Technical progress has encouraged a new batch of companies to jump in on the pro
 
 **Ссылка:** https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/
 **Изображение:** https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848
+
+## 5. Video: 3D-printed Berkeley Humanoid Lite opens a cheaper route to building robots - Interesting Engineering
+
+**Источник:** Google News Robotics Research
+**Дата:** 2026-08-31T11:07:00+00:00
+**Язык:** не указан
+**Темы:** humanoid
+
+Video: 3D-printed Berkeley Humanoid Lite opens a cheaper route to building robots    Interesting Engineering
+
+**Ссылка:** https://news.google.com/rss/articles/CBMijAFBVV95cUxNRTBhLUh6WU1BeGVaNlNJSEhEbWFHX05TZ3VrT2FFelF2ZUN6OUNhLUVZcUpfU25oQTJRYlNfelBGYTRld2hSSlJENzBLeFZIYk9QMkZtUEcwNkxub2UxWUVNLTlNUC1DTklPakd5TndtT0tRLWI5akFZaHB6SnEtQzZwbS1uVnBpbXFyTw?oc=5
+**Изображение:** не найдено

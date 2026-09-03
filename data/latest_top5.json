@@ -32,21 +32,6 @@
   },
   {
     "rank": 3,
-    "id": 4,
-    "title": "HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/",
-    "published_at": "2026-09-01T13:45:36+00:00",
-    "summary": "The initiative is intended to help businesses in Australia identify automation opportunities, test them, and connect with local suppliers. The post HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption appeared first on The Robot Report .",
-    "topics": [
-      "robotics"
-    ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg"
-  },
-  {
-    "rank": 4,
     "id": 1,
     "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
     "source": "Tech Xplore Robotics",
@@ -61,7 +46,7 @@
     "image_url": null
   },
   {
-    "rank": 5,
+    "rank": 4,
     "id": 8,
     "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
     "source": "TechCrunch Robotics",
@@ -74,5 +59,20 @@
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
     "image_url": "https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848"
+  },
+  {
+    "rank": 5,
+    "id": 10,
+    "title": "Video: 3D-printed Berkeley Humanoid Lite opens a cheaper route to building robots - Interesting Engineering",
+    "source": "Google News Robotics Research",
+    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNRTBhLUh6WU1BeGVaNlNJSEhEbWFHX05TZ3VrT2FFelF2ZUN6OUNhLUVZcUpfU25oQTJRYlNfelBGYTRld2hSSlJENzBLeFZIYk9QMkZtUEcwNkxub2UxWUVNLTlNUC1DTklPakd5TndtT0tRLWI5akFZaHB6SnEtQzZwbS1uVnBpbXFyTw?oc=5",
+    "published_at": "2026-08-31T11:07:00+00:00",
+    "summary": "Video: 3D-printed Berkeley Humanoid Lite opens a cheaper route to building robots    Interesting Engineering",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": null
   }
 ]
