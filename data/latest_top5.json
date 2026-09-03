@@ -1,37 +1,6 @@
 [
   {
     "rank": 1,
-    "id": 7,
-    "title": "Wheel-legged robot dog dumps packages – and ads",
-    "source": "New Atlas Robotics",
-    "url": "https://newatlas.com/robotics/r-dog-quadruped-delivery-robot/",
-    "published_at": "2026-08-27T19:25:43+00:00",
-    "summary": "Today, you can buy almost anything with a few clicks on your phone. Online shopping has created millions of small deliveries, and a lot of them could be handled more efficiently if humans had a little mechanical help. That’s where delivery robots come in. Continue Reading Category: Robotics , Engineering Tags: Quadruped , Delivery robots",
-    "topics": [
-      "robotics",
-      "robot_dog"
-    ],
-    "ai_score": 13.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
-    "image_url": "https://assets.newatlas.com/dims4/default/2aeef01/2147483647/strip/true/crop/1236x649+0+88/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fb2%2F39%2F463e7ed54f5d9050ff814c308d4f%2F1786417758-handsoff.jpeg&na.image_optimisation=0"
-  },
-  {
-    "rank": 2,
-    "id": 1,
-    "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html",
-    "published_at": "2026-08-28T08:00:03+00:00",
-    "summary": "For robots to be successfully deployed in real-world environments, humans should trust them enough to cooperate with them. Some roboticists have been trying to determine whether users perceive robots that exhibit socially expressive behaviors, such as gestures, eye contact and nodding, as more trustworthy.",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 23.0,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
-    "image_url": null
-  },
-  {
-    "rank": 3,
     "id": 3,
     "title": "Skild AI unveils S1 flagship robot foundation model",
     "source": "The Robot Report",
@@ -46,7 +15,52 @@
     "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/08/skildAI-featured.jpg"
   },
   {
+    "rank": 2,
+    "id": 8,
+    "title": "Learn how physical AI is being used to do real work at RoboBusiness",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/learn-how-physical-ai-is-being-used-to-do-real-work-at-robobusiness/",
+    "published_at": "2026-09-01T16:48:33+00:00",
+    "summary": "Leaders at Amazon Robotics, Teradyne Robotics, and Cobot will discuss how they're applying physical AI to robots operating in customer environments. The post Learn how physical AI is being used to do real work at RoboBusiness appeared first on The Robot Report .",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 33.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/08/AIpanelrobobusiness.jpg"
+  },
+  {
+    "rank": 3,
+    "id": 2,
+    "title": "Four-legged robot learns dog-like movements to leap through tight spaces",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html",
+    "published_at": "2026-08-31T09:20:09+00:00",
+    "summary": "Cats, dogs, wolves and other agile four-legged animals can easily jump and squeeze through tight spaces while moving at high speed. Reproducing similar agile motions and skills in quadrupedal robots has so far proved challenging.",
+    "topics": [
+      "robot_dog"
+    ],
+    "ai_score": 33.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": null
+  },
+  {
     "rank": 4,
+    "id": 1,
+    "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html",
+    "published_at": "2026-08-28T08:00:03+00:00",
+    "summary": "For robots to be successfully deployed in real-world environments, humans should trust them enough to cooperate with them. Some roboticists have been trying to determine whether users perceive robots that exhibit socially expressive behaviors, such as gestures, eye contact and nodding, as more trustworthy.",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 23.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": null
+  },
+  {
+    "rank": 5,
     "id": 5,
     "title": "First 11 vs 11 humanoid soccer game played at RoboCup 2026",
     "source": "Robohub",
@@ -59,20 +73,5 @@
     "ai_score": 17.0,
     "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": "https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg"
-  },
-  {
-    "rank": 5,
-    "id": 6,
-    "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
-    "source": "TechCrunch Robotics",
-    "url": "https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/",
-    "published_at": "2026-08-28T23:24:27+00:00",
-    "summary": "Technical progress has encouraged a new batch of companies to jump in on the promise of profits from humanoid robots. And they're all Chinese automakers.",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 11.0,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
-    "image_url": "https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848"
   }
 ]
