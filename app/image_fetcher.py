@@ -91,10 +91,9 @@ def _valid_image_url(candidate: str) -> bool:
             return False
         if len(response.content) < MIN_IMAGE_BYTES:
             return False
-        width = height = None
         try:
-            from PIL import Image
             from io import BytesIO
+            from PIL import Image
             with Image.open(BytesIO(response.content)) as image:
                 width, height = image.size
         except Exception:
@@ -133,9 +132,22 @@ def fetch_image_url(article_url: str) -> str | None:
 def enrich_with_images(top5: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Add validated image_url to selected stories without making image failures fatal."""
     result = [dict(item) for item in top5]
+
+    def resolve(item: dict[str, Any]) -> str | None:
+        # Prefer an image URL already supplied by the RSS feed. This avoids an
+        # unnecessary article-page request and works for sites that block scraping.
+        rss_image = item.get("image_url")
+        if isinstance(rss_image, str) and rss_image:
+            normalised = _normalise_candidate(rss_image, item.get("url", ""))
+            if normalised and _valid_image_url(normalised):
+                return normalised
+
+        article_url = item.get("url", "")
+        return fetch_image_url(article_url) if article_url else None
+
     with ThreadPoolExecutor(max_workers=min(MAX_WORKERS, max(1, len(result)))) as executor:
         futures = {
-            executor.submit(fetch_image_url, item.get("url", "")): index
+            executor.submit(resolve, item): index
             for index, item in enumerate(result)
             if item.get("url")
         }
