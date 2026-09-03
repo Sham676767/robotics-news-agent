@@ -26,17 +26,17 @@ Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de 
 **Ссылка:** https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/
 **Изображение:** https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg
 
-## 3. NexCOBOT discusses physical AI market hurdles and acceleration
+## 3. HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption
 
 **Источник:** The Robot Report
-**Дата:** 2026-09-02T19:45:19+00:00
+**Дата:** 2026-09-01T13:45:36+00:00
 **Язык:** не указан
 **Темы:** robotics
 
-NexCOBOT, which provides functional safety and motion controllers, discusses how physical AI benefits from 'Big Tech' and where it will grow. The post NexCOBOT discusses physical AI market hurdles and acceleration appeared first on The Robot Report .
+The initiative is intended to help businesses in Australia identify automation opportunities, test them, and connect with local suppliers. The post HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption appeared first on The Robot Report .
 
-**Ссылка:** https://www.therobotreport.com/nexcobot-discusses-physical-ai-market-hurdles-and-acceleration/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/Robotic-Summit-PR-image-banner_NexCOBOT-scaled-1.jpg
+**Ссылка:** https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/
+**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg
 
 ## 4. A humanoid robot's social expressiveness may backfire when it makes mistakes
 

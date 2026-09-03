@@ -1,7 +1,7 @@
 [
   {
     "rank": 1,
-    "id": 11,
+    "id": 9,
     "title": "Wheel-legged robot dog dumps packages – and ads",
     "source": "New Atlas Robotics",
     "url": "https://newatlas.com/robotics/r-dog-quadruped-delivery-robot/",
@@ -17,7 +17,7 @@
   },
   {
     "rank": 2,
-    "id": 7,
+    "id": 5,
     "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
     "source": "Robohub",
     "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
@@ -32,22 +32,22 @@
   },
   {
     "rank": 3,
-    "id": 3,
-    "title": "NexCOBOT discusses physical AI market hurdles and acceleration",
+    "id": 4,
+    "title": "HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/nexcobot-discusses-physical-ai-market-hurdles-and-acceleration/",
-    "published_at": "2026-09-02T19:45:19+00:00",
-    "summary": "NexCOBOT, which provides functional safety and motion controllers, discusses how physical AI benefits from 'Big Tech' and where it will grow. The post NexCOBOT discusses physical AI market hurdles and acceleration appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/",
+    "published_at": "2026-09-01T13:45:36+00:00",
+    "summary": "The initiative is intended to help businesses in Australia identify automation opportunities, test them, and connect with local suppliers. The post HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Robotic-Summit-PR-image-banner_NexCOBOT-scaled-1.jpg"
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg"
   },
   {
     "rank": 4,
-    "id": 6,
+    "id": 1,
     "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
     "source": "Tech Xplore Robotics",
     "url": "https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html",
@@ -62,7 +62,7 @@
   },
   {
     "rank": 5,
-    "id": 10,
+    "id": 8,
     "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
     "source": "TechCrunch Robotics",
     "url": "https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/",
