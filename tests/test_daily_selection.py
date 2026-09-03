@@ -42,6 +42,24 @@ def test_partnership_platform_and_market_material_is_promotional_without_concret
     assert daily_selection._is_promotional(item)
 
 
+def test_video_roundup_and_patent_dispute_are_not_daily_candidates():
+    video = NewsItem(
+        source="IEEE Spectrum Robotics",
+        title="Video Friday: Meet Microduck",
+        url="https://example.com/video-friday",
+        summary="A weekly selection of awesome robotics videos.",
+    )
+    dispute = NewsItem(
+        source="The Robot Report",
+        title="JAKA hits Teradyne Robotics back over patent dispute",
+        url="https://example.com/patent-dispute",
+        summary="JAKA takes legal action over allegedly false statements.",
+    )
+
+    assert daily_selection._is_editorial_roundup(video)
+    assert daily_selection._is_editorial_roundup(dispute)
+
+
 def test_conference_invitation_is_promotional_without_a_concrete_event():
     item = NewsItem(
         source="The Robot Report",
