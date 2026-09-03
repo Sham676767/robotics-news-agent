@@ -88,8 +88,17 @@ def _is_promotional(item) -> bool:
     return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0) or (partnership_or_platform and market_meta and concrete_hits == 0)
 
 
+def _is_aggregator(item) -> bool:
+    return item.source.lower().startswith("google news")
+
+
 def _filter_editorial(items: list) -> list:
-    return [item for item in items if not _is_editorial_roundup(item) and not _is_promotional(item)]
+    filtered = [item for item in items if not _is_editorial_roundup(item) and not _is_promotional(item)]
+    # An aggregated headline is only a reserve candidate. Do not exclude it
+    # outright: a thin news day must still be able to produce five genuine
+    # articles, but prefer direct publishers whenever five are available.
+    direct = [item for item in filtered if not _is_aggregator(item)]
+    return direct if len(direct) >= 5 else filtered
 
 
 def _recent(items: list) -> list:
