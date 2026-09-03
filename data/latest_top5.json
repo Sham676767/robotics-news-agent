@@ -2,21 +2,6 @@
   {
     "rank": 1,
     "id": 4,
-    "title": "Protecting Dynamic Industrial Robot Cable Carriers",
-    "source": "IEEE Spectrum Robotics",
-    "url": "https://spectrum.ieee.org/industrial-robot-cable-carrier-protection",
-    "published_at": "2026-09-03T12:18:21+00:00",
-    "summary": "This article is brought to you by Tsubaki KabelSchlepp . In modern automated manufacturing, six-axis articulated robots perform high-speed, multidirectional maneuvers under demanding operational cycles. However, as robot arms swivel, rotate, and extend, the electrical cables, fiber optics, and pneumatic hoses supplying them endure severe mechanical stress. Torsional twist, rapid acceleration, and repeated contact with machine structures often lead to premature conductor fatigue, insulation breakdown, and costly unplanned production halts. To overcome these multi-axis motion challenges, the Tsubaki KabelSchlepp Robotrax System provides a specialized three-dimensional cable carrier engineered specifically for complex robotic motion. Managing High Tensile Forces With Central Steel Technology Conventional cable carriers often transfer operational movement stress directly onto internal electrical lines and hoses. The Robotrax system changes this dynamic through a central steel cable that runs through the core of every chain link. The Robotrax system’s central steel cable absorbs the primary tensile loads and preserves conductor integrity, dramatically extending cable service life. When robot arms undergo rapid directional shifts and accelerations up to 10 g, this internal steel cable absorbs the primary tensile loads. By isolating electrical and fluid lines from pulling forces, the design preserves conductor integrity and dramatically extends cable service life. Mechanics can easi",
-    "topics": [
-      "robotics"
-    ],
-    "ai_score": 40.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
-    "image_url": "https://spectrum.ieee.org/media-library/image.jpg?id=67633840&width=1200&height=600&coordinates=0%2C166%2C0%2C167"
-  },
-  {
-    "rank": 2,
-    "id": 5,
     "title": "Skild AI unveils S1 flagship robot foundation model",
     "source": "The Robot Report",
     "url": "https://www.therobotreport.com/skild-ai-unveils-s1-flagship-robot-foundation-model/",
@@ -30,7 +15,7 @@
     "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/08/skildAI-featured.jpg"
   },
   {
-    "rank": 3,
+    "rank": 2,
     "id": 3,
     "title": "The Best Way to Explore Lunar Craters Is a Giant Robot Ball",
     "source": "IEEE Spectrum Robotics",
@@ -45,7 +30,7 @@
     "image_url": "https://spectrum.ieee.org/media-library/a-gif-of-a-spherical-robot-rolling-over-a-bumpy-path.gif?id=67701776&width=1200&height=600&coordinates=0%2C25%2C0%2C25"
   },
   {
-    "rank": 4,
+    "rank": 3,
     "id": 2,
     "title": "Four-legged robot learns dog-like movements to leap through tight spaces",
     "source": "Tech Xplore Robotics",
@@ -58,6 +43,21 @@
     "ai_score": 33.0,
     "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
+  },
+  {
+    "rank": 4,
+    "id": 5,
+    "title": "Adorable waddling robot can pick up stuff and learn new tricks",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/adorable-waddling-robot-pick-up-hugging-face-microduck-pollen-robotics/",
+    "published_at": "2026-08-31T13:33:43+00:00",
+    "summary": "This cute little robot duck isn't actually a toy. It's actually a platform for budding roboticists to train on and develop skills. But heck, this might be the most fun design for a hackable machine we've seen yet. Continue Reading Category: Robotics , Engineering Tags: Robot , Artificial Intelligence",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 16.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://assets.newatlas.com/dims4/default/d2ec16f/2147483647/strip/true/crop/1200x630+0+85/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F10%2Fe3%2F9502b45d425583165969f17a62d1%2Fhow-cute-is-this-trainable-robot-with-15-motors-and-a-lidar-sensor.jpg&na.image_optimisation=0"
   },
   {
     "rank": 5,

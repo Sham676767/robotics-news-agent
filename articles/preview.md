@@ -2,19 +2,7 @@
 
 > Это предпросмотр реальных карточек после отбора. OpenRouter и VK не запускаются.
 
-## 1. Protecting Dynamic Industrial Robot Cable Carriers
-
-**Источник:** IEEE Spectrum Robotics
-**Дата:** 2026-09-03T12:18:21+00:00
-**Язык:** не указан
-**Темы:** robotics
-
-This article is brought to you by Tsubaki KabelSchlepp . In modern automated manufacturing, six-axis articulated robots perform high-speed, multidirectional maneuvers under demanding operational cycles. However, as robot arms swivel, rotate, and extend, the electrical cables, fiber optics, and pneumatic hoses supplying them endure severe mechanical stress. Torsional twist, rapid acceleration, and repeated contact with machine structures often lead to premature conductor fatigue, insulation breakdown, and costly unplanned production halts. To overcome these multi-axis motion challenges, the Tsubaki KabelSchlepp Robotrax System provides a specialized three-dimensional cable carrier engineered specifically for complex robotic motion. Managing High Tensile Forces With Central Steel Technology Conventional cable carriers often transfer operational movement stress directly onto internal electrical lines and hoses. The Robotrax system changes this dynamic through a central steel cable that runs through the core of every chain link. The Robotrax system’s central steel cable absorbs the primary tensile loads and preserves conductor integrity, dramatically extending cable service life. When robot arms undergo rapid directional shifts and accelerations up to 10 g, this internal steel cable absorbs the primary tensile loads. By isolating electrical and fluid lines from pulling forces, the design preserves conductor integrity and dramatically extends cable service life. Mechanics can easi
-
-**Ссылка:** https://spectrum.ieee.org/industrial-robot-cable-carrier-protection
-**Изображение:** https://spectrum.ieee.org/media-library/image.jpg?id=67633840&width=1200&height=600&coordinates=0%2C166%2C0%2C167
-
-## 2. Skild AI unveils S1 flagship robot foundation model
+## 1. Skild AI unveils S1 flagship robot foundation model
 
 **Источник:** The Robot Report
 **Дата:** 2026-08-31T21:14:08+00:00
@@ -26,7 +14,7 @@ Skild AI says its S1 robot foundation model enables robots to learn new tasks ju
 **Ссылка:** https://www.therobotreport.com/skild-ai-unveils-s1-flagship-robot-foundation-model/
 **Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/08/skildAI-featured.jpg
 
-## 3. The Best Way to Explore Lunar Craters Is a Giant Robot Ball
+## 2. The Best Way to Explore Lunar Craters Is a Giant Robot Ball
 
 **Источник:** IEEE Spectrum Robotics
 **Дата:** 2026-09-03T12:00:01+00:00
@@ -38,7 +26,7 @@ On a good day, the rock quarry in central Texas is about 370,000 kilometers (230
 **Ссылка:** https://spectrum.ieee.org/moon-ball-robot
 **Изображение:** https://spectrum.ieee.org/media-library/a-gif-of-a-spherical-robot-rolling-over-a-bumpy-path.gif?id=67701776&width=1200&height=600&coordinates=0%2C25%2C0%2C25
 
-## 4. Four-legged robot learns dog-like movements to leap through tight spaces
+## 3. Four-legged robot learns dog-like movements to leap through tight spaces
 
 **Источник:** Tech Xplore Robotics
 **Дата:** 2026-08-31T09:20:09+00:00
@@ -49,6 +37,18 @@ Cats, dogs, wolves and other agile four-legged animals can easily jump and squee
 
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 **Изображение:** не найдено
+
+## 4. Adorable waddling robot can pick up stuff and learn new tricks
+
+**Источник:** New Atlas Robotics
+**Дата:** 2026-08-31T13:33:43+00:00
+**Язык:** не указан
+**Темы:** robotics
+
+This cute little robot duck isn't actually a toy. It's actually a platform for budding roboticists to train on and develop skills. But heck, this might be the most fun design for a hackable machine we've seen yet. Continue Reading Category: Robotics , Engineering Tags: Robot , Artificial Intelligence
+
+**Ссылка:** https://newatlas.com/robotics/adorable-waddling-robot-pick-up-hugging-face-microduck-pollen-robotics/
+**Изображение:** https://assets.newatlas.com/dims4/default/d2ec16f/2147483647/strip/true/crop/1200x630+0+85/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F10%2Fe3%2F9502b45d425583165969f17a62d1%2Fhow-cute-is-this-trainable-robot-with-15-motors-and-a-lidar-sensor.jpg&na.image_optimisation=0
 
 ## 5. A humanoid robot's social expressiveness may backfire when it makes mistakes
 
