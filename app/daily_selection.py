@@ -37,8 +37,8 @@ PROMO_REJECT_TERMS = (
 )
 
 DUPLICATE_CONCEPT_GROUPS = (
-    frozenset(("social expressiveness", "socially expressive", "expressive humanoid", "expressive behaviors", "expressive behaviour")),
-    frozenset(("makes mistakes", "make mistakes", "robot errors", "robot error", "awkward robot", "awkward robots")),
+    frozenset(("social expressiveness", "socially expressive", "expressive humanoid", "expressive behaviors", "expressive behaviour", "expressive conversation")),
+    frozenset(("makes mistakes", "make mistakes", "makes errors", "make errors", "robot errors", "robot error", "awkward robot", "awkward robots", "robots are awkward")),
     frozenset(("become wary", "more suspicious", "trustworthy", "trust them", "human trust", "perceive robots")),
 )
 
