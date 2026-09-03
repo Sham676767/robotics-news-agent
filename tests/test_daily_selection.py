@@ -1,4 +1,5 @@
 from app import daily_selection
+from app.models import NewsItem
 
 
 def _candidate(item_id, title, source, topics):
@@ -11,6 +12,34 @@ def _candidate(item_id, title, source, topics):
         "summary": title,
         "topics": topics,
     }
+
+
+def test_semantic_duplicate_detects_social_expressiveness_mistakes_and_trust_story():
+    robohub = NewsItem(
+        source="Robohub",
+        title="When expressive humanoid robots are awkward, people become wary",
+        url="https://example.com/robohub",
+        summary="People become more suspicious when an expressive conversation robot makes errors.",
+    )
+    techxplore = NewsItem(
+        source="Tech Xplore Robotics",
+        title="A humanoid robot's social expressiveness may backfire when it makes mistakes",
+        url="https://example.com/techxplore",
+        summary="Researchers tested whether socially expressive behaviors affect trust in a robot.",
+    )
+
+    assert daily_selection._near_duplicate(robohub, techxplore)
+
+
+def test_partnership_platform_and_market_material_is_promotional_without_concrete_event():
+    item = NewsItem(
+        source="The Robot Report",
+        title="HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption",
+        url="https://example.com/partner",
+        summary="The initiative helps businesses identify automation opportunities and connect with suppliers.",
+    )
+
+    assert daily_selection._is_promotional(item)
 
 
 def test_top5_prefers_specific_topic_coverage(monkeypatch):
