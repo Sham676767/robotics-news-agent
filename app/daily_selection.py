@@ -16,6 +16,7 @@ OUTPUT_PATH = Path("data/latest_top5.json")
 
 MAX_AGE = timedelta(days=7)
 MAX_PER_SOURCE = 2
+FRESH_TOPIC_WINDOW = timedelta(hours=72)
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 SPECIFIC_TOPICS = ("humanoid", "robot_dog", "exoskeleton")
 
@@ -200,6 +201,19 @@ def _topic_set(item: dict) -> set[str]:
     return set(item.get("topics") or ())
 
 
+def _is_fresh_candidate(item: dict) -> bool:
+    value = item.get("published_at")
+    if not value:
+        return False
+    try:
+        published_at = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    if published_at.tzinfo is None:
+        published_at = published_at.replace(tzinfo=timezone.utc)
+    return timedelta(0) <= datetime.now(timezone.utc) - published_at <= FRESH_TOPIC_WINDOW
+
+
 def _pick_result(candidate: dict, choice: dict | None = None, reason: str = "") -> dict:
     return {"rank": 0, "id": candidate["id"], "title": candidate["title"], "source": candidate["source"], "url": candidate["url"], "published_at": candidate["published_at"], "summary": candidate["summary"], "topics": candidate["topics"], "ai_score": choice.get("score") if choice else None, "why_selected": (choice.get("reason", "") if choice else reason)}
 
@@ -237,7 +251,14 @@ def select_top5(news=None) -> List[Dict]:
             valid_choices.append((choice, candidate))
 
     result, used_sources, covered_topics, chosen_ids = [], set(), set(), set()
-    target_topics = set(SPECIFIC_TOPICS)
+    # Topic variety should never force an old story above a fresh event. Only
+    # seek coverage for pillars that actually have a candidate from the last
+    # 72 hours; older stories remain available as reserve fill.
+    target_topics = set().union(*(
+        _topic_set(candidate).intersection(SPECIFIC_TOPICS)
+        for candidate in candidates
+        if _is_fresh_candidate(candidate)
+    )) if candidates else set()
     while len(result) < 5 and not target_topics.issubset(covered_topics):
         picked = _best_coverage_choice(valid_choices, covered_topics, chosen_ids, used_sources)
         if not picked:
