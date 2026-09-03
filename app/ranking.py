@@ -105,6 +105,12 @@ PROMO_PATTERNS = (
     "fireside chat",
     "panel discussion",
     "speakers include",
+    "platform to encourage",
+    "platform for adoption",
+    "initiative intended to help",
+    "partner on platform",
+    "market discussion",
+    "market commentary",
 )
 
 # Generic corporate/editorial headlines are usually weak daily-news candidates
@@ -121,6 +127,8 @@ CORPORATE_META_PATTERNS = (
     "market outlook",
     "industry outlook",
     "state of the market",
+    "market hurdles",
+    "acceleration",
 )
 
 # Research/community articles that discuss publishing, peer review or the
@@ -301,8 +309,10 @@ def _editorial_noise_penalty(item: NewsItem) -> float:
     elif niche_hits == 1:
         penalty += 16.0
 
-    if item.source in AGGREGATOR_SOURCES:
-        penalty += 7.0
+    if item.source in AGGREGATOR_SOURCES or item.source.lower().startswith("google news"):
+        # Aggregated headlines are only a reserve source; prefer the reported
+        # article when a direct publisher is available.
+        penalty += 18.0
 
     if any(term in combined for term in LOW_VALUE_DOMAINS):
         penalty += 10.0
