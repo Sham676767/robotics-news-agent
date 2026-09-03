@@ -99,13 +99,28 @@ PROMO_PATTERNS = (
     "see us at",
     "visit us at",
     "at robobusiness",
-    "at robobusiness",
     "conference session",
     "conference panel",
     "webinar",
     "fireside chat",
     "panel discussion",
     "speakers include",
+)
+
+# Generic corporate/editorial headlines are usually weak daily-news candidates
+# unless the text also contains a concrete launch, deployment, robot capability,
+# funding or other material event.
+CORPORATE_META_PATTERNS = (
+    "discusses",
+    "discuss",
+    "highlights",
+    "explores",
+    "talks about",
+    "shares insights",
+    "market hurdles",
+    "market outlook",
+    "industry outlook",
+    "state of the market",
 )
 
 # Research/community articles that discuss publishing, peer review or the
@@ -195,6 +210,27 @@ def _recency_score(published_at: datetime | None, now: datetime | None = None) -
     return 12.0 * math.exp(-hours / 72.0)
 
 
+def _age_penalty(published_at: datetime | None, now: datetime | None = None) -> float:
+    """Make daily TOP-5 prefer fresh news instead of merely relevant old stories."""
+    if not published_at:
+        return 4.0
+    now = now or datetime.now(timezone.utc)
+    if published_at.tzinfo is None:
+        published_at = published_at.replace(tzinfo=timezone.utc)
+    age_hours = max(0.0, (now - published_at).total_seconds() / 3600)
+    if age_hours <= 24:
+        return 0.0
+    if age_hours <= 48:
+        return 2.0
+    if age_hours <= 72:
+        return 4.0
+    if age_hours <= 120:
+        return 8.0
+    if age_hours <= 168:
+        return 14.0
+    return 22.0
+
+
 def _category_score(item: NewsItem) -> float:
     detected = set(classify(item))
     configured = set(item.topics)
@@ -230,6 +266,21 @@ def _editorial_noise_penalty(item: NewsItem) -> float:
     if promo_hits >= 2:
         penalty += 32.0
     elif promo_hits == 1:
+        penalty += 18.0
+
+    # Generic company commentary is much less valuable than a concrete event.
+    corporate_hits = sum(1 for pattern in CORPORATE_META_PATTERNS if pattern in combined)
+    concrete_event = any(
+        signal in combined
+        for signal in (
+            "launch", "launched", "unveil", "unveiled", "debut", "deployment",
+            "deployed", "production", "pilot", "contract", "order", "funding",
+            "raised", "acquisition", "ships", "shipped", "first",
+        )
+    )
+    if corporate_hits >= 2 and not concrete_event:
+        penalty += 30.0
+    elif corporate_hits == 1 and not concrete_event:
         penalty += 18.0
 
     # Strongly demote research meta-discussion without a concrete robot/event.
@@ -282,6 +333,7 @@ def score(item: NewsItem, now: datetime | None = None) -> float:
     technical = _keyword_score(text, TECHNICAL_SIGNALS)
     source = _source_score(item)
     recency = _recency_score(item.published_at, now)
+    age_penalty = _age_penalty(item.published_at, now)
     title_bonus = _title_bonus(item)
     noise = _noise_penalty(item)
 
@@ -292,6 +344,7 @@ def score(item: NewsItem, now: datetime | None = None) -> float:
         + title_bonus
         + source
         + recency
+        - age_penalty
         - noise * 2.0
     )
 
