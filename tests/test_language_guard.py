@@ -20,7 +20,7 @@ class RussianLanguageGuardTests(unittest.TestCase):
 
     def test_rejects_weekly_framing_in_daily_digest(self):
         article = self._article("Компания представила новый робот. Это описание события. Источник содержит факты.")
-        article["title"] = "Неделя в робототехнике"
+        article["title"] = "Дайджест за неделю в робототехнике"
         with self.assertRaises(ValueError):
             validate_russian_article(article)
 
