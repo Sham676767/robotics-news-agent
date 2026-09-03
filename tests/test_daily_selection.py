@@ -49,6 +49,12 @@ def test_video_roundup_and_patent_dispute_are_not_daily_candidates():
         url="https://example.com/video-friday",
         summary="A weekly selection of awesome robotics videos.",
     )
+    sponsored = NewsItem(
+        source="IEEE Spectrum Robotics",
+        title="Protecting Dynamic Industrial Robot Cable Carriers",
+        url="https://example.com/sponsored",
+        summary="This article is brought to you by a cable carrier manufacturer.",
+    )
     dispute = NewsItem(
         source="The Robot Report",
         title="JAKA hits Teradyne Robotics back over patent dispute",
@@ -57,6 +63,7 @@ def test_video_roundup_and_patent_dispute_are_not_daily_candidates():
     )
 
     assert daily_selection._is_editorial_roundup(video)
+    assert daily_selection._is_editorial_roundup(sponsored)
     assert daily_selection._is_editorial_roundup(dispute)
 
 
