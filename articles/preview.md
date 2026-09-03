@@ -26,17 +26,17 @@ Cats, dogs, wolves and other agile four-legged animals can easily jump and squee
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 **Изображение:** не найдено
 
-## 3. Learn why food is physical AI’s hardest problem at RoboBusiness
+## 3. NexCOBOT discusses physical AI market hurdles and acceleration
 
 **Источник:** The Robot Report
-**Дата:** 2026-09-02T17:37:50+00:00
+**Дата:** 2026-09-02T19:45:19+00:00
 **Язык:** не указан
 **Темы:** robotics
 
-Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .
+NexCOBOT, which provides functional safety and motion controllers, discusses how physical AI benefits from 'Big Tech' and where it will grow. The post NexCOBOT discusses physical AI market hurdles and acceleration appeared first on The Robot Report .
 
-**Ссылка:** https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg
+**Ссылка:** https://www.therobotreport.com/nexcobot-discusses-physical-ai-market-hurdles-and-acceleration/
+**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/Robotic-Summit-PR-image-banner_NexCOBOT-scaled-1.jpg
 
 ## 4. When expressive humanoid robots are awkward, people become wary – new brain study
 
