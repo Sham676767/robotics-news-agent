@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 
 import httpx
 
+from app.fact_guard import validate_factual_grounding
 from app.language_guard import validate_russian_article
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -331,6 +332,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     try:
         draft = _normalize_article(_parse_json(draft_content))
         validate_article(draft, top5)
+        validate_factual_grounding(draft, top5)
         validate_russian_article(_attach_sources(draft, top5))
         return _attach_sources(draft, top5)
     except (ValueError, RuntimeError) as first_error:
@@ -356,6 +358,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         repaired_content = _request_openrouter(_payload(repair_messages, model, models), headers)
         repaired = _normalize_article(_parse_json(repaired_content))
         validate_article(repaired, top5)
+        validate_factual_grounding(repaired, top5)
         repaired_public = _attach_sources(repaired, top5)
         validate_russian_article(repaired_public)
         return repaired_public
