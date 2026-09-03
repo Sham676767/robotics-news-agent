@@ -1,7 +1,7 @@
 [
   {
     "rank": 1,
-    "id": 9,
+    "id": 7,
     "title": "Wheel-legged robot dog dumps packages – and ads",
     "source": "New Atlas Robotics",
     "url": "https://newatlas.com/robotics/r-dog-quadruped-delivery-robot/",
@@ -11,27 +11,12 @@
       "robotics",
       "robot_dog"
     ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "ai_score": 13.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": "https://assets.newatlas.com/dims4/default/2aeef01/2147483647/strip/true/crop/1236x649+0+88/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fb2%2F39%2F463e7ed54f5d9050ff814c308d4f%2F1786417758-handsoff.jpeg&na.image_optimisation=0"
   },
   {
     "rank": 2,
-    "id": 5,
-    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
-    "source": "Robohub",
-    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
-    "published_at": "2026-08-31T09:18:24+00:00",
-    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
-  },
-  {
-    "rank": 3,
     "id": 1,
     "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
     "source": "Tech Xplore Robotics",
@@ -41,13 +26,43 @@
     "topics": [
       "humanoid"
     ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "ai_score": 23.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
   },
   {
+    "rank": 3,
+    "id": 3,
+    "title": "Skild AI unveils S1 flagship robot foundation model",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/skild-ai-unveils-s1-flagship-robot-foundation-model/",
+    "published_at": "2026-08-31T21:14:08+00:00",
+    "summary": "Skild AI says its S1 robot foundation model enables robots to learn new tasks just by seeing a video of it being performed. The post Skild AI unveils S1 flagship robot foundation model appeared first on The Robot Report .",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 39.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/08/skildAI-featured.jpg"
+  },
+  {
     "rank": 4,
-    "id": 8,
+    "id": 5,
+    "title": "First 11 vs 11 humanoid soccer game played at RoboCup 2026",
+    "source": "Robohub",
+    "url": "https://robohub.org/first-11-vs-11-humanoid-soccer-game-played-at-robocup-2026/",
+    "published_at": "2026-08-28T06:25:01+00:00",
+    "summary": "Action from the 11 vs 11 humanoid match at RoboCup 2026. Photo credit: RoboCup Federation. RoboCup 2026 saw history made, as two teams of 11 humanoids took to the soccer field, the first time a full complement of robots has competed. The game saw B-Human (Bremen, Germany) take on HTWK Robots (Leipzig, Germany), with both […]",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 17.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg"
+  },
+  {
+    "rank": 5,
+    "id": 6,
     "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
     "source": "TechCrunch Robotics",
     "url": "https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/",
@@ -56,23 +71,8 @@
     "topics": [
       "humanoid"
     ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "ai_score": 11.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": "https://techcrunch.com/wp-content/uploads/2026/08/xpeng-robot-Getty.jpg?resize=1200,848"
-  },
-  {
-    "rank": 5,
-    "id": 10,
-    "title": "Video: 3D-printed Berkeley Humanoid Lite opens a cheaper route to building robots - Interesting Engineering",
-    "source": "Google News Robotics Research",
-    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNRTBhLUh6WU1BeGVaNlNJSEhEbWFHX05TZ3VrT2FFelF2ZUN6OUNhLUVZcUpfU25oQTJRYlNfelBGYTRld2hSSlJENzBLeFZIYk9QMkZtUEcwNkxub2UxWUVNLTlNUC1DTklPakd5TndtT0tRLWI5akFZaHB6SnEtQzZwbS1uVnBpbXFyTw?oc=5",
-    "published_at": "2026-08-31T11:07:00+00:00",
-    "summary": "Video: 3D-printed Berkeley Humanoid Lite opens a cheaper route to building robots    Interesting Engineering",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": null
   }
 ]
