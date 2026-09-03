@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta, timezone
 
 from app.ai_client import _extract_json, _heuristic_fallback, build_ranking_prompt
 
@@ -39,6 +40,22 @@ def test_heuristic_fallback_prioritizes_specific_editorial_topics():
     ]
     result = _heuristic_fallback(items, limit=2)
     assert [item["id"] for item in result] == [2, 3]
+
+
+def test_heuristic_fallback_prefers_fresh_concrete_story_over_old_specific_and_aggregated_items():
+    now = datetime.now(timezone.utc)
+    items = [
+        {"id": 1, "title": "Old humanoid commentary", "source": "New Atlas Robotics", "topics": ["humanoid"], "published_at": (now - timedelta(days=7)).isoformat(), "summary": "A long but old general discussion of humanoid robots."},
+        {"id": 2, "title": "Robot dog demonstrated in warehouse pilot", "source": "Direct Publisher", "topics": ["robot_dog"], "published_at": (now - timedelta(hours=18)).isoformat(), "summary": "The company demonstrated a quadruped robot in a concrete warehouse deployment pilot with operators."},
+        {"id": 3, "title": "Humanoid roundup - Interesting Engineering", "source": "Google News Robotics Research", "topics": ["humanoid"], "published_at": (now - timedelta(hours=12)).isoformat(), "summary": "An aggregated headline that points to another publisher."},
+        {"id": 4, "title": "Company discusses physical AI market hurdles", "source": "The Robot Report", "topics": ["robotics"], "published_at": (now - timedelta(hours=6)).isoformat(), "summary": "A company discusses market outlook and industry trends."},
+    ]
+
+    result = _heuristic_fallback(items, limit=4)
+
+    assert result[0]["id"] == 2
+    assert result.index(next(item for item in result if item["id"] == 3)) > 0
+    assert result.index(next(item for item in result if item["id"] == 4)) > 0
 
 
 def test_ranking_prompt_is_scoped_to_four_editorial_topics():
