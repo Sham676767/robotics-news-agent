@@ -14,11 +14,11 @@
 **Изображение:** не найдено
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 
-## 3. Robotiq Releases ROS 2 Packages for Adaptive Grippers
+## 3. Booster Robotics Powers Science Robotics Research Article on Vision-Driven Humanoid Soccer Skills - TMX Newsfile
 
-**Источник:** Robotiq
-**Изображение:** https://blog.robotiq.com/hubfs/ROS-release-robotiq-grippers.png
-**Ссылка:** https://blog.robotiq.com/robotiq-releases-ros-2-packages-for-adaptive-grippers
+**Источник:** Google News Robotics Research
+**Изображение:** не найдено
+**Ссылка:** https://news.google.com/rss/articles/CBMi1wFBVV95cUxPUEoxZllRMFQxU194UG1lZzhSNHBrVGV5ckpTR0VoTWpEVHowRjdMLTR0b1VLWDItQVczdG9ydFNmbXdBYXBJQnhYSk1jUEpjRUlHbW15S2kyVzhEYkNSVno1dXlwZG1SdmlKd0lUZkZNdExfZURrTkN4MUFheWJ3VTZveVMtUDY1b2lZcy0yanJfZWVtbHdnNS1VVS1QdWhPVmw2aVZMNHhCeEw2WjhyLVVhNEIzQzEydUd2eFB5MjM3ejFoLUJSV19zcFNqalJxNk95Z1NfQQ?oc=5
 
 ## 4. When expressive humanoid robots are awkward, people become wary – new brain study
 
