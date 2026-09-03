@@ -12,6 +12,10 @@ sources:
     language: en
     url: https://techcrunch.com/category/robotics/feed/
     topics: [robotics, humanoid, robot-dog, exoskeleton]
+  - name: IEEE Spectrum Robotics
+    language: en
+    url: https://spectrum.ieee.org/feeds/topic/robotics.rss
+    topics: [robotics, humanoid, robot-dog, exoskeleton, research]
   - name: New Atlas Robotics
     language: en
     url: https://newatlas.com/robotics/index.rss
