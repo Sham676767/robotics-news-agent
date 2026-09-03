@@ -5,6 +5,7 @@ from typing import Any
 
 _CYRILLIC_RE = re.compile(r"[А-Яа-яЁё]")
 _LATIN_RE = re.compile(r"[A-Za-z]")
+_DAILY_DIGEST_FORBIDDEN = ("неделя", "недели", "недельный", "еженедельный")
 
 
 def _language_ratio(text: str) -> float:
@@ -26,6 +27,8 @@ def validate_russian_article(article: dict[str, Any], *, min_body_ratio: float =
 
     if _language_ratio(f"{title} {intro}") < 0.45:
         raise ValueError("Article title/intro is not sufficiently Russian")
+    if any(term in f"{title} {intro}".casefold() for term in _DAILY_DIGEST_FORBIDDEN):
+        raise ValueError("Daily digest must not be framed as a weekly digest")
 
     for index, item in enumerate(items, start=1):
         body = str(item.get("body") or "")
