@@ -1,38 +1,38 @@
 [
   {
     "rank": 1,
-    "id": 7,
-    "title": "Sub-$1,700 household robot promises to handle chores and more",
+    "id": 11,
+    "title": "Wheel-legged robot dog dumps packages – and ads",
     "source": "New Atlas Robotics",
-    "url": "https://newatlas.com/robotics/household-robot-chores-nori-a3/",
-    "published_at": "2026-08-25T15:47:29+00:00",
-    "summary": "Are household humanoid robots getting cheaper already? We've only just begun seeing companies start to make promises and accept pre-orders for machines that can do your laundry and tidy up the living room. A San Francisco-based startup is now making one that you can bring home for just US$1,688. Continue Reading Category: Robotics , Engineering Tags: Robot , Tele-operation , Humanoid , assistant robot",
+    "url": "https://newatlas.com/robotics/r-dog-quadruped-delivery-robot/",
+    "published_at": "2026-08-27T19:25:43+00:00",
+    "summary": "Today, you can buy almost anything with a few clicks on your phone. Online shopping has created millions of small deliveries, and a lot of them could be handled more efficiently if humans had a little mechanical help. That’s where delivery robots come in. Continue Reading Category: Robotics , Engineering Tags: Quadruped , Delivery robots",
     "topics": [
       "robotics",
-      "humanoid"
-    ],
-    "ai_score": 0,
-    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://assets.newatlas.com/dims4/default/cd834dc/2147483647/strip/true/crop/1902x999+0+35/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F16%2F95%2F5ec1612e48c38416a1d77c0569b1%2Ffor-its-second-batch-this-fall-nori-will-assemble-100-a3s-in-its-san-francisco-facility.jpg&na.image_optimisation=0"
-  },
-  {
-    "rank": 2,
-    "id": 2,
-    "title": "Four-legged robot learns dog-like movements to leap through tight spaces",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html",
-    "published_at": "2026-08-31T09:20:09+00:00",
-    "summary": "Cats, dogs, wolves and other agile four-legged animals can easily jump and squeeze through tight spaces while moving at high speed. Reproducing similar agile motions and skills in quadrupedal robots has so far proved challenging.",
-    "topics": [
       "robot_dog"
     ],
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": null
+    "image_url": "https://assets.newatlas.com/dims4/default/2aeef01/2147483647/strip/true/crop/1236x649+0+88/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fb2%2F39%2F463e7ed54f5d9050ff814c308d4f%2F1786417758-handsoff.jpeg&na.image_optimisation=0"
+  },
+  {
+    "rank": 2,
+    "id": 7,
+    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
+    "source": "Robohub",
+    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
+    "published_at": "2026-08-31T09:18:24+00:00",
+    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 0,
+    "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
   },
   {
     "rank": 3,
-    "id": 4,
+    "id": 3,
     "title": "NexCOBOT discusses physical AI market hurdles and acceleration",
     "source": "The Robot Report",
     "url": "https://www.therobotreport.com/nexcobot-discusses-physical-ai-market-hurdles-and-acceleration/",
@@ -47,22 +47,22 @@
   },
   {
     "rank": 4,
-    "id": 10,
-    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
-    "source": "Robohub",
-    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
-    "published_at": "2026-08-31T09:18:24+00:00",
-    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
+    "id": 6,
+    "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html",
+    "published_at": "2026-08-28T08:00:03+00:00",
+    "summary": "For robots to be successfully deployed in real-world environments, humans should trust them enough to cooperate with them. Some roboticists have been trying to determine whether users perceive robots that exhibit socially expressive behaviors, such as gestures, eye contact and nodding, as more trustworthy.",
     "topics": [
       "humanoid"
     ],
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
+    "image_url": null
   },
   {
     "rank": 5,
-    "id": 12,
+    "id": 10,
     "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
     "source": "TechCrunch Robotics",
     "url": "https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/",

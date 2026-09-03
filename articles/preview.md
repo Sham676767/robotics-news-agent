@@ -2,29 +2,29 @@
 
 > Это предпросмотр реальных карточек после отбора. OpenRouter и VK не запускаются.
 
-## 1. Sub-$1,700 household robot promises to handle chores and more
+## 1. Wheel-legged robot dog dumps packages – and ads
 
 **Источник:** New Atlas Robotics
-**Дата:** 2026-08-25T15:47:29+00:00
+**Дата:** 2026-08-27T19:25:43+00:00
 **Язык:** не указан
-**Темы:** robotics, humanoid
+**Темы:** robotics, robot_dog
 
-Are household humanoid robots getting cheaper already? We've only just begun seeing companies start to make promises and accept pre-orders for machines that can do your laundry and tidy up the living room. A San Francisco-based startup is now making one that you can bring home for just US$1,688. Continue Reading Category: Robotics , Engineering Tags: Robot , Tele-operation , Humanoid , assistant robot
+Today, you can buy almost anything with a few clicks on your phone. Online shopping has created millions of small deliveries, and a lot of them could be handled more efficiently if humans had a little mechanical help. That’s where delivery robots come in. Continue Reading Category: Robotics , Engineering Tags: Quadruped , Delivery robots
 
-**Ссылка:** https://newatlas.com/robotics/household-robot-chores-nori-a3/
-**Изображение:** https://assets.newatlas.com/dims4/default/cd834dc/2147483647/strip/true/crop/1902x999+0+35/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F16%2F95%2F5ec1612e48c38416a1d77c0569b1%2Ffor-its-second-batch-this-fall-nori-will-assemble-100-a3s-in-its-san-francisco-facility.jpg&na.image_optimisation=0
+**Ссылка:** https://newatlas.com/robotics/r-dog-quadruped-delivery-robot/
+**Изображение:** https://assets.newatlas.com/dims4/default/2aeef01/2147483647/strip/true/crop/1236x649+0+88/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fb2%2F39%2F463e7ed54f5d9050ff814c308d4f%2F1786417758-handsoff.jpeg&na.image_optimisation=0
 
-## 2. Four-legged robot learns dog-like movements to leap through tight spaces
+## 2. When expressive humanoid robots are awkward, people become wary – new brain study
 
-**Источник:** Tech Xplore Robotics
-**Дата:** 2026-08-31T09:20:09+00:00
+**Источник:** Robohub
+**Дата:** 2026-08-31T09:18:24+00:00
 **Язык:** не указан
-**Темы:** robot_dog
+**Темы:** humanoid
 
-Cats, dogs, wolves and other agile four-legged animals can easily jump and squeeze through tight spaces while moving at high speed. Reproducing similar agile motions and skills in quadrupedal robots has so far proved challenging.
+Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]
 
-**Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
-**Изображение:** не найдено
+**Ссылка:** https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/
+**Изображение:** https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg
 
 ## 3. NexCOBOT discusses physical AI market hurdles and acceleration
 
@@ -38,17 +38,17 @@ NexCOBOT, which provides functional safety and motion controllers, discusses how
 **Ссылка:** https://www.therobotreport.com/nexcobot-discusses-physical-ai-market-hurdles-and-acceleration/
 **Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/Robotic-Summit-PR-image-banner_NexCOBOT-scaled-1.jpg
 
-## 4. When expressive humanoid robots are awkward, people become wary – new brain study
+## 4. A humanoid robot's social expressiveness may backfire when it makes mistakes
 
-**Источник:** Robohub
-**Дата:** 2026-08-31T09:18:24+00:00
+**Источник:** Tech Xplore Robotics
+**Дата:** 2026-08-28T08:00:03+00:00
 **Язык:** не указан
 **Темы:** humanoid
 
-Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]
+For robots to be successfully deployed in real-world environments, humans should trust them enough to cooperate with them. Some roboticists have been trying to determine whether users perceive robots that exhibit socially expressive behaviors, such as gestures, eye contact and nodding, as more trustworthy.
 
-**Ссылка:** https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/
-**Изображение:** https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg
+**Ссылка:** https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html
+**Изображение:** не найдено
 
 ## 5. Chinese automakers are following Tesla’s bet that robots are the next big profit machine
 
