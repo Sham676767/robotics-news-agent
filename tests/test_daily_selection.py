@@ -42,6 +42,18 @@ def test_partnership_platform_and_market_material_is_promotional_without_concret
     assert daily_selection._is_promotional(item)
 
 
+def test_market_discussion_without_a_checkable_event_is_not_a_candidate():
+    item = NewsItem(
+        source="TechCrunch Robotics",
+        title="Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
+        url="https://example.com/market-discussion",
+        summary="Technical progress has encouraged companies to chase the promise of profits from humanoid robots.",
+    )
+
+    assert daily_selection._is_low_specificity_discussion(item)
+    assert item not in daily_selection._filter_editorial([item])
+
+
 def test_video_roundup_and_patent_dispute_are_not_daily_candidates():
     video = NewsItem(
         source="IEEE Spectrum Robotics",
@@ -122,6 +134,33 @@ def test_top5_does_not_force_stale_topic_coverage_over_fresh_event(monkeypatch):
     result = daily_selection.select_top5(news=[])
 
     assert result[0]["id"] == 2
+
+
+def test_top5_gives_fresh_event_priority_over_higher_ai_score(monkeypatch):
+    now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
+    candidates = [
+        {**_candidate(1, "Old robotics event 1", "A", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(days=6)).isoformat()},
+        {**_candidate(2, "Old robotics event 2", "B", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(days=5)).isoformat()},
+        {**_candidate(3, "Old robotics event 3", "C", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(days=4)).isoformat()},
+        {**_candidate(4, "Old robotics event 4", "D", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(days=3)).isoformat()},
+        {**_candidate(5, "Fresh robotics event", "E", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(hours=12)).isoformat()},
+    ]
+    monkeypatch.setattr(daily_selection, "build_candidates", lambda items=None: candidates)
+    monkeypatch.setattr(
+        daily_selection,
+        "rank_with_deepseek",
+        lambda items, limit: [
+            {"id": 1, "score": 99},
+            {"id": 2, "score": 98},
+            {"id": 3, "score": 97},
+            {"id": 4, "score": 96},
+            {"id": 5, "score": 1},
+        ],
+    )
+
+    result = daily_selection.select_top5(news=[])
+
+    assert result[0]["id"] == 5
 
 
 def test_top5_prefers_specific_topic_coverage(monkeypatch):
