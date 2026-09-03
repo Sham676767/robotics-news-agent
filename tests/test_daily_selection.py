@@ -45,9 +45,9 @@ def test_partnership_platform_and_market_material_is_promotional_without_concret
 def test_conference_invitation_is_promotional_without_a_concrete_event():
     item = NewsItem(
         source="The Robot Report",
-        title="Learn how physical AI is being used to do real work at RoboBusiness",
+        title="Learn why food is physical AI’s hardest problem at RoboBusiness",
         url="https://example.com/robobusiness",
-        summary="Leaders at Amazon Robotics and Teradyne Robotics will discuss customer deployments.",
+        summary="The founder and CEO of Chef Robotics will explore a demanding benchmark.",
     )
 
     assert daily_selection._is_promotional(item)
