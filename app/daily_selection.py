@@ -35,6 +35,20 @@ SPONSORED_REJECT_TERMS = (
     "brought to you by", "sponsored content", "advertisement", "advertorial",
 )
 
+# These stories discuss a sector or the research ecosystem rather than report a
+# checkable robotics event. They are not useful daily TOP-5 entries when the
+# card contains no launch, trial, study result, funding round, or deployment.
+MARKET_DISCUSSION_REJECT_TERMS = (
+    "next big profit machine", "next big profit", "promise of profits",
+    "race for profits", "market opportunity", "market potential",
+    "market trends", "market outlook", "industry outlook",
+    "market discussion", "market commentary",
+)
+RESEARCH_META_REJECT_TERMS = (
+    "paper deluge", "peer review", "research ecosystem",
+    "research community", "publication growth", "future of peer review",
+)
+
 PROMO_REJECT_TERMS = (
     "discusses", "market hurdles", "market outlook", "market trends", "industry outlook",
     "joins us", "join us", "webinar", "fireside chat", "conference session",
@@ -106,12 +120,25 @@ def _is_promotional(item) -> bool:
     return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0) or (partnership_or_platform and market_meta and concrete_hits == 0)
 
 
+def _is_low_specificity_discussion(item) -> bool:
+    combined = re.sub(r"\s+", " ", f"{item.title} {item.summary}".lower()).strip()
+    concrete_hits = sum(1 for term in CONCRETE_EVENT_TERMS if _contains_term(combined, term))
+    market_discussion = any(_contains_term(combined, term) for term in MARKET_DISCUSSION_REJECT_TERMS)
+    research_meta = any(_contains_term(combined, term) for term in RESEARCH_META_REJECT_TERMS)
+    return (market_discussion or research_meta) and concrete_hits == 0
+
+
 def _is_aggregator(item) -> bool:
     return item.source.lower().startswith("google news")
 
 
 def _filter_editorial(items: list) -> list:
-    filtered = [item for item in items if not _is_editorial_roundup(item) and not _is_promotional(item)]
+    filtered = [
+        item for item in items
+        if not _is_editorial_roundup(item)
+        and not _is_promotional(item)
+        and not _is_low_specificity_discussion(item)
+    ]
     # An aggregated headline is only a reserve candidate. Do not exclude it
     # outright: a thin news day must still be able to produce five genuine
     # articles, but prefer direct publishers whenever five are available.
@@ -235,9 +262,35 @@ def _pick_result(candidate: dict, choice: dict | None = None, reason: str = "") 
     return {"rank": 0, "id": candidate["id"], "title": candidate["title"], "source": candidate["source"], "url": candidate["url"], "published_at": candidate["published_at"], "summary": candidate["summary"], "topics": candidate["topics"], "ai_score": choice.get("score") if choice else None, "why_selected": (choice.get("reason", "") if choice else reason)}
 
 
+def _freshness_priority(candidate: dict) -> int:
+    value = candidate.get("published_at")
+    if not value:
+        return 0
+    try:
+        published_at = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return 0
+    if published_at.tzinfo is None:
+        published_at = published_at.replace(tzinfo=timezone.utc)
+    age = datetime.now(timezone.utc) - published_at
+    if timedelta(0) <= age <= FRESH_TOPIC_WINDOW:
+        return 3
+    if age <= timedelta(hours=120):
+        return 2
+    if age <= MAX_AGE:
+        return 1
+    return 0
+
+
 def _score_coverage(candidate: dict, choice: dict, covered_topics: set[str], used_sources: set[str]) -> tuple[float, ...]:
     topics = _topic_set(candidate)
-    return (float(len(topics.intersection(SPECIFIC_TOPICS) - covered_topics)), float(len(topics.intersection(CORE_TOPICS) - covered_topics)), float(candidate["source"] not in used_sources), float(choice.get("score") or 0))
+    return (
+        float(len(topics.intersection(SPECIFIC_TOPICS) - covered_topics)),
+        float(len(topics.intersection(CORE_TOPICS) - covered_topics)),
+        float(_freshness_priority(candidate)),
+        float(candidate["source"] not in used_sources),
+        float(choice.get("score") or 0),
+    )
 
 
 def _best_coverage_choice(choices, covered_topics, used_ids, used_sources):
@@ -251,7 +304,15 @@ def _best_ranked_fill(choices, covered_topics, used_ids, used_sources):
         if candidate["id"] in used_ids:
             continue
         eligible.append((choice, candidate, candidate["source"] not in used_sources, _topic_set(candidate) - covered_topics))
-    return max(eligible, key=lambda row: (float(row[0].get("score") or 0), row[2], len(row[3])))[:2] if eligible else None
+    return max(
+        eligible,
+        key=lambda row: (
+            _freshness_priority(row[1]),
+            float(row[0].get("score") or 0),
+            row[2],
+            len(row[3]),
+        ),
+    )[:2] if eligible else None
 
 
 def select_top5(news=None) -> List[Dict]:
