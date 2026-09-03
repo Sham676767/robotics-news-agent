@@ -31,6 +31,15 @@ PROMO_REJECT_TERMS = (
     "joins us", "join us", "webinar", "fireside chat", "conference session",
     "conference panel", "panel discussion", "register now", "save your spot",
     "speakers include", "partner to encourage", "partnership to encourage",
+    "platform to encourage", "platform for adoption", "initiative intended to help",
+    "market discussion", "market analysis", "market commentary", "industry discussion",
+    "thought leadership", "announces partnership", "partner on platform",
+)
+
+DUPLICATE_CONCEPT_GROUPS = (
+    frozenset(("social expressiveness", "socially expressive", "expressive humanoid", "expressive behaviors", "expressive behaviour")),
+    frozenset(("makes mistakes", "make mistakes", "robot errors", "robot error", "awkward robot", "awkward robots")),
+    frozenset(("become wary", "more suspicious", "trustworthy", "trust them", "human trust", "perceive robots")),
 )
 
 CONCRETE_EVENT_TERMS = (
@@ -74,7 +83,9 @@ def _is_promotional(item) -> bool:
     combined = f"{title} {summary}"
     promo_hits = sum(1 for term in PROMO_REJECT_TERMS if term in combined)
     concrete_hits = sum(1 for term in CONCRETE_EVENT_TERMS if term in combined)
-    return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0)
+    partnership_or_platform = any(term in combined for term in ("partner", "partnership", "platform", "initiative"))
+    market_meta = any(term in combined for term in ("market", "industry", "adoption", "discussion", "outlook"))
+    return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0) or (partnership_or_platform and market_meta and concrete_hits == 0)
 
 
 def _filter_editorial(items: list) -> list:
@@ -102,7 +113,19 @@ def _tokens(text: str) -> set[str]:
     return {word for word in words if word not in stop}
 
 
+def _duplicate_concepts(item) -> set[int]:
+    text = f"{item.title} {item.summary}".lower()
+    return {index for index, phrases in enumerate(DUPLICATE_CONCEPT_GROUPS) if any(phrase in text for phrase in phrases)}
+
+
 def _near_duplicate(a, b) -> bool:
+    concepts_a, concepts_b = _duplicate_concepts(a), _duplicate_concepts(b)
+    # Different publishers commonly paraphrase this study as social
+    # expressiveness + mistakes + trust/wary/suspicious. Token overlap alone
+    # misses those inflection and wording changes.
+    if len(concepts_a & concepts_b) >= 2 and (len(concepts_a) >= 2 or len(concepts_b) >= 2):
+        return True
+
     title_a, title_b = _tokens(a.title), _tokens(b.title)
     if not title_a or not title_b:
         return False
