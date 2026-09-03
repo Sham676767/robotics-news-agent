@@ -14,19 +14,7 @@ Skild AI says its S1 robot foundation model enables robots to learn new tasks ju
 **Ссылка:** https://www.therobotreport.com/skild-ai-unveils-s1-flagship-robot-foundation-model/
 **Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/08/skildAI-featured.jpg
 
-## 2. Learn why food is physical AI’s hardest problem at RoboBusiness
-
-**Источник:** The Robot Report
-**Дата:** 2026-09-02T17:37:50+00:00
-**Язык:** не указан
-**Темы:** robotics
-
-Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .
-
-**Ссылка:** https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg
-
-## 3. Four-legged robot learns dog-like movements to leap through tight spaces
+## 2. Four-legged robot learns dog-like movements to leap through tight spaces
 
 **Источник:** Tech Xplore Robotics
 **Дата:** 2026-08-31T09:20:09+00:00
@@ -38,7 +26,7 @@ Cats, dogs, wolves and other agile four-legged animals can easily jump and squee
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 **Изображение:** не найдено
 
-## 4. A humanoid robot's social expressiveness may backfire when it makes mistakes
+## 3. A humanoid robot's social expressiveness may backfire when it makes mistakes
 
 **Источник:** Tech Xplore Robotics
 **Дата:** 2026-08-28T08:00:03+00:00
@@ -50,7 +38,7 @@ For robots to be successfully deployed in real-world environments, humans should
 **Ссылка:** https://techxplore.com/news/2026-08-humanoid-robot-social-backfire.html
 **Изображение:** не найдено
 
-## 5. First 11 vs 11 humanoid soccer game played at RoboCup 2026
+## 4. First 11 vs 11 humanoid soccer game played at RoboCup 2026
 
 **Источник:** Robohub
 **Дата:** 2026-08-28T06:25:01+00:00
@@ -61,3 +49,15 @@ Action from the 11 vs 11 humanoid match at RoboCup 2026. Photo credit: RoboCup F
 
 **Ссылка:** https://robohub.org/first-11-vs-11-humanoid-soccer-game-played-at-robocup-2026/
 **Изображение:** https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg
+
+## 5. Adorable waddling robot can pick up stuff and learn new tricks
+
+**Источник:** New Atlas Robotics
+**Дата:** 2026-08-31T13:33:43+00:00
+**Язык:** не указан
+**Темы:** robotics
+
+This cute little robot duck isn't actually a toy. It's actually a platform for budding roboticists to train on and develop skills. But heck, this might be the most fun design for a hackable machine we've seen yet. Continue Reading Category: Robotics , Engineering Tags: Robot , Artificial Intelligence
+
+**Ссылка:** https://newatlas.com/robotics/adorable-waddling-robot-pick-up-hugging-face-microduck-pollen-robotics/
+**Изображение:** https://assets.newatlas.com/dims4/default/d2ec16f/2147483647/strip/true/crop/1200x630+0+85/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F10%2Fe3%2F9502b45d425583165969f17a62d1%2Fhow-cute-is-this-trainable-robot-with-15-motors-and-a-lidar-sensor.jpg&na.image_optimisation=0

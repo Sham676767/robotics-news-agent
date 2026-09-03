@@ -16,21 +16,6 @@
   },
   {
     "rank": 2,
-    "id": 8,
-    "title": "Learn why food is physical AI’s hardest problem at RoboBusiness",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/",
-    "published_at": "2026-09-02T17:37:50+00:00",
-    "summary": "Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .",
-    "topics": [
-      "robotics"
-    ],
-    "ai_score": 33.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg"
-  },
-  {
-    "rank": 3,
     "id": 2,
     "title": "Four-legged robot learns dog-like movements to leap through tight spaces",
     "source": "Tech Xplore Robotics",
@@ -45,7 +30,7 @@
     "image_url": null
   },
   {
-    "rank": 4,
+    "rank": 3,
     "id": 1,
     "title": "A humanoid robot's social expressiveness may backfire when it makes mistakes",
     "source": "Tech Xplore Robotics",
@@ -60,7 +45,7 @@
     "image_url": null
   },
   {
-    "rank": 5,
+    "rank": 4,
     "id": 5,
     "title": "First 11 vs 11 humanoid soccer game played at RoboCup 2026",
     "source": "Robohub",
@@ -73,5 +58,20 @@
     "ai_score": 17.0,
     "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": "https://robohub.org/wp-content/uploads/2026/08/11vs11-1024x674.jpeg"
+  },
+  {
+    "rank": 5,
+    "id": 4,
+    "title": "Adorable waddling robot can pick up stuff and learn new tricks",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/adorable-waddling-robot-pick-up-hugging-face-microduck-pollen-robotics/",
+    "published_at": "2026-08-31T13:33:43+00:00",
+    "summary": "This cute little robot duck isn't actually a toy. It's actually a platform for budding roboticists to train on and develop skills. But heck, this might be the most fun design for a hackable machine we've seen yet. Continue Reading Category: Robotics , Engineering Tags: Robot , Artificial Intelligence",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 16.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://assets.newatlas.com/dims4/default/d2ec16f/2147483647/strip/true/crop/1200x630+0+85/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F10%2Fe3%2F9502b45d425583165969f17a62d1%2Fhow-cute-is-this-trainable-robot-with-15-motors-and-a-lidar-sensor.jpg&na.image_optimisation=0"
   }
 ]
