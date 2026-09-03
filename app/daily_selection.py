@@ -35,7 +35,7 @@ PROMO_REJECT_TERMS = (
     "platform to encourage", "platform for adoption", "initiative intended to help",
     "market discussion", "market analysis", "market commentary", "industry discussion",
     "thought leadership", "announces partnership", "partner on platform",
-    "learn how", "at robobusiness", "will discuss", "leaders will discuss",
+    "learn how", "learn why", "at robobusiness", "will discuss", "leaders will discuss",
 )
 
 DUPLICATE_CONCEPT_GROUPS = (
@@ -79,12 +79,16 @@ def _is_editorial_roundup(item) -> bool:
     return any(term in text for term in EDITORIAL_REJECT_TERMS)
 
 
+def _contains_term(text: str, term: str) -> bool:
+    return re.search(rf"\b{re.escape(term)}\b", text) is not None
+
+
 def _is_promotional(item) -> bool:
     title = re.sub(r"\s+", " ", item.title.lower()).strip()
     summary = re.sub(r"\s+", " ", item.summary.lower()).strip()
     combined = f"{title} {summary}"
-    promo_hits = sum(1 for term in PROMO_REJECT_TERMS if term in combined)
-    concrete_hits = sum(1 for term in CONCRETE_EVENT_TERMS if term in combined)
+    promo_hits = sum(1 for term in PROMO_REJECT_TERMS if _contains_term(combined, term))
+    concrete_hits = sum(1 for term in CONCRETE_EVENT_TERMS if _contains_term(combined, term))
     partnership_or_platform = any(term in combined for term in ("partner", "partnership", "platform", "initiative"))
     market_meta = any(term in combined for term in ("market", "industry", "adoption", "discussion", "outlook"))
     return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0) or (partnership_or_platform and market_meta and concrete_hits == 0)
