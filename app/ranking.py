@@ -186,6 +186,7 @@ SOURCE_WEIGHTS = {
     "The Robot Report": 1.00,
     "Robohub": 0.98,
     "TechCrunch Robotics": 0.98,
+    "IEEE Spectrum Robotics": 1.00,
     "Tech Xplore Robotics": 0.96,
     "New Atlas Robotics": 0.90,
     "Robotiq": 0.88,
