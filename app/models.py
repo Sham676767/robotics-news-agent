@@ -11,4 +11,5 @@ class NewsItem:
     summary: str = ""
     language: str = ""
     topics: tuple[str, ...] = ()
+    image_url: str | None = None
 
