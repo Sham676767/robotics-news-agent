@@ -19,7 +19,7 @@ def render_vk_message(article: dict[str, Any]) -> str:
     """Render the structured article as a clean, readable VK wall post."""
     number_icons = ("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣")
     lines = [
-        "🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ НЕДЕЛИ",
+        "🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ ДНЯ",
         "",
         article["title"].strip(),
         "",
@@ -46,7 +46,7 @@ def render_vk_message(article: dict[str, Any]) -> str:
         [
             "",
             "—",
-            "🤖 Пять событий недели без рекламных обещаний и неподтверждённых выводов.",
+            "🤖 Пять событий дня без рекламных обещаний и неподтверждённых выводов.",
         ]
     )
     return "\n".join(lines).strip()
