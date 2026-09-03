@@ -1,6 +1,6 @@
 import unittest
 
-from app.article_editor import _attach_sources, _normalize_article, validate_article
+from app.article_editor import SYSTEM_PROMPT, _attach_sources, _normalize_article, validate_article
 
 
 class ArticleEditorTests(unittest.TestCase):
@@ -27,6 +27,10 @@ class ArticleEditorTests(unittest.TestCase):
                 for i in range(1, 6)
             ],
         }
+
+    def test_system_prompt_is_for_a_daily_digest(self):
+        self.assertIn("ежедневный аналитический дайджест", SYSTEM_PROMPT)
+        self.assertNotIn("еженедельный аналитический дайджест", SYSTEM_PROMPT)
 
     def test_normalize_article_assigns_indexes_by_position(self):
         article = self.valid_article()
