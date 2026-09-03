@@ -32,22 +32,22 @@
   },
   {
     "rank": 3,
-    "id": 4,
-    "title": "HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/",
-    "published_at": "2026-09-01T13:45:36+00:00",
-    "summary": "The initiative is intended to help businesses in Australia identify automation opportunities, test them, and connect with local suppliers. The post HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption appeared first on The Robot Report .",
+    "id": 11,
+    "title": "Robotiq Releases ROS 2 Packages for Adaptive Grippers",
+    "source": "Robotiq",
+    "url": "https://blog.robotiq.com/robotiq-releases-ros-2-packages-for-adaptive-grippers",
+    "published_at": "2026-08-26T12:00:02+00:00",
+    "summary": "If you run a Robotiq gripper in the Robot Operating System (ROS) 2 workspace today, you are almost certainly running PickNik Robotics' ros2_robotiq_gripper . As of today, there is an official Robotiq-maintained package, and it is a drop-in replacement: same package names, same launch files, same controller interfaces.",
     "topics": [
       "robotics"
     ],
     "ai_score": 0,
     "why_selected": "AI ranking unavailable; deterministic topic-priority fallback",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg"
+    "image_url": "https://blog.robotiq.com/hubfs/ROS-release-robotiq-grippers.png"
   },
   {
     "rank": 4,
-    "id": 10,
+    "id": 8,
     "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
     "source": "Robohub",
     "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
@@ -62,7 +62,7 @@
   },
   {
     "rank": 5,
-    "id": 12,
+    "id": 10,
     "title": "Chinese automakers are following Tesla’s bet that robots are the next big profit machine",
     "source": "TechCrunch Robotics",
     "url": "https://techcrunch.com/2026/08/28/chinese-automakers-are-following-teslas-bet-that-robots-are-the-next-big-profit-machine/",

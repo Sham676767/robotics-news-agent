@@ -14,11 +14,11 @@
 **Изображение:** не найдено
 **Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
 
-## 3. HowToRobot and Robotics Australia Group partner on platform to encourage robot adoption
+## 3. Robotiq Releases ROS 2 Packages for Adaptive Grippers
 
-**Источник:** The Robot Report
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/RAG_How2Robot.jpg
-**Ссылка:** https://www.therobotreport.com/howtorobot-robotics-australia-group-partner-platform-encourage-robot-adoption/
+**Источник:** Robotiq
+**Изображение:** https://blog.robotiq.com/hubfs/ROS-release-robotiq-grippers.png
+**Ссылка:** https://blog.robotiq.com/robotiq-releases-ros-2-packages-for-adaptive-grippers
 
 ## 4. When expressive humanoid robots are awkward, people become wary – new brain study
 
