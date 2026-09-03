@@ -121,6 +121,17 @@ def _parse_json(content: str) -> dict[str, Any]:
     return data
 
 
+def _is_parseable_article_json(content: Any) -> bool:
+    """Return whether a provider response contains a JSON object for the article."""
+    if not isinstance(content, str) or not content.strip():
+        return False
+    try:
+        _parse_json(content)
+    except ValueError:
+        return False
+    return True
+
+
 def _normalize_article(article: dict[str, Any]) -> dict[str, Any]:
     normalized = dict(article)
     items = article.get("items")
@@ -232,6 +243,11 @@ def _request_openrouter(payload: dict[str, Any], headers: dict[str, str], timeou
             content = message.get("content")
             if not content:
                 raise RuntimeError(f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}")
+            if not _is_parseable_article_json(content):
+                raise RuntimeError(
+                    "OpenRouter returned non-JSON article content: "
+                    f"{str(content)[:500]!r}"
+                )
             used_model = data.get("model")
             if used_model:
                 print(f"✅ OpenRouter article response model: {used_model}")
