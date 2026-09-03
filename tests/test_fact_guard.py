@@ -6,7 +6,7 @@ from app.fact_guard import validate_factual_grounding
 def _article(body: str) -> dict:
     return {
         "items": [
-            {"headline": "Событие 1", "body": body, "card_index": 1},
+            {"headline": "Событие", "body": body, "card_index": 1},
         ],
     }
 
