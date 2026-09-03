@@ -35,6 +35,7 @@ PROMO_REJECT_TERMS = (
     "platform to encourage", "platform for adoption", "initiative intended to help",
     "market discussion", "market analysis", "market commentary", "industry discussion",
     "thought leadership", "announces partnership", "partner on platform",
+    "learn how", "at robobusiness", "will discuss", "leaders will discuss",
 )
 
 DUPLICATE_CONCEPT_GROUPS = (
