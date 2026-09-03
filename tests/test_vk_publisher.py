@@ -20,7 +20,7 @@ def _article():
 def test_render_vk_message_keeps_all_five_blocks_and_sources():
     message = render_vk_message(_article())
 
-    assert message.startswith("🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ НЕДЕЛИ")
+    assert message.startswith("🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ ДНЯ")
     assert "Тестовый дайджест" in message
     for i, icon in enumerate(("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"), start=1):
         assert f"{icon} Новость {i}" in message
@@ -38,8 +38,8 @@ def test_render_vk_message_is_plain_readable_text():
     message = render_vk_message(_article())
     assert "[" not in message
     assert "](" not in message
-    assert "РОБОТОТЕХНИКА — ДАЙДЖЕСТ НЕДЕЛИ" in message
-    assert message.endswith("🤖 Пять событий недели без рекламных обещаний и неподтверждённых выводов.")
+    assert "РОБОТОТЕХНИКА — ДАЙДЖЕСТ ДНЯ" in message
+    assert message.endswith("🤖 Пять событий дня без рекламных обещаний и неподтверждённых выводов.")
 
 
 def test_daily_random_id_is_stable_for_reruns():
