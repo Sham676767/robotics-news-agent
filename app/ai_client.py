@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import time
+from datetime import datetime, timezone
 from typing import Any
 
 import httpx
@@ -62,19 +63,85 @@ def _extract_json(text: str) -> Any:
     raise ValueError(f"AI did not return parseable JSON: {text[:500]!r}")
 
 
-def _heuristic_fallback(items: list[dict[str, Any]], limit: int = 5) -> list[dict[str, Any]]:
-    def fallback_score(item: dict[str, Any]) -> tuple[float, float, float]:
-        topics = set(item.get("topics") or ())
-        pillar = max((TOPIC_PRIORITY.get(topic, 0) for topic in topics), default=0)
-        specificity = sum(TOPIC_PRIORITY.get(topic, 0) for topic in topics)
-        return (pillar, specificity, len(item.get("summary", "")))
+FALLBACK_AGGREGATOR_MARKERS = ("google news", "feedly", "yahoo news", "msn")
+FALLBACK_PROMO_MARKERS = (
+    "partner", "partnership", "platform to encourage", "initiative", "discusses",
+    "market hurdles", "market outlook", "market discussion", "industry outlook",
+    "webinar", "panel discussion", "conference session", "register now",
+)
+FALLBACK_CONCRETE_MARKERS = (
+    "launch", "launched", "unveil", "unveiled", "debut", "deploy", "deployed",
+    "deployment", "production", "pilot", "contract", "funding", "raised",
+    "investment", "acquisition", "order", "ships", "shipped", "delivered",
+    "demonstrates", "demonstrated", "prototype", "study finds", "researchers",
+    "learns", "record", "first",
+)
+FALLBACK_RESEARCH_META_MARKERS = (
+    "peer review", "research ecosystem", "publication growth", "paper deluge",
+    "future of peer review", "research community",
+)
 
-    ranked = sorted(items, key=fallback_score, reverse=True)
+
+def _fallback_age_hours(value: Any, now: datetime) -> float | None:
+    if not value:
+        return None
+    try:
+        published = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if published.tzinfo is None:
+        published = published.replace(tzinfo=timezone.utc)
+    return max(0.0, (now - published).total_seconds() / 3600)
+
+
+def _heuristic_fallback(items: list[dict[str, Any]], limit: int = 5) -> list[dict[str, Any]]:
+    """Rank locally by editorial value when the remote ranker is unavailable.
+
+    This intentionally favours a recent, concrete primary-source story over an
+    older or generic item with a more specific topic label.
+    """
+    now = datetime.now(timezone.utc)
+
+    def fallback_score(item: dict[str, Any]) -> float:
+        topics = set(item.get("topics") or ())
+        text = f'{item.get("title", "")} {item.get("summary", "")}'.lower()
+        source = str(item.get("source", "")).lower()
+        score = max((TOPIC_PRIORITY.get(topic, 0) for topic in topics), default=0) * 4.0
+        score += min(sum(TOPIC_PRIORITY.get(topic, 0) for topic in topics), 8) * 1.25
+
+        age = _fallback_age_hours(item.get("published_at"), now)
+        if age is None:
+            score -= 7.0
+        elif age <= 24:
+            score += 24.0
+        elif age <= 72:
+            score += 17.0
+        elif age <= 120:
+            score += 6.0
+        elif age <= 168:
+            score -= 10.0
+        else:
+            score -= 24.0
+
+        concrete_hits = sum(marker in text for marker in FALLBACK_CONCRETE_MARKERS)
+        promo_hits = sum(marker in text for marker in FALLBACK_PROMO_MARKERS)
+        score += min(concrete_hits, 3) * 6.0
+        if promo_hits and not concrete_hits:
+            score -= 30.0 + min(promo_hits - 1, 2) * 8.0
+        if any(marker in text for marker in FALLBACK_RESEARCH_META_MARKERS):
+            score -= 24.0
+        if any(marker in source for marker in FALLBACK_AGGREGATOR_MARKERS):
+            score -= 22.0
+        if len(str(item.get("summary", "")).strip()) < 90:
+            score -= 3.0
+        return score
+
+    ranked = sorted(items, key=lambda item: (fallback_score(item), str(item.get("published_at") or "")), reverse=True)
     return [
         {
             "id": item["id"],
-            "score": 0,
-            "reason": "AI ranking unavailable; deterministic topic-priority fallback",
+            "score": round(fallback_score(item), 2),
+            "reason": "AI ranking unavailable; deterministic freshness-and-event fallback",
         }
         for item in ranked[:limit]
     ]
