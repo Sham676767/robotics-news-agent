@@ -39,7 +39,10 @@ class ArticleEditorTests(unittest.TestCase):
 
     def test_system_prompt_is_for_a_daily_digest(self):
         self.assertIn("ежедневный аналитический дайджест", SYSTEM_PROMPT)
+        self.assertIn("общую картину ДНЯ", SYSTEM_PROMPT)
+        self.assertIn("всего выпуска за день", SYSTEM_PROMPT)
         self.assertNotIn("еженедельный аналитический дайджест", SYSTEM_PROMPT)
+        self.assertNotIn("общую картину недели", SYSTEM_PROMPT)
 
     def test_json_response_guard_rejects_safety_message(self):
         self.assertFalse(_is_parseable_article_json("User Safety: safe"))
