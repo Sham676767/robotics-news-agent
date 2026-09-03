@@ -124,6 +124,28 @@ RESEARCH_COMMENTARY_PATTERNS = (
     "notes from an icra panel",
 )
 
+# Useful for engineers, but usually too narrow to displace a mass-interest
+# robotics story in a daily TOP-5. Keep these as eligible news, but strongly
+# demote package/SDK/API/tooling releases unless they also describe a concrete
+# robot deployment, breakthrough or major business event.
+NICHE_TECHNICAL_PATTERNS = (
+    "ros 2 package",
+    "ros2 package",
+    "ros 2 packages",
+    "ros2 packages",
+    "sdk release",
+    "sdk releases",
+    "api release",
+    "api releases",
+    "software package",
+    "software packages",
+    "driver release",
+    "drivers release",
+    "drop-in replacement",
+    "controller interface",
+    "python package",
+)
+
 AGGREGATOR_SOURCES = {
     "Google News Humanoid Robots",
     "Google News Robot Dogs",
@@ -219,6 +241,14 @@ def _editorial_noise_penalty(item: NewsItem) -> float:
         for signal in ("robot", "humanoid", "quadruped", "exoskeleton", "deployment", "production", "launch")
     ):
         penalty += 22.0
+
+    # Narrow developer-tooling releases are valid robotics news, but should not
+    # routinely outrank consumer, deployment, business or breakthrough stories.
+    niche_hits = sum(1 for pattern in NICHE_TECHNICAL_PATTERNS if pattern in combined)
+    if niche_hits >= 2:
+        penalty += 24.0
+    elif niche_hits == 1:
+        penalty += 16.0
 
     if item.source in AGGREGATOR_SOURCES:
         penalty += 7.0
