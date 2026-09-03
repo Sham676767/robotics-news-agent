@@ -1,6 +1,15 @@
+import os
 import unittest
+from unittest.mock import Mock, patch
 
-from app.article_editor import SYSTEM_PROMPT, _attach_sources, _normalize_article, validate_article
+from app.article_editor import (
+    SYSTEM_PROMPT,
+    _attach_sources,
+    _is_parseable_article_json,
+    _normalize_article,
+    _request_openrouter,
+    validate_article,
+)
 
 
 class ArticleEditorTests(unittest.TestCase):
@@ -31,6 +40,41 @@ class ArticleEditorTests(unittest.TestCase):
     def test_system_prompt_is_for_a_daily_digest(self):
         self.assertIn("ежедневный аналитический дайджест", SYSTEM_PROMPT)
         self.assertNotIn("еженедельный аналитический дайджест", SYSTEM_PROMPT)
+
+    def test_json_response_guard_rejects_safety_message(self):
+        self.assertFalse(_is_parseable_article_json("User Safety: safe"))
+        self.assertFalse(_is_parseable_article_json("Let me think through this first."))
+        self.assertTrue(_is_parseable_article_json('{"title": "Черновик"}'))
+
+    @patch("app.article_editor.time.sleep")
+    @patch("app.article_editor.httpx.post")
+    def test_request_retries_non_json_provider_response(self, post, sleep):
+        invalid_response = Mock()
+        invalid_response.status_code = 200
+        invalid_response.json.return_value = {
+            "choices": [{"message": {"content": "User Safety: safe"}}],
+        }
+        valid_response = Mock()
+        valid_response.status_code = 200
+        valid_response.json.return_value = {
+            "choices": [{"message": {"content": '{"title": "Черновик"}'}}],
+        }
+        post.side_effect = [invalid_response, valid_response]
+
+        with patch.dict(
+            os.environ,
+            {
+                "OPENROUTER_MAX_ATTEMPTS": "2",
+                "OPENROUTER_RETRY_BASE_SECONDS": "0",
+                "OPENROUTER_RETRY_MAX_SECONDS": "0",
+            },
+            clear=False,
+        ):
+            content = _request_openrouter({}, {})
+
+        self.assertEqual(content, '{"title": "Черновик"}')
+        self.assertEqual(post.call_count, 2)
+        sleep.assert_called_once_with(0.0)
 
     def test_normalize_article_assigns_indexes_by_position(self):
         article = self.valid_article()
