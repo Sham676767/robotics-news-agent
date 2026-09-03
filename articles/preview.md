@@ -2,17 +2,17 @@
 
 > Это предпросмотр реальных карточек после отбора. OpenRouter и VK не запускаются.
 
-## 1. JAKA hits Teradyne Robotics back over patent dispute
+## 1. Protecting Dynamic Industrial Robot Cable Carriers
 
-**Источник:** The Robot Report
-**Дата:** 2026-09-03T17:44:20+00:00
+**Источник:** IEEE Spectrum Robotics
+**Дата:** 2026-09-03T12:18:21+00:00
 **Язык:** не указан
 **Темы:** robotics
 
-JAKA is now taking legal action against Teradyne Robotics to end public dissemination of statements it considers "false, misleading and damaging." The post JAKA hits Teradyne Robotics back over patent dispute appeared first on The Robot Report .
+This article is brought to you by Tsubaki KabelSchlepp . In modern automated manufacturing, six-axis articulated robots perform high-speed, multidirectional maneuvers under demanding operational cycles. However, as robot arms swivel, rotate, and extend, the electrical cables, fiber optics, and pneumatic hoses supplying them endure severe mechanical stress. Torsional twist, rapid acceleration, and repeated contact with machine structures often lead to premature conductor fatigue, insulation breakdown, and costly unplanned production halts. To overcome these multi-axis motion challenges, the Tsubaki KabelSchlepp Robotrax System provides a specialized three-dimensional cable carrier engineered specifically for complex robotic motion. Managing High Tensile Forces With Central Steel Technology Conventional cable carriers often transfer operational movement stress directly onto internal electrical lines and hoses. The Robotrax system changes this dynamic through a central steel cable that runs through the core of every chain link. The Robotrax system’s central steel cable absorbs the primary tensile loads and preserves conductor integrity, dramatically extending cable service life. When robot arms undergo rapid directional shifts and accelerations up to 10 g, this internal steel cable absorbs the primary tensile loads. By isolating electrical and fluid lines from pulling forces, the design preserves conductor integrity and dramatically extends cable service life. Mechanics can easi
 
-**Ссылка:** https://www.therobotreport.com/jaka-hits-teradyne-robotics-back-over-patent-dispute/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/08/jaka-teradyne-lawsuit.jpg
+**Ссылка:** https://spectrum.ieee.org/industrial-robot-cable-carrier-protection
+**Изображение:** https://spectrum.ieee.org/media-library/image.jpg?id=67633840&width=1200&height=600&coordinates=0%2C166%2C0%2C167
 
 ## 2. Skild AI unveils S1 flagship robot foundation model
 
@@ -38,17 +38,17 @@ On a good day, the rock quarry in central Texas is about 370,000 kilometers (230
 **Ссылка:** https://spectrum.ieee.org/moon-ball-robot
 **Изображение:** https://spectrum.ieee.org/media-library/a-gif-of-a-spherical-robot-rolling-over-a-bumpy-path.gif?id=67701776&width=1200&height=600&coordinates=0%2C25%2C0%2C25
 
-## 4. Video Friday: Meet Microduck
+## 4. Four-legged robot learns dog-like movements to leap through tight spaces
 
-**Источник:** IEEE Spectrum Robotics
-**Дата:** 2026-08-28T16:00:03+00:00
+**Источник:** Tech Xplore Robotics
+**Дата:** 2026-08-31T09:20:09+00:00
 **Язык:** не указан
-**Темы:** robotics, robot_dog, humanoid
+**Темы:** robot_dog
 
-Video Friday is your weekly selection of awesome robotics videos, collected by your friends at IEEE Spectrum robotics. We also post a weekly calendar of upcoming robotics events for the next few months. Please send us your events for inclusion. Humanoids Summit Seoul : 22–23 September 2026, SEOUL IROS 2026 : 27 September–1 October 2026, PITTSBURGH CoRL 2026 : 9–12 November 2026, AUSTIN, TEXAS Enjoy today’s videos! Nvidia just paid US $12.9 billion for the company that acquired Pollen Robotics, and this must be why. Meet Microduck. 🦆 The 25-centimeter, 780-gram robot that waddles, falls, gets back up, and learns new tricks. Packed inside: 15 degrees of freedom, a front camera, an 8x8 lidar, two IMUs, mics, a speaker, NFC, Wi-Fi, and Bluetooth. Out of the box, Microduck already walks, sits, crouches, roller skates, picks up objects with its articulated beak, and recovers from falls on its own. Drive it with a game controller, plug-in accessories, and NFC tagged objects, run autonomous behaviors, or gather several Microducks for races and football. Software fully open source. Ready for whatever you throw at it. On pre-order for an astonishingly low $399, and ships before Christmas. [ Microduck ] Thanks, Matthieu! If you’ve chosen to ignore all the earlier DARPA Lift Challenge videos that we’ve posted, now you can get all caught up in about five minutes. [ DARPA ] You had me at “54-gram robot that out-jumps a kangaroo.” [ IEEE Transactions on Robotics ] Sometimes, you just need a
+Cats, dogs, wolves and other agile four-legged animals can easily jump and squeeze through tight spaces while moving at high speed. Reproducing similar agile motions and skills in quadrupedal robots has so far proved challenging.
 
-**Ссылка:** https://spectrum.ieee.org/video-friday-microduck-robot
-**Изображение:** https://spectrum.ieee.org/media-library/image.png?id=67687638&width=1200&height=600&coordinates=0%2C5%2C0%2C6
+**Ссылка:** https://techxplore.com/news/2026-08-legged-robot-dog-movements-tight.html
+**Изображение:** не найдено
 
 ## 5. A humanoid robot's social expressiveness may backfire when it makes mistakes
 
