@@ -40,6 +40,28 @@ def test_fresh_news_scores_above_old_news_when_otherwise_equal():
     assert score(fresh, now) > score(old, now)
 
 
+def test_fresh_concrete_event_beats_promotional_market_discussion():
+    now = datetime.now(timezone.utc)
+    concrete = NewsItem(
+        source="Direct Publisher",
+        title="Robot dog demonstrated in warehouse deployment pilot",
+        url="https://example.com/concrete",
+        published_at=now - timedelta(hours=18),
+        summary="The company demonstrated the quadruped in a concrete warehouse pilot.",
+        topics=["robot_dog"],
+    )
+    promo = NewsItem(
+        source="The Robot Report",
+        title="NexCOBOT discusses physical AI market hurdles and acceleration",
+        url="https://example.com/promo",
+        published_at=now - timedelta(hours=6),
+        summary="The company discusses market outlook and industry trends.",
+        topics=["robotics"],
+    )
+
+    assert score(concrete, now) > score(promo, now)
+
+
 def test_rank_returns_requested_number():
     now = datetime.now(timezone.utc)
     items = [
