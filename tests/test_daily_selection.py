@@ -42,6 +42,17 @@ def test_partnership_platform_and_market_material_is_promotional_without_concret
     assert daily_selection._is_promotional(item)
 
 
+def test_conference_invitation_is_promotional_without_a_concrete_event():
+    item = NewsItem(
+        source="The Robot Report",
+        title="Learn how physical AI is being used to do real work at RoboBusiness",
+        url="https://example.com/robobusiness",
+        summary="Leaders at Amazon Robotics and Teradyne Robotics will discuss customer deployments.",
+    )
+
+    assert daily_selection._is_promotional(item)
+
+
 def test_filter_editorial_drops_google_news_when_five_direct_materials_exist():
     items = [
         NewsItem(source=f"Direct {index}", title=f"Robot event {index}", url=f"https://example.com/direct-{index}")
