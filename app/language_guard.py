@@ -5,7 +5,7 @@ from typing import Any
 
 _CYRILLIC_RE = re.compile(r"[А-Яа-яЁё]")
 _LATIN_RE = re.compile(r"[A-Za-z]")
-_DAILY_DIGEST_FORBIDDEN = ("неделя", "недели", "недельный", "еженедельный")
+_DAILY_DIGEST_FORBIDDEN = ("неделя", "недели", "неделю", "недельный", "еженедельный")
 
 
 def _language_ratio(text: str) -> float:
