@@ -14,17 +14,17 @@ Skild AI says its S1 robot foundation model enables robots to learn new tasks ju
 **Ссылка:** https://www.therobotreport.com/skild-ai-unveils-s1-flagship-robot-foundation-model/
 **Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/08/skildAI-featured.jpg
 
-## 2. Learn how physical AI is being used to do real work at RoboBusiness
+## 2. Learn why food is physical AI’s hardest problem at RoboBusiness
 
 **Источник:** The Robot Report
-**Дата:** 2026-09-01T16:48:33+00:00
+**Дата:** 2026-09-02T17:37:50+00:00
 **Язык:** не указан
 **Темы:** robotics
 
-Leaders at Amazon Robotics, Teradyne Robotics, and Cobot will discuss how they're applying physical AI to robots operating in customer environments. The post Learn how physical AI is being used to do real work at RoboBusiness appeared first on The Robot Report .
+Rajat Bhageria, the founder and CEO of Chef Robotics, will explore what makes food such a demanding benchmark for physical AI. The post Learn why food is physical AI’s hardest problem at RoboBusiness appeared first on The Robot Report .
 
-**Ссылка:** https://www.therobotreport.com/learn-how-physical-ai-is-being-used-to-do-real-work-at-robobusiness/
-**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/08/AIpanelrobobusiness.jpg
+**Ссылка:** https://www.therobotreport.com/learn-why-food-is-physical-ai-hardest-problem-chef-robotics-robobusiness/
+**Изображение:** https://www.therobotreport.com/wp-content/uploads/2026/09/chefrobotics-featured.jpg
 
 ## 3. Four-legged robot learns dog-like movements to leap through tight spaces
 
