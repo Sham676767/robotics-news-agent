@@ -234,7 +234,7 @@ def _best_ranked_fill(choices, covered_topics, used_ids, used_sources):
         if candidate["id"] in used_ids:
             continue
         eligible.append((choice, candidate, candidate["source"] not in used_sources, _topic_set(candidate) - covered_topics))
-    return max(eligible, key=lambda row: (row[2], len(row[3]), float(row[0].get("score") or 0)))[:2] if eligible else None
+    return max(eligible, key=lambda row: (float(row[0].get("score") or 0), row[2], len(row[3])))[:2] if eligible else None
 
 
 def select_top5(news=None) -> List[Dict]:
