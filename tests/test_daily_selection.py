@@ -61,6 +61,33 @@ def test_filter_editorial_drops_google_news_when_five_direct_materials_exist():
     assert all(not item.source.startswith("Google News") for item in filtered)
 
 
+def test_top5_does_not_force_stale_topic_coverage_over_fresh_event(monkeypatch):
+    now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
+    candidates = [
+        {**_candidate(1, "Old robot dog overview", "A", ("robot_dog", "robotics")), "published_at": (now - __import__("datetime").timedelta(days=6)).isoformat()},
+        {**_candidate(2, "Fresh robotics deployment", "B", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(hours=18)).isoformat()},
+        {**_candidate(3, "Old humanoid research", "C", ("humanoid", "robotics")), "published_at": (now - __import__("datetime").timedelta(days=5)).isoformat()},
+        {**_candidate(4, "Old exoskeleton update", "D", ("exoskeleton", "robotics")), "published_at": (now - __import__("datetime").timedelta(days=5)).isoformat()},
+        {**_candidate(5, "Older robotics event", "E", ("robotics",)), "published_at": (now - __import__("datetime").timedelta(days=4)).isoformat()},
+    ]
+    monkeypatch.setattr(daily_selection, "build_candidates", lambda items=None: candidates)
+    monkeypatch.setattr(
+        daily_selection,
+        "rank_with_deepseek",
+        lambda items, limit: [
+            {"id": 2, "score": 95},
+            {"id": 1, "score": 30},
+            {"id": 3, "score": 29},
+            {"id": 4, "score": 28},
+            {"id": 5, "score": 27},
+        ],
+    )
+
+    result = daily_selection.select_top5(news=[])
+
+    assert result[0]["id"] == 2
+
+
 def test_top5_prefers_specific_topic_coverage(monkeypatch):
     candidates = [
         _candidate(1, "Humanoid robot enters factory", "A", ("humanoid", "robotics")),
