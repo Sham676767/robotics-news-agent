@@ -31,6 +31,9 @@ EDITORIAL_REJECT_TERMS = (
 LOW_VALUE_NEWS_TERMS = (
     "patent dispute", "patent lawsuit", "legal action against", "sues", "sued",
 )
+SPONSORED_REJECT_TERMS = (
+    "brought to you by", "sponsored content", "advertisement", "advertorial",
+)
 
 PROMO_REJECT_TERMS = (
     "discusses", "market hurdles", "market outlook", "market trends", "industry outlook",
@@ -81,8 +84,10 @@ def _dedupe(items: list) -> list:
 
 def _is_editorial_roundup(item) -> bool:
     text = f"{item.title} {item.summary}".lower()
-    return any(term in text for term in EDITORIAL_REJECT_TERMS) or any(
-        term in text for term in LOW_VALUE_NEWS_TERMS
+    return (
+        any(term in text for term in EDITORIAL_REJECT_TERMS)
+        or any(term in text for term in LOW_VALUE_NEWS_TERMS)
+        or any(term in text for term in SPONSORED_REJECT_TERMS)
     )
 
 
