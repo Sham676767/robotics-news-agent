@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Dict
 import json
+import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
@@ -13,14 +14,13 @@ from .relevance import classify, filter_relevant
 
 OUTPUT_PATH = Path("data/latest_top5.json")
 
-MAX_AGE = timedelta(days=14)
+# Daily digest should be genuinely current. Older stories remain useful for
+# context, but should not normally enter a daily TOP-5 when fresher news exists.
+MAX_AGE = timedelta(days=7)
 MAX_PER_SOURCE = 2
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 SPECIFIC_TOPICS = ("humanoid", "robot_dog", "exoskeleton")
 
-# Daily digest rule: one card should describe one concrete event, not a roundup,
-# monthly review, or "top stories" article. Keep this list conservative so useful
-# technical articles are not accidentally filtered out.
 EDITORIAL_REJECT_TERMS = (
     "top 10 stories",
     "top 10 robotics",
@@ -39,6 +39,33 @@ EDITORIAL_REJECT_TERMS = (
     "this week's robotics news",
 )
 
+# Corporate/event-promo pieces are not daily news unless the text contains a
+# concrete event such as a launch, deployment, contract, funding or production.
+PROMO_REJECT_TERMS = (
+    "discusses",
+    "market hurdles",
+    "market outlook",
+    "market trends",
+    "industry outlook",
+    "joins us",
+    "join us",
+    "webinar",
+    "fireside chat",
+    "conference session",
+    "conference panel",
+    "panel discussion",
+    "register now",
+    "save your spot",
+    "speakers include",
+)
+
+CONCRETE_EVENT_TERMS = (
+    "launch", "launched", "unveil", "unveiled", "debut", "first",
+    "deploy", "deployed", "deployment", "production", "mass production",
+    "pilot", "contract", "funding", "raised", "investment", "acquisition",
+    "order", "ships", "shipped", "delivered", "factory", "trial", "test",
+)
+
 
 def _canonical_url(url: str) -> str:
     parsed = urlsplit(url.strip())
@@ -51,7 +78,6 @@ def _canonical_url(url: str) -> str:
 
 
 def _dedupe(items: list) -> list:
-    """Remove duplicate URLs, including common tracking-parameter variants."""
     seen: set[str] = set()
     result = []
     for item in items:
@@ -71,9 +97,18 @@ def _is_editorial_roundup(item) -> bool:
     return any(term in text for term in EDITORIAL_REJECT_TERMS)
 
 
+def _is_promotional(item) -> bool:
+    title = re.sub(r"\s+", " ", item.title.lower()).strip()
+    summary = re.sub(r"\s+", " ", item.summary.lower()).strip()
+    combined = f"{title} {summary}"
+    promo_hits = sum(1 for term in PROMO_REJECT_TERMS if term in combined)
+    concrete_hits = sum(1 for term in CONCRETE_EVENT_TERMS if term in combined)
+    # One weak market/promo phrase alone is not enough to reject a story.
+    return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0)
+
+
 def _filter_editorial(items: list) -> list:
-    """Keep concrete news events; remove listicles, roundups and period reviews."""
-    return [item for item in items if not _is_editorial_roundup(item)]
+    return [item for item in items if not _is_editorial_roundup(item) and not _is_promotional(item)]
 
 
 def _recent(items: list) -> list:
@@ -85,9 +120,39 @@ def _recent(items: list) -> list:
             continue
         if published_at.tzinfo is None:
             published_at = published_at.replace(tzinfo=timezone.utc)
-        if now - published_at <= MAX_AGE:
+        age = now - published_at
+        if timedelta(0) <= age <= MAX_AGE:
             result.append(item)
     return result
+
+
+def _tokens(text: str) -> set[str]:
+    words = re.findall(r"[a-z0-9а-яё]{4,}", text.lower())
+    stop = {
+        "robot", "robots", "robotics", "humanoid", "humanoids", "study",
+        "new", "news", "research", "when", "with", "from", "that", "this",
+        "into", "about", "their", "they", "have", "more", "than", "people",
+    }
+    return {word for word in words if word not in stop}
+
+
+def _near_duplicate(a, b) -> bool:
+    # Prevent two outlets from filling the same digest with the same underlying
+    # study/event. This is intentionally conservative: require substantial
+    # title overlap plus some summary overlap.
+    title_a = _tokens(a.title)
+    title_b = _tokens(b.title)
+    if not title_a or not title_b:
+        return False
+    title_overlap = len(title_a & title_b) / max(1, min(len(title_a), len(title_b)))
+    if title_overlap < 0.45:
+        return False
+    summary_a = _tokens(a.summary)
+    summary_b = _tokens(b.summary)
+    if not summary_a or not summary_b:
+        return title_overlap >= 0.70
+    summary_overlap = len(summary_a & summary_b) / max(1, min(len(summary_a), len(summary_b)))
+    return title_overlap >= 0.45 and summary_overlap >= 0.12
 
 
 def _diverse_ranked(items: list, limit: int = 12) -> list:
@@ -101,6 +166,8 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
             break
         count = per_source.get(item.source, 0)
         if count >= MAX_PER_SOURCE:
+            continue
+        if any(_near_duplicate(item, existing) for existing in result):
             continue
         topics = set(classify(item))
         new_specific = topics.intersection(SPECIFIC_TOPICS) - covered_specific
@@ -116,6 +183,8 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
             break
         canonical = _canonical_url(item.url)
         if canonical in selected_urls:
+            continue
+        if any(_near_duplicate(item, existing) for existing in result):
             continue
         count = per_source.get(item.source, 0)
         if count >= MAX_PER_SOURCE:
