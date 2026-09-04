@@ -21,13 +21,13 @@ jobs:
         run: pip install -r requirements.txt
       - name: Select fresh TOP-5
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
+          GIGACHAT_MODEL: GigaChat
         run: python -m app.daily_selection
       - name: Generate article draft
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
+          GIGACHAT_MODEL: GigaChat
         run: python -m app.article_editor
       - name: Upload draft and TOP-5
         uses: actions/upload-artifact@v4
