@@ -15,7 +15,7 @@ from app.fact_guard import validate_factual_grounding
 from app.language_guard import validate_russian_article
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "z-ai/glm-5.3-flash"
+DEFAULT_MODEL = "openai/gpt-4.1-mini"
 DEFAULT_FALLBACK_MODELS = []
 OUTPUT_DIR = Path("articles")
 MAX_ARTICLE_REPAIR_ATTEMPTS = 3
@@ -290,9 +290,6 @@ def _payload(messages: list[dict[str, str]], model: str, models: list[str]) -> d
         "messages": messages,
         "temperature": 0.15,
         "max_tokens": 5000,
-        # This task needs a compact JSON payload, not an exposed reasoning trace.
-        # Disabling reasoning prevents it from consuming the entire output budget.
-        "reasoning": {"effort": "none"},
         "response_format": {
             "type": "json_schema",
             "json_schema": {"name": "robotics_daily_digest", "strict": True, "schema": ARTICLE_SCHEMA},
@@ -311,7 +308,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     if len(top5) != 5:
         raise ValueError("Article editor requires exactly 5 selected stories")
 
-    model = os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL)
+    model = os.getenv("OPENROUTER_ARTICLE_MODEL", os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL))
     models = _fallback_models(model)
     print(f"🤖 OpenRouter model chain: {' → '.join(models)}")
     prompt = (
