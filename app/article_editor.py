@@ -217,12 +217,16 @@ def _attach_sources(article: dict[str, Any], top5: list[dict[str, Any]]) -> dict
     result = {"title": article["title"], "intro": article["intro"], "items": []}
     for item in article["items"]:
         card = top5[item["card_index"] - 1]
-        result["items"].append({
+        public_item = {
             "headline": item["headline"],
             "body": item["body"],
             "source": str(card.get("source") or card.get("publisher") or "Источник"),
             "url": card["url"],
-        })
+        }
+        image_url = card.get("image_url")
+        if isinstance(image_url, str) and _is_http_url(image_url):
+            public_item["image_url"] = image_url
+        result["items"].append(public_item)
     return result
 
 
@@ -387,6 +391,11 @@ def render_markdown(article: dict[str, Any]) -> str:
         lines.extend([
             f"## {index}. {item['headline']}",
             "",
+        ])
+        image_url = item.get("image_url")
+        if isinstance(image_url, str) and _is_http_url(image_url):
+            lines.extend([f"![{item['headline']}](<{image_url}>)", ""])
+        lines.extend([
             item["body"],
             "",
             f"Источник: [{item['source']}]({item['url']})",
