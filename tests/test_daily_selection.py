@@ -31,6 +31,18 @@ def test_semantic_duplicate_detects_social_expressiveness_mistakes_and_trust_sto
     assert daily_selection._near_duplicate(robohub, techxplore)
 
 
+def test_startup_application_call_is_promotional_without_a_concrete_event():
+    item = NewsItem(
+        source="The Robot Report",
+        title="Calling robotics startups: Apply now to be part of the 2026 Robotics Startup Radar",
+        url="https://example.com/startup-radar",
+        summary="The program invites promising robotics startups to submit an application.",
+    )
+
+    assert daily_selection._is_promotional(item)
+    assert item not in daily_selection._filter_editorial([item])
+
+
 def test_partnership_platform_and_market_material_is_promotional_without_concrete_event():
     item = NewsItem(
         source="The Robot Report",
