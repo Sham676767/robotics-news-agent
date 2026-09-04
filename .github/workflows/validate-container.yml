@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate Compose configuration
-        run: docker compose config
+        run: |
+          cp .env.example .env
+          docker compose config
       - name: Build container image
         run: docker build --tag robotics-news-agent:test .
