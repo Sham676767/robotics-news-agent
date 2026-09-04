@@ -36,7 +36,7 @@ def _valid_image_url(value: Any) -> str | None:
 
 def _vk_call(
     client: Any, method: str, data: dict[str, Any], token: str
-) -> dict[str, Any]:
+) -> tuple[dict[str, Any], int]:
     response = client.post(
         f"{VK_API_ROOT}/{method}",
         data={**data, "access_token": token, "v": _api_version()},
@@ -55,11 +55,16 @@ def _vk_call(
     response_data = payload.get("response")
     if not isinstance(response_data, dict) and not isinstance(response_data, list):
         raise VKMediaError(f"VK {method} returned an unexpected response")
-    return payload
+    return payload, response.status_code
 
 
 def _upload_one_image(
-    client: Any, image_url: str, upload_url: str, token: str, group_id: str
+    client: Any,
+    image_url: str,
+    upload_url: str,
+    token: str,
+    group_id: str,
+    outcome: dict[str, Any] | None = None,
 ) -> str:
     image_response = client.get(
         image_url,
@@ -67,6 +72,8 @@ def _upload_one_image(
         follow_redirects=True,
         timeout=_timeout(),
     )
+    if outcome is not None:
+        outcome["source_http_status"] = image_response.status_code
     if image_response.status_code >= 400:
         raise VKMediaError(
             f"Source image HTTP {image_response.status_code}: {image_url}"
@@ -83,6 +90,8 @@ def _upload_one_image(
         files={"photo": ("source-image", content, content_type)},
         timeout=_timeout(),
     )
+    if outcome is not None:
+        outcome["upload_http_status"] = upload_response.status_code
     if upload_response.status_code >= 400:
         raise VKMediaError(
             f"VK image upload HTTP {upload_response.status_code}: {upload_response.text[:500]}"
@@ -92,8 +101,10 @@ def _upload_one_image(
         uploaded.get(key) for key in ("photo", "server", "hash")
     ):
         raise VKMediaError("VK image upload returned incomplete data")
+    if outcome is not None:
+        outcome["upload_vk_response_code"] = 0
 
-    saved = _vk_call(
+    saved_payload, save_status = _vk_call(
         client,
         "photos.saveWallPhoto",
         {
@@ -103,7 +114,11 @@ def _upload_one_image(
             "hash": uploaded["hash"],
         },
         token,
-    )["response"]
+    )
+    if outcome is not None:
+        outcome["save_http_status"] = save_status
+        outcome["save_vk_response_code"] = 0
+    saved = saved_payload["response"]
     if not isinstance(saved, list) or not saved or not isinstance(saved[0], dict):
         raise VKMediaError("VK did not return a saved wall photo")
     photo = saved[0]
@@ -116,6 +131,8 @@ def _upload_one_image(
     access_key = photo.get("access_key")
     if isinstance(access_key, str) and access_key:
         attachment += f"_{access_key}"
+    if outcome is not None:
+        outcome["attachment_id"] = attachment
     return attachment
 
 
@@ -125,8 +142,14 @@ def upload_article_images(
     token: str,
     group_id: str,
     client: Any | None = None,
+    outcomes: list[dict[str, Any]] | None = None,
+    stop_on_failure: bool = False,
 ) -> list[str]:
-    """Upload unique verified source images and return VK photo attachment IDs."""
+    """Upload verified source images and return VK photo attachment IDs.
+
+    When outcomes is passed, it receives per-image HTTP statuses, VK response
+    codes (0 means success) and the resulting attachment identifier.
+    """
     try:
         normalized_group_id = str(abs(int(group_id)))
     except (TypeError, ValueError) as exc:
@@ -144,26 +167,44 @@ def upload_article_images(
     owns_client = client is None
     active_client = client or httpx.Client()
     try:
-        upload_server = _vk_call(
+        upload_payload, upload_server_status = _vk_call(
             active_client,
             "photos.getWallUploadServer",
             {"group_id": normalized_group_id},
             token,
-        )["response"].get("upload_url")
+        )
+        upload_server = upload_payload["response"].get("upload_url")
         if not isinstance(upload_server, str) or not upload_server.startswith("https://"):
             raise VKMediaError("VK did not provide a secure wall-photo upload URL")
 
         attachments: list[str] = []
         failures: list[str] = []
         for image_url in image_urls:
+            outcome: dict[str, Any] = {
+                "image_url": image_url,
+                "get_upload_server_http_status": upload_server_status,
+                "get_upload_server_vk_response_code": 0,
+                "source_http_status": None,
+                "upload_http_status": None,
+                "upload_vk_response_code": None,
+                "save_http_status": None,
+                "save_vk_response_code": None,
+                "attachment_id": None,
+                "error": None,
+            }
+            if outcomes is not None:
+                outcomes.append(outcome)
             try:
                 attachments.append(
                     _upload_one_image(
-                        active_client, image_url, upload_server, token, normalized_group_id
+                        active_client, image_url, upload_server, token, normalized_group_id, outcome
                     )
                 )
             except (VKMediaError, httpx.HTTPError, ValueError) as exc:
+                outcome["error"] = str(exc)
                 failures.append(str(exc))
+                if stop_on_failure:
+                    raise
 
         if not attachments:
             details = "; ".join(failures[:3]) or "unknown image upload failure"
