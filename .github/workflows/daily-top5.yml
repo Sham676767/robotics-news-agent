@@ -21,8 +21,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Select TOP-5
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: google/gemma-4-26b-a4b-it:free
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
+          GIGACHAT_MODEL: GigaChat
         run: python -m app.daily_selection
       - name: Upload TOP-5 result
         uses: actions/upload-artifact@v4
