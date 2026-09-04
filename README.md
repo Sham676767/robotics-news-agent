@@ -72,7 +72,7 @@ python -m app
    docker compose run --rm agent
    ```
 
-4. Проверить статью и TOP-5 в `articles/` и `data/`. Затем установить `VK_PUBLISH_REQUIRED=true` в `.env`.
+4. Проверить статью и TOP-5 в `articles/` и `data/`. Затем установить `VK_PUBLISH_REQUIRED=true` и `VK_PUBLISH_ENABLED=true` в `.env`. До этого момента статья только сохраняется для редакторской проверки.
 5. Скопировать unit-файлы, включить ежедневный запуск в 09:00 МСК и убедиться, что он запланирован:
 
    ```bash
