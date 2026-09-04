@@ -19,5 +19,5 @@ jobs:
       - name: Run OpenRouter smoke test
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: z-ai/glm-5.3-flash
+          OPENROUTER_MODEL: openrouter/free
         run: python -m app.ai_smoke_test
