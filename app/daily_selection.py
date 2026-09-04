@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
-from .ai_client import rank_with_gigachat
+from .ai_client import rank_with_deepseek
 from .collector import collect_all
 from .ranking import rank
 from .relevance import classify, filter_relevant
@@ -317,7 +317,7 @@ def _best_ranked_fill(choices, covered_topics, used_ids, used_sources):
 
 def select_top5(news=None) -> List[Dict]:
     candidates = build_candidates(items=news)
-    selected = rank_with_gigachat(candidates, limit=len(candidates))
+    selected = rank_with_deepseek(candidates, limit=len(candidates))
     by_id = {item["id"]: item for item in candidates}
     valid_choices = []
     for choice in selected:
