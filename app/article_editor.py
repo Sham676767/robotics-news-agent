@@ -256,7 +256,7 @@ def _request_openrouter(payload: dict[str, Any], headers: dict[str, str], timeou
                     print(f"⚠️ OpenRouter transient HTTP {response.status_code}; retry {attempt + 2}/{max_attempts} in {delay:.1f}s")
                     time.sleep(delay)
                     continue
-            if response.is_error:
+            if response.status_code >= 400:
                 raise RuntimeError(
                     f"OpenRouter HTTP {response.status_code}: {response.text[:1000]}"
                 )
