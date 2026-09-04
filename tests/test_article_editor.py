@@ -10,6 +10,7 @@ from app.article_editor import (
     _normalize_article,
     _request_openrouter,
     generate_article,
+    render_markdown,
     validate_article,
 )
 
@@ -203,6 +204,21 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertEqual(attached["items"][0]["url"], "https://example.com/news-1")
         self.assertEqual(attached["items"][4]["source"], "Source 5")
         self.assertEqual(attached["items"][4]["url"], "https://example.com/news-5")
+
+    def test_attach_sources_preserves_valid_image_and_markdown_renders_it(self):
+        top5 = list(self.top5)
+        top5[0] = dict(top5[0], image_url="https://images.example.com/robot.jpg")
+
+        attached = _attach_sources(self.valid_article(), top5)
+
+        self.assertEqual(
+            attached["items"][0]["image_url"],
+            "https://images.example.com/robot.jpg",
+        )
+        self.assertIn(
+            "![Событие 1](<https://images.example.com/robot.jpg>)",
+            render_markdown(attached),
+        )
 
     def test_attach_sources_preserves_one_source_per_card(self):
         article = self.valid_article()
