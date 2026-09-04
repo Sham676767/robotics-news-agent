@@ -256,7 +256,10 @@ def _request_openrouter(payload: dict[str, Any], headers: dict[str, str], timeou
                     print(f"⚠️ OpenRouter transient HTTP {response.status_code}; retry {attempt + 2}/{max_attempts} in {delay:.1f}s")
                     time.sleep(delay)
                     continue
-            response.raise_for_status()
+            if response.is_error:
+                raise RuntimeError(
+                    f"OpenRouter HTTP {response.status_code}: {response.text[:1000]}"
+                )
             data = response.json()
             choices = data.get("choices") or []
             content = (choices[0].get("message") or {}).get("content") if choices else None
