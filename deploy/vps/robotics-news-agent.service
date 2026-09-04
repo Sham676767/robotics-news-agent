@@ -1,0 +1,10 @@
+[Unit]
+Description=Robotics News Agent daily run
+Wants=docker.service
+After=docker.service network-online.target
+ConditionPathExists=/opt/robotics-news-agent/.env
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/robotics-news-agent
+ExecStart=/usr/bin/docker compose run --rm agent
