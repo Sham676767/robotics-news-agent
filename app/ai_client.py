@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from datetime import datetime, timezone
 from typing import Any
 
-from app.gigachat_client import GigaChatError, request_completion
+import httpx
 
-DEFAULT_MODEL = "GigaChat"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+DEFAULT_MODEL = "z-ai/glm-5.3-flash"
 DEFAULT_TIMEOUT = 35.0
 
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
@@ -35,7 +37,7 @@ def build_ranking_prompt(items: list[dict[str, Any]], limit: int = 5) -> str:
         "Новости про robotaxi, автомобили, дроны и другую тематику не должны получать приоритет, "
         "если они не являются частью одной из четырёх тем. Не придумывай факты. "
         "Оценивай новизну, общественный интерес, технологическую значимость, свежесть и качество источника. "
-        'Верни только JSON-объект вида {"ranking": [{"id": 1, "score": 0, "reason": "..."}]}.\\n\\n'
+        "Верни только JSON-массив объектов с полями id, score, reason.\n\n"
         + json.dumps(compact, ensure_ascii=False)
     )
 
@@ -183,79 +185,66 @@ def _normalise_ai_ranking(result: Any, items: list[dict[str, Any]], limit: int) 
     return valid[:limit]
 
 
-RANKING_SCHEMA = {
-    "type": "object",
-    "additionalProperties": False,
-    "required": ["ranking"],
-    "properties": {
-        "ranking": {
-            "type": "array",
-            "maxItems": 5,
-            "items": {
-                "type": "object",
-                "additionalProperties": False,
-                "required": ["id", "score", "reason"],
-                "properties": {
-                    "id": {"type": "integer"},
-                    "score": {"type": "number"},
-                    "reason": {"type": "string"},
-                },
-            },
-        },
-    },
-}
-
-
-def rank_with_gigachat(
-    items: list[dict[str, Any]],
-    credentials: str | None = None,
-    limit: int = 5,
-) -> list[dict[str, Any]]:
-    """Ask GigaChat to rank candidates, with the deterministic fallback intact."""
-    key = credentials or os.getenv("GIGACHAT_AUTHORIZATION_KEY")
+def rank_with_deepseek(items: list[dict[str, Any]], api_key: str | None = None, limit: int = 5) -> list[dict[str, Any]]:
+    key = api_key or os.getenv("OPENROUTER_API_KEY")
     if not items:
         return []
     limit = max(1, min(limit, len(items)))
     if not key:
-        print("Warning: GIGACHAT_AUTHORIZATION_KEY is not configured; using deterministic ranking fallback.")
+        print("Warning: OPENROUTER_API_KEY is not configured; using deterministic ranking fallback.")
         return _heuristic_fallback(items, limit=limit)
 
     payload = {
-        "model": os.getenv("GIGACHAT_MODEL", DEFAULT_MODEL),
+        "model": os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL),
         "messages": [
             {"role": "system", "content": "Отвечай только валидным JSON без markdown и пояснений."},
             {"role": "user", "content": build_ranking_prompt(items, limit=limit)},
         ],
         "temperature": 0.1,
         "max_tokens": max(1200, limit * 220),
-        "response_format": {
-            "type": "json_schema",
-            "schema": RANKING_SCHEMA,
-            "strict": True,
-        },
     }
-    timeout = float(os.getenv("GIGACHAT_RANK_TIMEOUT", str(DEFAULT_TIMEOUT)))
-    try:
-        data = request_completion(payload, credentials=key, timeout=timeout)
-        choices = data.get("choices") or []
-        if not choices:
-            raise GigaChatError(
-                f"GigaChat returned no ranking choices: {json.dumps(data, ensure_ascii=False)[:1000]}"
-            )
-        content = (choices[0].get("message") or {}).get("content")
-        result = _extract_json(content)
-        if isinstance(result, dict):
-            result = result.get("ranking")
-        return _normalise_ai_ranking(result, items, limit)
-    except (GigaChatError, ValueError, RuntimeError) as exc:
-        print(f"Warning: GigaChat ranking unavailable: {exc}; using deterministic ranking fallback.")
-        return _heuristic_fallback(items, limit=limit)
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "X-Title": "Robotics News Agent",
+    }
+    timeout = float(os.getenv("OPENROUTER_RANK_TIMEOUT", str(DEFAULT_TIMEOUT)))
 
+    last_error: str | None = None
+    for attempt in range(2):
+        try:
+            response = httpx.post(OPENROUTER_URL, headers=headers, json=payload, timeout=timeout)
+            if response.status_code == 429:
+                retry_after = response.headers.get("retry-after")
+                try:
+                    wait = min(float(retry_after), 8.0) if retry_after else 0.0
+                except ValueError:
+                    wait = 0.0
+                if wait and attempt == 0:
+                    print(f"Warning: OpenRouter rate limit (429); retrying after {wait:g}s.")
+                    time.sleep(wait)
+                    continue
+                print("Warning: OpenRouter rate limit (429); using deterministic ranking fallback.")
+                return _heuristic_fallback(items, limit=limit)
+            if response.status_code in (408, 409, 500, 502, 503, 504) and attempt == 0:
+                last_error = response.text[:1000]
+                time.sleep(1)
+                continue
+            response.raise_for_status()
+            data = response.json()
+            choices = data.get("choices") or []
+            if not choices:
+                raise RuntimeError(f"OpenRouter returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}")
+            message = choices[0].get("message") or {}
+            content = message.get("content")
+            if not content:
+                raise RuntimeError("OpenRouter returned empty ranking content")
+            return _normalise_ai_ranking(_extract_json(content), items, limit)
+        except (httpx.HTTPError, ValueError, RuntimeError) as exc:
+            last_error = str(exc)
+            if attempt == 0:
+                time.sleep(1)
+                continue
 
-def rank_with_deepseek(
-    items: list[dict[str, Any]],
-    api_key: str | None = None,
-    limit: int = 5,
-) -> list[dict[str, Any]]:
-    """Compatibility alias for callers from earlier pipeline versions."""
-    return rank_with_gigachat(items, credentials=api_key, limit=limit)
+    print(f"Warning: OpenRouter ranking unavailable after 2 attempts: {last_error}")
+    return _heuristic_fallback(items, limit=limit)
