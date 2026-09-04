@@ -1,3 +1,4 @@
+import json
 import os
 import unittest
 from unittest.mock import Mock, patch
@@ -8,6 +9,7 @@ from app.article_editor import (
     _is_parseable_article_json,
     _normalize_article,
     _request_openrouter,
+    generate_article,
     validate_article,
 )
 
@@ -78,6 +80,48 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertEqual(content, '{"title": "Черновик"}')
         self.assertEqual(post.call_count, 2)
         sleep.assert_called_once_with(0.0)
+
+    @patch("app.article_editor._request_openrouter")
+    def test_generate_article_uses_second_repair_attempt(self, request):
+        top5 = [
+            {
+                "title": f"News {i}",
+                "summary": f"Source card {i}",
+                "source": f"Source {i}",
+                "url": f"https://example.com/news-{i}",
+            }
+            for i in range(1, 6)
+        ]
+        invalid = {
+            "title": "Робототехника дня",
+            "intro": "Сегодня есть новости о роботах. Карточки содержат факты.",
+            "items": [
+                {"headline": "Новость", "body": "Слишком короткий блок."}
+                for _ in range(5)
+            ],
+        }
+        valid = {
+            "title": "Робототехника дня",
+            "intro": "Сегодня есть новости о роботах. Карточки содержат факты.",
+            "items": [
+                {
+                    "headline": "Новость",
+                    "body": "Первый факт указан в карточке. Второй факт не добавляет деталей. Третий факт сохраняет осторожную формулировку.",
+                }
+                for _ in range(5)
+            ],
+        }
+        request.side_effect = [
+            json.dumps(invalid, ensure_ascii=False),
+            json.dumps(invalid, ensure_ascii=False),
+            json.dumps(valid, ensure_ascii=False),
+        ]
+
+        article = generate_article(top5, api_key="test-key")
+
+        self.assertEqual(request.call_count, 3)
+        self.assertEqual(len(article["items"]), 5)
+
 
     def test_normalize_article_assigns_indexes_by_position(self):
         article = self.valid_article()
