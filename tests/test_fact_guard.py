@@ -25,6 +25,22 @@ def test_accepts_numbers_present_in_the_matching_source_card():
     )
 
 
+def test_rejects_number_in_digest_intro_absent_from_all_sources():
+    article = _article("Робот 42 завершил испытание. Источник сообщает об этом.")
+    article["title"] = "10 роботов дня"
+    article["intro"] = "В выпуске собраны новости о роботах. Источники описывают отдельные события."
+    with pytest.raises(ValueError, match="Article title/intro.*numbers absent"):
+        validate_factual_grounding(article, _cards())
+
+
+def test_rejects_unsupported_embellishment_in_digest_title():
+    article = _article("Робот 42 завершил испытание. Источник сообщает об этом.")
+    article["title"] = "Новый стандарт в робототехнике"
+    article["intro"] = "В выпуске собраны новости о роботах. Источники описывают отдельные события."
+    with pytest.raises(ValueError, match="Article title/intro.*unsupported embellishment"):
+        validate_factual_grounding(article, _cards())
+
+
 def test_rejects_numeric_claim_absent_from_source_card():
     with pytest.raises(ValueError, match="numbers absent"):
         validate_factual_grounding(
