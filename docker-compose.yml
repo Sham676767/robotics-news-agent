@@ -1,0 +1,10 @@
+services:
+  agent:
+    build: .
+    image: robotics-news-agent:local
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./articles:/app/articles
+    restart: "no"
