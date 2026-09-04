@@ -53,10 +53,10 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertFalse(_is_parseable_article_json("Let me think through this first."))
         self.assertTrue(_is_parseable_article_json('{"title": "Черновик"}'))
 
-    def test_payload_disables_reasoning_for_compact_json_output(self):
-        payload = _payload([{"role": "user", "content": "test"}], "z-ai/glm-5.3-flash", ["z-ai/glm-5.3-flash"])
+    def test_payload_requests_structured_json_without_reasoning_override(self):
+        payload = _payload([{"role": "user", "content": "test"}], "openai/gpt-4.1-mini", ["openai/gpt-4.1-mini"])
 
-        self.assertEqual(payload["reasoning"], {"effort": "none"})
+        self.assertNotIn("reasoning", payload)
         self.assertEqual(payload["response_format"]["type"], "json_schema")
 
     @patch("app.article_editor.httpx.post")
