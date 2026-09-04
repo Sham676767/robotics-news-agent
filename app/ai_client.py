@@ -9,7 +9,7 @@ from typing import Any
 import httpx
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "z-ai/glm-5.3-flash"
+DEFAULT_MODEL = "openrouter/free"
 DEFAULT_TIMEOUT = 35.0
 
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
