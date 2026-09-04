@@ -73,6 +73,7 @@ jobs:
           VK_PUBLISH_ENABLED: "false"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: z-ai/glm-5.3-flash
+          OPENROUTER_ARTICLE_MODEL: openai/gpt-4.1-mini
           OPENROUTER_MAX_ATTEMPTS: "3"
         run: |
           python main.py
