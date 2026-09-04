@@ -1,0 +1,23 @@
+name: Validate VPS container
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - docker-compose.yml
+      - requirements.txt
+      - app/**
+      - main.py
+      - .github/workflows/validate-container.yml
+
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose configuration
+        run: docker compose config
+      - name: Build container image
+        run: docker build --tag robotics-news-agent:test .
