@@ -15,7 +15,12 @@ def _language_ratio(text: str) -> float:
     return cyrillic / letters if letters else 0.0
 
 
-def validate_russian_article(article: dict[str, Any], *, min_body_ratio: float = 0.45) -> None:
+def validate_russian_article(
+    article: dict[str, Any],
+    *,
+    min_body_ratio: float = 0.45,
+    min_headline_ratio: float = 0.45,
+) -> None:
     """Reject articles whose editorial prose is predominantly non-Russian.
 
     Company/product names may remain in Latin characters, so the guard uses a
@@ -31,7 +36,12 @@ def validate_russian_article(article: dict[str, Any], *, min_body_ratio: float =
         raise ValueError("Daily digest must not be framed as a weekly digest")
 
     for index, item in enumerate(items, start=1):
+        headline = str(item.get("headline") or "")
         body = str(item.get("body") or "")
+        if _language_ratio(headline) < min_headline_ratio:
+            raise ValueError(
+                f"Article headline #{index} is not sufficiently Russian for safe publication"
+            )
         if _language_ratio(body) < min_body_ratio:
             raise ValueError(
                 f"Article item #{index} is not sufficiently Russian for safe publication"
