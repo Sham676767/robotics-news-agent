@@ -49,4 +49,13 @@ def test_daily_random_id_is_stable_for_reruns():
     assert daily_random_id(article_a) == daily_random_id(article_a)
     assert daily_random_id(article_a) == daily_random_id(article_b)
     assert 0 < daily_random_id(article_a) <= 0x7FFFFFFF
-\n\ndef test_source_image_upload_is_disabled_by_default(monkeypatch):\n    monkeypatch.delenv("VK_UPLOAD_SOURCE_IMAGES", raising=False)\n    assert _source_image_upload_enabled() is False\n\n\ndef test_source_image_upload_requires_explicit_enablement(monkeypatch):\n    monkeypatch.setenv("VK_UPLOAD_SOURCE_IMAGES", "true")\n    assert _source_image_upload_enabled() is True\n
+
+
+def test_source_image_upload_is_disabled_by_default(monkeypatch):
+    monkeypatch.delenv("VK_UPLOAD_SOURCE_IMAGES", raising=False)
+    assert _source_image_upload_enabled() is False
+
+
+def test_source_image_upload_requires_explicit_enablement(monkeypatch):
+    monkeypatch.setenv("VK_UPLOAD_SOURCE_IMAGES", "true")
+    assert _source_image_upload_enabled() is True
