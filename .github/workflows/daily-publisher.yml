@@ -71,6 +71,7 @@ jobs:
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
           VK_PUBLISH_ENABLED: "false"
+          VK_UPLOAD_SOURCE_IMAGES: "false"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: z-ai/glm-5.3-flash
           OPENROUTER_ARTICLE_MODEL: openai/gpt-4.1-mini
