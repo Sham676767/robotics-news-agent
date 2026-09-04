@@ -8,6 +8,7 @@ from app.collector import collect_news
 from app.daily_selection import select_top5
 from app.article_editor import generate_article, render_markdown, validate_article, _normalize_article, OUTPUT_DIR
 from app.image_fetcher import enrich_with_images
+from app.fact_guard import validate_factual_grounding
 from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 
@@ -50,7 +51,9 @@ def _timed(label, func):
 
 
 def _validate_article_quality(article, top5):
-    validate_article(_normalize_article(article), top5)
+    normalized_article = _normalize_article(article)
+    validate_article(normalized_article, top5)
+    validate_factual_grounding(normalized_article, top5)
     validate_russian_article(article)
 
 
@@ -82,7 +85,7 @@ def main():
     TOP5_OUTPUT_PATH.write_text(json.dumps(top5, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"TOP-5 STATE CREATED: {TOP5_OUTPUT_PATH.resolve()}")
 
-    print("✍ Generating article with GigaChat...")
+    print("✍ Generating article with OpenRouter...")
     article_started = time.perf_counter()
     try:
         article = generate_article(top5)
