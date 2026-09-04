@@ -32,6 +32,8 @@ jobs:
           OPENROUTER_MODEL: z-ai/glm-5.3-flash
           OPENROUTER_ARTICLE_MODEL: openai/gpt-4.1-mini
         run: python -m app.article_editor
+      - name: Create browser review page
+        run: python -m app.article_preview
       - name: Upload draft and TOP-5
         uses: actions/upload-artifact@v4
         with:
@@ -39,4 +41,5 @@ jobs:
           path: |
             data/latest_top5.json
             articles/*.md
+            articles/*.html
           retention-days: 14
