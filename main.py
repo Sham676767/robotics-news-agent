@@ -54,6 +54,10 @@ def _validate_article_quality(article, top5):
     validate_russian_article(article)
 
 
+def _vk_publication_enabled() -> bool:
+    return os.getenv("VK_PUBLISH_ENABLED", "false").lower() in {"1", "true", "yes"}
+
+
 def main():
     pipeline_started = time.perf_counter()
     started_at = datetime.now()
@@ -97,8 +101,11 @@ def main():
     output_path.write_text(render_markdown(article), encoding="utf-8")
     print(f"FILE CREATED: {output_path.resolve()}")
 
-    required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
-    _timed("VK publication", lambda: publish_to_vk(article, required=required_vk))
+    if _vk_publication_enabled():
+        required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
+        _timed("VK publication", lambda: publish_to_vk(article, required=required_vk))
+    else:
+        print("ℹ️ VK publication is disabled; article saved for editorial review.")
 
     print(f"⏱ Pipeline duration: {time.perf_counter() - pipeline_started:.1f}s")
     print("✅ Pipeline finished")
