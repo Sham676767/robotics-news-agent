@@ -78,7 +78,7 @@ def main():
     TOP5_OUTPUT_PATH.write_text(json.dumps(top5, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"TOP-5 STATE CREATED: {TOP5_OUTPUT_PATH.resolve()}")
 
-    print("✍ Generating article with OpenRouter...")
+    print("✍ Generating article with GigaChat...")
     article_started = time.perf_counter()
     try:
         article = generate_article(top5)
