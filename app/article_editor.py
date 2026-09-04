@@ -12,10 +12,11 @@ from urllib.parse import urlparse
 import httpx
 
 from app.fact_guard import validate_factual_grounding
-from app.gigachat_client import GigaChatError, request_completion
 from app.language_guard import validate_russian_article
 
-DEFAULT_MODEL = "GigaChat"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+DEFAULT_MODEL = "z-ai/glm-5.3-flash"
+DEFAULT_FALLBACK_MODELS = []
 OUTPUT_DIR = Path("articles")
 MAX_ARTICLE_REPAIR_ATTEMPTS = 3
 
@@ -206,51 +207,84 @@ def _attach_sources(article: dict[str, Any], top5: list[dict[str, Any]]) -> dict
     return result
 
 
-def _request_gigachat(
-    payload: dict[str, Any],
-    credentials: str | None = None,
-    timeout: float = 120,
-) -> str:
-    """Request one strictly structured GigaChat completion."""
-    data = request_completion(payload, credentials=credentials, timeout=timeout)
-    choices = data.get("choices") or []
-    if not choices:
-        raise GigaChatError(
-            f"GigaChat returned no choices: {json.dumps(data, ensure_ascii=False)[:1000]}"
-        )
-    message = choices[0].get("message") or {}
-    content = message.get("content")
-    if not isinstance(content, str) or not content.strip():
-        raise GigaChatError("GigaChat returned an empty article response")
-    used_model = data.get("model")
-    if used_model:
-        print(f"✅ GigaChat article response model: {used_model}")
-    return content
+def _retry_delay(response: httpx.Response, attempt: int) -> float:
+    retry_after = response.headers.get("Retry-After")
+    if retry_after:
+        try:
+            return max(0.0, min(float(retry_after), 60.0))
+        except ValueError:
+            pass
+    base = float(os.getenv("OPENROUTER_RETRY_BASE_SECONDS", "2"))
+    maximum = float(os.getenv("OPENROUTER_RETRY_MAX_SECONDS", "20"))
+    return min(maximum, base * (2**attempt))
 
 
-def _payload(messages: list[dict[str, str]], model: str) -> dict[str, Any]:
-    return {
+def _request_openrouter(payload: dict[str, Any], headers: dict[str, str], timeout: float = 120) -> str:
+    max_attempts = max(1, int(os.getenv("OPENROUTER_MAX_ATTEMPTS", "3")))
+    retryable_statuses = {408, 409, 429, 500, 502, 503, 504}
+    last_error: str | None = None
+    for attempt in range(max_attempts):
+        try:
+            response = httpx.post(OPENROUTER_URL, headers=headers, json=payload, timeout=timeout)
+            if response.status_code in retryable_statuses:
+                last_error = f"HTTP {response.status_code}: {response.text[:1000]}"
+                if attempt + 1 < max_attempts:
+                    delay = _retry_delay(response, attempt)
+                    print(f"⚠️ OpenRouter transient HTTP {response.status_code}; retry {attempt + 2}/{max_attempts} in {delay:.1f}s")
+                    time.sleep(delay)
+                    continue
+            response.raise_for_status()
+            data = response.json()
+            choices = data.get("choices") or []
+            content = (choices[0].get("message") or {}).get("content") if choices else None
+            if not isinstance(content, str) or not content.strip():
+                raise RuntimeError(f"OpenRouter returned empty article content: {json.dumps(data, ensure_ascii=False)[:1000]}")
+            used_model = data.get("model")
+            if used_model:
+                print(f"✅ OpenRouter article response model: {used_model}")
+            return content
+        except (httpx.HTTPError, RuntimeError, ValueError) as exc:
+            last_error = str(exc)
+            if attempt + 1 < max_attempts:
+                delay = float(os.getenv("OPENROUTER_RETRY_BASE_SECONDS", "2")) * (2**attempt)
+                print(f"⚠️ OpenRouter request error; retry {attempt + 2}/{max_attempts} in {delay:.1f}s: {last_error}")
+                time.sleep(min(delay, float(os.getenv("OPENROUTER_RETRY_MAX_SECONDS", "20"))))
+                continue
+    raise RuntimeError(f"OpenRouter request failed after {max_attempts} attempts: {last_error}")
+
+
+def _fallback_models(primary_model: str) -> list[str]:
+    configured = [value.strip() for value in os.getenv("OPENROUTER_FALLBACK_MODELS", "").split(",") if value.strip()]
+    return list(dict.fromkeys([primary_model, *configured, *DEFAULT_FALLBACK_MODELS]))
+
+
+def _payload(messages: list[dict[str, str]], model: str, models: list[str]) -> dict[str, Any]:
+    payload: dict[str, Any] = {
         "model": model,
         "messages": messages,
         "temperature": 0.15,
         "max_tokens": 5000,
         "response_format": {
             "type": "json_schema",
-            "schema": ARTICLE_SCHEMA,
-            "strict": True,
+            "json_schema": {"name": "robotics_daily_digest", "strict": True, "schema": ARTICLE_SCHEMA},
         },
     }
+    if len(models) > 1:
+        payload["models"] = models
+        payload["route"] = "fallback"
+    return payload
 
 
 def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> dict[str, Any]:
-    credentials = api_key or os.getenv("GIGACHAT_AUTHORIZATION_KEY")
-    if not credentials:
-        raise RuntimeError("GIGACHAT_AUTHORIZATION_KEY is not configured")
+    key = api_key or os.getenv("OPENROUTER_API_KEY")
+    if not key:
+        raise RuntimeError("OPENROUTER_API_KEY is not configured")
     if len(top5) != 5:
         raise ValueError("Article editor requires exactly 5 selected stories")
 
-    model = os.getenv("GIGACHAT_MODEL", DEFAULT_MODEL)
-    print(f"🤖 GigaChat model: {model}")
+    model = os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL)
+    models = _fallback_models(model)
+    print(f"🤖 OpenRouter model chain: {' → '.join(models)}")
     prompt = (
         "Подготовь одну профессиональную публикацию-дайджест из этих пяти новостей. "
         "Не меняй порядок карточек. Для каждого блока используй только факты соответствующей карточки. "
@@ -265,7 +299,12 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": prompt},
     ]
-    current_content = _request_gigachat(_payload(messages, model), credentials)
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "X-Title": "Robotics News Agent - Article Editor",
+    }
+    current_content = _request_openrouter(_payload(messages, model, models), headers)
 
     last_error: Exception | None = None
 
@@ -314,8 +353,8 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": repair_prompt},
             ]
-            current_content = _request_gigachat(
-                _payload(repair_messages, model), credentials
+            current_content = _request_openrouter(
+                _payload(repair_messages, model, models), headers
             )
 
     raise RuntimeError(
