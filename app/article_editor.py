@@ -19,6 +19,14 @@ DEFAULT_MODEL = "z-ai/glm-5.3-flash"
 DEFAULT_FALLBACK_MODELS = []
 OUTPUT_DIR = Path("articles")
 MAX_ARTICLE_REPAIR_ATTEMPTS = 3
+_GENERIC_HEADLINES = {
+    "новость",
+    "новость дня",
+    "главное",
+    "главная новость",
+    "событие",
+    "событие дня",
+}
 
 SYSTEM_PROMPT = """Ты старший редактор профессионального русскоязычного медиа о робототехнике.
 Твой профиль — гуманоидные роботы, физический AI, автономные системы, промышленная и сервисная робототехника.
@@ -45,11 +53,11 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 9. Статья полностью на русском языке. Названия компаний, продуктов и проектов оставляй в оригинальном написании, когда это уместно. Английские фразы и предложения не используй.
 10. Должно быть РОВНО пять новостных блоков — по одному на каждую карточку, без пропусков и дублей.
 11. Сохраняй порядок карточек: первая карточка → первый блок и так далее.
-12. Заголовок дайджеста должен отражать ДЕНЬ В ЦЕЛОМ, а не одну случайную новость.
-13. Вступление — 2–3 предложения. Покажи общую картину ДНЯ и ключевой технологический контекст, не перечисляя пять новостей подряд. Все предложения должны быть на русском языке.
-14. Заголовок блока должен сообщать конкретное событие и по возможности содержать компанию/объект события. Не используй кликбейт и пустые шаблоны. Заголовок должен быть на русском, кроме оригинальных названий компаний, продуктов и проектов.
+12. Заголовок дайджеста должен отражать ДЕНЬ В ЦЕЛОМ, а не одну случайную новость. Он не должен содержать чисел, оценок или обобщений, которых нет в карточках.
+13. Вступление — 2–3 предложения. Покажи общую картину ДНЯ и ключевой технологический контекст, не перечисляя пять новостей подряд. Не смешивай в одном предложении факты разных карточек и не делай общий вывод, если карточки его не подтверждают. Все предложения должны быть на русском языке.
+14. Заголовок блока должен сообщать конкретное событие и по возможности содержать компанию/объект события. Не используй кликбейт, шаблоны «Новость», «Главное» или «Событие дня». Заголовок должен быть на русском, кроме оригинальных названий компаний, продуктов и проектов; все пять заголовков должны отличаться друг от друга.
 15. Каждый блок — 3–6 содержательных предложений. Сначала факт события, затем ключевые детали, затем значение для рынка/технологии только при наличии основания в карточке.
-16. Не повторяй одну и ту же мысль в заголовке, первом и втором предложении.
+16. Не повторяй одну и ту же мысль в заголовке, первом и втором предложении. Не упоминай «карточки», TOP-5 или внутренний процесс подготовки текста.
 17. Убирай канцелярит, рекламные эпитеты и слова без информационной нагрузки: «уникальный», «революционный», «знаковый», «важный шаг» и т. п., если они не являются прямым фактом карточки.
 18. Не называй событие «прорывом», «революцией», «переломным моментом» или «лидерством», если карточка сама не содержит фактов, позволяющих это утверждать.
 19. Для технических новостей предпочитай конкретику: тип робота, задача, среда применения, стадия разработки/внедрения, измеримый результат — но только если это есть в карточке.
@@ -154,6 +162,10 @@ def _is_http_url(value: str) -> bool:
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
+def _headline_key(value: str) -> str:
+    return re.sub(r"\s+", " ", value.casefold()).strip(" .,!?:;—–-")
+
+
 def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> None:
     if not isinstance(article.get("title"), str) or not article["title"].strip():
         raise ValueError("Article must contain a non-empty title")
@@ -167,6 +179,7 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
         raise ValueError(f"Article must contain exactly 5 items, got {len(items) if isinstance(items, list) else 0}")
 
     actual_indexes: list[int] = []
+    headline_keys: list[str] = []
     for item in items:
         if not isinstance(item, dict):
             raise ValueError("Each article item must be an object")
@@ -175,6 +188,10 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
                 raise ValueError(f"Missing article field: {field}")
         if not isinstance(item["headline"], str) or not item["headline"].strip():
             raise ValueError("Each article headline must be a non-empty string")
+        headline_key = _headline_key(item["headline"])
+        if headline_key in _GENERIC_HEADLINES:
+            raise ValueError("Article headline must describe a concrete event")
+        headline_keys.append(headline_key)
         if not isinstance(item["body"], str) or not item["body"].strip():
             raise ValueError("Each article body must be a non-empty string")
         if not isinstance(item["card_index"], int) or isinstance(item["card_index"], bool):
@@ -187,6 +204,8 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
 
     if actual_indexes != [1, 2, 3, 4, 5]:
         raise ValueError(f"Article card_index sequence must be exactly [1, 2, 3, 4, 5], got {actual_indexes}")
+    if len(headline_keys) != len(set(headline_keys)):
+        raise ValueError("Article headlines must not repeat")
 
     for card in top5:
         url = card.get("url")
