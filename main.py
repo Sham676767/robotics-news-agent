@@ -36,9 +36,12 @@ def _validate_selected_stories(top5):
             raise RuntimeError(f"TOP-5 story #{index} contains unsupported topics: {unknown}")
         covered_topics.update(topics.intersection(ALLOWED_TOPICS))
 
-    if len(covered_topics) < 3:
+    # A quiet day may legitimately have no fresh humanoid or exoskeleton story.
+    # Require variety, but do not discard five real, current stories solely
+    # because one editorial pillar has no qualifying item.
+    if len(covered_topics) < 2:
         raise RuntimeError(
-            f"TOP-5 topic diversity is too low: {sorted(covered_topics)}; expected at least 3 editorial topics"
+            f"TOP-5 topic diversity is too low: {sorted(covered_topics)}; expected at least 2 editorial topics"
         )
 
 
