@@ -21,6 +21,7 @@ DEFAULT_FALLBACK_MODELS = [
     "openai/gpt-oss-120b:free",
 ]
 OUTPUT_DIR = Path("articles")
+MAX_ARTICLE_REPAIR_ATTEMPTS = 2
 
 SYSTEM_PROMPT = """Ты старший редактор профессионального русскоязычного медиа о робототехнике.
 Твой профиль — гуманоидные роботы, физический AI, автономные системы, промышленная и сервисная робототехника.
@@ -328,40 +329,55 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
         "X-Title": "Robotics News Agent - Article Editor",
     }
 
-    draft_content = _request_openrouter(_payload(messages, model, models), headers)
-    try:
-        draft = _normalize_article(_parse_json(draft_content))
-        validate_article(draft, top5)
-        validate_factual_grounding(draft, top5)
-        validate_russian_article(_attach_sources(draft, top5))
-        return _attach_sources(draft, top5)
-    except (ValueError, RuntimeError) as first_error:
-        repair_prompt = (
-            "Исправь ТОЛЬКО ошибки в черновике статьи ниже. "
-            "Не переписывай удачные части без необходимости. "
-            "ОБЯЗАТЕЛЬНО переведи на русский язык title, intro и все headline/body, сохранив только оригинальные имена собственные и технические обозначения. "
-            "Не оставляй английские предложения или английские заголовки. "
-            "Это ЕЖЕДНЕВНЫЙ выпуск: не используй слова «неделя», «недели», «недельный» или «еженедельный» в title и intro. "
-            "Главное: ровно 5 items в исходном порядке, каждый item содержит только headline и body, "
-            "каждый блок опирается только на свою карточку, body содержит РОВНО три завершённых предложения, "
-            "2–3 предложения в intro. Не добавляй card_index, source и url. "
-            f"Ошибка проверки: {first_error}\n\n"
-            "ЧЕРНОВИК:\n"
-            + json.dumps(draft if 'draft' in locals() else {"raw": draft_content[:6000]}, ensure_ascii=False, indent=2)
-            + "\n\nКАРТОЧКИ:\n"
-            + json.dumps(top5, ensure_ascii=False, indent=2)
-        )
-        repair_messages = [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": repair_prompt},
-        ]
-        repaired_content = _request_openrouter(_payload(repair_messages, model, models), headers)
-        repaired = _normalize_article(_parse_json(repaired_content))
-        validate_article(repaired, top5)
-        validate_factual_grounding(repaired, top5)
-        repaired_public = _attach_sources(repaired, top5)
-        validate_russian_article(repaired_public)
-        return repaired_public
+    current_content = _request_openrouter(_payload(messages, model, models), headers)
+    last_error: Exception | None = None
+
+    # A free-route provider may satisfy JSON output but still miss one editorial
+    # constraint. Give it two bounded correction attempts before safely failing.
+    for repair_attempt in range(MAX_ARTICLE_REPAIR_ATTEMPTS + 1):
+        try:
+            draft = _normalize_article(_parse_json(current_content))
+            validate_article(draft, top5)
+            validate_factual_grounding(draft, top5)
+            public_article = _attach_sources(draft, top5)
+            validate_russian_article(public_article)
+            return public_article
+        except (ValueError, RuntimeError) as validation_error:
+            last_error = validation_error
+            if repair_attempt >= MAX_ARTICLE_REPAIR_ATTEMPTS:
+                break
+
+            try:
+                repair_input = _normalize_article(_parse_json(current_content))
+            except ValueError:
+                repair_input = {"raw": current_content[:6000]}
+
+            repair_prompt = (
+                "Исправь ТОЛЬКО ошибки в черновике статьи ниже. "
+                "Не переписывай удачные части без необходимости. "
+                "ОБЯЗАТЕЛЬНО переведи на русский язык title, intro и все headline/body, сохранив только оригинальные имена собственные и технические обозначения. "
+                "Не оставляй английские предложения или английские заголовки. "
+                "Это ЕЖЕДНЕВНЫЙ выпуск: не используй слова «неделя», «недели», «недельный» или «еженедельный» в title и intro. "
+                "Главное: ровно 5 items в исходном порядке, каждый item содержит только headline и body, "
+                "каждый блок опирается только на свою карточку, body содержит РОВНО три завершённых предложения, "
+                "2–3 предложения в intro. Не добавляй card_index, source и url. "
+                f"Ошибка проверки: {validation_error}\n\n"
+                "ЧЕРНОВИК:\n"
+                + json.dumps(repair_input, ensure_ascii=False, indent=2)
+                + "\n\nКАРТОЧКИ:\n"
+                + json.dumps(top5, ensure_ascii=False, indent=2)
+            )
+            repair_messages = [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": repair_prompt},
+            ]
+            current_content = _request_openrouter(
+                _payload(repair_messages, model, models), headers
+            )
+
+    raise RuntimeError(
+        f"Article remained invalid after {MAX_ARTICLE_REPAIR_ATTEMPTS} repair attempts: {last_error}"
+    )
 
 
 def render_markdown(article: dict[str, Any]) -> str:
