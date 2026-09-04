@@ -1,6 +1,11 @@
 from unittest.mock import Mock, patch
 
-from app.gigachat_client import (\n    GIGACHAT_API_URL,\n    LEGACY_GIGACHAT_API_URL,\n    get_access_token,\n    request_completion,\n)
+from app.gigachat_client import (
+    GIGACHAT_API_URL,
+    LEGACY_GIGACHAT_API_URL,
+    get_access_token,
+    request_completion,
+)
 
 
 @patch("app.gigachat_client.httpx.post")
