@@ -16,6 +16,11 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Trust GigaChat root certificate
+        run: |
+          curl -kfsSL "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt" -o /tmp/russian_trusted_root_ca.pem
+          cat /tmp/russian_trusted_root_ca.pem >> "$(python -m certifi)"
+
       - name: Run GigaChat smoke test
         env:
           GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
