@@ -27,7 +27,7 @@ class ArticleEditorTests(unittest.TestCase):
 
     def valid_article(self):
         return {
-            "title": "Робототехника недели",
+            "title": "Робототехника дня",
             "intro": "Первая новость показывает развитие робототехники. Вторая новость показывает другой сегмент рынка.",
             "items": [
                 {
@@ -86,10 +86,10 @@ class ArticleEditorTests(unittest.TestCase):
             "intro": "Сегодня есть новости о роботах. Карточки содержат факты.",
             "items": [
                 {
-                    "headline": "Новость",
+                    "headline": f"Робот {index}: конкретное событие",
                     "body": "Первый факт указан в карточке. Второй факт не добавляет деталей. Третий факт сохраняет осторожную формулировку.",
                 }
-                for _ in range(5)
+                for index in range(1, 6)
             ],
         }
         request.side_effect = [
@@ -120,10 +120,10 @@ class ArticleEditorTests(unittest.TestCase):
             "intro": "Сегодня есть новости о роботах. Карточки содержат факты.",
             "items": [
                 {
-                    "headline": "Новость",
+                    "headline": f"Робот {index}: конкретное событие",
                     "body": "Первый факт указан в карточке. Второй факт не добавляет деталей. Третий факт сохраняет осторожную формулировку.",
                 }
-                for _ in range(5)
+                for index in range(1, 6)
             ],
         }
         request.side_effect = ["title: Неверный формат", json.dumps(valid, ensure_ascii=False)]
@@ -158,6 +158,18 @@ class ArticleEditorTests(unittest.TestCase):
 
     def test_validate_accepts_correct_five_card_article(self):
         validate_article(self.valid_article(), self.top5)
+
+    def test_validate_rejects_generic_headline(self):
+        article = self.valid_article()
+        article["items"][0]["headline"] = "Новость дня"
+        with self.assertRaises(ValueError, msg="Generic headlines must be rejected"):
+            validate_article(article, self.top5)
+
+    def test_validate_rejects_repeated_headlines(self):
+        article = self.valid_article()
+        article["items"][1]["headline"] = article["items"][0]["headline"]
+        with self.assertRaises(ValueError, msg="Repeated headlines must be rejected"):
+            validate_article(article, self.top5)
 
     def test_validate_rejects_wrong_card_order(self):
         article = self.valid_article()
