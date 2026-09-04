@@ -54,6 +54,18 @@ def test_editorial_guard_rejects_unknown_topic():
         _validate_selected_stories(top5)
 
 
+def test_editorial_guard_accepts_two_topics_when_a_pillar_is_quiet():
+    top5 = [
+        story("https://example.com/1", "robotics"),
+        story("https://example.com/2", "robot_dog"),
+        story("https://example.com/3", "robotics"),
+        story("https://example.com/4", "robot_dog"),
+        story("https://example.com/5", "robotics"),
+    ]
+
+    _validate_selected_stories(top5)
+
+
 def test_editorial_guard_requires_topic_diversity():
     top5 = [story(f"https://example.com/{i}", "robotics") for i in range(5)]
     with pytest.raises(RuntimeError, match="topic diversity is too low"):
