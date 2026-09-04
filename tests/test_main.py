@@ -1,6 +1,6 @@
 import pytest
 
-from main import _validate_selected_stories
+from main import _validate_selected_stories, _vk_publication_enabled
 
 
 def story(url, *topics):
@@ -58,3 +58,13 @@ def test_editorial_guard_requires_topic_diversity():
     top5 = [story(f"https://example.com/{i}", "robotics") for i in range(5)]
     with pytest.raises(RuntimeError, match="topic diversity is too low"):
         _validate_selected_stories(top5)
+
+
+def test_vk_publication_is_disabled_by_default(monkeypatch):
+    monkeypatch.delenv("VK_PUBLISH_ENABLED", raising=False)
+    assert not _vk_publication_enabled()
+
+
+def test_vk_publication_requires_explicit_enable(monkeypatch):
+    monkeypatch.setenv("VK_PUBLISH_ENABLED", "true")
+    assert _vk_publication_enabled()
