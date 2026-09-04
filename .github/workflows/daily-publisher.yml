@@ -70,6 +70,7 @@ jobs:
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
+          VK_PUBLISH_ENABLED: "false"
           GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
           GIGACHAT_SCOPE: GIGACHAT_API_PERS
           GIGACHAT_MODEL: GigaChat
