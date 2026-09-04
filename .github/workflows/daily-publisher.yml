@@ -42,7 +42,7 @@ jobs:
           VK_ACCESS_TOKEN: ${{ secrets.VK_ACCESS_TOKEN }}
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
         run: |
           if [ -z "${VK_ACCESS_TOKEN:-}" ] && [ -z "${VK_TOKEN:-}" ]; then
             echo "❌ VK access token secret is missing"
@@ -58,11 +58,11 @@ jobs:
               exit 1
               ;;
           esac
-          if [ -z "${OPENROUTER_API_KEY:-}" ]; then
-            echo "❌ OPENROUTER_API_KEY secret is missing"
+          if [ -z "${GIGACHAT_AUTHORIZATION_KEY:-}" ]; then
+            echo "❌ GIGACHAT_AUTHORIZATION_KEY secret is missing"
             exit 1
           fi
-          echo "✅ VK and OpenRouter publication configuration is present"
+          echo "✅ VK and GigaChat publication configuration is present"
 
       - name: Run agent
         env:
@@ -70,10 +70,10 @@ jobs:
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: google/gemma-4-31b-it:free
-          OPENROUTER_FALLBACK_MODELS: google/gemma-4-26b-a4b-it:free,openai/gpt-oss-120b:free
-          OPENROUTER_MAX_ATTEMPTS: "1"
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
+          GIGACHAT_SCOPE: GIGACHAT_API_PERS
+          GIGACHAT_MODEL: GigaChat
+          GIGACHAT_MAX_ATTEMPTS: "2"
         run: |
           python main.py
 
