@@ -9,6 +9,8 @@ from zoneinfo import ZoneInfo
 
 import httpx
 
+from app.vk_media import upload_article_images
+
 VK_API_URL = "https://api.vk.com/method/wall.post"
 DEFAULT_API_VERSION = "5.199"
 DEFAULT_TIMEZONE = "Europe/Moscow"
@@ -60,6 +62,11 @@ def daily_random_id(article: dict[str, Any]) -> int:
     return int.from_bytes(digest[:4], "big") & 0x7FFFFFFF
 
 
+def _source_image_upload_enabled() -> bool:
+    """Source images stay opt-in until an editor explicitly enables uploads."""
+    return os.getenv("VK_UPLOAD_SOURCE_IMAGES", "false").lower() in {"1", "true", "yes"}
+
+
 def _config() -> tuple[str | None, str | None]:
     token = os.getenv("VK_ACCESS_TOKEN") or os.getenv("VK_TOKEN")
     group_id = os.getenv("VK_GROUP_ID")
@@ -89,6 +96,12 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
         "message": render_vk_message(article),
         "random_id": daily_random_id(article),
     }
+
+    if _source_image_upload_enabled():
+        attachment_ids = upload_article_images(article, token=token, group_id=group_id)
+        if attachment_ids:
+            payload["attachments"] = ",".join(attachment_ids)
+            print(f"🖼️ VK photo attachments prepared: {len(attachment_ids)}")
 
     timeout = float(os.getenv("VK_PUBLISH_TIMEOUT", str(DEFAULT_TIMEOUT)))
     retryable_api_errors = {6, 9, 10, 29}
