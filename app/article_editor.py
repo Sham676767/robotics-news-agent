@@ -13,6 +13,7 @@ import httpx
 
 from app.fact_guard import validate_factual_grounding
 from app.language_guard import validate_russian_article
+from app.vk_draft import write_vk_draft
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MODEL = "openai/gpt-4.1-mini"
@@ -414,7 +415,10 @@ def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d')}.md"
     output_path.write_text(render_markdown(article), encoding="utf-8")
+    vk_draft_path = output_path.with_suffix(".vk-draft.json")
+    write_vk_draft(article, vk_draft_path)
     print(f"FILE CREATED: {output_path.resolve()}")
+    print(f"VK DRAFT CREATED: {vk_draft_path.resolve()}")
     print(f"Article generated: {output_path}")
 
 
