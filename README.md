@@ -56,3 +56,33 @@ python -m app
 ## Конфигурация
 
 Скопировать `.env.example` в `.env` и заполнить только необходимые переменные. Файл `.env` не должен попадать в Git.
+
+
+## Развёртывание на VPS
+
+Поддерживается Ubuntu/Debian VPS с Docker Engine и Docker Compose plugin.
+
+1. На сервере клонировать репозиторий в `/opt/robotics-news-agent`.
+2. Скопировать `.env.example` в `.env`, записать реальные ключи только на сервере и оставить `VK_PUBLISH_REQUIRED=false`.
+3. Собрать и проверить черновик без публикации:
+
+   ```bash
+   cd /opt/robotics-news-agent
+   docker compose build
+   docker compose run --rm agent
+   ```
+
+4. Проверить статью и TOP-5 в `articles/` и `data/`. Затем установить `VK_PUBLISH_REQUIRED=true` в `.env`.
+5. Скопировать unit-файлы, включить ежедневный запуск в 09:00 МСК и убедиться, что он запланирован:
+
+   ```bash
+   sudo cp deploy/vps/robotics-news-agent.service /etc/systemd/system/
+   sudo cp deploy/vps/robotics-news-agent.timer /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now robotics-news-agent.timer
+   systemctl list-timers robotics-news-agent.timer
+   ```
+
+Перед включением VPS-таймера нужно отключить ежедневный workflow `Daily Robotics Publisher` в GitHub Actions, иначе оба контура смогут опубликовать один и тот же выпуск.
+
+Журналы VPS: `journalctl -u robotics-news-agent.service -n 200 --no-pager`.
