@@ -8,6 +8,7 @@ from typing import Any
 import httpx
 
 GIGACHAT_API_URL = "https://api.giga.chat/v1/chat/completions"
+LEGACY_GIGACHAT_API_URL = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
 GIGACHAT_OAUTH_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
 DEFAULT_TIMEOUT = 120.0
 RETRYABLE_STATUSES = {408, 409, 429, 500, 502, 503, 504}
@@ -33,6 +34,18 @@ def _retry_delay(response: httpx.Response | None, attempt: int) -> float:
     base = float(os.getenv("GIGACHAT_RETRY_BASE_SECONDS", "2"))
     maximum = float(os.getenv("GIGACHAT_RETRY_MAX_SECONDS", "20"))
     return min(maximum, base * (2**attempt))
+
+
+def _completion_urls() -> tuple[str, ...]:
+    """Return the current endpoint and an opt-in compatibility fallback."""
+
+    primary = os.getenv("GIGACHAT_API_URL", GIGACHAT_API_URL)
+    fallback = os.getenv("GIGACHAT_FALLBACK_API_URL")
+    if fallback:
+        return tuple(dict.fromkeys((primary, fallback)))
+    if primary == GIGACHAT_API_URL:
+        return (primary, LEGACY_GIGACHAT_API_URL)
+    return (primary,)
 
 
 def get_access_token(credentials: str, *, scope: str | None = None, timeout: float = 30.0) -> str:
@@ -81,16 +94,21 @@ def request_completion(
         response: httpx.Response | None = None
         try:
             token = get_access_token(key, timeout=min(timeout, 30.0))
-            response = httpx.post(
-                os.getenv("GIGACHAT_API_URL", GIGACHAT_API_URL),
-                headers={
-                    "Authorization": f"Bearer {token}",
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-                json=payload,
-                timeout=timeout,
-            )
+            urls = _completion_urls()
+            for index, api_url in enumerate(urls):
+                response = httpx.post(
+                    api_url,
+                    headers={
+                        "Authorization": f"Bearer {token}",
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    json=payload,
+                    timeout=timeout,
+                )
+                if response.status_code != 404 or index + 1 == len(urls):
+                    break
+                print("⚠️ GigaChat endpoint returned 404; trying compatibility endpoint")
             if response.status_code in RETRYABLE_STATUSES:
                 last_error = f"HTTP {response.status_code}: {response.text[:500]}"
                 if attempt + 1 < max_attempts:
