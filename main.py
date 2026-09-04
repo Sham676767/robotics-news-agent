@@ -11,6 +11,7 @@ from app.image_fetcher import enrich_with_images
 from app.fact_guard import validate_factual_grounding
 from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
+from app.vk_draft import write_vk_draft
 
 ALLOWED_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
 TOP5_OUTPUT_PATH = Path("data/latest_top5.json")
@@ -105,7 +106,10 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = OUTPUT_DIR / f"{started_at.strftime('%Y-%m-%d')}.md"
     output_path.write_text(render_markdown(article), encoding="utf-8")
+    vk_draft_path = output_path.with_suffix(".vk-draft.json")
+    write_vk_draft(article, vk_draft_path)
     print(f"FILE CREATED: {output_path.resolve()}")
+    print(f"VK DRAFT CREATED: {vk_draft_path.resolve()}")
 
     if _vk_publication_enabled():
         required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
