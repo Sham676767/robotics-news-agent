@@ -52,14 +52,12 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertTrue(_is_parseable_article_json('{"title": "Черновик"}'))
 
     @patch("app.article_editor.request_completion")
-    def test_request_rejects_non_json_provider_response(self, request):
+    def test_request_keeps_non_json_provider_response_for_repair(self, request):
         request.return_value = {
-            "choices": [{"message": {"content": "User Safety: safe"}}],
+            "choices": [{"message": {"content": "title: Черновик"}}],
         }
 
-        with self.assertRaisesRegex(Exception, "non-JSON"):
-            _request_gigachat({}, "test-key")
-
+        self.assertEqual(_request_gigachat({}, "test-key"), "title: Черновик")
         self.assertEqual(request.call_count, 1)
 
     @patch("app.article_editor._request_gigachat")
@@ -101,6 +99,36 @@ class ArticleEditorTests(unittest.TestCase):
         article = generate_article(top5, api_key="test-key")
 
         self.assertEqual(request.call_count, 3)
+        self.assertEqual(len(article["items"]), 5)
+
+
+    @patch("app.article_editor._request_gigachat")
+    def test_generate_article_repairs_non_json_first_response(self, request):
+        top5 = [
+            {
+                "title": f"News {i}",
+                "summary": f"Source card {i}",
+                "source": f"Source {i}",
+                "url": f"https://example.com/news-{i}",
+            }
+            for i in range(1, 6)
+        ]
+        valid = {
+            "title": "Робототехника дня",
+            "intro": "Сегодня есть новости о роботах. Карточки содержат факты.",
+            "items": [
+                {
+                    "headline": "Новость",
+                    "body": "Первый факт указан в карточке. Второй факт не добавляет деталей. Третий факт сохраняет осторожную формулировку.",
+                }
+                for _ in range(5)
+            ],
+        }
+        request.side_effect = ["title: Неверный формат", json.dumps(valid, ensure_ascii=False)]
+
+        article = generate_article(top5, api_key="test-key")
+
+        self.assertEqual(request.call_count, 2)
         self.assertEqual(len(article["items"]), 5)
 
 
