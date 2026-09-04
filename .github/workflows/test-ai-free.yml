@@ -1,4 +1,4 @@
-name: Test OpenRouter ranking
+name: Test paid OpenRouter ranking
 
 on:
   workflow_dispatch:
