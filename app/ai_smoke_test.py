@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .ai_client import rank_with_gigachat
+from .ai_client import rank_with_deepseek
 from .collector import collect_all
 from .ranking import rank
 from .relevance import filter_relevant
@@ -21,7 +21,7 @@ def main() -> None:
         for i, item in enumerate(ranked, start=1)
     ]
     selected = rank_with_deepseek(candidates)
-    print("GigaChat TOP-5:")
+    print("OpenRouter TOP-5:")
     for item in selected:
         print(item)
 
