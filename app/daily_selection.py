@@ -58,6 +58,8 @@ PROMO_REJECT_TERMS = (
     "market discussion", "market analysis", "market commentary", "industry discussion",
     "thought leadership", "announces partnership", "partner on platform",
     "learn how", "learn why", "at robobusiness", "will discuss", "leaders will discuss",
+    "apply now", "apply today", "applications open", "applications are open",
+    "call for applications", "calling all robotics startups", "startup radar",
 )
 
 DUPLICATE_CONCEPT_GROUPS = (
