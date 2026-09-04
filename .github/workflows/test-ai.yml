@@ -16,7 +16,7 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run DeepSeek smoke test
+      - name: Run GigaChat smoke test
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
         run: python -m app.ai_smoke_test
