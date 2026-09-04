@@ -67,3 +67,33 @@ def test_upload_article_images_skips_when_no_verified_images():
 
     assert attachments == []
     assert client.calls == []
+
+
+def test_upload_article_images_reports_http_statuses_and_attachment_ids():
+    client = _Client()
+    outcomes = []
+
+    attachments = upload_article_images(
+        {"items": [{"image_url": "https://images.example.com/one.jpg"}]},
+        token="token",
+        group_id="123",
+        client=client,
+        outcomes=outcomes,
+        stop_on_failure=True,
+    )
+
+    assert attachments == ["photo-123_456_key"]
+    assert outcomes == [
+        {
+            "image_url": "https://images.example.com/one.jpg",
+            "get_upload_server_http_status": 200,
+            "get_upload_server_vk_response_code": 0,
+            "source_http_status": 200,
+            "upload_http_status": 200,
+            "upload_vk_response_code": 0,
+            "save_http_status": 200,
+            "save_vk_response_code": 0,
+            "attachment_id": "photo-123_456_key",
+            "error": None,
+        }
+    ]
