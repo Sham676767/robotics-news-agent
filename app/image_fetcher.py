@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import logging
 import re
+from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -159,3 +161,17 @@ def enrich_with_images(top5: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 logger.exception("Unexpected image lookup failure for story #%s", index + 1)
                 result[index]["image_url"] = None
     return result
+
+
+def main() -> None:
+    """Enrich the persisted TOP-5 used by the manual article workflow."""
+    top5_path = Path("data/latest_top5.json")
+    top5 = json.loads(top5_path.read_text(encoding="utf-8"))
+    enriched = enrich_with_images(top5)
+    top5_path.write_text(json.dumps(enriched, ensure_ascii=False, indent=2), encoding="utf-8")
+    image_count = sum(bool(item.get("image_url")) for item in enriched)
+    print(f"Images found: {image_count}/{len(enriched)}")
+
+
+if __name__ == "__main__":
+    main()
