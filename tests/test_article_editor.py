@@ -8,7 +8,7 @@ from app.article_editor import (
     _attach_sources,
     _is_parseable_article_json,
     _normalize_article,
-    _request_gigachat,
+    _request_openrouter,
     generate_article,
     validate_article,
 )
@@ -51,16 +51,18 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertFalse(_is_parseable_article_json("Let me think through this first."))
         self.assertTrue(_is_parseable_article_json('{"title": "Черновик"}'))
 
-    @patch("app.article_editor.request_completion")
-    def test_request_keeps_non_json_provider_response_for_repair(self, request):
-        request.return_value = {
+    @patch("app.article_editor.httpx.post")
+    def test_request_keeps_non_json_provider_response_for_repair(self, post):
+        response = Mock(status_code=200)
+        response.json.return_value = {
             "choices": [{"message": {"content": "title: Черновик"}}],
         }
+        post.return_value = response
 
-        self.assertEqual(_request_gigachat({}, "test-key"), "title: Черновик")
-        self.assertEqual(request.call_count, 1)
+        self.assertEqual(_request_openrouter({}, {"Authorization": "Bearer test-key"}), "title: Черновик")
+        self.assertEqual(post.call_count, 1)
 
-    @patch("app.article_editor._request_gigachat")
+    @patch("app.article_editor._request_openrouter")
     def test_generate_article_uses_second_repair_attempt(self, request):
         top5 = [
             {
@@ -102,7 +104,7 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertEqual(len(article["items"]), 5)
 
 
-    @patch("app.article_editor._request_gigachat")
+    @patch("app.article_editor._request_openrouter")
     def test_generate_article_repairs_non_json_first_response(self, request):
         top5 = [
             {
