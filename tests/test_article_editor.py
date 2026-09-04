@@ -8,6 +8,7 @@ from app.article_editor import (
     _attach_sources,
     _is_parseable_article_json,
     _normalize_article,
+    _payload,
     _request_openrouter,
     generate_article,
     render_markdown,
@@ -51,6 +52,12 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertFalse(_is_parseable_article_json("User Safety: safe"))
         self.assertFalse(_is_parseable_article_json("Let me think through this first."))
         self.assertTrue(_is_parseable_article_json('{"title": "Черновик"}'))
+
+    def test_payload_disables_reasoning_for_compact_json_output(self):
+        payload = _payload([{"role": "user", "content": "test"}], "z-ai/glm-5.3-flash", ["z-ai/glm-5.3-flash"])
+
+        self.assertEqual(payload["reasoning"], {"effort": "none"})
+        self.assertEqual(payload["response_format"]["type"], "json_schema")
 
     @patch("app.article_editor.httpx.post")
     def test_request_keeps_non_json_provider_response_for_repair(self, post):
