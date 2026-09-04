@@ -287,6 +287,9 @@ def _payload(messages: list[dict[str, str]], model: str, models: list[str]) -> d
         "messages": messages,
         "temperature": 0.15,
         "max_tokens": 5000,
+        # This task needs a compact JSON payload, not an exposed reasoning trace.
+        # Disabling reasoning prevents it from consuming the entire output budget.
+        "reasoning": {"effort": "none"},
         "response_format": {
             "type": "json_schema",
             "json_schema": {"name": "robotics_daily_digest", "strict": True, "schema": ARTICLE_SCHEMA},
