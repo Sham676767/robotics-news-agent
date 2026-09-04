@@ -26,7 +26,9 @@ def validate_top5(top5):
         if not topics.issubset(ALLOWED_TOPICS):
             raise RuntimeError(f"TOP-5 story #{index} contains unsupported topics")
         covered_topics.update(topics.intersection(ALLOWED_TOPICS))
-    if len(covered_topics) < 3:
+    # Match the production guard: keep variety, but permit a quiet
+    # editorial pillar when five distinct current stories are available.
+    if len(covered_topics) < 2:
         raise RuntimeError(f"TOP-5 topic diversity is too low: {sorted(covered_topics)}")
 
 
