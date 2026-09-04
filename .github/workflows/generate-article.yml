@@ -24,6 +24,8 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: openrouter/free
         run: python -m app.daily_selection
+      - name: Find source images
+        run: python -m app.image_fetcher
       - name: Generate article draft
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
