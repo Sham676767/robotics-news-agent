@@ -24,6 +24,14 @@ class RussianLanguageGuardTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_russian_article(article)
 
+    def test_rejects_predominantly_english_headline(self):
+        article = self._article(
+            "Компания представила новый робот. Это описание события. Источник содержит факты."
+        )
+        article["items"][0]["headline"] = "Company launches warehouse humanoid robot"
+        with self.assertRaises(ValueError):
+            validate_russian_article(article)
+
     def test_rejects_predominantly_english_body(self):
         body = "The company announced a new humanoid robot. It is designed for warehouse tasks. The source provides additional technical details."
         with self.assertRaises(ValueError):
