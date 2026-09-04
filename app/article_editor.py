@@ -61,6 +61,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 26. Перед возвратом результата отдельно проверь title, intro и каждый headline: они должны быть написаны по-русски; допускаются только оригинальные имена компаний, продуктов, проектов и общепринятые технические обозначения.
 
 ФОРМАТ ВЫВОДА:
+Верни ТОЛЬКО один валидный JSON-объект без Markdown-ограждений, YAML, пояснений или текста до/после JSON.
 - title: короткий заголовок всего выпуска за день;
 - intro: 2–3 предложения с общей картиной;
 - items: ровно 5 блоков;
@@ -219,11 +220,8 @@ def _request_gigachat(
         )
     message = choices[0].get("message") or {}
     content = message.get("content")
-    if not _is_parseable_article_json(content):
-        raise GigaChatError(
-            "GigaChat returned non-JSON article content: "
-            f"{str(content)[:500]!r}"
-        )
+    if not isinstance(content, str) or not content.strip():
+        raise GigaChatError("GigaChat returned an empty article response")
     used_model = data.get("model")
     if used_model:
         print(f"✅ GigaChat article response model: {used_model}")
@@ -297,7 +295,8 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
                 "ОБЯЗАТЕЛЬНО переведи на русский язык title, intro и все headline/body, сохранив только оригинальные имена собственные и технические обозначения. "
                 "Не оставляй английские предложения или английские заголовки. "
                 "Это ЕЖЕДНЕВНЫЙ выпуск: не используй слова «неделя», «недели», «недельный» или «еженедельный» в title и intro. "
-                "Главное: ровно 5 items в исходном порядке, каждый item содержит только headline и body, "
+                "Главное: верни ТОЛЬКО валидный JSON-объект без Markdown, YAML или пояснений. "
+                "В нём должно быть ровно 5 items в исходном порядке, каждый item содержит только headline и body, "
                 "каждый блок опирается только на свою карточку, body содержит РОВНО три завершённых предложения, "
                 "2–3 предложения в intro. Не добавляй card_index, source и url. "
                 f"Ошибка проверки: {validation_error}\n\n"
