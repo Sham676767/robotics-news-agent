@@ -15,7 +15,7 @@ from app.fact_guard import validate_factual_grounding
 from app.language_guard import validate_russian_article
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "openrouter/free"
+DEFAULT_MODEL = "z-ai/glm-5.3-flash"
 DEFAULT_FALLBACK_MODELS = []
 OUTPUT_DIR = Path("articles")
 MAX_ARTICLE_REPAIR_ATTEMPTS = 3
