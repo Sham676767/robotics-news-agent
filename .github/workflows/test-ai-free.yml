@@ -1,4 +1,4 @@
-name: Test AI ranking (free)
+name: Test GigaChat ranking
 
 on:
   workflow_dispatch:
@@ -16,8 +16,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run free OpenRouter smoke test
+      - name: Run GigaChat smoke test
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: openrouter/free
+          GIGACHAT_AUTHORIZATION_KEY: ${{ secrets.GIGACHAT_AUTHORIZATION_KEY }}
+          GIGACHAT_MODEL: GigaChat
         run: python -m app.ai_smoke_test
