@@ -171,8 +171,7 @@ def _filter_editorial(items: list) -> list:
         and not _is_low_specificity_discussion(item)
     ]
     # An aggregated headline is only a reserve candidate. Do not exclude it
-    # outright: a thin news day must still be able to produce five genuine
-    # articles, but prefer direct publishers whenever five are available.
+    # outright: a thin news day may still use direct publisher coverage first.
     direct = [item for item in filtered if not _is_aggregator(item)]
     return direct if len(direct) >= 5 else filtered
 
@@ -264,11 +263,19 @@ def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     relevant = filter_relevant(collected)
     editorial = _filter_editorial(relevant)
     recent = _exclude_recently_published(_dedupe(_recent(editorial)))
-    if len(recent) < 5:
-        raise RuntimeError(f"Only {len(recent)} unique relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale or duplicate news")
-    ranked = _diverse_ranked(recent, limit=limit)
-    if len(ranked) < 5:
-        raise RuntimeError(f"Only {len(ranked)} unique candidates remain after source/topic diversity filtering; expected at least 5")
+    primary = [
+        item for item in recent
+        if set(classify(item)).intersection(CORE_TOPICS)
+    ]
+    reserve = [
+        item for item in recent
+        if "reserve" in classify(item)
+        and not set(classify(item)).intersection(CORE_TOPICS)
+    ]
+
+    ranked = _diverse_ranked(primary, limit=limit)
+    if len(ranked) < 5 and reserve:
+        ranked.extend(_diverse_ranked(reserve, limit=1)[:1])
     return [{"id": index, "title": item.title, "source": item.source, "url": item.url, "published_at": item.published_at.isoformat() if item.published_at else None, "summary": item.summary[:1500], "topics": classify(item)} for index, item in enumerate(ranked, start=1)]
 
 
@@ -348,6 +355,10 @@ def _best_ranked_fill(choices, covered_topics, used_ids, used_sources):
 
 def select_top5(news=None) -> List[Dict]:
     candidates = build_candidates(items=news)
+    if not candidates:
+        raise RuntimeError("No usable fresh stories available")
+
+    target_count = min(5, len(candidates))
     selected = rank_with_deepseek(candidates, limit=len(candidates))
     by_id = {item["id"]: item for item in candidates}
     valid_choices = []
@@ -360,15 +371,12 @@ def select_top5(news=None) -> List[Dict]:
             valid_choices.append((choice, candidate))
 
     result, used_sources, covered_topics, chosen_ids = [], set(), set(), set()
-    # Topic variety should never force an old story above a fresh event. Only
-    # seek coverage for pillars that actually have a candidate from the last
-    # 72 hours; older stories remain available as reserve fill.
     target_topics = set().union(*(
         _topic_set(candidate).intersection(SPECIFIC_TOPICS)
         for candidate in candidates
         if _is_fresh_candidate(candidate)
     )) if candidates else set()
-    while len(result) < 5 and not target_topics.issubset(covered_topics):
+    while len(result) < target_count and not target_topics.issubset(covered_topics):
         picked = _best_coverage_choice(valid_choices, covered_topics, chosen_ids, used_sources)
         if not picked:
             break
@@ -377,29 +385,33 @@ def select_top5(news=None) -> List[Dict]:
         if not new_specific:
             break
         result.append(_pick_result(candidate, choice))
-        chosen_ids.add(candidate["id"]); used_sources.add(candidate["source"]); covered_topics.update(_topic_set(candidate))
+        chosen_ids.add(candidate["id"])
+        used_sources.add(candidate["source"])
+        covered_topics.update(_topic_set(candidate))
 
-    while len(result) < 5:
+    while len(result) < target_count:
         picked = _best_ranked_fill(valid_choices, covered_topics, chosen_ids, used_sources)
         if not picked:
             break
         choice, candidate = picked
         result.append(_pick_result(candidate, choice))
-        chosen_ids.add(candidate["id"]); used_sources.add(candidate["source"]); covered_topics.update(_topic_set(candidate))
+        chosen_ids.add(candidate["id"])
+        used_sources.add(candidate["source"])
+        covered_topics.update(_topic_set(candidate))
 
-    if len(result) < 5:
-        for candidate in candidates:
-            if candidate["id"] in chosen_ids:
-                continue
-            result.append(_pick_result(candidate, reason="Deterministic fallback from ranked candidates")); chosen_ids.add(candidate["id"])
-            if len(result) >= 5:
-                break
-    if len(result) < 5:
-        raise RuntimeError(f"Only {len(result)} usable stories available; expected 5")
-    for index, item in enumerate(result[:5], start=1):
+    for candidate in candidates:
+        if len(result) >= target_count:
+            break
+        if candidate["id"] in chosen_ids:
+            continue
+        result.append(_pick_result(candidate, reason="Deterministic fallback from ranked candidates"))
+        chosen_ids.add(candidate["id"])
+
+    if not result:
+        raise RuntimeError("No usable fresh stories available")
+    for index, item in enumerate(result[:target_count], start=1):
         item["rank"] = index
-    return result[:5]
-
+    return result[:target_count]
 
 def main() -> None:
     selected = select_top5()
