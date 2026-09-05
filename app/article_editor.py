@@ -34,7 +34,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 Ты пишешь не рекламный текст, а точный ежедневный аналитический дайджест для читателя, который разбирается в технологии.
 
 ГЛАВНАЯ ЦЕЛЬ:
-Из пяти переданных карточек сделать цельную, полезную и фактически строгую публикацию. Читатель после каждого блока должен понимать:
+Из переданных карточек сделать цельную, полезную и фактически строгую публикацию. Читатель после каждого блока должен понимать:
 1) что произошло;
 2) кто и что сделал;
 3) какие конкретные факты это подтверждают;
@@ -52,7 +52,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 
 РЕДАКЦИОННЫЕ ПРАВИЛА:
 9. Статья полностью на русском языке. Названия компаний, продуктов и проектов оставляй в оригинальном написании, когда это уместно. Английские фразы и предложения не используй.
-10. Должно быть РОВНО пять новостных блоков — по одному на каждую карточку, без пропусков и дублей.
+10. Число новостных блоков должно в точности совпадать с числом переданных карточек: от одного до пяти, без пропусков и дублей.
 11. Сохраняй порядок карточек: первая карточка → первый блок и так далее.
 12. Заголовок дайджеста должен отражать ДЕНЬ В ЦЕЛОМ, а не одну случайную новость. Он не должен содержать чисел, оценок или обобщений, которых нет в карточках.
 13. Вступление — 2–3 предложения. Покажи общую картину ДНЯ и ключевой технологический контекст, не перечисляя пять новостей подряд. Не смешивай в одном предложении факты разных карточек и не делай общий вывод, если карточки его не подтверждают. Все предложения должны быть на русском языке.
@@ -74,7 +74,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 Верни ТОЛЬКО один валидный JSON-объект без Markdown-ограждений, YAML, пояснений или текста до/после JSON.
 - title: короткий заголовок всего выпуска за день;
 - intro: 2–3 предложения с общей картиной;
-- items: ровно 5 блоков;
+- items: от 1 до 5 блоков, ровно по числу переданных карточек;
 - каждый item содержит ТОЛЬКО headline и body;
 - не добавляй card_index, source или url — это служебные поля, их добавит программа по порядку карточек.
 """
@@ -88,7 +88,7 @@ ARTICLE_SCHEMA = {
         "intro": {"type": "string"},
         "items": {
             "type": "array",
-            "minItems": 5,
+            "minItems": 1,
             "maxItems": 5,
             "items": {
                 "type": "object",
@@ -144,7 +144,7 @@ def _is_parseable_article_json(content: Any) -> bool:
 def _normalize_article(article: dict[str, Any]) -> dict[str, Any]:
     normalized = dict(article)
     items = article.get("items")
-    if isinstance(items, list) and len(items) == 5:
+    if isinstance(items, list) and 1 <= len(items) <= 5:
         normalized["items"] = []
         for index, item in enumerate(items, start=1):
             if isinstance(item, dict):
@@ -176,7 +176,7 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
         raise ValueError("Article intro must contain 2-3 sentences")
 
     items = article.get("items")
-    if not isinstance(items, list) or len(items) != 5:
+    if not isinstance(items, list) or len(items) != len(top5):
         raise ValueError(f"Article must contain exactly 5 items, got {len(items) if isinstance(items, list) else 0}")
 
     actual_indexes: list[int] = []
@@ -203,7 +203,7 @@ def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> Non
         if "|" in item["body"]:
             raise ValueError("Article body must not contain Markdown table syntax")
 
-    if actual_indexes != [1, 2, 3, 4, 5]:
+    if actual_indexes != list(range(1, len(top5) + 1)):
         raise ValueError(f"Article card_index sequence must be exactly [1, 2, 3, 4, 5], got {actual_indexes}")
     if len(headline_keys) != len(set(headline_keys)):
         raise ValueError("Article headlines must not repeat")
@@ -306,18 +306,18 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     key = api_key or os.getenv("OPENROUTER_API_KEY")
     if not key:
         raise RuntimeError("OPENROUTER_API_KEY is not configured")
-    if len(top5) != 5:
+    if not 1 <= len(top5) <= 5:
         raise ValueError("Article editor requires exactly 5 selected stories")
 
     model = os.getenv("OPENROUTER_ARTICLE_MODEL", os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL))
     models = _fallback_models(model)
     print(f"🤖 OpenRouter model chain: {' → '.join(models)}")
     prompt = (
-        "Подготовь одну профессиональную публикацию-дайджест из этих пяти новостей. "
+        f"Подготовь одну профессиональную публикацию-дайджест из этих {len(top5)} новостей. "
         "Не меняй порядок карточек. Для каждого блока используй только факты соответствующей карточки. "
         "ВЕСЬ РЕДАКЦИОННЫЙ ТЕКСТ ОБЯЗАТЕЛЬНО ПИШИ НА РУССКОМ ЯЗЫКЕ: title, intro, headline и body. "
         "Не используй английские предложения или английские заголовки; английскими могут оставаться только оригинальные названия компаний, продуктов, проектов и технические обозначения. "
-        "Верни ровно 5 items с headline и body. НЕ добавляй card_index, source или url — это служебные поля, их добавит программа по порядку карточек. "
+        f"Верни ровно {len(top5)} items с headline и body. НЕ добавляй card_index, source или url — это служебные поля, их добавит программа по порядку карточек. "
         "Особенно строго отделяй факт от интерпретации и не повышай заявленную степень технологической готовности. "
         "Перед выдачей проверь числа, названия, стадии внедрения, русский язык каждого поля и соответствие каждого блока своей карточке.\n\n"
         + json.dumps(top5, ensure_ascii=False, indent=2)
@@ -366,7 +366,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
                 "Не оставляй английские предложения или английские заголовки. "
                 "Это ЕЖЕДНЕВНЫЙ выпуск: не используй слова «неделя», «недели», «недельный» или «еженедельный» в title и intro. "
                 "Главное: верни ТОЛЬКО валидный JSON-объект без Markdown, YAML или пояснений. "
-                "В нём должно быть ровно 5 items в исходном порядке, каждый item содержит только headline и body, "
+                f"В нём должно быть ровно {len(top5)} items в исходном порядке, каждый item содержит только headline и body, "
                 "каждый блок опирается только на свою карточку, body содержит РОВНО три простых предложения, "
                 "и КАЖДОЕ из них заканчивается точкой. Не используй списки, переносы строк или маркированные пункты в body. "
                 "В intro должно быть 2–3 предложения. Не добавляй card_index, source и url. "
