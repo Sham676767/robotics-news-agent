@@ -13,38 +13,34 @@ from app.language_guard import validate_russian_article
 from app.vk_publisher import publish_to_vk
 from app.vk_draft import write_vk_draft
 
-ALLOWED_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
+CORE_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
+ALLOWED_TOPICS = {*CORE_TOPICS, "reserve"}
 TOP5_OUTPUT_PATH = Path("data/latest_top5.json")
 
 
-def _validate_selected_stories(top5):
-    if len(top5) != 5:
-        raise RuntimeError(f"Selected {len(top5)} stories; exactly 5 are required")
+def _validate_selected_stories(stories):
+    if not 1 <= len(stories) <= 5:
+        raise RuntimeError(f"Selected {len(stories)} stories; expected between 1 and 5")
 
-    urls = [item.get("url") for item in top5]
+    urls = [item.get("url") for item in stories]
     if any(not isinstance(url, str) or not url.startswith(("http://", "https://")) for url in urls):
-        raise RuntimeError("TOP-5 contains an invalid source URL")
+        raise RuntimeError("Selected stories contain an invalid source URL")
     if len(urls) != len(set(urls)):
-        raise RuntimeError("TOP-5 contains duplicate source URLs")
+        raise RuntimeError("Selected stories contain duplicate source URLs")
 
-    covered_topics = set()
-    for index, item in enumerate(top5, start=1):
+    reserve_count = 0
+    for index, item in enumerate(stories, start=1):
         topics = set(item.get("topics") or ())
         if not topics.intersection(ALLOWED_TOPICS):
-            raise RuntimeError(f"TOP-5 story #{index} does not match the four editorial pillars")
+            raise RuntimeError(f"Story #{index} does not match an editorial pillar")
         if not topics.issubset(ALLOWED_TOPICS):
             unknown = sorted(topics - ALLOWED_TOPICS)
-            raise RuntimeError(f"TOP-5 story #{index} contains unsupported topics: {unknown}")
-        covered_topics.update(topics.intersection(ALLOWED_TOPICS))
+            raise RuntimeError(f"Story #{index} contains unsupported topics: {unknown}")
+        if "reserve" in topics:
+            reserve_count += 1
 
-    # A quiet day may legitimately have no fresh humanoid or exoskeleton story.
-    # Require variety, but do not discard five real, current stories solely
-    # because one editorial pillar has no qualifying item.
-    if len(covered_topics) < 2:
-        raise RuntimeError(
-            f"TOP-5 topic diversity is too low: {sorted(covered_topics)}; expected at least 2 editorial topics"
-        )
-
+    if reserve_count > 1:
+        raise RuntimeError("At most one reserve medical-robotics story is allowed")
 
 def _timed(label, func):
     started = time.perf_counter()
@@ -83,7 +79,7 @@ def main():
     print("🖼️ Finding source images...")
     top5 = _timed("Image discovery", lambda: enrich_with_images(top5))
     image_count = sum(bool(item.get("image_url")) for item in top5)
-    print(f"Images found: {image_count}/5")
+    print(f"Images found: {image_count}/{len(top5)}")
 
     TOP5_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     TOP5_OUTPUT_PATH.write_text(json.dumps(top5, ensure_ascii=False, indent=2), encoding="utf-8")
