@@ -98,6 +98,35 @@ def _dedupe(items: list) -> list:
     return result
 
 
+def _recent_article_urls(
+    article_dir: Path = Path("articles"),
+    now: datetime | None = None,
+) -> set[str]:
+    """Return canonical source URLs from dated articles in the review window."""
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    cutoff = (current - timedelta(days=14)).date()
+    urls: set[str] = set()
+
+    for path in article_dir.glob("*.md"):
+        try:
+            published_on = datetime.strptime(path.stem, "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if not cutoff <= published_on <= current.date():
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for url in re.findall(r"^Источник:\s*\[[^\]]+\]\((https?://[^)\s]+)\)\s*$", text, re.MULTILINE):
+            urls.add(_canonical_url(url))
+    return urls
+
+
+def _exclude_recently_published(items: list, article_dir: Path = Path("articles"), now: datetime | None = None) -> list:
+    recent_urls = _recent_article_urls(article_dir, now)
+    return [item for item in items if _canonical_url(item.url) not in recent_urls]
+
+
 def _is_editorial_roundup(item) -> bool:
     text = f"{item.title} {item.summary}".lower()
     return (
@@ -234,7 +263,7 @@ def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     collected = items if items is not None else collect_all()
     relevant = filter_relevant(collected)
     editorial = _filter_editorial(relevant)
-    recent = _dedupe(_recent(editorial))
+    recent = _exclude_recently_published(_dedupe(_recent(editorial)))
     if len(recent) < 5:
         raise RuntimeError(f"Only {len(recent)} unique relevant stories are newer than {MAX_AGE.days} days; refusing to publish stale or duplicate news")
     ranked = _diverse_ranked(recent, limit=limit)
