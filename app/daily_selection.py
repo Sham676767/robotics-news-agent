@@ -265,12 +265,12 @@ def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     recent = _exclude_recently_published(_dedupe(_recent(editorial)))
     primary = [
         item for item in recent
-        if set(classify(item)).intersection(CORE_TOPICS)
+        if "reserve" not in classify(item)
+        and set(classify(item)).intersection(CORE_TOPICS)
     ]
     reserve = [
         item for item in recent
         if "reserve" in classify(item)
-        and not set(classify(item)).intersection(CORE_TOPICS)
     ]
 
     ranked = _diverse_ranked(primary, limit=limit)
