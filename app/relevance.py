@@ -4,9 +4,8 @@ import re
 
 from .models import NewsItem
 
-# The publication has exactly four editorial pillars. Generic AI/automation
-# stories are not enough: the text must explicitly concern robots/robotics,
-# robot dogs, humanoids, or exoskeletons.
+# The publication has four core editorial pillars. A narrow medical-robotics
+# reserve is allowed only to complete an otherwise short, fresh daily digest.
 KEYWORDS: dict[str, tuple[str, ...]] = {
     "robotics": (
         "robotics", "robotic system", "robot technology", "robotics company",
@@ -36,11 +35,17 @@ KEYWORDS: dict[str, tuple[str, ...]] = {
         "powered exoskeleton", "assistive exoskeleton", "industrial exoskeleton", "medical exoskeleton",
         "экзоскелет", "роботизированный экзоскелет", "силовой костюм", "носимый робот",
     ),
+    "reserve": (
+        "surgical robot", "surgical robotics", "medical robot", "medical robotics",
+        "rehabilitation robot", "rehabilitation robotics", "robot-assisted surgery",
+        "robotic surgery", "хирургический робот", "операционный робот",
+        "медицинский робот", "робот для реабилитации",
+    ),
 }
 
 # Adjacent fields are excluded unless the same story explicitly contains one
-# of the four pillars. This prevents drone/robotaxi stories from leaking in
-# just because they mention generic robotics or AI research.
+# of the four core pillars. This prevents drone/robotaxi stories from leaking
+# in just because they mention generic robotics or AI research.
 EXCLUDED_PATTERNS = (
     "robotaxi", "autonomous taxi", "autonomous car", "autonomous vehicle",
     "autonomous truck", "self-driving truck", "self driving truck", "self-driving car",
