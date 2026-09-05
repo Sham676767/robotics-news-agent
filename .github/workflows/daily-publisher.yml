@@ -70,7 +70,7 @@ jobs:
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
-          VK_PUBLISH_ENABLED: "false"
+          VK_PUBLISH_ENABLED: "true"
           VK_UPLOAD_SOURCE_IMAGES: "false"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: z-ai/glm-5.3-flash
