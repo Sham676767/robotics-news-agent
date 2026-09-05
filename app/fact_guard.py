@@ -4,12 +4,18 @@ import re
 from typing import Any
 
 _NUMBER_RE = re.compile(r"\d+(?:[.,]\d+)?")
-_SOURCE_FIELDS = ("title", "summary", "description", "content")
+# Publication timestamps are part of each source card and may be used as dates.
+# URLs and image metadata are excluded because incidental digits are not evidence.
+_SOURCE_FIELDS = (
+    "title",
+    "summary",
+    "description",
+    "content",
+    "published_at",
+    "published",
+    "date",
+)
 
-# These are generic embellishments that free models repeatedly added to drafts
-# despite their absence from the supplied source cards. They are unsuitable for
-# automatic publication because they turn a reported fact into an unsupported
-# technical or market claim.
 _UNSUPPORTED_EMBELLISHMENTS = (
     "в реальном времени",
     "готовую архитектуру",
@@ -64,9 +70,9 @@ def _validate_editorial_text(
 def validate_factual_grounding(article: dict[str, Any], top5: list[dict[str, Any]]) -> None:
     """Reject obvious factual additions before a draft can be published.
 
-    This is deliberately narrow: it verifies exact numeric claims against the
-    corresponding source card and blocks recurring unsupported embellishments.
-    It does not try to translate or fact-check every Russian sentence.
+    This deliberately narrow check verifies numeric claims against the matching
+    source card and blocks recurring unsupported embellishments. It does not try
+    to translate or fact-check every Russian sentence.
     """
     digest_text = f"{article.get('title', '')} {article.get('intro', '')}"
     _validate_editorial_text(
