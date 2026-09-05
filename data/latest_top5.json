@@ -1,21 +1,6 @@
 [
   {
     "rank": 1,
-    "id": 5,
-    "title": "Medtronic invests $700M in surgical partner Cornerstone Robotics",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/medtronic-invests-700m-in-surgical-partner-cornerstone-robotics/",
-    "published_at": "2026-09-03T18:53:54+00:00",
-    "summary": "Medtronic and Cornerstone Robotics are building a multi-port portfolio anchored by the Hugo surgical system and expanded by Sentire. The post Medtronic invests $700M in surgical partner Cornerstone Robotics appeared first on The Robot Report .",
-    "topics": [
-      "robotics"
-    ],
-    "ai_score": 82,
-    "why_selected": "Крупная инвестиция Medtronic ($700 млн) в партнёра по хирургической робототехнике Cornerstone Robotics и расширение портфеля систем Hugo и Sentire. Высокая общественная и рыночная значимость, свежая дата, надёжный отраслевой источник The Robot Report.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/sentire-featured.jpg"
-  },
-  {
-    "rank": 2,
     "id": 3,
     "title": "The Best Way to Explore Lunar Craters Is a Giant Robot Ball",
     "source": "IEEE Spectrum Robotics",
@@ -25,9 +10,24 @@
     "topics": [
       "robotics"
     ],
-    "ai_score": 78,
-    "why_selected": "Необычный проект RoboBall — надувная сфероидная робоплатформа для исследования лунных кратеров. Высокая новизна и научный интерес, качественный длинный материал IEEE Spectrum, свежая публикация; тематически относится к общей робототехнике.",
+    "ai_score": 8.3,
+    "why_selected": "Оригинальная робототехническая разработка (надувной шар-робот для исследования лунных кратеров) от профильного издания IEEE Spectrum: высокая новизна и технологическая значимость, но без прямого приоритета по ключевым темам.",
     "image_url": "https://spectrum.ieee.org/media-library/a-gif-of-a-spherical-robot-rolling-over-a-bumpy-path.gif?id=67701776&width=1200&height=600&coordinates=0%2C25%2C0%2C25"
+  },
+  {
+    "rank": 2,
+    "id": 5,
+    "title": "Enovis to acquire surgical tech provider eCential Robotics for $180M",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/enovis-to-acquire-ecential-robotics-for-180m/",
+    "published_at": "2026-09-05T12:30:37+00:00",
+    "summary": "Enovis said it plans to bring a robotic system targeting the knee within the next two years, followed by a system focusing on the shoulder. The post Enovis to acquire surgical tech provider eCential Robotics for $180M appeared first on The Robot Report .",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 7.5,
+    "why_selected": "Существенная сделка на $180M в области хирургической робототехники с планами по новым системам для колена и плеча; значима для индустрии робототехники, надёжный отраслевой источник, хотя тема нишевая.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Gen2CollaborativeRobot_ecential.jpg"
   },
   {
     "rank": 3,
@@ -40,27 +40,12 @@
     "topics": [
       "robotics"
     ],
-    "ai_score": 70,
-    "why_selected": "Тема безопасности физических ИИ-систем с использованием FPGA как детерминированных ограничителей. Технологически важное, но нишевое B2B-направление; самая свежая дата публикации и профильный источник The Robot Report.",
+    "ai_score": 6.2,
+    "why_selected": "Актуальная тема безопасности физического ИИ на базе FPGA для робототехнических систем; технологически важна для отрасли, но узкоспециализированна и не входит в приоритетные направления.",
     "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/episode-260-featured.jpg"
   },
   {
     "rank": 4,
-    "id": 1,
-    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
-    "source": "Robohub",
-    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
-    "published_at": "2026-08-31T09:18:24+00:00",
-    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 92,
-    "why_selected": "Явно тематическая новость про гуманоидных роботов: исследование мозговой активности показывает, что люди становятся недоверчивы к ошибающимся выразительным гуманоидам. Высокая новизна (свежая научная работа), широкий общественный интерес к доверию человека и робота, качественный профильный источник Robohub.",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
-  },
-  {
-    "rank": 5,
     "id": 2,
     "title": "Four-legged robot learns dog-like movements to leap through tight spaces",
     "source": "Tech Xplore Robotics",
@@ -70,8 +55,23 @@
     "topics": [
       "robot_dog"
     ],
-    "ai_score": 90,
-    "why_selected": "Прямое попадание в тему роботов-собак: четвероногий робот обучается собачьим движениям для прыжков через узкие пространства. Технологически значимый прогресс в локомоции квадрупедов, актуальная дата публикации, авторитетный научно-популярный источник.",
+    "ai_score": 9.2,
+    "why_selected": "Явно тематическая новость про четвероногого робота (quadruped/robot dog): воспроизведение собачьих движений и прыжков в узких пространствах — значимый шаг в манёвренности робототехники; свежая дата, авторитетный научно-популярный источник.",
     "image_url": null
+  },
+  {
+    "rank": 5,
+    "id": 1,
+    "title": "When expressive humanoid robots are awkward, people become wary – new brain study",
+    "source": "Robohub",
+    "url": "https://robohub.org/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study/",
+    "published_at": "2026-08-31T09:18:24+00:00",
+    "summary": "Photo by Alex Knight on Unsplash. By Hasan Ayaz, Drexel University; Ewart J. de Visser, United States Air Force Academy; Frank Krueger, George Mason University, and Yigit Topoglu, United States Air Force Academy People become more suspicious of a humanoid robot that makes errors, especially when the robot is an expressive conversation partner. In our […]",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 8.8,
+    "why_selected": "Прямо относится к гуманоидным роботам: исследование мозга о недоверии к ошибающимся выразительным роботам затрагивает животрепещущую тему доверия человека к машинам; высокая общественная и научная ценность, свежесть подтверждена.",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
   }
 ]
