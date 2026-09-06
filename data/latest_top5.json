@@ -1,21 +1,6 @@
 [
   {
     "rank": 1,
-    "id": 3,
-    "title": "The Best Way to Explore Lunar Craters Is a Giant Robot Ball",
-    "source": "IEEE Spectrum Robotics",
-    "url": "https://spectrum.ieee.org/moon-ball-robot",
-    "published_at": "2026-09-03T12:00:01+00:00",
-    "summary": "On a good day, the rock quarry in central Texas is about 370,000 kilometers (230,000 miles) from the moon. But last February, when Rishi Jangale watched his 1.8-meter-wide, 150-kilogram inflatable robot roll effortlessly over rocks, gravel, and wet clay, his imagination turned the quarry into the lunar surface instead. Jangale is an upbeat mechanical engineer nearing the end of his Ph.D. at Texas A&M University, in College Station, Texas. He and his labmates have been working on this big tan “RoboBall” for about five years. Their goal: create a vehicle capable of exploring some of the most inaccessible terrain in our solar system, such as the 21 km-wide Shackleton crater on the moon’s south pole. The Shackleton crater is 4 km deep and contains many smaller, deeper craters within. Some parts of the crater never see the sun, and within these perpetually dark, frigid pockets lie mysterious substances that planetary scientists have long struggled to examine, including layers of ancient lunar geology and stores of frozen water that could potentially support a future lunar base. “The moon is like an archive of what happened to the Earth,” says Sara Russell , a cosmic mineralogist with London’s Natural History Museum who is not involved with Texas A&M’s work. “Robotic collection works brilliantly well, and it’s great to see that being explored more in this context.” “NASA is not going to let astronauts get anywhere near these craters, because if someone falls in, you’re not going to",
-    "topics": [
-      "robotics"
-    ],
-    "ai_score": 8.0,
-    "why_selected": "Инновационная разработка в общем разделе робототехники: надувной RoboBall для исследования лунных кратеров. Качественный источник IEEE Spectrum, высокая новизна и технологическая значимость для планетарной разведки, свежая дата публикации.",
-    "image_url": "https://spectrum.ieee.org/media-library/a-gif-of-a-spherical-robot-rolling-over-a-bumpy-path.gif?id=67701776&width=1200&height=600&coordinates=0%2C25%2C0%2C25"
-  },
-  {
-    "rank": 2,
     "id": 5,
     "title": "Enovis to acquire surgical tech provider eCential Robotics for $180M",
     "source": "The Robot Report",
@@ -25,9 +10,24 @@
     "topics": [
       "robotics"
     ],
-    "ai_score": 7.4,
-    "why_selected": "Значимая бизнес-новость в робототехнике: поглощение eCential Robotics за $180M и планы по хирургическим роботизированным системам. Коммерческая значимость и свежесть, но узкая ниша хирургической робототехники снижает общий интерес.",
+    "ai_score": 7.5,
+    "why_selected": "Сделка на $180M в хирургической робототехнике (eCential Robotics) — существенная новость для отрасли робототехники от надёжного источника.",
     "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Gen2CollaborativeRobot_ecential.jpg"
+  },
+  {
+    "rank": 2,
+    "id": 3,
+    "title": "The Best Way to Explore Lunar Craters Is a Giant Robot Ball",
+    "source": "IEEE Spectrum Robotics",
+    "url": "https://spectrum.ieee.org/moon-ball-robot",
+    "published_at": "2026-09-03T12:00:01+00:00",
+    "summary": "On a good day, the rock quarry in central Texas is about 370,000 kilometers (230,000 miles) from the moon. But last February, when Rishi Jangale watched his 1.8-meter-wide, 150-kilogram inflatable robot roll effortlessly over rocks, gravel, and wet clay, his imagination turned the quarry into the lunar surface instead. Jangale is an upbeat mechanical engineer nearing the end of his Ph.D. at Texas A&M University, in College Station, Texas. He and his labmates have been working on this big tan “RoboBall” for about five years. Their goal: create a vehicle capable of exploring some of the most inaccessible terrain in our solar system, such as the 21 km-wide Shackleton crater on the moon’s south pole. The Shackleton crater is 4 km deep and contains many smaller, deeper craters within. Some parts of the crater never see the sun, and within these perpetually dark, frigid pockets lie mysterious substances that planetary scientists have long struggled to examine, including layers of ancient lunar geology and stores of frozen water that could potentially support a future lunar base. “The moon is like an archive of what happened to the Earth,” says Sara Russell , a cosmic mineralogist with London’s Natural History Museum who is not involved with Texas A&M’s work. “Robotic collection works brilliantly well, and it’s great to see that being explored more in this context.” “NASA is not going to let astronauts get anywhere near these craters, because if someone falls in, you’re not going to",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 7.0,
+    "why_selected": "RoboBall для исследования лунных кратеров — интересная робототехническая разработка с качественным источником IEEE Spectrum, но вне четырёх приоритетных подтем.",
+    "image_url": "https://spectrum.ieee.org/media-library/a-gif-of-a-spherical-robot-rolling-over-a-bumpy-path.gif?id=67701776&width=1200&height=600&coordinates=0%2C25%2C0%2C25"
   },
   {
     "rank": 3,
@@ -40,8 +40,8 @@
     "topics": [
       "robotics"
     ],
-    "ai_score": 6.3,
-    "why_selected": "Тема безопасности физического ИИ и роль FPGA в робототехнических системах — технологически важное направление, однако материал носит экспертно-вендорский характер (представитель Lattice Semiconductor), что снижает новизну и общественный интерес.",
+    "ai_score": 6.5,
+    "why_selected": "FPGA как механизм безопасности физических ИИ-систем — технологически значимая тема, но скорее экспертная, менее широкого интереса.",
     "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/episode-260-featured.jpg"
   },
   {
@@ -56,7 +56,7 @@
       "robot_dog"
     ],
     "ai_score": 9.2,
-    "why_selected": "Явная тематика quadruped/robot dog: четвероногий робот, обучающийся собачьим движениям для прыжков через узкие пространства. Высокая технологическая значимость (agile-локомоция давно считается сложной задачей), свежая публикация, сильный интерес аудитории рубрики роботов-собак.",
+    "why_selected": "Явная тема robot dog/quadruped: четырёхногие роботы научились собачьим движениям и прыжкам через узкие пространства — высокая технологическая значимость и свежесть.",
     "image_url": null
   },
   {
@@ -70,8 +70,8 @@
     "topics": [
       "humanoid"
     ],
-    "ai_score": 8.6,
-    "why_selected": "Явно указан humanoid: исследование мозговой активности о недоверии к экспрессивным гуманоидным роботам при ошибках. Новизна (neuroscience + HRI), широкий общественный интерес к доверию людям к гуманоидам, надёжный профильный источник Robohub.",
+    "ai_score": 8.5,
+    "why_selected": "Явная тема humanoid: исследование мозговой реакции на ошибки выразительных гуманоидных роботов — новизна и общественный интерес к доверию к роботам.",
     "image_url": "https://robohub.org/wp-content/uploads/2026/08/alex-knight-2EJCSULRwC8-unsplash-1024x683.jpg"
   }
 ]
