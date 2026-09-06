@@ -1,5 +1,6 @@
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 import json
 import os
 import time
@@ -61,6 +62,24 @@ def _vk_publication_enabled() -> bool:
     return os.getenv("VK_PUBLISH_ENABLED", "false").lower() in {"1", "true", "yes"}
 
 
+def _wait_for_vk_publication_window():
+    not_before = os.getenv("VK_PUBLISH_NOT_BEFORE_MSK", "").strip()
+    if not not_before:
+        return
+
+    try:
+        publish_time = datetime.strptime(not_before, "%H:%M").time()
+    except ValueError as exc:
+        raise RuntimeError("VK_PUBLISH_NOT_BEFORE_MSK must use HH:MM format") from exc
+
+    now = datetime.now(ZoneInfo("Europe/Moscow"))
+    target = now.replace(hour=publish_time.hour, minute=publish_time.minute, second=0, microsecond=0)
+    wait_seconds = (target - now).total_seconds()
+    if wait_seconds > 0:
+        print(f"⏳ Publication prepared; waiting until {not_before} MSK")
+        time.sleep(wait_seconds)
+
+
 def main():
     pipeline_started = time.perf_counter()
     started_at = datetime.now()
@@ -109,6 +128,7 @@ def main():
 
     if _vk_publication_enabled():
         required_vk = os.getenv("VK_PUBLISH_REQUIRED", "false").lower() in {"1", "true", "yes"}
+        _wait_for_vk_publication_window()
         _timed("VK publication", lambda: publish_to_vk(article, required=required_vk))
     else:
         print("ℹ️ VK publication is disabled; article saved for editorial review.")
