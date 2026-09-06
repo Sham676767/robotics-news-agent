@@ -3,8 +3,8 @@ name: Daily Robotics Publisher
 on:
   workflow_dispatch:
   schedule:
-    # 09:00 Moscow/Helsinki summer time (UTC+3).
-    - cron: "0 6 * * *"
+    # Start before the hourly GitHub Actions peak; publication waits until 09:00 MSK.
+    - cron: "45 5 * * *"
 
 concurrency:
   group: robotics-daily-publisher
@@ -16,7 +16,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -71,6 +71,7 @@ jobs:
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           VK_PUBLISH_REQUIRED: "true"
           VK_PUBLISH_ENABLED: "true"
+          VK_PUBLISH_NOT_BEFORE_MSK: "09:00"
           VK_UPLOAD_SOURCE_IMAGES: "false"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: z-ai/glm-5.3-flash
