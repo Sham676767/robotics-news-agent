@@ -26,9 +26,20 @@ def test_medical_robotics_is_excluded_even_when_it_mentions_an_exoskeleton():
 
 
 def test_general_robotics_is_relevant():
-    item = NewsItem(source="Test", title="New robot manipulation system improves factory robotics", url="https://example.com/4")
+    item = NewsItem(source="Test", title="New robot manipulation system improves robotic control", url="https://example.com/4")
     assert is_relevant(item)
     assert "robotics" in classify(item)
+
+
+def test_out_of_scope_robotics_topics_are_excluded():
+    titles = (
+        "Industrial robot maker announces a new factory automation system",
+        "Warehouse robotics company expands its fleet",
+        "Autonomous mobile robot enters field trials",
+        "Educational robot platform is released for schools",
+    )
+    for index, title in enumerate(titles):
+        assert not is_relevant(NewsItem(source="Test", title=title, url=f"https://example.com/out-{index}"))
 
 
 def test_unrelated_ai_news_is_rejected():
@@ -103,7 +114,7 @@ def test_ai_research_about_robotics_without_robot_pillar_is_still_allowed():
     item = NewsItem(
         source="Test",
         title="Robotics lab publishes new robot manipulation benchmark",
-        summary="The paper evaluates manipulation policies on industrial robots.",
+        summary="The paper evaluates manipulation policies for general-purpose robots.",
         url="https://example.com/16",
     )
     assert is_relevant(item)

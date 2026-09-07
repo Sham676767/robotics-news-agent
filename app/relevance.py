@@ -44,6 +44,17 @@ MEDICAL_EXCLUDED_PATTERNS = (
     "robotic surgery", "clinical robot", "хирург", "операционн", "медицинск", "реабилитац",
 )
 
+OUT_OF_SCOPE_PATTERNS = (
+    "industrial robot", "industrial robotics", "industrial automation", "factory automation",
+    "warehouse robot", "warehouse robotics", "warehouse automation",
+    "mobile robot", "mobile robotics", "autonomous mobile robot", "amr robot",
+    "educational robot", "education robot", "educational robotics", "robotics education",
+    "промышленный робот", "промышленная робототехника", "промышленная автоматизация",
+    "складской робот", "складская робототехника", "складская автоматизация",
+    "мобильный робот", "мобильная робототехника", "автономный мобильный робот",
+    "образовательный робот", "образовательная робототехника",
+)
+
 # Adjacent fields are excluded unless the same story explicitly contains one
 # of the four core pillars. This prevents drone/robotaxi stories from leaking
 # in just because they mention generic robotics or AI research.
@@ -83,7 +94,7 @@ def is_relevant(item: NewsItem) -> bool:
     text = _normalized(f"{item.title} {item.summary}")
     topics = classify(item)
 
-    if any(pattern in text for pattern in MEDICAL_EXCLUDED_PATTERNS):
+    if any(pattern in text for pattern in MEDICAL_EXCLUDED_PATTERNS + OUT_OF_SCOPE_PATTERNS):
         return False
     if any(pattern in text for pattern in EXCLUDED_PATTERNS):
         return any(signal in text for signal in SPECIFIC_PILLAR_SIGNALS)

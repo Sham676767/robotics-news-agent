@@ -176,6 +176,16 @@ AGGREGATOR_SOURCES = {
     "Google News Robotics Research",
     "Google News Social Robots",
     "Google News Physical AI",
+    "RoboBrief",
+    "Google News Humanoid Robot Launches",
+    "Google News Humanoid Robot Funding",
+    "Google News Quadruped Robots",
+    "Google News Exoskeleton Technology",
+    "Google News Consumer Exoskeletons",
+    "Google News Social Robot Research",
+    "Google News Companion Robots",
+    "Google News Embodied AI Robotics",
+    "Google News Robot Learning",
 }
 
 LOW_VALUE_DOMAINS = (
@@ -196,12 +206,22 @@ SOURCE_WEIGHTS = {
     "RoboDK": 0.85,
     "Boston Dynamics": 0.82,
     "Clearpath Robotics": 0.82,
+    "RoboBrief": 0.70,
     "Google News Humanoid Robots": 0.72,
     "Google News Robot Dogs": 0.72,
     "Google News Exoskeletons": 0.72,
     "Google News Robotics Research": 0.72,
     "Google News Social Robots": 0.72,
     "Google News Physical AI": 0.72,
+    "Google News Humanoid Robot Launches": 0.72,
+    "Google News Humanoid Robot Funding": 0.72,
+    "Google News Quadruped Robots": 0.72,
+    "Google News Exoskeleton Technology": 0.72,
+    "Google News Consumer Exoskeletons": 0.72,
+    "Google News Social Robot Research": 0.72,
+    "Google News Companion Robots": 0.72,
+    "Google News Embodied AI Robotics": 0.72,
+    "Google News Robot Learning": 0.72,
 }
 
 

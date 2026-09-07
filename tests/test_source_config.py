@@ -16,8 +16,19 @@ def test_expanded_topic_feeds_are_configured_over_https():
     names = {
         "Google News Social Robots",
         "Google News Physical AI",
+        "Google News Humanoid Robot Launches",
+        "Google News Humanoid Robot Funding",
+        "Google News Quadruped Robots",
+        "Google News Exoskeleton Technology",
+        "Google News Consumer Exoskeletons",
+        "Google News Social Robot Research",
+        "Google News Companion Robots",
+        "Google News Embodied AI Robotics",
+        "Google News Robot Learning",
     }
     sources = {item["name"]: item for item in load_sources()}
 
     assert names.issubset(sources)
+    assert len(sources) >= 27
     assert all(sources[name]["url"].startswith("https://") for name in names)
+    assert sources["RoboBrief"]["url"] == "https://robobrief.tech/feed.xml"

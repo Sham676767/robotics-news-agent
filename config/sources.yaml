@@ -46,6 +46,10 @@ sources:
     language: en
     url: https://clearpathrobotics.com/blog/feed/
     topics: [robotics]
+  - name: RoboBrief
+    language: en
+    url: https://robobrief.tech/feed.xml
+    topics: [robotics, humanoid, robot-dog, exoskeleton]
 
   # Dedicated topic feeds. These keep the daily pool aligned with the editorial scope.
   - name: Google News Humanoid Robots
@@ -72,3 +76,39 @@ sources:
     language: en
     url: https://news.google.com/rss/search?q=physical+AI+robots&hl=en-US&gl=US&ceid=US:en
     topics: [robotics, humanoid]
+  - name: Google News Humanoid Robot Launches
+    language: en
+    url: https://news.google.com/rss/search?q=humanoid+robot+launch+demo&hl=en-US&gl=US&ceid=US:en
+    topics: [humanoid]
+  - name: Google News Humanoid Robot Funding
+    language: en
+    url: https://news.google.com/rss/search?q=humanoid+robot+funding+investment&hl=en-US&gl=US&ceid=US:en
+    topics: [humanoid]
+  - name: Google News Quadruped Robots
+    language: en
+    url: https://news.google.com/rss/search?q=quadruped+robots+robot+dog&hl=en-US&gl=US&ceid=US:en
+    topics: [robot-dog]
+  - name: Google News Exoskeleton Technology
+    language: en
+    url: https://news.google.com/rss/search?q=powered+exoskeleton+wearable+robot&hl=en-US&gl=US&ceid=US:en
+    topics: [exoskeleton]
+  - name: Google News Consumer Exoskeletons
+    language: en
+    url: https://news.google.com/rss/search?q=consumer+exoskeleton+wearable+robot&hl=en-US&gl=US&ceid=US:en
+    topics: [exoskeleton]
+  - name: Google News Social Robot Research
+    language: en
+    url: https://news.google.com/rss/search?q=social+robot+human+robot+interaction&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics]
+  - name: Google News Companion Robots
+    language: en
+    url: https://news.google.com/rss/search?q=companion+robot+social+robot&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics]
+  - name: Google News Embodied AI Robotics
+    language: en
+    url: https://news.google.com/rss/search?q=embodied+AI+robotics+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics, humanoid]
+  - name: Google News Robot Learning
+    language: en
+    url: https://news.google.com/rss/search?q=robot+learning+physical+AI+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics]
