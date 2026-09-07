@@ -121,6 +121,35 @@ def test_filter_editorial_keeps_google_news_as_fallback_candidate():
     assert any(item.source.startswith("Google News") for item in filtered)
 
 
+def test_fallback_keeps_a_concrete_lower_priority_announcement():
+    item = NewsItem(
+        source="Source",
+        title="Robotics company announces partnership and will discuss its launch",
+        url="https://example.com/concrete-announcement",
+        summary="The company launched a humanoid robot prototype.",
+    )
+
+    assert daily_selection._is_promotional(item)
+    assert item not in daily_selection._filter_editorial([item])
+    assert item in daily_selection._filter_editorial_fallback([item])
+
+
+def test_fallback_fills_a_short_strict_pool_with_concrete_news():
+    now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
+    items = [
+        NewsItem("A", "Humanoid robot launches at event", "https://example.com/humanoid", now, "A humanoid prototype was unveiled."),
+        NewsItem("B", "Robot dog tests an obstacle course", "https://example.com/dog", now, "A quadruped robot completed a field trial."),
+        NewsItem("C", "Powered exoskeleton makes public debut", "https://example.com/exoskeleton", now, "A wearable robot was demonstrated."),
+        NewsItem("D", "Social robot study reports new interaction result", "https://example.com/social", now, "Researchers tested a companion robot."),
+        NewsItem("E", "Robotics company announces partnership and will discuss its launch", "https://example.com/fallback", now, "The company launched a humanoid robot prototype."),
+    ]
+
+    candidates = daily_selection.build_candidates(limit=5, items=items)
+
+    assert len(candidates) == 5
+    assert any(item["source"] == "E" for item in candidates)
+
+
 def test_top5_requires_exactly_five_candidates(monkeypatch):
     candidates = [
         _candidate(index, f"Robotics event {index}", f"Source {index}", ("robotics",))

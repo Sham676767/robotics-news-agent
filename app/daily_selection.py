@@ -152,6 +152,11 @@ def _is_promotional(item) -> bool:
     return promo_hits >= 2 or (promo_hits >= 1 and concrete_hits == 0) or (partnership_or_platform and market_meta and concrete_hits == 0)
 
 
+def _has_concrete_event(item) -> bool:
+    combined = re.sub(r"\s+", " ", f"{item.title} {item.summary}".lower()).strip()
+    return any(_contains_term(combined, term) for term in CONCRETE_EVENT_TERMS)
+
+
 def _is_low_specificity_discussion(item) -> bool:
     combined = re.sub(r"\s+", " ", f"{item.title} {item.summary}".lower()).strip()
     concrete_hits = sum(1 for term in CONCRETE_EVENT_TERMS if _contains_term(combined, term))
@@ -176,6 +181,21 @@ def _filter_editorial(items: list) -> list:
     # freshness and duplicate filters could turn an apparent five-story pool
     # into a three-story digest.
     return filtered
+
+
+def _filter_editorial_fallback(items: list) -> list:
+    """Keep only concrete, lower-priority reports for a short daily pool.
+
+    This pass deliberately relaxes promotional language only when the item
+    reports an actual launch, trial, funding event, deployment or study result.
+    Roundups, sponsorships, disputes and vague market commentary remain out.
+    """
+    return [
+        item for item in items
+        if not _is_editorial_roundup(item)
+        and not _is_low_specificity_discussion(item)
+        and (not _is_promotional(item) or _has_concrete_event(item))
+    ]
 
 
 def _recent(items: list) -> list:
@@ -260,17 +280,47 @@ def _diverse_ranked(items: list, limit: int = 12) -> list:
     return result
 
 
+def _append_fallback_candidates(selected: list, fallback: list, limit: int) -> list:
+    """Fill a short strict list without breaking deduplication or source caps."""
+    result = list(selected)
+    used_urls = {_canonical_url(item.url) for item in result}
+    per_source: dict[str, int] = {}
+    for item in result:
+        per_source[item.source] = per_source.get(item.source, 0) + 1
+
+    for item in _diverse_ranked(fallback, limit=limit):
+        if len(result) >= limit:
+            break
+        canonical = _canonical_url(item.url)
+        if canonical in used_urls or per_source.get(item.source, 0) >= MAX_PER_SOURCE:
+            continue
+        if any(_near_duplicate(item, existing) for existing in result):
+            continue
+        result.append(item)
+        used_urls.add(canonical)
+        per_source[item.source] = per_source.get(item.source, 0) + 1
+    return result
+
+
 def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     collected = items if items is not None else collect_all()
     relevant = filter_relevant(collected)
-    editorial = _filter_editorial(relevant)
-    recent = _exclude_recently_published(_dedupe(_recent(editorial)))
-    primary = [
-        item for item in recent
+    strict_recent = _exclude_recently_published(_dedupe(_recent(_filter_editorial(relevant))))
+    strict_primary = [
+        item for item in strict_recent
         if set(classify(item)).intersection(CORE_TOPICS)
     ]
 
-    ranked = _diverse_ranked(primary, limit=limit)
+    ranked = _diverse_ranked(strict_primary, limit=limit)
+    if len(ranked) < TARGET_STORY_COUNT:
+        strict_urls = {_canonical_url(item.url) for item in strict_primary}
+        fallback_recent = _exclude_recently_published(_dedupe(_recent(_filter_editorial_fallback(relevant))))
+        fallback_primary = [
+            item for item in fallback_recent
+            if _canonical_url(item.url) not in strict_urls
+            and set(classify(item)).intersection(CORE_TOPICS)
+        ]
+        ranked = _append_fallback_candidates(ranked, fallback_primary, limit=limit)
     return [{"id": index, "title": item.title, "source": item.source, "url": item.url, "published_at": item.published_at.isoformat() if item.published_at else None, "summary": item.summary[:1500], "topics": classify(item)} for index, item in enumerate(ranked, start=1)]
 
 
