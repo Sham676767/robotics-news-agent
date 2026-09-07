@@ -15,9 +15,6 @@ def test_ieee_spectrum_robotics_is_a_direct_configured_source():
 def test_expanded_topic_feeds_are_configured_over_https():
     names = {
         "Google News Social Robots",
-        "Google News Industrial Robotics",
-        "Google News Warehouse Robots",
-        "Google News Robot Arms",
         "Google News Physical AI",
         "Google News Rehabilitation Exoskeletons",
     }

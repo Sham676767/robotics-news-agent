@@ -68,18 +68,6 @@ sources:
     language: en
     url: https://news.google.com/rss/search?q=social+robots+companion+robots&hl=en-US&gl=US&ceid=US:en
     topics: [robotics, humanoid]
-  - name: Google News Industrial Robotics
-    language: en
-    url: https://news.google.com/rss/search?q=industrial+robots+robotic+automation&hl=en-US&gl=US&ceid=US:en
-    topics: [robotics]
-  - name: Google News Warehouse Robots
-    language: en
-    url: https://news.google.com/rss/search?q=warehouse+robots+mobile+robots&hl=en-US&gl=US&ceid=US:en
-    topics: [robotics]
-  - name: Google News Robot Arms
-    language: en
-    url: https://news.google.com/rss/search?q=robot+arms+robotic+manipulation&hl=en-US&gl=US&ceid=US:en
-    topics: [robotics]
   - name: Google News Physical AI
     language: en
     url: https://news.google.com/rss/search?q=physical+AI+robots&hl=en-US&gl=US&ceid=US:en

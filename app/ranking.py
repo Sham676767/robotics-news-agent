@@ -175,9 +175,6 @@ AGGREGATOR_SOURCES = {
     "Google News Exoskeletons",
     "Google News Robotics Research",
     "Google News Social Robots",
-    "Google News Industrial Robotics",
-    "Google News Warehouse Robots",
-    "Google News Robot Arms",
     "Google News Physical AI",
     "Google News Rehabilitation Exoskeletons",
 }
@@ -205,9 +202,6 @@ SOURCE_WEIGHTS = {
     "Google News Exoskeletons": 0.72,
     "Google News Robotics Research": 0.72,
     "Google News Social Robots": 0.72,
-    "Google News Industrial Robotics": 0.72,
-    "Google News Warehouse Robots": 0.72,
-    "Google News Robot Arms": 0.72,
     "Google News Physical AI": 0.72,
     "Google News Rehabilitation Exoskeletons": 0.72,
 }
