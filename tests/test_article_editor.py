@@ -141,6 +141,10 @@ class ArticleEditorTests(unittest.TestCase):
         self.assertEqual(request.call_count, 2)
         self.assertEqual(len(article["items"]), 5)
 
+    def test_generate_article_rejects_short_digest(self):
+        with self.assertRaises(ValueError):
+            generate_article(self.top5[:4], api_key="test-key")
+
 
     def test_normalize_article_assigns_indexes_by_position(self):
         article = self.valid_article()
@@ -190,6 +194,12 @@ class ArticleEditorTests(unittest.TestCase):
         article["items"] = article["items"][:4]
         with self.assertRaises(ValueError):
             validate_article(article, self.top5)
+
+    def test_validate_rejects_short_selected_digest(self):
+        article = self.valid_article()
+        article["items"] = article["items"][:4]
+        with self.assertRaises(ValueError):
+            validate_article(article, self.top5[:4])
 
     def test_validate_rejects_wrong_body_length(self):
         article = self.valid_article()

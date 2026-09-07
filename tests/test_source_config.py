@@ -10,3 +10,18 @@ def test_ieee_spectrum_robotics_is_a_direct_configured_source():
     assert source["url"] == "https://spectrum.ieee.org/feeds/topic/robotics.rss"
     assert source["url"].startswith("https://")
     assert "robotics" in source["topics"]
+
+
+def test_expanded_topic_feeds_are_configured_over_https():
+    names = {
+        "Google News Social Robots",
+        "Google News Industrial Robotics",
+        "Google News Warehouse Robots",
+        "Google News Robot Arms",
+        "Google News Physical AI",
+        "Google News Rehabilitation Exoskeletons",
+    }
+    sources = {item["name"]: item for item in load_sources()}
+
+    assert names.issubset(sources)
+    assert all(sources[name]["url"].startswith("https://") for name in names)

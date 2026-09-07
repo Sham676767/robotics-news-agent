@@ -21,14 +21,15 @@ def test_editorial_guard_accepts_valid_top5():
     _validate_selected_stories(valid_top5())
 
 
-def test_editorial_guard_accepts_short_fresh_digest():
-    _validate_selected_stories(valid_top5()[:4])
+def test_editorial_guard_rejects_short_digest():
+    with pytest.raises(RuntimeError, match="exactly 5"):
+        _validate_selected_stories(valid_top5()[:4])
 
 
 def test_editorial_guard_rejects_empty_or_oversize_list():
-    with pytest.raises(RuntimeError, match="between 1 and 5"):
+    with pytest.raises(RuntimeError, match="exactly 5"):
         _validate_selected_stories([])
-    with pytest.raises(RuntimeError, match="between 1 and 5"):
+    with pytest.raises(RuntimeError, match="exactly 5"):
         _validate_selected_stories(valid_top5() + [story("https://example.com/6", "robotics")])
 
 
@@ -63,7 +64,10 @@ def test_editorial_guard_rejects_unknown_topic():
 def test_editorial_guard_allows_one_reserve_story():
     _validate_selected_stories([
         story("https://example.com/1", "robotics"),
-        story("https://example.com/2", "reserve"),
+        story("https://example.com/2", "humanoid"),
+        story("https://example.com/3", "robot_dog"),
+        story("https://example.com/4", "exoskeleton"),
+        story("https://example.com/5", "reserve"),
     ])
 
 
@@ -72,6 +76,9 @@ def test_editorial_guard_rejects_multiple_reserve_stories():
         _validate_selected_stories([
             story("https://example.com/1", "reserve"),
             story("https://example.com/2", "reserve"),
+            story("https://example.com/3", "robotics"),
+            story("https://example.com/4", "humanoid"),
+            story("https://example.com/5", "robot_dog"),
         ])
 
 

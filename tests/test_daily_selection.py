@@ -102,7 +102,7 @@ def test_conference_invitation_is_promotional_without_a_concrete_event():
     assert daily_selection._is_promotional(item)
 
 
-def test_filter_editorial_drops_google_news_when_five_direct_materials_exist():
+def test_filter_editorial_keeps_google_news_as_fallback_candidate():
     items = [
         NewsItem(source=f"Direct {index}", title=f"Robot event {index}", url=f"https://example.com/direct-{index}")
         for index in range(5)
@@ -117,8 +117,20 @@ def test_filter_editorial_drops_google_news_when_five_direct_materials_exist():
 
     filtered = daily_selection._filter_editorial(items)
 
-    assert len(filtered) == 5
-    assert all(not item.source.startswith("Google News") for item in filtered)
+    assert len(filtered) == 6
+    assert any(item.source.startswith("Google News") for item in filtered)
+
+
+def test_top5_requires_exactly_five_candidates(monkeypatch):
+    candidates = [
+        _candidate(index, f"Robotics event {index}", f"Source {index}", ("robotics",))
+        for index in range(1, 5)
+    ]
+    monkeypatch.setattr(daily_selection, "build_candidates", lambda items=None: candidates)
+
+    import pytest
+    with pytest.raises(RuntimeError, match="exactly 5"):
+        daily_selection.select_top5(news=[])
 
 
 def test_top5_does_not_force_stale_topic_coverage_over_fresh_event(monkeypatch):

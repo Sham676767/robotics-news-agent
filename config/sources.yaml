@@ -64,3 +64,27 @@ sources:
     language: en
     url: https://news.google.com/rss/search?q=robotics+research+robots&hl=en-US&gl=US&ceid=US:en
     topics: [robotics, research]
+  - name: Google News Social Robots
+    language: en
+    url: https://news.google.com/rss/search?q=social+robots+companion+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics, humanoid]
+  - name: Google News Industrial Robotics
+    language: en
+    url: https://news.google.com/rss/search?q=industrial+robots+robotic+automation&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics]
+  - name: Google News Warehouse Robots
+    language: en
+    url: https://news.google.com/rss/search?q=warehouse+robots+mobile+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics]
+  - name: Google News Robot Arms
+    language: en
+    url: https://news.google.com/rss/search?q=robot+arms+robotic+manipulation&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics]
+  - name: Google News Physical AI
+    language: en
+    url: https://news.google.com/rss/search?q=physical+AI+robots&hl=en-US&gl=US&ceid=US:en
+    topics: [robotics, humanoid]
+  - name: Google News Rehabilitation Exoskeletons
+    language: en
+    url: https://news.google.com/rss/search?q=rehabilitation+exoskeletons+robotic+exoskeletons&hl=en-US&gl=US&ceid=US:en
+    topics: [exoskeleton]

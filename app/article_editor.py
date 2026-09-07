@@ -74,7 +74,7 @@ SYSTEM_PROMPT = """Ты старший редактор профессионал
 Верни ТОЛЬКО один валидный JSON-объект без Markdown-ограждений, YAML, пояснений или текста до/после JSON.
 - title: короткий заголовок всего выпуска за день;
 - intro: 2–3 предложения с общей картиной;
-- items: от 1 до 5 блоков, ровно по числу переданных карточек;
+- items: ровно 5 блоков, по одному на каждую переданную карточку;
 - каждый item содержит ТОЛЬКО headline и body;
 - не добавляй card_index, source или url — это служебные поля, их добавит программа по порядку карточек.
 """
@@ -88,7 +88,7 @@ ARTICLE_SCHEMA = {
         "intro": {"type": "string"},
         "items": {
             "type": "array",
-            "minItems": 1,
+            "minItems": 5,
             "maxItems": 5,
             "items": {
                 "type": "object",
@@ -144,7 +144,7 @@ def _is_parseable_article_json(content: Any) -> bool:
 def _normalize_article(article: dict[str, Any]) -> dict[str, Any]:
     normalized = dict(article)
     items = article.get("items")
-    if isinstance(items, list) and 1 <= len(items) <= 5:
+    if isinstance(items, list) and len(items) == 5:
         normalized["items"] = []
         for index, item in enumerate(items, start=1):
             if isinstance(item, dict):
@@ -168,6 +168,8 @@ def _headline_key(value: str) -> str:
 
 
 def validate_article(article: dict[str, Any], top5: list[dict[str, Any]]) -> None:
+    if len(top5) != 5:
+        raise ValueError("Article validation requires exactly 5 selected stories")
     if not isinstance(article.get("title"), str) or not article["title"].strip():
         raise ValueError("Article must contain a non-empty title")
     if not isinstance(article.get("intro"), str) or not article["intro"].strip():
@@ -306,7 +308,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
     key = api_key or os.getenv("OPENROUTER_API_KEY")
     if not key:
         raise RuntimeError("OPENROUTER_API_KEY is not configured")
-    if not 1 <= len(top5) <= 5:
+    if len(top5) != 5:
         raise ValueError("Article editor requires exactly 5 selected stories")
 
     model = os.getenv("OPENROUTER_ARTICLE_MODEL", os.getenv("OPENROUTER_MODEL", DEFAULT_MODEL))

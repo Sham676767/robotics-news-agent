@@ -17,6 +17,7 @@ OUTPUT_PATH = Path("data/latest_top5.json")
 MAX_AGE = timedelta(days=7)
 MAX_PER_SOURCE = 2
 FRESH_TOPIC_WINDOW = timedelta(hours=72)
+TARGET_STORY_COUNT = 5
 CORE_TOPICS = ("humanoid", "robot_dog", "exoskeleton", "robotics")
 SPECIFIC_TOPICS = ("humanoid", "robot_dog", "exoskeleton")
 
@@ -170,10 +171,11 @@ def _filter_editorial(items: list) -> list:
         and not _is_promotional(item)
         and not _is_low_specificity_discussion(item)
     ]
-    # An aggregated headline is only a reserve candidate. Do not exclude it
-    # outright: a thin news day may still use direct publisher coverage first.
-    direct = [item for item in filtered if not _is_aggregator(item)]
-    return direct if len(direct) >= 5 else filtered
+    # Aggregated headlines are ranked below direct publishers, but must remain
+    # available as a fallback. Checking their count here was too early: later
+    # freshness and duplicate filters could turn an apparent five-story pool
+    # into a three-story digest.
+    return filtered
 
 
 def _recent(items: list) -> list:
@@ -274,7 +276,7 @@ def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     ]
 
     ranked = _diverse_ranked(primary, limit=limit)
-    if len(ranked) < 5 and reserve:
+    if len(ranked) < TARGET_STORY_COUNT and reserve:
         ranked.extend(_diverse_ranked(reserve, limit=1)[:1])
     return [{"id": index, "title": item.title, "source": item.source, "url": item.url, "published_at": item.published_at.isoformat() if item.published_at else None, "summary": item.summary[:1500], "topics": classify(item)} for index, item in enumerate(ranked, start=1)]
 
@@ -358,7 +360,11 @@ def select_top5(news=None) -> List[Dict]:
     if not candidates:
         raise RuntimeError("No usable fresh stories available")
 
-    target_count = min(5, len(candidates))
+    if len(candidates) < TARGET_STORY_COUNT:
+        raise RuntimeError(
+            f"Need exactly {TARGET_STORY_COUNT} usable fresh stories; found {len(candidates)}"
+        )
+    target_count = TARGET_STORY_COUNT
     selected = rank_with_deepseek(candidates, limit=len(candidates))
     by_id = {item["id"]: item for item in candidates}
     valid_choices = []

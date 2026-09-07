@@ -20,8 +20,8 @@ TOP5_OUTPUT_PATH = Path("data/latest_top5.json")
 
 
 def _validate_selected_stories(stories):
-    if not 1 <= len(stories) <= 5:
-        raise RuntimeError(f"Selected {len(stories)} stories; expected between 1 and 5")
+    if len(stories) != 5:
+        raise RuntimeError(f"Selected {len(stories)} stories; expected exactly 5")
 
     urls = [item.get("url") for item in stories]
     if any(not isinstance(url, str) or not url.startswith(("http://", "https://")) for url in urls):
