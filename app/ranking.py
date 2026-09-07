@@ -176,7 +176,6 @@ AGGREGATOR_SOURCES = {
     "Google News Robotics Research",
     "Google News Social Robots",
     "Google News Physical AI",
-    "Google News Rehabilitation Exoskeletons",
 }
 
 LOW_VALUE_DOMAINS = (
@@ -203,7 +202,6 @@ SOURCE_WEIGHTS = {
     "Google News Robotics Research": 0.72,
     "Google News Social Robots": 0.72,
     "Google News Physical AI": 0.72,
-    "Google News Rehabilitation Exoskeletons": 0.72,
 }
 
 
@@ -317,7 +315,7 @@ def _editorial_noise_penalty(item: NewsItem) -> float:
         penalty += 16.0
 
     if item.source in AGGREGATOR_SOURCES or item.source.lower().startswith("google news"):
-        # Aggregated headlines are only a reserve source; prefer the reported
+        # Aggregated headlines are only a fallback source; prefer the reported
         # article when a direct publisher is available.
         penalty += 18.0
 

@@ -61,21 +61,11 @@ def test_editorial_guard_rejects_unknown_topic():
         _validate_selected_stories(top5)
 
 
-def test_editorial_guard_allows_one_reserve_story():
-    _validate_selected_stories([
-        story("https://example.com/1", "robotics"),
-        story("https://example.com/2", "humanoid"),
-        story("https://example.com/3", "robot_dog"),
-        story("https://example.com/4", "exoskeleton"),
-        story("https://example.com/5", "reserve"),
-    ])
-
-
-def test_editorial_guard_rejects_multiple_reserve_stories():
-    with pytest.raises(RuntimeError, match="At most one reserve"):
+def test_editorial_guard_rejects_medical_reserve_topic():
+    with pytest.raises(RuntimeError, match="editorial pillar"):
         _validate_selected_stories([
             story("https://example.com/1", "reserve"),
-            story("https://example.com/2", "reserve"),
+            story("https://example.com/2", "robotics"),
             story("https://example.com/3", "robotics"),
             story("https://example.com/4", "humanoid"),
             story("https://example.com/5", "robot_dog"),

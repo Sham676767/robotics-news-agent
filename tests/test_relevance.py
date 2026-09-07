@@ -15,9 +15,14 @@ def test_robot_dog_is_relevant():
 
 
 def test_exoskeleton_is_relevant():
-    item = NewsItem(source="Test", title="Powered exoskeleton enters a rehabilitation pilot", url="https://example.com/3")
+    item = NewsItem(source="Test", title="Powered exoskeleton helps workers lift loads", url="https://example.com/3")
     assert is_relevant(item)
     assert "exoskeleton" in classify(item)
+
+
+def test_medical_robotics_is_excluded_even_when_it_mentions_an_exoskeleton():
+    item = NewsItem(source="Test", title="Medical exoskeleton enters a rehabilitation pilot", url="https://example.com/medical")
+    assert not is_relevant(item)
 
 
 def test_general_robotics_is_relevant():

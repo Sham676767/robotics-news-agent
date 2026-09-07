@@ -15,7 +15,7 @@ from app.vk_publisher import publish_to_vk
 from app.vk_draft import write_vk_draft
 
 CORE_TOPICS = {"robotics", "robot_dog", "humanoid", "exoskeleton"}
-ALLOWED_TOPICS = {*CORE_TOPICS, "reserve"}
+ALLOWED_TOPICS = set(CORE_TOPICS)
 TOP5_OUTPUT_PATH = Path("data/latest_top5.json")
 
 
@@ -29,7 +29,6 @@ def _validate_selected_stories(stories):
     if len(urls) != len(set(urls)):
         raise RuntimeError("Selected stories contain duplicate source URLs")
 
-    reserve_count = 0
     for index, item in enumerate(stories, start=1):
         topics = set(item.get("topics") or ())
         if not topics.intersection(ALLOWED_TOPICS):
@@ -37,12 +36,6 @@ def _validate_selected_stories(stories):
         if not topics.issubset(ALLOWED_TOPICS):
             unknown = sorted(topics - ALLOWED_TOPICS)
             raise RuntimeError(f"Story #{index} contains unsupported topics: {unknown}")
-        if "reserve" in topics:
-            reserve_count += 1
-
-    if reserve_count > 1:
-        raise RuntimeError("At most one reserve medical-robotics story is allowed")
-
 def _timed(label, func):
     started = time.perf_counter()
     try:

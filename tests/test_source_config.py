@@ -16,7 +16,6 @@ def test_expanded_topic_feeds_are_configured_over_https():
     names = {
         "Google News Social Robots",
         "Google News Physical AI",
-        "Google News Rehabilitation Exoskeletons",
     }
     sources = {item["name"]: item for item in load_sources()}
 

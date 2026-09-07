@@ -267,17 +267,10 @@ def build_candidates(limit: int = 12, items: list | None = None) -> list[dict]:
     recent = _exclude_recently_published(_dedupe(_recent(editorial)))
     primary = [
         item for item in recent
-        if "reserve" not in classify(item)
-        and set(classify(item)).intersection(CORE_TOPICS)
-    ]
-    reserve = [
-        item for item in recent
-        if "reserve" in classify(item)
+        if set(classify(item)).intersection(CORE_TOPICS)
     ]
 
     ranked = _diverse_ranked(primary, limit=limit)
-    if len(ranked) < TARGET_STORY_COUNT and reserve:
-        ranked.extend(_diverse_ranked(reserve, limit=1)[:1])
     return [{"id": index, "title": item.title, "source": item.source, "url": item.url, "published_at": item.published_at.isoformat() if item.published_at else None, "summary": item.summary[:1500], "topics": classify(item)} for index, item in enumerate(ranked, start=1)]
 
 

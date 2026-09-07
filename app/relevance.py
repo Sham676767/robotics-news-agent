@@ -4,8 +4,8 @@ import re
 
 from .models import NewsItem
 
-# The publication has four core editorial pillars. A narrow medical-robotics
-# reserve is allowed only to complete an otherwise short, fresh daily digest.
+# The publication has four core editorial pillars. Medical, surgical and
+# rehabilitation stories are outside this publication's scope.
 KEYWORDS: dict[str, tuple[str, ...]] = {
     "robotics": (
         "robotics", "robotic system", "robot technology", "robotics company",
@@ -33,16 +33,16 @@ KEYWORDS: dict[str, tuple[str, ...]] = {
     ),
     "exoskeleton": (
         "exoskeleton", "exo-skeleton", "powered suit", "wearable robot", "robotic exoskeleton",
-        "powered exoskeleton", "assistive exoskeleton", "industrial exoskeleton", "medical exoskeleton",
+        "powered exoskeleton", "assistive exoskeleton", "industrial exoskeleton",
         "экзоскелет", "роботизированный экзоскелет", "силовой костюм", "носимый робот",
     ),
-    "reserve": (
-        "surgical robot", "surgical robotics", "medical robot", "medical robotics",
-        "rehabilitation robot", "rehabilitation robotics", "robot-assisted surgery",
-        "robotic surgery", "хирургический робот", "операционный робот",
-        "медицинский робот", "робот для реабилитации",
-    ),
 }
+
+MEDICAL_EXCLUDED_PATTERNS = (
+    "surgical", "surgery", "medical robot", "medical robotics", "medical exoskeleton",
+    "rehabilitation robot", "rehabilitation robotics", "robot-assisted surgery",
+    "robotic surgery", "clinical robot", "хирург", "операционн", "медицинск", "реабилитац",
+)
 
 # Adjacent fields are excluded unless the same story explicitly contains one
 # of the four core pillars. This prevents drone/robotaxi stories from leaking
@@ -83,6 +83,8 @@ def is_relevant(item: NewsItem) -> bool:
     text = _normalized(f"{item.title} {item.summary}")
     topics = classify(item)
 
+    if any(pattern in text for pattern in MEDICAL_EXCLUDED_PATTERNS):
+        return False
     if any(pattern in text for pattern in EXCLUDED_PATTERNS):
         return any(signal in text for signal in SPECIFIC_PILLAR_SIGNALS)
 
