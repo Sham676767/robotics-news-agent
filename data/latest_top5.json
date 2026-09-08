@@ -2,46 +2,77 @@
   {
     "rank": 1,
     "id": 1,
-    "title": "Medtronic invests $700M in surgical partner Cornerstone Robotics",
+    "title": "Agility Robotics reports $1.8M revenue ahead of humanoid SPAC",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/medtronic-invests-700m-in-surgical-partner-cornerstone-robotics/",
-    "published_at": "2026-09-03T18:53:54+00:00",
-    "summary": "Medtronic and Cornerstone Robotics are building a multi-port portfolio anchored by the Hugo surgical system and expanded by Sentire. The post Medtronic invests $700M in surgical partner Cornerstone Robotics appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/agility-robotics-reports-18m-revenue-ahead-of-humanoid-spac/",
+    "published_at": "2026-09-07T13:17:45+00:00",
+    "summary": "Agility Robotics’ S-4 filing reveals $1.8 million in 2025 revenue, a $140 million operating loss and plans to scale its Digit humanoid robot business. The post Agility Robotics reports $1.8M revenue ahead of humanoid SPAC appeared first on The Robot Report .",
     "topics": [
-      "robotics"
+      "robotics",
+      "humanoid"
     ],
-    "ai_score": 8.5,
-    "why_selected": "Крупная инвестиция Medtronic ($700 млн) в партнёра по хирургической робототехнике с портфелем систем Hugo и Sentire — высокая технологическая и рыночная значимость, свежая дата публикации, авторитетный отраслевой источник The Robot Report.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/sentire-featured.jpg"
+    "ai_score": 8.8,
+    "why_selected": "Финансовое вскрытие бизнеса Agility Robotics (Digit) перед SPAC: выручка $1.8 млн и убыток $140 млн — редкие прозрачные данные о экономике гуманоидных роботов. Тема humanoid явно указана, качественный профильный источник.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/08/Agility_Digit.jpg"
   },
   {
     "rank": 2,
     "id": 2,
-    "title": "Animal-like and anime faces boost social robots' emotional appeal, tests suggest",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-08-animal-anime-boost-social-robots.html",
-    "published_at": "2026-08-31T10:20:05+00:00",
-    "summary": "Giving robot companions animal-like or anime-style faces and voices could maximize their emotional appeal to users, according to new research that could help guide the growing field of social robotics.",
+    "title": "The Tendex FX-E7 Exoskeleton Puts Motors on Your Hips So You \"Move Like Nothing's Holding You Back\" - autoevolution",
+    "source": "Google News Consumer Exoskeletons",
+    "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNcGtFdWFxdDRhRmlSelRGcVB3bEtlVzRudjVvQkpsTXJ1WXBia0RFT3o2V3N2NU12TUx2WlN1M1hfNU5pSnVsYTFyMW96WDZMLTdTSWo1c2QxMW0zWDNic00zM3M4bFhTem5kYjBfYlNLeHRoUmVfbExaTVEzX21GQ3BSdTYxYVh2ZklsU0NWWmNDWTYzVGlWNHFGRW1kWmpPSFFMd2NKamRqV0dBMHRrM1ItWUtrY1NZcDdsdGpqSy00LWZFMlBuSlAzbjRSMWF0dzdjdkg1ei1xVUg1?oc=5",
+    "published_at": "2026-09-06T13:44:52+00:00",
+    "summary": "The Tendex FX-E7 Exoskeleton Puts Motors on Your Hips So You \"Move Like Nothing's Holding You Back\"    autoevolution",
     "topics": [
-      "robotics"
+      "exoskeleton"
     ],
-    "ai_score": 6.5,
-    "why_selected": "Новое исследование о влиянии анималистичных и аниме-дизайнов на эмоциональную привлекательность социальных роботов — научная новизна и практическая ценность для растущей области социальной робототехники, свежая публикация, но меньший общественный резонанс по сравнению с инвестиционной новостью.",
+    "ai_score": 6.0,
+    "why_selected": "Потребительский экзоскелет Tendex FX-E7 с моторизацией на бёдрах — прямое попадание в тему exoskeleton, но нишевый продуктовый анонс без сильных подтверждённых деталей.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 3,
-    "title": "Adorable waddling robot can pick up stuff and learn new tricks",
-    "source": "New Atlas Robotics",
-    "url": "https://newatlas.com/robotics/adorable-waddling-robot-pick-up-hugging-face-microduck-pollen-robotics/",
-    "published_at": "2026-08-31T13:33:43+00:00",
-    "summary": "This cute little robot duck isn't actually a toy. It's actually a platform for budding roboticists to train on and develop skills. But heck, this might be the most fun design for a hackable machine we've seen yet. Continue Reading Category: Robotics , Engineering Tags: Robot , Artificial Intelligence",
+    "id": 4,
+    "title": "Xpeng opens Iron humanoid robot production line, paving way for year-end mass production - CnEVPost",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQOEJwWDQtOUVjeVNSejIzZlZ0aWZqR1ZNSXNWd1hqNzlpM3ctVlVZYngwZGhFVG5zaGs3VTAzeEstOFgxR2ZJMlBBT1IwT2dIdGZXWmVuMkVNZ3BDem9laEdnVndIYTROS3BMQkRJSzNwRXZJTjI5M2ZhMjdZUGFSNEJrWVg5RWs?oc=5",
+    "published_at": "2026-09-08T01:47:00+00:00",
+    "summary": "Xpeng opens Iron humanoid robot production line, paving way for year-end mass production    CnEVPost",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 5.0,
-    "why_selected": "Забавная робо-платформа в виде утки для обучения робототехников — интересный образовательный проект с привлекательным дизайном, но ограниченная технологическая значимость и нишевая аудитория; источник New Atlas надёжный, однако новость носит скорее развлекательный характер.",
-    "image_url": "https://assets.newatlas.com/dims4/default/d2ec16f/2147483647/strip/true/crop/1200x630+0+85/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F10%2Fe3%2F9502b45d425583165969f17a62d1%2Fhow-cute-is-this-trainable-robot-with-15-motors-and-a-lidar-sensor.jpg&na.image_optimisation=0"
+    "ai_score": 9.4,
+    "why_selected": "Ключевое событие недели по гуманоидным роботам: XPeng запускает производственную линию Iron на пути к серийному выпуску к концу года. Явная тема humanoid, высокая технологическая и индустриальная значимость, свежая дата.",
+    "image_url": null
+  },
+  {
+    "rank": 4,
+    "id": 6,
+    "title": "XPENG Commissions Humanoid Robot Lines as IRON Walks Off Production - Unite.AI",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQSG9ldFJJdHNXZWFFS3dpWWxMR2VJUld3ZjNYOFdJQ3EyRG9helJoTXc5bWtYRnpILWdGWTdoczdfSVNzWlBsUzA0cHJJSHVwTHhrbkg2eHhEZGJ4VEVPQ3JrZE84QkdMMC1KWmdUd1daMUNPTmxabFo4dnMwTVd4Vi1PQTVndnIyRHFpdjdJYWZva00?oc=5",
+    "published_at": "2026-09-08T02:37:02+00:00",
+    "summary": "XPENG Commissions Humanoid Robot Lines as IRON Walks Off Production    Unite.AI",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 7.5,
+    "why_selected": "Дублирующая новость о запуске линий XPeng IRON с профильного источника Unite.AI; усиливает главную тему, но самостоятельная ценность ниже из-за повтора.",
+    "image_url": null
+  },
+  {
+    "rank": 5,
+    "id": 8,
+    "title": "China Eyes Humanoid Robots For Battlefield Combat As Military Research Accelerates - Arise News",
+    "source": "Google News Robotics Research",
+    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQTGxjUDVvdERPX0lWOUNVTTBwQVdjOTF4RzBWR0JaQVZ1WUR3Z204MUpsQUpRTldRb2FiTlNyLUIxTDRHd3RpYkk3Z0NIVXE2bk8zWk0tb19uT0xzWWU2M0oxV0stNm0xRVdBVUZWVVRoQ195VF9mYlE4akc3TnBmTGxoQk1uc091MzlvUXZjbmVhWllSWE9xU1pMcG1iTDFCXzFzcThqSQ?oc=5",
+    "published_at": "2026-09-07T10:44:26+00:00",
+    "summary": "China Eyes Humanoid Robots For Battlefield Combat As Military Research Accelerates    Arise News",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 7.0,
+    "why_selected": "Гуманоидные роботы для военных целей в Китае — высокий общественный интерес и значимость, однако источник слабее и содержание более общее; дублирует историю id 7.",
+    "image_url": null
   }
 ]
