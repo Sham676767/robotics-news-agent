@@ -287,6 +287,19 @@ def _fallback_models(primary_model: str) -> list[str]:
     return list(dict.fromkeys([primary_model, *configured, *DEFAULT_FALLBACK_MODELS]))
 
 
+def _article_repair_attempts() -> int:
+    """Return the number of bounded editorial repair passes to allow."""
+    return max(
+        0,
+        int(
+            os.getenv(
+                "OPENROUTER_ARTICLE_REPAIR_ATTEMPTS",
+                str(MAX_ARTICLE_REPAIR_ATTEMPTS),
+            )
+        ),
+    )
+
+
 def _payload(messages: list[dict[str, str]], model: str, models: list[str]) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "model": model,
@@ -338,9 +351,11 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
 
     last_error: Exception | None = None
 
-    # A valid JSON response can still miss an editorial constraint. Give it two
-    # bounded correction attempts before safely failing.
-    for repair_attempt in range(MAX_ARTICLE_REPAIR_ATTEMPTS + 1):
+    # A valid JSON response can still miss an editorial constraint. Use bounded
+    # correction attempts before safely failing rather than publishing an
+    # inaccurate digest.
+    repair_attempts = _article_repair_attempts()
+    for repair_attempt in range(repair_attempts + 1):
         try:
             draft = _normalize_article(_parse_json(current_content))
             validate_article(draft, top5)
@@ -350,7 +365,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
             return public_article
         except (ValueError, RuntimeError) as validation_error:
             last_error = validation_error
-            if repair_attempt >= MAX_ARTICLE_REPAIR_ATTEMPTS:
+            if repair_attempt >= repair_attempts:
                 break
 
             try:
@@ -389,7 +404,7 @@ def generate_article(top5: list[dict[str, Any]], api_key: str | None = None) -> 
             )
 
     raise RuntimeError(
-        f"Article remained invalid after {MAX_ARTICLE_REPAIR_ATTEMPTS} repair attempts: {last_error}"
+        f"Article remained invalid after {repair_attempts} repair attempts: {last_error}"
     )
 
 

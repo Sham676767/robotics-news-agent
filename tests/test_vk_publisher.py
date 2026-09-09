@@ -1,4 +1,11 @@
-from app.vk_publisher import _source_image_upload_enabled, daily_random_id, render_vk_message
+from unittest.mock import Mock, patch
+
+from app.vk_publisher import (
+    _source_image_upload_enabled,
+    daily_random_id,
+    publish_to_vk,
+    render_vk_message,
+)
 
 
 def _article():
@@ -59,3 +66,20 @@ def test_source_image_upload_is_disabled_by_default(monkeypatch):
 def test_source_image_upload_requires_explicit_enablement(monkeypatch):
     monkeypatch.setenv("VK_UPLOAD_SOURCE_IMAGES", "true")
     assert _source_image_upload_enabled() is True
+
+
+@patch("app.vk_publisher.time.sleep")
+@patch("app.vk_publisher.httpx.post")
+def test_publish_retries_transient_failure_before_succeeding(post, sleep, monkeypatch):
+    monkeypatch.setenv("VK_ACCESS_TOKEN", "test-token")
+    monkeypatch.setenv("VK_GROUP_ID", "123")
+    monkeypatch.setenv("VK_PUBLISH_MAX_ATTEMPTS", "3")
+
+    failed = Mock(status_code=503, text="temporarily unavailable")
+    succeeded = Mock(status_code=200)
+    succeeded.json.return_value = {"response": {"post_id": 42}}
+    post.side_effect = [failed, succeeded]
+
+    assert publish_to_vk(_article(), required=True) == 42
+    assert post.call_count == 2
+    sleep.assert_called_once_with(2.0)

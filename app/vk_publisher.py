@@ -73,6 +73,16 @@ def _config() -> tuple[str | None, str | None]:
     return token, group_id
 
 
+def _publish_attempts() -> int:
+    return max(1, int(os.getenv("VK_PUBLISH_MAX_ATTEMPTS", "3")))
+
+
+def _retry_delay(attempt: int) -> float:
+    base = float(os.getenv("VK_PUBLISH_RETRY_BASE_SECONDS", "2"))
+    maximum = float(os.getenv("VK_PUBLISH_RETRY_MAX_SECONDS", "20"))
+    return min(maximum, base * (2**attempt))
+
+
 def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | None:
     """Publish an article to VK, with bounded retries for transient failures."""
     token, group_id = _config()
@@ -107,13 +117,16 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
     retryable_api_errors = {6, 9, 10, 29}
     last_error: str | None = None
 
-    for attempt in range(2):
+    max_attempts = _publish_attempts()
+    for attempt in range(max_attempts):
         try:
             response = httpx.post(VK_API_URL, data=payload, timeout=timeout)
             if response.status_code in (408, 429, 500, 502, 503, 504):
                 last_error = f"HTTP {response.status_code}: {response.text[:500]}"
-                if attempt == 0:
-                    time.sleep(1)
+                if attempt + 1 < max_attempts:
+                    delay = _retry_delay(attempt)
+                    print(f"⚠️ VK transient HTTP {response.status_code}; retry {attempt + 2}/{max_attempts} in {delay:.1f}s")
+                    time.sleep(delay)
                     continue
                 raise RuntimeError(last_error)
 
@@ -123,8 +136,10 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
                 error = data["error"]
                 code = int(error.get("error_code", 0))
                 last_error = f"VK API error {code}: {error.get('error_msg')}"
-                if attempt == 0 and code in retryable_api_errors:
-                    time.sleep(1)
+                if attempt + 1 < max_attempts and code in retryable_api_errors:
+                    delay = _retry_delay(attempt)
+                    print(f"⚠️ VK API error {code}; retry {attempt + 2}/{max_attempts} in {delay:.1f}s")
+                    time.sleep(delay)
                     continue
                 raise RuntimeError(last_error)
 
@@ -135,9 +150,11 @@ def publish_to_vk(article: dict[str, Any], *, required: bool = False) -> int | N
             return post_id
         except httpx.HTTPError as exc:
             last_error = str(exc)
-            if attempt == 0:
-                time.sleep(1)
+            if attempt + 1 < max_attempts:
+                delay = _retry_delay(attempt)
+                print(f"⚠️ VK request error; retry {attempt + 2}/{max_attempts} in {delay:.1f}s: {last_error}")
+                time.sleep(delay)
                 continue
-            raise RuntimeError(f"VK publication failed after 2 attempts: {last_error}") from exc
+            raise RuntimeError(f"VK publication failed after {max_attempts} attempts: {last_error}") from exc
 
-    raise RuntimeError(f"VK publication failed after 2 attempts: {last_error}")
+    raise RuntimeError(f"VK publication failed after {max_attempts} attempts: {last_error}")
