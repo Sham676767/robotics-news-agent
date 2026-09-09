@@ -25,6 +25,29 @@ def test_accepts_numbers_present_in_the_matching_source_card():
     )
 
 
+def test_accepts_thousands_grouped_with_spaces_in_russian_text():
+    cards = [{
+        "title": "Company sells 5,000 robots and reaches 13,000 total units",
+        "summary": "The company reported 5,000 orders and 13,000 sales.",
+    }]
+    validate_factual_grounding(
+        _article("Компания сообщила о 5 000 заказов и 13 000 проданных роботах."),
+        cards,
+    )
+
+
+def test_rejects_changed_thousands_grouped_number():
+    cards = [{
+        "title": "Company sells 5,000 robots",
+        "summary": "The company reported 5,000 orders.",
+    }]
+    with pytest.raises(ValueError, match="numbers absent"):
+        validate_factual_grounding(
+            _article("Компания сообщила о 6 000 заказов."),
+            cards,
+        )
+
+
 def test_rejects_number_in_digest_intro_absent_from_all_sources():
     article = _article("Робот 42 завершил испытание. Источник сообщает об этом.")
     article["title"] = "10 роботов дня"

@@ -3,7 +3,13 @@ from __future__ import annotations
 import re
 from typing import Any
 
-_NUMBER_RE = re.compile(r"\d+(?:[.,]\d+)?")
+# Capture both decimal notation (``1.8`` / ``1,8``) and grouped thousands
+# notation (``5,000`` / ``5 000``).  Russian editorial text commonly replaces
+# the comma in an English source with a space, which must not look like a new
+# factual claim.
+_NUMBER_RE = re.compile(
+    r"(?<!\d)(?:\d{1,3}(?:[ \u00A0\u202F.,]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)(?!\d)"
+)
 # Publication timestamps are part of each source card and may be used as dates.
 # URLs and image metadata are excluded because incidental digits are not evidence.
 _SOURCE_FIELDS = (
@@ -37,8 +43,41 @@ _UNSUPPORTED_EMBELLISHMENTS = (
 )
 
 
+def _canonical_number(value: str) -> str:
+    """Normalize decimal and thousands separators without changing magnitude."""
+    compact = re.sub(r"[ \u00A0\u202F]", "", value)
+    separators = [char for char in compact if char in ".,"]
+    if not separators:
+        return compact
+
+    # With both separators, the rightmost one is decimal only when it has a
+    # short fractional part: 1,800.50 and 1.800,50 both mean 1800.5.
+    if "." in compact and "," in compact:
+        decimal_at = max(compact.rfind("."), compact.rfind(","))
+        fraction = compact[decimal_at + 1 :]
+        if 1 <= len(fraction) <= 2:
+            integer = re.sub(r"[.,]", "", compact[:decimal_at])
+            return _trim_decimal(integer, fraction)
+        return re.sub(r"[.,]", "", compact)
+
+    separator = separators[0]
+    parts = compact.split(separator)
+    # ``5,000`` and ``5.000`` are grouped thousands; a one- or two-digit last
+    # part is a decimal, as in ``1,8`` and ``13.5``.
+    if len(parts) > 1 and all(len(part) == 3 for part in parts[1:]):
+        return "".join(parts)
+    if len(parts) == 2:
+        return _trim_decimal(parts[0], parts[1])
+    return compact.replace(separator, "")
+
+
+def _trim_decimal(integer: str, fraction: str) -> str:
+    fraction = fraction.rstrip("0")
+    return f"{integer}.{fraction}" if fraction else integer
+
+
 def _numbers(text: str) -> set[str]:
-    return {value.replace(",", ".") for value in _NUMBER_RE.findall(text or "")}
+    return {_canonical_number(value) for value in _NUMBER_RE.findall(text or "")}
 
 
 def _source_text(cards: list[dict[str, Any]]) -> str:
