@@ -1,79 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 7,
-    "title": "NEURA Robotics and SECO partner to scale humanoid robot production in Europe - evertiq.com",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNc0VSVV9NZFgxYjhGb1RxZE1SMXY4V0tKOWZlaHRham5keVFBV1EwVTRjQkU1cU5KX2w2LWt2a1BWTHhfUmdJQk9NYXA1NFd0OGc4Sm5zMWNfSDA2SXJCLTRjQk1PclVndWJOeEQwQ19RSzZiX2hjdHZQdkthQmtkemhRM1RnVzhXVUIwNkk0NTVYNnZrOGxRbUFseEV2NTktR3FldFFwbFo4YVp3N2NlTEdR?oc=5",
-    "published_at": "2026-09-09T06:16:57+00:00",
-    "summary": "NEURA Robotics and SECO partner to scale humanoid robot production in Europe    evertiq.com",
+    "id": 1,
+    "title": "AI controller translates VR, video and language commands into humanoid robot actions",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-09-ai-vr-video-language-humanoid.html",
+    "published_at": "2026-09-09T10:40:13+00:00",
+    "summary": "Humanoid robots, robotic systems with limbs and body structures that resemble those of humans, could tackle various manual tasks in homes, workspaces and other settings. Yet teaching these robots to reliably perform different humanlike movements is typically challenging and time-consuming.",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 82,
-    "why_selected": "Партнёрство NEURA Robotics и SECO для масштабирования производства гуманоидов в Европе — явная тема humanoid, технологическая и промышленная значимость для отрасли.",
+    "ai_score": 9.2,
+    "why_selected": "Явно про гуманоидных роботов: ИИ-контроллер переводит VR, видео и языковые команды в действия гуманоида — высокая технологическая значимость и свежая дата публикации, приоритетная тема проекта.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "Vbot Secures Orders for More Than 5,000 Quadruped Robots at IFA 2026; Global Sales Surpass 13,000 Units - The Manila Times",
-    "source": "Google News Quadruped Robots",
-    "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQSm12MUFpeEQ4S00zMmV1b21YZGgtWnZ3QTZwd2Q3SXFkRzNwbkowLW1CZUFCb0JMRW1fYmloZzN0RUlDWnp5YW1vOFE0X282WjVRN0sxNDJjbVhlalZxd2ptSzhKcHFhSU1PQy1VX0R6MHpid3pjZGxQSkhzZE5RNXFFNllXQ1NqZlZ2QlBycjl4Z3psQmZmOTRMQkFTZ1VVR2N0LTJjeGw2SmU5QVhXdDBJa2wwZXI5OEN4S1pRRFdabXFaSWRwZ2pGOWtLVGJYdDFKSXc0U1hMMldBbEg4VDhXb3ZqUDllUThpakVzRElVejNLSF9ySXE4R0xDYWF2b1JRbdIBigJBVV95cUxNZHJhdFc1OGZzbVZMTmlYRFhwWWVVSzJsTzFoWlNqaW1UYjJxcWNETjlKcm93a2M3TjdHTUxYZmZNVkRfbmo4NE5YekR1aEdSR3FyODNyWWNBLXBIX3NqMkNIUkFiT0ZtbkYwcUs4NnFqanZEc2REU3o3dkI3TXo2NERKeDJHdW0wcWMzc0xBYlJTOUE2T3FRdy1qYzRVelhuZjhfR2dPeTZOSTctRTlRY1lKOEVGQnZCY1ByTEpFdnRtZW1pZWJUTTh1Q3c2MVpId3ZHcHBKcExEZjdvQ2x3aTJfY1VTTmFSZjRLbzBQejk4R29yOTI0NEJLR3pqaElwX1JsQlRubEtodw?oc=5",
-    "published_at": "2026-09-08T15:56:02+00:00",
-    "summary": "Vbot Secures Orders for More Than 5,000 Quadruped Robots at IFA 2026; Global Sales Surpass 13,000 Units    The Manila Times",
+    "id": 4,
+    "title": "What bricklaying has taught Monumental about robots in construction",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/what-bricklaying-has-taught-monumental-about-robots-construction/",
+    "published_at": "2026-09-09T21:08:06+00:00",
+    "summary": "The construction industry is rife with opportunity for robotics, but the technology hasn't broken in at scale yet. The post What bricklaying has taught Monumental about robots in construction appeared first on The Robot Report .",
     "topics": [
-      "robot_dog"
+      "robotics"
     ],
-    "ai_score": 90,
-    "why_selected": "Vbot получил заказы на 5000+ квадрупедов и превысил 13 000 продаж — крупный коммерческий успех в категории robot dog, редкий масштаб, свежая новость с IFA 2026.",
-    "image_url": null
+    "ai_score": 7.8,
+    "why_selected": "Практический опыт роботизации в строительстве (кирпичная кладка Monumental) — значимая прикладная история в рамках робототехники от профильного источника The Robot Report.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/monumental-featured.jpg"
   },
   {
     "rank": 3,
-    "id": 6,
-    "title": "Eerily humanlike AI-powered robot enters mass production in China — its makers say it could soon be helping you out at home - Live Science",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxObGJxUkwyVVNQTU5rOTQ0cnFNOUdVN1BiOThUakhZYU1iU1BPeUdlREZXbFpGcmtfOXcwTTFBUXpXZ1QycVhEQXRfcmtMU3hfRHVjTWh6ajRlX3pJNUEybnNldEFOZnk1ZWhjbnBuNFhlRDJlX25ET0tuY2xQSTFmXzFpb2UzVjFGVXhYR3NqQ01FRzNScEZKLW5RNWY4RndRMDg1WTAzV1NKMk9jdF95akJkLW5LckhjS0hndkRpS3lMeFc2MDJGRzZvWkVneGVVNjMzMkZmWEFUenFldHRDSTA5YTg2bTF3UXA2dUI5R0syYjJOY2NTSEZWRkxFUQ?oc=5",
-    "published_at": "2026-09-08T06:00:00+00:00",
-    "summary": "Eerily humanlike AI-powered robot enters mass production in China — its makers say it could soon be helping you out at home    Live Science XPENG IRON Humanoid Robot Now Walks Off the Production Line    XPENG XPEV Jumps In Hong Kong: Xpeng Flips The Switch On Humanoid Robot Mass Production — And Says Margins Could Beat EVs    Yahoo Finance",
+    "id": 2,
+    "title": "Robotics roadmaps from around the world spotlight of the month: United States of America",
+    "source": "Robohub",
+    "url": "https://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-united-states-of-america/",
+    "published_at": "2026-09-09T11:25:43+00:00",
+    "summary": "US robotics researchers and industry are looking for a cohesive national robotics strategy that will maintain basic research and innovation while improving domestic production and adoption of robots. By Ellen H. Rumley and Allison Okamura A leader in tech innovation Robots are a crowd-pleasing example of American innovation and global technological leadership. The latest press […]",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 95,
-    "why_selected": "XPENG IRON: старт массового производства человекоподобного робота в Китае — прямое попадание в тему humanoid, высокая новизна, широкий общественный интерес, подтверждение несколькими источниками (Live Science, Yahoo Finance).",
-    "image_url": null
+    "ai_score": 7.5,
+    "why_selected": "Обзор национальной робототехнической стратегии США — широкий общественный и отраслевой интерес, авторитетные авторы, но тема аналитическая, без прорывной технологии.",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/09/STB-Article-3.png.webp"
   },
   {
     "rank": 4,
-    "id": 10,
-    "title": "Chinese Defence Research Wants Humanoid Robots for Urban Combat Roles - Technology Org",
-    "source": "Google News Robotics Research",
-    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQeEdzZ1lPVG0yeW4xRnFtYXplc3pNRDItcVFMQ25qMTBLYTQ0Q2Y4bnNhOW9qbW5SYWxwX0dBcU9lVWxjX1RkZ0YwUnhZVElNWmUxQ1RmXzRIN2xSTXB0MThkWEd0RXVveEtMdVVQS1NLWmRzZ1pfVFlibkp5VUdpYmxHLXFIbWtySEViakhR?oc=5",
-    "published_at": "2026-09-08T09:30:00+00:00",
-    "summary": "Chinese Defence Research Wants Humanoid Robots for Urban Combat Roles    Technology Org",
+    "id": 3,
+    "title": "Boston Dynamics veteran launches Dynamic Creatures to bring characters to life with robotics",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/boston-dynamics-veterans-launch-dynamic-creatures-to-bring-characters-to-life-with-robotics/",
+    "published_at": "2026-09-08T20:39:51+00:00",
+    "summary": "Dynamic Creatures plants to create its own line of characters, and to re-create characters for specific brands and environments. The post Boston Dynamics veteran launches Dynamic Creatures to bring characters to life with robotics appeared first on The Robot Report .",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 80,
-    "why_selected": "Китайские оборонные исследования по применению гуманоидных роботов в городском бою — тема humanoid, высокий общественный интерес, потенциально значимые военные последствия.",
-    "image_url": null
+    "ai_score": 7.0,
+    "why_selected": "Запуск стартапа Dynamic Creatures ветераном Boston Dynamics — заметная новость индустрии робототехники с известным именем, однако деталей и технической новизны мало.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Founder-Photo-dynamiccreatures-featured.jpg"
   },
   {
     "rank": 5,
-    "id": 1,
-    "title": "AI can’t outrun a humanoid’s hardware",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/ai-cant-outrun-a-humanoids-hardware/",
-    "published_at": "2026-09-08T19:03:09+00:00",
-    "summary": "The remarkable progress in AI has brought robotics closer to machines capable of determining what they should do. The next major advance may depend on whether their physical systems can execute those decisions efficiently, precisely and safely. The post AI can’t outrun a humanoid’s hardware appeared first on The Robot Report .",
+    "id": 6,
+    "title": "Will a cyborg cockroach paramedic save your life in the future?",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/cyborg-cockroach-paramedics/",
+    "published_at": "2026-09-09T19:40:31+00:00",
+    "summary": "If you think that cockroaches are creepy and useless, we can prove you wrong. Well, at least the “useless” part. Continue Reading Category: Robotics , Engineering Tags: University of Queensland , Cyborg , Insect , Rescue , Disasters",
     "topics": [
-      "robotics",
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 75,
-    "why_selected": "Аналитика The Robot Report о том, что аппаратная часть гуманоидов ограничивает прогресс ИИ — явная тема humanoid, технологическая значимость, качественный профильный источник.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/ai-humanoid-hardware.jpg"
+    "ai_score": 6.6,
+    "why_selected": "Кибер-таракан для спасательных операций — необычная и привлекательная для аудитории история, но нишевое направление внутри робототехники без явной связи с приоритетными темами.",
+    "image_url": "https://assets.newatlas.com/dims4/default/2193802/2147483647/strip/true/crop/4784x2512+0+339/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F42%2F8e%2F1f830b0843ecad00f506883719bf%2Feait-mda-2026-cyborg-cockroach-11.jpeg&na.image_optimisation=0"
   }
 ]

@@ -1,0 +1,32 @@
+{
+  "status": "review_required",
+  "publication_performed": false,
+  "message": "🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ ДНЯ\n\nКлючевые события в робототехнике: от управления гуманоидными роботами до специализированных кибернетических систем\n\nСегодняшний обзор посвящён важным событиям в области робототехники. Рассматриваются новые технологии управления гуманоидными роботами, опыт роботизации в строительстве и национальные стратегии развития отрасли. Также внимание уделено запуску стартапа с ветераном Boston Dynamics и необычным разработкам для спасательных операций.\n\n1️⃣ ИИ-контроллер преобразует VR, видео и языковые команды в действия гуманоидного робота\n\nСоздан ИИ-контроллер, который переводит команды из виртуальной реальности, видео и естественного языка в движения гуманоидного робота. Гуманоиды имеют конечности и структуру, похожую на человеческую, и предназначены для выполнения различных ручных задач. В карточке отмечается, что обучение таких роботов разнообразным движениям обычно сложно и занимает много времени.\n\n🔗 Источник: Tech Xplore Robotics\nhttps://techxplore.com/news/2026-09-ai-vr-video-language-humanoid.html\n\n2️⃣ Компания Monumental делится опытом роботизации кирпичной кладки\n\nMonumental представила практические результаты внедрения роботов в процесс кирпичной кладки. В карточке указано, что строительная отрасль имеет большой потенциал для роботизации, но массовое применение технологий пока ограничено. Опыт компании демонстрирует реальные шаги и вызовы при интеграции робототехники в строительство.\n\n🔗 Источник: The Robot Report\nhttps://www.therobotreport.com/what-bricklaying-has-taught-monumental-about-robots-construction/\n\n3️⃣ В США формируется национальная стратегия развития робототехники\n\nВ Соединённых Штатах разрабатывается единая национальная стратегия по поддержке исследований и инноваций в робототехнике. В карточке подчёркивается важность координации усилий для повышения производства и внедрения роботов внутри страны. Американские исследователи и индустрия играют ключевую роль в технологическом лидерстве.\n\n🔗 Источник: Robohub\nhttps://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-united-states-of-america/\n\n4️⃣ Ветеран Boston Dynamics запускает стартап Dynamic Creatures для создания роботизированных персонажей\n\nОснователь с опытом работы в Boston Dynamics основал компанию Dynamic Creatures. Компания планирует создавать собственную линейку роботизированных персонажей и воссоздавать персонажей для брендов и сред. В карточке отмечается запуск стартапа, но технические детали пока не раскрыты.\n\n🔗 Источник: The Robot Report\nhttps://www.therobotreport.com/boston-dynamics-veterans-launch-dynamic-creatures-to-bring-characters-to-life-with-robotics/\n\n5️⃣ Университет Квинсленда разрабатывает кибернетического таракана для спасательных операций\n\nИсследователи создают кибернетического таракана для использования в чрезвычайных ситуациях. В карточке описывается применение насекомых с кибернетическими элементами для поиска и помощи пострадавшим. Этот проект представляет нишевое направление в робототехнике с ограниченной связью с основными темами отрасли.\n\n🔗 Источник: New Atlas Robotics\nhttps://newatlas.com/robotics/cyborg-cockroach-paramedics/\n\n—\n🤖 Пять событий дня без рекламных обещаний и неподтверждённых выводов.",
+  "image_sources": [
+    {
+      "item_index": 2,
+      "headline": "Компания Monumental делится опытом роботизации кирпичной кладки",
+      "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/monumental-featured.jpg",
+      "source_url": "https://www.therobotreport.com/what-bricklaying-has-taught-monumental-about-robots-construction/"
+    },
+    {
+      "item_index": 3,
+      "headline": "В США формируется национальная стратегия развития робототехники",
+      "image_url": "https://robohub.org/wp-content/uploads/2026/09/STB-Article-3.png.webp",
+      "source_url": "https://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-united-states-of-america/"
+    },
+    {
+      "item_index": 4,
+      "headline": "Ветеран Boston Dynamics запускает стартап Dynamic Creatures для создания роботизированных персонажей",
+      "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Founder-Photo-dynamiccreatures-featured.jpg",
+      "source_url": "https://www.therobotreport.com/boston-dynamics-veterans-launch-dynamic-creatures-to-bring-characters-to-life-with-robotics/"
+    },
+    {
+      "item_index": 5,
+      "headline": "Университет Квинсленда разрабатывает кибернетического таракана для спасательных операций",
+      "image_url": "https://assets.newatlas.com/dims4/default/2193802/2147483647/strip/true/crop/4784x2512+0+339/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F42%2F8e%2F1f830b0843ecad00f506883719bf%2Feait-mda-2026-cyborg-cockroach-11.jpeg&na.image_optimisation=0",
+      "source_url": "https://newatlas.com/robotics/cyborg-cockroach-paramedics/"
+    }
+  ],
+  "note": "Это черновик. Изображения перечислены как исходные URL и не были загружены в VK. Публикация возможна только отдельным подтверждённым запуском."
+}
