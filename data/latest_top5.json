@@ -1,78 +1,77 @@
 [
   {
     "rank": 1,
-    "id": 2,
-    "title": "Exoskeleton Report Newsletter 2026 - Week 36: August 30 - September 5, 2026 - All The Wearable Robotics News From the Week! - Exoskeleton Report",
-    "source": "Google News Exoskeletons",
-    "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxQSUhTYy1xLVdwTXU0cS1Qdzh6UG9DRFlqVjVmeGF3UXhkeUtVQzJDZ1BSSk1WQVdSd2o0UXVUMVNFdWJkTExtZWI0elpLSjMwSnhoSnFiX0RQTUtaRnVpUHR3UzNlaHkxS2hDcW1fVmplQnA4MkdpNkRtUUZvQWtZM0YzRWhncEd4dktBSG83TUVBNGYzM0hweVlGUzRGWlhZbmlqaDliczBZU2ZtcjJxQ2JVWk1zeW9uQlFnOEdsdlZRajl6WTNqcHdqU0N5WV90QndyM1RZcHlKclB2Z2p4dGtHZFdoWEtq?oc=5",
-    "published_at": "2026-09-07T17:38:33+00:00",
-    "summary": "Exoskeleton Report Newsletter 2026 - Week 36: August 30 - September 5, 2026 - All The Wearable Robotics News From the Week!    Exoskeleton Report",
+    "id": 1,
+    "title": "‘Robots building robots’: World’s 1st 10,000-unit-scale industrial humanoid robot smart factory starts production - Global Times",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFA1ZzlBTVJvclhoZjBxVC1SRWpwd0gzWF96UlJDa1BfWmNYZGNwc21Pbm1IMW0yV0FMbzZrdlhCQklENUhsQkZBcXVUY3pBS2hjRENJTllzRFcxTWswRmNYMkxR?oc=5",
+    "published_at": "2026-09-14T14:57:00+00:00",
+    "summary": "‘Robots building robots’: World’s 1st 10,000-unit-scale industrial humanoid robot smart factory starts production    Global Times",
     "topics": [
-      "robotics",
-      "exoskeleton"
+      "humanoid"
     ],
-    "ai_score": 7.8,
-    "why_selected": "Явная тема exoskeleton: еженедельный дайджест Exoskeleton Report по всей носимой робототехнике; специализированный профильный источник, но формат подборки снижает уникальность.",
+    "ai_score": 9.5,
+    "why_selected": "Запуск первой в мире фабрики по производству 10 000 гуманоидных роботов — знаковое событие с прямым упоминанием humanoid, максимальная технологическая значимость, свежая дата и крупный источник Global Times.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 1,
-    "title": "2025 China Humanoid Robot Mass Production First Year: Who Leads the Race? Initial Industry Landscape of Two Major Giants - 36 Kr",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9sangwSEhVb2RrMVItcVV3NEl1QlNmakhlakl4TVlCaVdzYkY3YkNzWlp2aERfVmpWTDJyTk93NEdCeHE4ZDhYYkc1Y05rT1JDU284?oc=5",
-    "published_at": "2026-09-14T05:22:28+00:00",
-    "summary": "2025 China Humanoid Robot Mass Production First Year: Who Leads the Race? Initial Industry Landscape of Two Major Giants    36 Kr",
+    "id": 12,
+    "title": "Meet the $4,000 robot dog - newsofbahrain.com",
+    "source": "Google News Quadruped Robots",
+    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9BVjhsWXk3b2QyVHpUR3FDX1JyNnZId3JYdDR0RGphV1dWOENJZ1RYajJJdGlUMjJ1RVU5anBDQVBiNzhZUktZdFljTTZiODRBem00ZE00OVJXalpBM2dj?oc=5",
+    "published_at": "2026-09-14T09:00:43+00:00",
+    "summary": "Meet the $4,000 robot dog    newsofbahrain.com",
     "topics": [
-      "humanoid"
+      "robot_dog"
     ],
-    "ai_score": 9.3,
-    "why_selected": "Явная тема humanoid: массовое производство гуманоидных роботов в Китае и расстановка сил двух гигантов; высокая технологическая и рыночная значимость, самая свежая дата публикации (14.09), профильный источник.",
+    "ai_score": 7.8,
+    "why_selected": "Робот-собака за $4000 — явное упоминание quadruped, сильный общественный интерес за счёт доступной цены, сигнал о движении к массовому рынку.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 7,
-    "title": "911 for humanoids: Japan debuts first-ever ‘robot ambulance’ to provide on-site repairs - Interesting Engineering",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPcy1HbVFIdXU4VG1kb0p6cm1JNWVOOXpld29Dd2NYQmlDNTN1SHdCYVRXNXBQNC14bFdNaG15WFBvOXVkZFlORHJCVzZhYmRzT2tUazd6SXdxZy1FRlpwcHFNbEdBSHFaVVhKTmNhQVVXQkVpUjZwaHAwOWk5aWNhOW11YXRLeVQ2NUN3OGM0WXRETlE?oc=5",
-    "published_at": "2026-09-13T13:46:00+00:00",
-    "summary": "911 for humanoids: Japan debuts first-ever ‘robot ambulance’ to provide on-site repairs    Interesting Engineering",
+    "id": 2,
+    "title": "Robot dogs and physical AI: the sci-fi tech coming to airports - airsideint.com",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxONWQtV3AzN1ZRNVd3bjVIU1Q1QzNxSkI0QUIxWmlTcG15WlIxaG1VYW5LWEF0dzhoVTE5X2xiUVc5ODRuTXRfTDZSY0U3UmQ5R2N6bjRQRDJQN2hHSVYxMm91dzdXZ2ZaalRldGdza2plWlR0Zk1BSURrNENVbTNiU1VNcjh6R2kzOVhkVXk2eEtHYXdOckpnT1lJckFCVzJf?oc=5",
+    "published_at": "2026-09-14T11:05:09+00:00",
+    "summary": "Robot dogs and physical AI: the sci-fi tech coming to airports    airsideint.com",
     "topics": [
-      "humanoid"
+      "robot_dog"
     ],
-    "ai_score": 8.8,
-    "why_selected": "Явная тема humanoid: первая в мире «робо-скорая» из Японии для ремонта гуманоидов на месте; высокая новизна (first-ever) и общественный интерес, свежая публикация (13.09).",
+    "ai_score": 7.6,
+    "why_selected": "Роботы-собаки и physical AI в аэропортах — прямое соответствие теме robot dog, необычный и наглядный сценарий применения, свежая публикация.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 3,
-    "title": "One brick at a time: How Monumental uses robotics to build walls",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/one-brick-at-a-time-how-monumental-uses-robotics-to-build-walls/",
-    "published_at": "2026-09-11T21:09:01+00:00",
-    "summary": "CEO Salar al Khafaji introduces podcast listeners to how Monumental is using robotics to build walls. The post One brick at a time: How Monumental uses robotics to build walls appeared first on The Robot Report .",
+    "id": 9,
+    "title": "Robots from Beijing Humanoid games can beat records but can’t hammer nails - theticker.org",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPQU5RMHRzQ3FtU21QRGV5T0YzWmxSbjNHLW1zeEZzWk5JdExuMFhvb1p3ZEJhZGJMUzE5Ymd3ZHJJYjhQUjdmS2xReVhBT3V1X1d1SGNTd3FJNzh5a0dxeHFKQTA5aFp3Z1JUOE95aWtUVEloR3BkMjBwODdUNXktTVZPQmE2TjJQSTcxc28wX0V2R0oyd0pNUmNiZTVFTS01NFJNemRqQ3d4QlEzSWdR?oc=5",
+    "published_at": "2026-09-14T14:36:03+00:00",
+    "summary": "Robots from Beijing Humanoid games can beat records but can’t hammer nails    theticker.org",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 7.0,
-    "why_selected": "Строительная робототехника: Monumental кладёт стены с помощью роботов; прикладная значимость и хороший профильный источник The Robot Report.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/episode-261-featured.jpg"
+    "ai_score": 7.4,
+    "why_selected": "Гуманоиды с игр в Пекине — прямое упоминание humanoid, высокий публичный интерес, критический взгляд на реальные ограничения технологий.",
+    "image_url": null
   },
   {
     "rank": 5,
-    "id": 8,
-    "title": "dorsaVi Commences Testing of Resistive RAM Energy for Physical AI and Advanced Robotics - smallcaps.com.au",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPWFd6U3hBZkFDTU5IQ3R4c0pmRTczR25fMEFDcG4xMkVYVHdHbkhiRjRMS0hMbUV6UHJ0OEhtUnFkck9LQ09CaVZTcEFleWNfZWxMR1FISmpIZ2lBa0FqbnBiV2tYNzZEcVFrU0o2RHVERmZvXzVVYTY0Z085cVc3YXBRYXViYTd2Wk5TOTd4bWpTQ05ZZUFiWEdxUmZKVEJTVGpCQ3N5c2NXbmNQR2hEQzViUV9nRC1jQU9mUA?oc=5",
-    "published_at": "2026-09-13T23:47:14+00:00",
-    "summary": "dorsaVi Commences Testing of Resistive RAM Energy for Physical AI and Advanced Robotics    smallcaps.com.au",
+    "id": 3,
+    "title": "Universal Robots launches its seventh generation robot platform at IMTS",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/universal-robots-launches-its-seventh-generation-robot-platform-at-imts/",
+    "published_at": "2026-09-14T13:25:40+00:00",
+    "summary": "Universal Robots has released three new robot arms, a rebuilt core controller, a new AI-ready tool flange, and more. The post Universal Robots launches its seventh generation robot platform at IMTS appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 5.6,
-    "why_selected": "Тестирование Resistive RAM для Physical AI и робототехники компанией dorsaVi; ранняя стадия, слабый источник smallcaps, умеренный интерес.",
-    "image_url": null
+    "ai_score": 7.2,
+    "why_selected": "Седьмое поколение платформы Universal Robots на IMTS — значимая промышленная новость робототехники с конкретикой (новые манипуляторы, контроллер, AI-ready фланец), качественный профильный источник.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/09_2026_Gen-7_Jake_Images-08-featured.jpg"
   }
 ]
