@@ -1,78 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 4,
-    "title": "Digit 5 May Be the First Humanoid Robot Worker That’s Truly Safe",
-    "source": "IEEE Spectrum Robotics",
-    "url": "https://spectrum.ieee.org/humanoid-robot-safety",
-    "published_at": "2026-09-15T15:22:30+00:00",
-    "summary": "Despite the recent deluge of videos of humanoid robots doing backflips and kung-fu, the actual pace of progress towards humanoids that can do economically viable jobs at scale has at times seemed a bit plodding. There are some good reasons for this : a humanoid robot needs to be powerful enough to do useful work, safe enough for humans to walk past, and have enough battery life to limit how much of the day it’s hooked to a charger. But all three of those necessary features actively work against each other. With its new Digit 5 robot, announced today, Agility Robotics may have found the sweet spot. Digit 5 is a humanoid worker that can lift 23 kilograms up 2.1 meters, can work in close proximity to people without relying on physical barriers, and can operate for more than 20 hours a day. This combination of power, safety, and battery life has resulted in a 1.8 m tall, 129 kg robot that prioritizes functionality over style and pretty much everything else, but this is exactly what it’s going to take to get humanoids a job. Humanoid robot companies have been reluctant to talk about safety, because there are no easy answers to “what happens if your fundamentally unstable bipedal robot falls over onto me/my pet/my baby?” And there are still no easy answers, but Agility does have an answer that allows Digit to be verifiably safe. That answer is to make sure that it’s physically impossible for Digit to fall over on anyone, ever, by “autonomously avoiding, stopping or assuming a seate",
+    "id": 2,
+    "title": "Serbia Reveals Armed Robot Dogs Days After Chinese Humanoid Factory Opening - rferl.org",
+    "source": "Google News Quadruped Robots",
+    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNcnJNWnJheDEyVjY0RUNiQmJRRlNVOERMRXlUbzBSTXBTZ2Vfc1pOV2RWQnVBOE5sMzI3aHFYVkl6YUpGZVZvV3FhSGdNZDVzQVRRZmVXWlJGSGUwOWFUMWVXSGdSdjNmSUFYRXBseWlFVTJDOWNiZU45MUNTNHVoNXM0WC05UFY20gGLAUFVX3lxTE1WLUJTdnFoSzFDR2JWTE8ybzI1Zk5ta3pGc09WSXVKMnFHbnkxclR6R3dlNGF6LVZIZzhVc3RQdEZXOEw2ZEJpbXpYcjd2WFFMWGxPVlUzYS00V3hzTFA4LXNrWlB0S3NZUzRBZlkya0VBYW94cEpySjR3TlBqTmszaDNnSHo2dVV5YmM?oc=5",
+    "published_at": "2026-09-16T15:46:17+00:00",
+    "summary": "Serbia Reveals Armed Robot Dogs Days After Chinese Humanoid Factory Opening    rferl.org",
     "topics": [
-      "robotics",
+      "robot_dog",
       "humanoid"
     ],
-    "ai_score": 9.5,
-    "why_selected": "Глубокий аналитический материал IEEE Spectrum о гуманоиде Digit 5: сочетание грузоподъёмности 23 кг, безопасности рядом с людьми и 20+ часов работы — ключевая веха для коммерциализации гуманоидов; качественный источник, свежая дата.",
-    "image_url": "https://spectrum.ieee.org/media-library/image.jpg?id=67776761&width=1200&height=600&coordinates=0%2C19%2C0%2C81"
+    "ai_score": 9.4,
+    "why_selected": "Двойное попадание в приоритетные темы: демонстрация вооружённых роботов-собак плюс контекст открытия китайского завода гуманоидов; военно-геополитический угол даёт высокий общественный интерес, свежая публикация RFE/RL.",
+    "image_url": null
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "Hyundai's physical AI strategy takes shape with smarter Spot robot - upi.com",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPUnZhUk5XbkxXSGRyMXQxdU1DcDB2YmlxZThKZjRRSVlDR0dKZjBUa0ZFSDlObDlVQkJtSXJUM2RDY1BVbUVIdEdJR3hSTHREcUNmdktDOXEwRlNYMXhWTGxFYVdMTUo2WFd4S0lkcHpPdmpsMUdFSFo3MVVyZ0hmblFIVG5WRVNqY0JVaS1jdHRKY0ttclBtNFljSWVfNFM1NWU3Nkh4UEJ6OXc4ZTEwV1BB0gG3AUFVX3lxTE1WVjEzTGdnUTcyT29oT2RCU3l2cEZ5M2J1cmRFNGtraGhpWnRPMkh3amFMSVh0ekJrbGU4ekhIRTVDZ19La2JlZHBpTzZjYXM0Tklad2o2bXJzVFFELUkteFpuZy0xd2tPYkQ3UnJxa1pNQ3h2RjdUYnlIeFVsYVJNNnB3bDJTc19hS3J1blRmWmlqNldOREU0TWowWkFUN1ItWVphU3NTYjdHYjQxS2l4UFVLc2FoSQ?oc=5",
-    "published_at": "2026-09-15T23:47:53+00:00",
-    "summary": "Hyundai's physical AI strategy takes shape with smarter Spot robot    upi.com",
+    "id": 1,
+    "title": "Agility unveils Digit 5, a safety-conscious humanoid - TechTarget",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQSGFwRWZfS2tmNVpuazBHUHNwdEhOZHJCSVBNaVcxV25GV3IySU5zeVB1YTRLdzk5VFROcmpDTHA5MHVfV3dxYmpWRXBDbHRQLTYwdzNDajFibzVqMmxZUkRFWTN0cGV2dGJNR0RNc3BGa0ZTMVNpUlVwY1RPS3d3QzdNSEliT19PTC1zVUlrVWNPeTNjVHp1cjlMSzU?oc=5",
+    "published_at": "2026-09-16T21:15:35+00:00",
+    "summary": "Agility unveils Digit 5, a safety-conscious humanoid    TechTarget",
     "topics": [
-      "robot_dog"
+      "humanoid"
     ],
-    "ai_score": 8.0,
-    "why_selected": "Гибридовская стратегия physical AI на базе более умного Spot — явная новость про роботов-собак, крупный бренд, свежая публикация.",
+    "ai_score": 9.6,
+    "why_selected": "Прямой анонс нового поколения гуманоида Digit 5 от Agility Robotics: точное совпадение с приоритетной темой humanoid, высокая технологическая значимость и свежесть (16.09), надёжный отраслевой источник TechTarget.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 1,
-    "title": "Agility’s Digit 5 humanoid has new legs, batteries, and safety upgrades",
+    "id": 3,
+    "title": "The evolution of Digit: Agility Robotics’ journey from Cassie to Digit 5",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/agilitys-digit-5-humanoid-has-new-legs-batteries-safety-upgrades/",
-    "published_at": "2026-09-15T10:55:15+00:00",
-    "summary": "The latest version of Digit includes new knees, upgraded batteries, and more comprehensive safety architecture. The post Agility’s Digit 5 humanoid has new legs, batteries, and safety upgrades appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/the-evolution-of-digit-agility-robotics-journey-from-cassie-to-digit-5/",
+    "published_at": "2026-09-16T17:45:50+00:00",
+    "summary": "From Cassie, to five different versions of Digit, Agility Robotics has adapted its technology to fit industrial tasks. The post The evolution of Digit: Agility Robotics’ journey from Cassie to Digit 5 appeared first on The Robot Report .",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 9.0,
-    "why_selected": "Анонс Agility Digit 5 с новыми ногами, батареями и архитектурой безопасности — прямое попадание в тему гуманоидных роботов, профильный источник The Robot Report, высокая технологическая значимость.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Agility_Digit5_06-featured.jpg"
+    "ai_score": 8.0,
+    "why_selected": "Экспертный разбор эволюции гуманоида Digit от Cassie до Digit 5 в профильном The Robot Report; усиливает главную новость о Digit 5, высокая технологическая значимость, но аналитический вторичный формат.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Digitthroughtheyears.jpg"
   },
   {
     "rank": 4,
-    "id": 6,
-    "title": "Agility Unveils Digit 5 Humanoid Robot Built for Cooperatively Safe Work at Scale - PR Newswire",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOLUZrVXNMTjVwNm5LYXJhcGpHcDM4TkxadkZmeExxYm5URlZVNGVIRW90MkpiZTR1RjRwQzN1NUhmaDZqZk9OSUZNbnJuYW9EY0R5d2lzMjg1RmxaY1JYYllnUWw1T0VZTlBQeEl3Vy1tQV9qeDVKU3c5Mmt6S182ZTJqUnFGTS02VXNkOFlaMlZrd3RoUkxfM09kcmxfaVNKYk1HVkNoeUdrbHFLMjFXRHN0dDFxd044ZnY2ckotdGZ5SnZ2N2xzdDdVVHJuaG9INE4w?oc=5",
-    "published_at": "2026-09-15T11:00:00+00:00",
-    "summary": "Agility Unveils Digit 5 Humanoid Robot Built for Cooperatively Safe Work at Scale    PR Newswire",
+    "id": 9,
+    "title": "Humanoids Summit Seoul Sets Global Physical AI Program with Official Support from South Korea’s Ministry of Science and ICT - Business Wire",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxNWVNydEFUelptcWgwN0lBbk5odUp4RWpmdjEzWmtLUlNaWDg1VDBoYVc3Tm5rSzc3ZWtodzdlOVpmNUdmTmpoODFYaXpreGsxaTdYd0t1M215aWxtdThOdzM1dk1YSGRfNkFuZVAyVFY2SlN4RUNUdVJ1bDBOZnpmOTZlbW5PRVZ5MFNidWZsSmpfenJJc2c1NTFPSEd3Qm5xZXAzZDJmcV9WSF9DQldtbWxxZERLSE5DNHFld1JfaW54cUVwZjNVdlEyTXRfSGVaMWcycjNnbnVZa0NtaE9ZSTBYeXZ3V1VBOGxyNUNpd2dEZmN4ZVFlbS0zRUZLSFNOempBc1h0Qmpzdjg?oc=5",
+    "published_at": "2026-09-16T22:55:00+00:00",
+    "summary": "Humanoids Summit Seoul Sets Global Physical AI Program with Official Support from South Korea’s Ministry of Science and ICT    Business Wire",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 8.5,
-    "why_selected": "Официальный пресс-релиз PR Newswire о запуске Digit 5, ориентированного на безопасную совместную работу с людьми; подтверждает главную новость дня по гуманоидам.",
+    "ai_score": 7.8,
+    "why_selected": "Humanoids Summit Seoul с программой по physical AI при официальной поддержке министерства науки и ICT Южной Кореи; прямая тема humanoid, государственная поддержка повышает значимость, официальный источник Business Wire.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 10,
-    "title": "Ubtech Opens Humanoid Robot Factory With 10,000-Unit Capacity That Uses Robots As Workers - AI Insider",
-    "source": "Google News Humanoid Robot Funding",
-    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOWmE2UV9xNmZZeEE4cUJaNjA1U2ZqRnZzZmY5Znh4aTFtd1BGbmJ6UlU1Q0gtQ09IeWJFS2c2S2lTZnVzcHJjRjFaa0NLci1tQzlqVHVZQVhORTVXMy1yQnZVNWZaVmJCZWpzUXFNa3V3eXZ3SU1UazBnaDRIc2M5S3JxVUFnWDR0ZDBLQ01oVkNPN2JCZmJsaHRraXBsckVWWFdsVFZiSjAyNE02WEJBVGM3dVRGRi1qTXNKTjdOYWpaOG1n?oc=5",
-    "published_at": "2026-09-15T11:39:08+00:00",
-    "summary": "Ubtech Opens Humanoid Robot Factory With 10,000-Unit Capacity That Uses Robots As Workers    AI Insider",
+    "id": 5,
+    "title": "Robots are waiting for a ChatGPT moment: Nvidia’s Les Karpas explains why at TechCrunch Disrupt 2026",
+    "source": "TechCrunch Robotics",
+    "url": "https://techcrunch.com/2026/09/16/robots-are-waiting-for-a-chatgpt-moment-nvidias-les-karpas-explains-why-at-techcrunch-disrupt-2026/",
+    "published_at": "2026-09-16T15:00:00+00:00",
+    "summary": "The robotics industry is still waiting for their breakthrough into day-to-day life. Nvidia's Les Karpas has an answer as to why at TechCrunch Disrupt 2026. Register before September 25 to save up to $200 on your pass.",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 8.5,
-    "why_selected": "Ubtech открыла завод гуманоидных роботов мощностью 10 000 единиц, где работают сами роботы — масштабируемое производство, сильный общественный интерес к теме гуманоидов.",
-    "image_url": null
+    "ai_score": 7.0,
+    "why_selected": "Выступление представителя Nvidia о перспективах робототехники на TechCrunch Disrupt 2026; заметный общественный интерес и свежесть, но это отраслевой комментарий без конкретного продукта по приоритетным темам.",
+    "image_url": "https://techcrunch.com/wp-content/uploads/2025/09/Disrupt-2025-AI-Stage.jpg?resize=1200,800"
   }
 ]
