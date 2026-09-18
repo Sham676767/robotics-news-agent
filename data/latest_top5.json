@@ -1,78 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 2,
-    "title": "Serbia Reveals Armed Robot Dogs Days After Chinese Humanoid Factory Opening - rferl.org",
-    "source": "Google News Quadruped Robots",
-    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNcnJNWnJheDEyVjY0RUNiQmJRRlNVOERMRXlUbzBSTXBTZ2Vfc1pOV2RWQnVBOE5sMzI3aHFYVkl6YUpGZVZvV3FhSGdNZDVzQVRRZmVXWlJGSGUwOWFUMWVXSGdSdjNmSUFYRXBseWlFVTJDOWNiZU45MUNTNHVoNXM0WC05UFY20gGLAUFVX3lxTE1WLUJTdnFoSzFDR2JWTE8ybzI1Zk5ta3pGc09WSXVKMnFHbnkxclR6R3dlNGF6LVZIZzhVc3RQdEZXOEw2ZEJpbXpYcjd2WFFMWGxPVlUzYS00V3hzTFA4LXNrWlB0S3NZUzRBZlkya0VBYW94cEpySjR3TlBqTmszaDNnSHo2dVV5YmM?oc=5",
-    "published_at": "2026-09-16T15:46:17+00:00",
-    "summary": "Serbia Reveals Armed Robot Dogs Days After Chinese Humanoid Factory Opening    rferl.org",
+    "id": 8,
+    "title": "Robotics Moves From Automation to Physical AI as Goldman Sachs Expects 6.5 Million Humanoid Robots by 2035 - Streetwise Reports",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxQQl9lbWhVdFpaRkwwaEM5RmpXbmtTemVURDQ4TVU1dkl3WGV6WDV2cEgxdnFiVWNkN3dTSG8zQXFwVEhwVm9ZSkZITV9Cdi14d1pjb0VoelUzc1E5ODJlNG1Fam9PRDdfSGlIWXg1WmFLLWZCakhhMXZqMHhwcGZwSFM0VWF0UmRvNE9jOEJPU21wUXhzR05KRFZtRE1MRU9OVTAxSHlnM2Z0alJTcDhSY2g2UDUyV0VpZkQta05EZ014blBNWGVGem1RUFI3TlJ6STRXUlhBOGR6ODZBTGhBdXY1MzhvcUI0OWtvWHFJTGk1Um1zMko0?oc=5",
+    "published_at": "2026-09-16T15:02:22+00:00",
+    "summary": "Robotics Moves From Automation to Physical AI as Goldman Sachs Expects 6.5 Million Humanoid Robots by 2035    Streetwise Reports",
     "topics": [
-      "robot_dog",
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 9.4,
-    "why_selected": "Двойное попадание в приоритетные темы: демонстрация вооружённых роботов-собак плюс контекст открытия китайского завода гуманоидов; военно-геополитический угол даёт высокий общественный интерес, свежая публикация RFE/RL.",
+    "ai_score": 8.8,
+    "why_selected": "Прогноз Goldman Sachs о 6,5 млн гуманоидных роботов к 2035 году — явный humanoid, сильная рыночная сигнализация и широкий общественный интерес, свежесть в пределах суток-двух.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 1,
-    "title": "Agility unveils Digit 5, a safety-conscious humanoid - TechTarget",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQSGFwRWZfS2tmNVpuazBHUHNwdEhOZHJCSVBNaVcxV25GV3IySU5zeVB1YTRLdzk5VFROcmpDTHA5MHVfV3dxYmpWRXBDbHRQLTYwdzNDajFibzVqMmxZUkRFWTN0cGV2dGJNR0RNc3BGa0ZTMVNpUlVwY1RPS3d3QzdNSEliT19PTC1zVUlrVWNPeTNjVHp1cjlMSzU?oc=5",
-    "published_at": "2026-09-16T21:15:35+00:00",
-    "summary": "Agility unveils Digit 5, a safety-conscious humanoid    TechTarget",
+    "id": 9,
+    "title": "Samsung Heavy Industries prepares to deploy humanoids at shipyard, joins forces with KIRO - 코리아스타트업포스트",
+    "source": "Google News Robotics Research",
+    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9DUUVmeUxld0NMbU5FOUZ0eGk3bzdqeUlJX1JBcXVYWHotLUlQb3pnNVhoXzhCM1VwaWZzNGlVRk5GUm9ZVFJ2ejdPM285RFNfb3RwMQ?oc=5",
+    "published_at": "2026-09-17T03:19:00+00:00",
+    "summary": "Samsung Heavy Industries prepares to deploy humanoids at shipyard, joins forces with KIRO    코리아스타트업포스트",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 9.6,
-    "why_selected": "Прямой анонс нового поколения гуманоида Digit 5 от Agility Robotics: точное совпадение с приоритетной темой humanoid, высокая технологическая значимость и свежесть (16.09), надёжный отраслевой источник TechTarget.",
+    "ai_score": 9.4,
+    "why_selected": "Явно про humanoid: Samsung Heavy Industries готовится к реальному развёртыванию гуманоидных роботов на верфи совместно с KIRO — конкретный промышленный кейс от крупной компании, высокая технологическая и общественная значимость, свежая дата.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 3,
-    "title": "The evolution of Digit: Agility Robotics’ journey from Cassie to Digit 5",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/the-evolution-of-digit-agility-robotics-journey-from-cassie-to-digit-5/",
-    "published_at": "2026-09-16T17:45:50+00:00",
-    "summary": "From Cassie, to five different versions of Digit, Agility Robotics has adapted its technology to fit industrial tasks. The post The evolution of Digit: Agility Robotics’ journey from Cassie to Digit 5 appeared first on The Robot Report .",
-    "topics": [
-      "robotics"
-    ],
-    "ai_score": 8.0,
-    "why_selected": "Экспертный разбор эволюции гуманоида Digit от Cassie до Digit 5 в профильном The Robot Report; усиливает главную новость о Digit 5, высокая технологическая значимость, но аналитический вторичный формат.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Digitthroughtheyears.jpg"
-  },
-  {
-    "rank": 4,
-    "id": 9,
-    "title": "Humanoids Summit Seoul Sets Global Physical AI Program with Official Support from South Korea’s Ministry of Science and ICT - Business Wire",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxNWVNydEFUelptcWgwN0lBbk5odUp4RWpmdjEzWmtLUlNaWDg1VDBoYVc3Tm5rSzc3ZWtodzdlOVpmNUdmTmpoODFYaXpreGsxaTdYd0t1M215aWxtdThOdzM1dk1YSGRfNkFuZVAyVFY2SlN4RUNUdVJ1bDBOZnpmOTZlbW5PRVZ5MFNidWZsSmpfenJJc2c1NTFPSEd3Qm5xZXAzZDJmcV9WSF9DQldtbWxxZERLSE5DNHFld1JfaW54cUVwZjNVdlEyTXRfSGVaMWcycjNnbnVZa0NtaE9ZSTBYeXZ3V1VBOGxyNUNpd2dEZmN4ZVFlbS0zRUZLSFNOempBc1h0Qmpzdjg?oc=5",
-    "published_at": "2026-09-16T22:55:00+00:00",
-    "summary": "Humanoids Summit Seoul Sets Global Physical AI Program with Official Support from South Korea’s Ministry of Science and ICT    Business Wire",
+    "id": 6,
+    "title": "GMO Launches Humanoid Robot Ambulance in Tokyo - Technology Org",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1vZUowTWVBd2ExQ0VoMTBSeHd5OFdTQ25reXhlanhtZ2lpTVVUUE40bkEtcWFBaHhTMDJYV3hnaXgwYVlGSUZZYmUwMnNqZFA5eDgzUG5sanRJVS1ONUVUMTZVUEhFcE9mdEFWSUNSWHh1OHJDbk1yekRUT2JpZw?oc=5",
+    "published_at": "2026-09-17T12:00:29+00:00",
+    "summary": "GMO Launches Humanoid Robot Ambulance in Tokyo    Technology Org",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 7.8,
-    "why_selected": "Humanoids Summit Seoul с программой по physical AI при официальной поддержке министерства науки и ICT Южной Кореи; прямая тема humanoid, государственная поддержка повышает значимость, официальный источник Business Wire.",
+    "ai_score": 9.1,
+    "why_selected": "Гуманоидный робот-амбуланс в Токио — явный humanoid, необычный и социально значимый сценарий применения, конкретное событие запуска, высокая новизна.",
+    "image_url": null
+  },
+  {
+    "rank": 4,
+    "id": 1,
+    "title": "Humanoid Robots Move From Demonstrations to Deployment - Robotics Tomorrow",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPVDI1Q3J0TF80eTNTMnNyWnZpVmZHZHlsX1dWMnNYWUVzeGxueU5RdzJlVzh2UVktUnhLeEJOUnBmZjZhM2xsMEhhN0ctU2ljX2tPYmRJTXh2d0xzTXRyWi1NNTFmR1BiOUhTWmpCb05YMERGV2VZYk42YzF1VlZMQjN5cm9IdE9EdmY4OENrS0pOUlJRaldRQ0RCcjFOZmYtX2FQR1ZRREVmV001YVE?oc=5",
+    "published_at": "2026-09-17T12:43:19+00:00",
+    "summary": "Humanoid Robots Move From Demonstrations to Deployment    Robotics Tomorrow",
+    "topics": [
+      "robotics",
+      "humanoid"
+    ],
+    "ai_score": 8.5,
+    "why_selected": "Явно про humanoid: переход гуманоидных роботов от демонстраций к внедрению — важная тематическая рамка для всей отрасли, свежая публикация, релевантный профильный источник.",
     "image_url": null
   },
   {
     "rank": 5,
     "id": 5,
-    "title": "Robots are waiting for a ChatGPT moment: Nvidia’s Les Karpas explains why at TechCrunch Disrupt 2026",
-    "source": "TechCrunch Robotics",
-    "url": "https://techcrunch.com/2026/09/16/robots-are-waiting-for-a-chatgpt-moment-nvidias-les-karpas-explains-why-at-techcrunch-disrupt-2026/",
-    "published_at": "2026-09-16T15:00:00+00:00",
-    "summary": "The robotics industry is still waiting for their breakthrough into day-to-day life. Nvidia's Les Karpas has an answer as to why at TechCrunch Disrupt 2026. Register before September 25 to save up to $200 on your pass.",
+    "title": "China’s D-Robotics Raises $400M in Series C Funding to Expand AI Robotics Platform - AI Insider",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOVTRPWERMekY2cE1wQ2Q4UmdCSkJEam8tU0lsSmVmLWdNcFV5TUZxbk5SWWFuempRMWR6eTM0VWVfVjA3VkVnNnR3RkQ5V00wSE05RFJ2eUlQYlpkWUN6NkVMSFdyUnV2a2psN0RtLW5yUnc3QWNBNTVHci04ZVhjZnJLVjhUR1BGT2dTdHV3VHFRbnhCUnBOMFloY3l5eFZBQ0UxbUNaMU1rX1JJSG1RNjJYcjFZZmJheUE?oc=5",
+    "published_at": "2026-09-17T11:30:39+00:00",
+    "summary": "China’s D-Robotics Raises $400M in Series C Funding to Expand AI Robotics Platform    AI Insider",
     "topics": [
       "robotics"
     ],
-    "ai_score": 7.0,
-    "why_selected": "Выступление представителя Nvidia о перспективах робототехники на TechCrunch Disrupt 2026; заметный общественный интерес и свежесть, но это отраслевой комментарий без конкретного продукта по приоритетным темам.",
-    "image_url": "https://techcrunch.com/wp-content/uploads/2025/09/Disrupt-2025-AI-Stage.jpg?resize=1200,800"
+    "ai_score": 8.2,
+    "why_selected": "Крупный раунд D-Robotics на $400 млн для расширения AI-робототехнической платформы — значимое финансирование, высокая новизна, но без прямого упоминания humanoid/robot dog/exoskeleton в заголовке.",
+    "image_url": null
   }
 ]
