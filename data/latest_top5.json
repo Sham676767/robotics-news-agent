@@ -1,77 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 1,
-    "title": "Japan's first robot ambulance works the 9-1-1 lines for humanoids - New Atlas",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFA2aUxDSkRwNU05WnM5ZG54bkdsbUhVSGcxTl9kTHRqNVJodW9ZME9zLU1uZDR6UGV2QnR4TnFDbU45OERHQnN0M1NOSS16U2IyVHBCYVljS3RjckFxZnBvVDFGU2VTZDFkQnJFd2QwdFlSYWlCZ3B2T29R?oc=5",
-    "published_at": "2026-09-20T08:03:53+00:00",
-    "summary": "Japan's first robot ambulance works the 9-1-1 lines for humanoids    New Atlas",
+    "id": 2,
+    "title": "Faraday Future Unveils Nine New Robots Across Humanoid and Quadruped Lines - AI Insider",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOWUFTaVUyYldvbzlNUFFsbGVtbElERDNEV21Cc3dwRjJxZXlyVjAtN0xKNEIteUV1QTZrRkxDTUZjX1FQZmlSVEVITWE3TDhmVDAtam9UV2xIZWtfSkxaYWt5cXZSR0ZHdHRTTnYxdDdFbnIxM3M0MjJkVmJBeWpRZm0tTkUzM1haMXU4SWc2a2lFQXRpTU1ZM1VvdUJ2c2E4LVBtMjJWX3I0bzdWcmE4Ty13?oc=5",
+    "published_at": "2026-09-21T18:17:48+00:00",
+    "summary": "Faraday Future Unveils Nine New Robots Across Humanoid and Quadruped Lines    AI Insider",
     "topics": [
+      "robot_dog",
       "humanoid"
     ],
-    "ai_score": 9.2,
-    "why_selected": "Первая в Японии роботизированная скорая помощь, работающая с линиями 9-1-1 для гуманоидов: явно указана тема humanoid, высокая новизна и общественный интерес, свежая дата, авторитетный источник New Atlas.",
+    "ai_score": 8.4,
+    "why_selected": "То же событие Faraday Future, но с акцентом на девять роботов в линейках humanoid и quadruped — двойное соответствие приоритетным темам; балл ниже из-за дублирования события и более слабого источника (агрегатор Google News).",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 6,
-    "title": "Humanoid Robots Can Outrun Usain Bolt, But Complex Tasks Are Taking Longer - The Daily Upside",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNckR1Z0d3SWJyM3ZDb1B1NFBiOGRuVGp0Qm8yNFR6T1MwdTNrUUdSXzJsWEFBR0lMY3JFLWNTU3QxMEh0RWVGSVg0SkNDNmNucHhUVG5TMFJrSDNhS3NlaHV5dDBaZU5uVjhKczRWRHhGOERhVWt6RmxkbkxwWkpjdFR0X1FhdllZM09iV1Jud3R6UXRWSWUwTEFBYTg0QnFyem9pNnVKc2VGN3NiSTZiZXRn?oc=5",
-    "published_at": "2026-09-21T04:01:00+00:00",
-    "summary": "Humanoid Robots Can Outrun Usain Bolt, But Complex Tasks Are Taking Longer    The Daily Upside",
+    "id": 1,
+    "title": "Boston Dynamics opens Metaplant Application Center to train Atlas humanoids",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/boston-dynamics-opens-metaplant-application-center-train-atlas-humanoid-robots/",
+    "published_at": "2026-09-21T12:59:00+00:00",
+    "summary": "The new Robotics Metaplant Application Center is training humanoids as part of Hyundai's Metaplant America in Georgia. The post Boston Dynamics opens Metaplant Application Center to train Atlas humanoids appeared first on The Robot Report .",
     "topics": [
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 8.8,
-    "why_selected": "Явно про гуманоидных роботов: громкое сравнение скорости с Усэйном Болтом и оговорка о сложных задачах привлекают широкую аудиторию, самая свежая карточка (21 сентября), хороший публичный интерес.",
+    "ai_score": 9.6,
+    "why_selected": "Явно про гуманоидного робота Atlas от Boston Dynamics: открытие центра обучения гуманоидов на заводе Hyundai Metaplant. Крупные бренды, высокая технологическая значимость, качественный профильный источник The Robot Report, свежая дата.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 2,
-    "title": "Neptune Medical earns FDA clearance for its Triton 1 robotic system",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/neptune-medical-earns-fda-clearance-triton-1-robotic-system/",
-    "published_at": "2026-09-18T13:22:16+00:00",
-    "summary": "Neptune said Triton can elevate any endoscopist's capabilities for screening, surveillance, and diagnostic colonoscopies. The post Neptune Medical earns FDA clearance for its Triton 1 robotic system appeared first on The Robot Report .",
+    "id": 6,
+    "title": "Agility Unveils 5th Generation Warehouse Humanoid Robot - Tomorrow's World Today",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPanBtQ3hyUXl0QndJX3JnR09Wd0RGdnhZMzUzM3RBaUQ2cExxVTVQdDE4c3h6eWx6WHk1VWNNQzhiN3d0TmliSWtpOXdKSjFzUXlWdmxfY3hSWUluV3I3MlBPTGdaMTRLenA0bFFRQ203NzI4MER4OEdtUVV1YU4tT3pmNTFaLUtZTUhSWXdxOEZaSXJzTE5jaHY1U2VOXzNrMjYw?oc=5",
+    "published_at": "2026-09-21T17:50:17+00:00",
+    "summary": "Agility Unveils 5th Generation Warehouse Humanoid Robot    Tomorrow's World Today",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 7.6,
-    "why_selected": "FDA-клиренс роботизированной системы Triton 1 для колоноскопии — конкретное технологическое и регуляторное событие в робототехнике, качественный отраслевой источник The Robot Report.",
+    "ai_score": 9.2,
+    "why_selected": "Анонс пятого поколения складского гуманоидного робота Agility — заметное событие в сегменте humanoid с сильным общественным интересом и практическим применением на складах.",
     "image_url": null
   },
   {
     "rank": 4,
     "id": 7,
-    "title": "Physical AI Robot Aims to Fully Automate Household Chores - News On Japan",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9zV0FoY3FWbmNhTEJ1Zm02RnpRSnNfLUtiQTNVdTdHUURkSG1aSXRNcnRlMmEwcDV1QjRKc1ZZaWRQWU9CbS1fUU1HQXpULXhUVkhKUA?oc=5",
-    "published_at": "2026-09-20T10:39:42+00:00",
-    "summary": "Physical AI Robot Aims to Fully Automate Household Chores    News On Japan",
+    "title": "Faraday Future Launches 5 New Robots: $9,990 To $137,900 For An Industrial Humanoid - Forbes",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNbnlCTUxMVUxfWHp0bXVvczVuSzBOLXpPRVotOUpXRWE1bkhxaTV4bE0wV214QzllbE9WWkJidWF4XzdHNGNHTl9VNnlHUW9TODQzM0VOdXNja3d4T2RXcE5TMEdCUm9tTGltZldJVy1KSGtXdWtvU0d3YlJFZUNnUi1RTHdmRjFCR3FrenpUbEVOLWdmeGs4azVKY2RvZF9IZE5SUWQ5Y3VfNDJzQTl2cHlHbFlPYlR6NW03WUIxVGJJb3dzaWt6MzUyX2g?oc=5",
+    "published_at": "2026-09-21T16:26:58+00:00",
+    "summary": "Faraday Future Launches 5 New Robots: $9,990 To $137,900 For An Industrial Humanoid    Forbes",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 7.2,
-    "why_selected": "Physical AI робот для полной автоматизации домашних дел — тема, близкая массовому читателю, свежая публикация (20 сентября), но без явного упоминания humanoid, что снижает приоритет.",
+    "ai_score": 8.8,
+    "why_selected": "Запуск пяти новых роботов Faraday Future с конкретными ценами от $9,990 до $137,900 за промышленный гуманоид: явная тема humanoid, конкретика и сильный источник Forbes повышают ценность.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 11,
-    "title": "Robotics summit focused on embodied AI opens in Hangzhou — ECNS - ua.news",
-    "source": "Google News Embodied AI Robotics",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPTEZYejZiTUE3QkRtYVpfVXdwZXRXaGVGd01VX1lpTDdGZWVFaUlJT09xRklzLUJQU0NISVk2dGpJUlk1ZDVSUjVtNmhSQi10Ulh5TXBqeTFMWVBQM25nSmE0S2RsV05RaVRITml5bHJKZjlyWVVBc3loY25VYmxERUdtSjQwSERaZTc1NHBaZXQ3RjM1Wk9PcHlOR3VybUstenRaVlJCQnZZNkk?oc=5",
-    "published_at": "2026-09-18T13:39:46+00:00",
-    "summary": "Robotics summit focused on embodied AI opens in Hangzhou — ECNS    ua.news",
+    "id": 10,
+    "title": "China Slows Humanoid Robot IPO Push as Regulators Scrutinize Valuations - AI Insider",
+    "source": "Google News Humanoid Robot Funding",
+    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQbV8zMkF6WUtXX1RTVTBSaWthSnF0UUEyVURyTHIwalc4U3ZIQ1hxRERsNXR5TUZHemRrZ0ViV1N5dHBlcmZrVzRFLWFIR3d0SFZsT3BnbDc1TEU2T0cwbi1YZjFybFFGaV9xMkRaUG5ENl91a2l6SlJhbUNjR1RIVUFpNUNldEJDTjVuWWdVMWNsYXE5TDlSTlBLSkNzSjktUDFRV1hObEhxbW1zRnc?oc=5",
+    "published_at": "2026-09-21T18:17:48+00:00",
+    "summary": "China Slows Humanoid Robot IPO Push as Regulators Scrutinize Valuations    AI Insider",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 5.8,
-    "why_selected": "Открытие саммита по embodied AI в Ханчжоу — заметное отраслевое событие в робототехнике, но информационная ценность ограничена анонсом без деталей.",
+    "ai_score": 8.0,
+    "why_selected": "Регуляторное охлаждение Китая к IPO гуманоидных роботов — важный индустриальный сигнал для темы humanoid, высокая общественная и рыночная значимость, хотя это не технологический анонс.",
     "image_url": null
   }
 ]
