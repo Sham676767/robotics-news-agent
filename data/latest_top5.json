@@ -1,79 +1,77 @@
 [
   {
     "rank": 1,
-    "id": 2,
-    "title": "Faraday Future Unveils Nine New Robots Across Humanoid and Quadruped Lines - AI Insider",
-    "source": "Google News Embodied AI Robotics",
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOWUFTaVUyYldvbzlNUFFsbGVtbElERDNEV21Cc3dwRjJxZXlyVjAtN0xKNEIteUV1QTZrRkxDTUZjX1FQZmlSVEVITWE3TDhmVDAtam9UV2xIZWtfSkxaYWt5cXZSR0ZHdHRTTnYxdDdFbnIxM3M0MjJkVmJBeWpRZm0tTkUzM1haMXU4SWc2a2lFQXRpTU1ZM1VvdUJ2c2E4LVBtMjJWX3I0bzdWcmE4Ty13?oc=5",
-    "published_at": "2026-09-21T18:17:48+00:00",
-    "summary": "Faraday Future Unveils Nine New Robots Across Humanoid and Quadruped Lines    AI Insider",
+    "id": 1,
+    "title": "Humanoid Robot Walks Off the Production Line After Assembly - Design and Development Today",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNM1dXempRY0d3VW8yMThralpZQjJtQWtmY29iNUdFWFRqWWVRZW1zSHFObXBpSGNDdURjZWltMWJCdGtXcjVZNEtNdkZ2dmx3ekxSdnF0MFMtbmxaaFlhZlpjSlhabXF1dnNDdEpiTzZ2eDJCTXZSY1kwNjNqa05sMXNpZjl5TFQtcGlCMWgwNlJvMWgxVVowSzVfQjQ0MkE3Yl8zbEtXb2JfanY3YS1uaGEtSlpnMTBZVExQZF82bjh2ejU2cFJuRU1tbnRNY2dKZTRJ?oc=5",
+    "published_at": "2026-09-22T16:02:57+00:00",
+    "summary": "Humanoid Robot Walks Off the Production Line After Assembly    Design and Development Today",
     "topics": [
-      "robot_dog",
       "humanoid"
     ],
-    "ai_score": 8.4,
-    "why_selected": "То же событие Faraday Future, но с акцентом на девять роботов в линейках humanoid и quadruped — двойное соответствие приоритетным темам; балл ниже из-за дублирования события и более слабого источника (агрегатор Google News).",
+    "ai_score": 92,
+    "why_selected": "Явно указан humanoid: гуманоидный робот самостоятельно уходит с производственной линии после сборки — зрелищная и редкая демонстрация зрелости технологии, высокая новизна и общественный интерес, свежая публикация (22.09).",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 1,
-    "title": "Boston Dynamics opens Metaplant Application Center to train Atlas humanoids",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/boston-dynamics-opens-metaplant-application-center-train-atlas-humanoid-robots/",
-    "published_at": "2026-09-21T12:59:00+00:00",
-    "summary": "The new Robotics Metaplant Application Center is training humanoids as part of Hyundai's Metaplant America in Georgia. The post Boston Dynamics opens Metaplant Application Center to train Atlas humanoids appeared first on The Robot Report .",
+    "id": 10,
+    "title": "China rolls out AI \"classrooms\" to fuel humanoid robot boom - Macau Business",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxONXFuajFiVkQzMk1xZEpBeVJoM1hzdmNIWTVNT2x4eTItWVRpaTRLSDRpb3p0dG5qQVpHX29YWHhrV2xXc0dPZHB0U29Lc2x2alBmUUhxVmp1Q3BZbFA5T3Z5aWQ3SDd1ck1tSm5SODVpUkFtN2QxbmJfVjVKMFk0d0NvOTREWmw2VW9LbA?oc=5",
+    "published_at": "2026-09-22T05:58:12+00:00",
+    "summary": "China rolls out AI \"classrooms\" to fuel humanoid robot boom    Macau Business",
     "topics": [
-      "robotics",
       "humanoid"
     ],
-    "ai_score": 9.6,
-    "why_selected": "Явно про гуманоидного робота Atlas от Boston Dynamics: открытие центра обучения гуманоидов на заводе Hyundai Metaplant. Крупные бренды, высокая технологическая значимость, качественный профильный источник The Robot Report, свежая дата.",
+    "ai_score": 88,
+    "why_selected": "Явно указан humanoid: Китай разворачивает ИИ-«классы» для ускорения бума гуманоидных роботов — государственная поддержка отрасли, значимый сигнал для рынка, свежесть и широкий общественный интерес.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 6,
-    "title": "Agility Unveils 5th Generation Warehouse Humanoid Robot - Tomorrow's World Today",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPanBtQ3hyUXl0QndJX3JnR09Wd0RGdnhZMzUzM3RBaUQ2cExxVTVQdDE4c3h6eWx6WHk1VWNNQzhiN3d0TmliSWtpOXdKSjFzUXlWdmxfY3hSWUluV3I3MlBPTGdaMTRLenA0bFFRQ203NzI4MER4OEdtUVV1YU4tT3pmNTFaLUtZTUhSWXdxOEZaSXJzTE5jaHY1U2VOXzNrMjYw?oc=5",
-    "published_at": "2026-09-21T17:50:17+00:00",
-    "summary": "Agility Unveils 5th Generation Warehouse Humanoid Robot    Tomorrow's World Today",
+    "id": 4,
+    "title": "Isaac ROS 5.0 brings AI agents to robotics development, says NVIDIA",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/isaac-ros-5-0-brings-ai-agents-robotics-development-says-nvidia/",
+    "published_at": "2026-09-22T17:51:19+00:00",
+    "summary": "The release brings new agentic workflows and platform support to NVIDIA Isaac ROS to help developers deploy robotics applications faster. The post Isaac ROS 5.0 brings AI agents to robotics development, says NVIDIA appeared first on The Robot Report .",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 9.2,
-    "why_selected": "Анонс пятого поколения складского гуманоидного робота Agility — заметное событие в сегменте humanoid с сильным общественным интересом и практическим применением на складах.",
+    "ai_score": 80,
+    "why_selected": "NVIDIA Isaac ROS 5.0 с агентными ИИ-воркфлоу — крупный релиз платформы с высокой технологической значимостью для всей робототехники, включая гуманоидов; авторитетный отраслевой источник, максимальная свежесть.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 7,
-    "title": "Faraday Future Launches 5 New Robots: $9,990 To $137,900 For An Industrial Humanoid - Forbes",
+    "id": 6,
+    "title": "YYForce Unveils 2030 Vision to Build an Integrated Human, AI and Robotics Workforce Ecosystem - SEC.gov",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNbnlCTUxMVUxfWHp0bXVvczVuSzBOLXpPRVotOUpXRWE1bkhxaTV4bE0wV214QzllbE9WWkJidWF4XzdHNGNHTl9VNnlHUW9TODQzM0VOdXNja3d4T2RXcE5TMEdCUm9tTGltZldJVy1KSGtXdWtvU0d3YlJFZUNnUi1RTHdmRjFCR3FrenpUbEVOLWdmeGs4azVKY2RvZF9IZE5SUWQ5Y3VfNDJzQTl2cHlHbFlPYlR6NW03WUIxVGJJb3dzaWt6MzUyX2g?oc=5",
-    "published_at": "2026-09-21T16:26:58+00:00",
-    "summary": "Faraday Future Launches 5 New Robots: $9,990 To $137,900 For An Industrial Humanoid    Forbes",
+    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNZGpYeG1faHZiQ3RUQkNyVVhfRGw3WFMyNWVvRVpsX1lTdGVfWFdGamtDUWdENmY2d3dsbnFUa3VTeUk0Z2I1UUFfYi1maEdqVUpQQlpDalZVTkszY3FaOFZ4SVFVYVozdUtJSmN6czQyd0ZtQVU0bGlSNC1pc1JkWng1TDRpZG9fYUs0Wg?oc=5",
+    "published_at": "2026-09-22T13:33:16+00:00",
+    "summary": "YYForce Unveils 2030 Vision to Build an Integrated Human, AI and Robotics Workforce Ecosystem    SEC.gov",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 8.8,
-    "why_selected": "Запуск пяти новых роботов Faraday Future с конкретными ценами от $9,990 до $137,900 за промышленный гуманоид: явная тема humanoid, конкретика и сильный источник Forbes повышают ценность.",
+    "ai_score": 75,
+    "why_selected": "YYForce представляет «Видение-2030» по интеграции людей, ИИ и роботов; источник — Google News Humanoid Robots, что указывает на гуманоидную тематику, официальная подача через SEC.gov повышает достоверность.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 10,
-    "title": "China Slows Humanoid Robot IPO Push as Regulators Scrutinize Valuations - AI Insider",
-    "source": "Google News Humanoid Robot Funding",
-    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQbV8zMkF6WUtXX1RTVTBSaWthSnF0UUEyVURyTHIwalc4U3ZIQ1hxRERsNXR5TUZHemRrZ0ViV1N5dHBlcmZrVzRFLWFIR3d0SFZsT3BnbDc1TEU2T0cwbi1YZjFybFFGaV9xMkRaUG5ENl91a2l6SlJhbUNjR1RIVUFpNUNldEJDTjVuWWdVMWNsYXE5TDlSTlBLSkNzSjktUDFRV1hObEhxbW1zRnc?oc=5",
-    "published_at": "2026-09-21T18:17:48+00:00",
-    "summary": "China Slows Humanoid Robot IPO Push as Regulators Scrutinize Valuations    AI Insider",
+    "id": 9,
+    "title": "Toyota’s $6.4bn robotics estimate puts physical AI in focus - AI News",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQTFVCQjFPWVM3aTllN0pNYXhQU0hUTDJ4aWUwVFBXZ3VQRXBCbkd4OW9jT205RUFxN252NDlnblcxRXpDZFhRdjczbUNWWlMzU2FleFJ3RU1vbDZCNXgzd2N0VDVWU01TcmpvU25GNDBKOXEtbk1lcVFFNlRfYUFSZndPc0daMmR3UUdZcjVR?oc=5",
+    "published_at": "2026-09-22T10:01:32+00:00",
+    "summary": "Toyota’s $6.4bn robotics estimate puts physical AI in focus    AI News",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 8.0,
-    "why_selected": "Регуляторное охлаждение Китая к IPO гуманоидных роботов — важный индустриальный сигнал для темы humanoid, высокая общественная и рыночная значимость, хотя это не технологический анонс.",
+    "ai_score": 72,
+    "why_selected": "Оценка Toyota в $6,4 млрд на робототехнику выводит physical AI в фокус — крупный инвестиционный сигнал с высоким общественным интересом, свежая публикация, релевантно для гуманоидных программ компании.",
     "image_url": null
   }
 ]
