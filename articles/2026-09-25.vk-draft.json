@@ -1,0 +1,26 @@
+{
+  "status": "review_required",
+  "publication_performed": false,
+  "message": "🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ ДНЯ\n\nОсновные события в робототехнике: стратегия Китая и развитие квадрупедов\n\nВ этом выпуске рассматриваются стратегические направления Китая в embodied AI и гуманоидных роботах, а также достижения в области квадрупедов. Отдельное внимание уделено технологическим инновациям и изменениям на рынке автономных систем. Эти события отражают актуальные тенденции в индустрии робототехники.\n\n1️⃣ Китай сосредотачивается на embodied AI и гуманоидных роботах в своей промышленной стратегии\n\nВ обзоре дорожных карт робототехники выделена стратегия Китая по развитию embodied AI и гуманоидных роботов. Эта стратегия опирается на масштабную производственную инфраструктуру страны. В статье отмечается, что китайские роботы появились на массовых мероприятиях и быстро вошли в общественное сознание.\n\n🔗 Источник: Robohub\nhttps://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-china/\n\n2️⃣ Робот-собака KAIST прошёл марафон на одном заряде аккумулятора\n\nКоманда из KAIST продемонстрировала четырёхногого робота, способного пройти марафонскую дистанцию на одном заряде. Робот завершил Sangju Marathon в Южной Корее за 4 часа 19 минут, двигаясь вместе с людьми. По данным источника, автономность робота в три раза превышает показатели существующих моделей.\n\n🔗 Источник: Tech Xplore Robotics\nhttps://techxplore.com/news/2026-09-robot-dog-marathon-battery.html\n\n3️⃣ Qualcomm приобретает PickNik Robotics и сохраняет MoveIt в открытом доступе\n\nQualcomm объявила о приобретении PickNik Robotics с целью интеграции платформ Dragonwing и Arduino с фреймворком MoveIt. При этом MoveIt останется open-source, что важно для экосистемы робототехники. Сделка отражает стратегический интерес Qualcomm к развитию робототехнических платформ.\n\n🔗 Источник: The Robot Report\nhttps://www.therobotreport.com/qualcomm-acquires-picknik-robotics-keep-moveit-open-source/\n\n4️⃣ ANYbotics расширяет возможности квадрупеда ANYmal для доступа в здания\n\nANYbotics совместно с dormakaba и LEGIC Identsystems реализовали возможность для робота ANYmal получать доступ в здания наравне с сотрудниками. Это партнёрство позволяет использовать квадрупеда в автономных инспекциях с расширенными сценариями доступа. Информация подтверждается публикацией в профильном источнике.\n\n🔗 Источник: The Robot Report\nhttps://www.therobotreport.com/anybotics-opens-the-door-for-inspections-with-anymal-robots/\n\n5️⃣ Unitree занимает первое место на рынке квадрупедов, Agibot и Deep Robotics борются за второе\n\nАналитика рынка квадрупедов показывает, что Unitree занимает первое место по продажам и популярности. Agibot и Deep Robotics конкурируют за вторую позицию. Данные отражают текущую конкурентную ситуацию в сегменте роботов-собак.\n\n🔗 Источник: Google News Robot Dogs\nhttps://news.google.com/rss/articles/CBMiU0FVX3lxTE14dDBpVjQwYS04c1NDTzlJR1pXNVhUY0gzT1FFajMzNDdma3ZlMmdadGRMX1JIMmlkME1QM0xpeDJwazcyYW1QNDhHUjZGaGEwcTVz?oc=5\n\n—\n🤖 Пять событий дня без рекламных обещаний и неподтверждённых выводов.",
+  "image_sources": [
+    {
+      "item_index": 1,
+      "headline": "Китай сосредотачивается на embodied AI и гуманоидных роботах в своей промышленной стратегии",
+      "image_url": "https://robohub.org/wp-content/uploads/2026/09/STB-china.jpeg",
+      "source_url": "https://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-china/"
+    },
+    {
+      "item_index": 3,
+      "headline": "Qualcomm приобретает PickNik Robotics и сохраняет MoveIt в открытом доступе",
+      "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Qualcomm-Linux-2.0-upstream-kernel-Dragonwing.jpg",
+      "source_url": "https://www.therobotreport.com/qualcomm-acquires-picknik-robotics-keep-moveit-open-source/"
+    },
+    {
+      "item_index": 4,
+      "headline": "ANYbotics расширяет возможности квадрупеда ANYmal для доступа в здания",
+      "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/ANYbotics-Door-Opening-Inspection_02.jpg",
+      "source_url": "https://www.therobotreport.com/anybotics-opens-the-door-for-inspections-with-anymal-robots/"
+    }
+  ],
+  "note": "Это черновик. Изображения перечислены как исходные URL и не были загружены в VK. Публикация возможна только отдельным подтверждённым запуском."
+}

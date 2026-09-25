@@ -1,80 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 1,
-    "title": "Humanoid robots navigate narrow gaps and obstacles with whole-body AI control",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-humanoid-robots-narrow-gaps-obstacles.html",
-    "published_at": "2026-09-23T06:20:01+00:00",
-    "summary": "Humanoid robots, robotic systems with a human-like body structure, could assist people in homes, offices, health care facilities, public spaces and various other environments. Before they can be reliably deployed in these settings, however, robots should be able to safely navigate cluttered and dynamic environments.",
+    "id": 2,
+    "title": "Robotics roadmaps from around the world spotlight of the month: China",
+    "source": "Robohub",
+    "url": "https://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-china/",
+    "published_at": "2026-09-23T08:20:26+00:00",
+    "summary": "China is targeting the next industrial revolution by doubling down on embodied AI and humanoid robotics, building directly on its vast manufacturing infrastructure. By Ellen H. Rumley and Allison Okamura Beyond the Robot Olympics Chinese robots have quickly entered global public consciousness in recent years, appearing as background robo-dancers in pop concerts and as humanoid […]",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 93,
-    "why_selected": "Явно гуманоидная тематика: whole-body AI для навигации в узких проходах и среди препятствий — ключевой барьер на пути к бытовому и медицинскому применению. Высокая технологическая значимость, свежая публикация, профильный источник.",
-    "image_url": null
+    "ai_score": 9.2,
+    "why_selected": "Обзор дорожных карт робототехники с фокусом на стратегию Китая в embodied AI и гуманоидных роботах. Явное упоминание humanoid, высокая индустриальная и геополитическая значимость, свежая публикация авторитетного источника.",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/09/STB-china.jpeg"
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "Can you lend me a hand? Researchers are developing wearable robotic limbs",
+    "id": 7,
+    "title": "Robot dog runs a marathon on a single battery charge",
     "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-wearable-robotic-limbs.html",
-    "published_at": "2026-09-23T16:20:01+00:00",
-    "summary": "How many times have you asked someone to hold open a door while carrying something, or fumbled with your front-door keys with your arms full of groceries? Wouldn't it be great if you could give yourself the extra hand you need?",
+    "url": "https://techxplore.com/news/2026-09-robot-dog-marathon-battery.html",
+    "published_at": "2026-09-23T16:00:16+00:00",
+    "summary": "A four-legged robot that can complete a marathon on a single battery charge has been demonstrated by a team from KAIST. The robot, which completed the Sangju Marathon in South Korea in 4 hours and 19 minutes alongside human runners, traveled three times as far per charge than existing robots and could pave the way for improved battery life in legged robots.",
     "topics": [
-      "exoskeleton"
+      "robot_dog"
     ],
-    "ai_score": 89,
-    "why_selected": "Носимые роботизированные конечности — прямое попадание в тему экзоскелетов. Понятный общественный интерес (дополнительная «третья рука» в быту), свежесть, авторитетный источник.",
+    "ai_score": 9.6,
+    "why_selected": "Робот-собака KAIST прошла марафон на одном заряде за 4:19, превзойдя существующие модели по автономности в 3 раза. Явная quadruped-тема, высокая новизна, технологическая значимость (энергопотребление шагающих роботов) и широкий общественный интерес.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 7,
-    "title": "NVIDIA Isaac ROS 5.0 Advances Agentic, Open Source Robotics Development",
-    "source": "NVIDIA Robotics",
-    "url": "https://blogs.nvidia.com/blog/isaac-ros-5-0-agentic-open-source-robotics/",
-    "published_at": "2026-09-22T12:00:41+00:00",
-    "summary": "To build and deploy sophisticated robotics applications that can perceive, reason and act in dynamic environments, developers need new physical AI models and tools. The ROS open framework is a project from Open Robotics that helps humans build robots. NVIDIA Isaac ROS 5.0 — a collection of GPU-accelerated packages built on ROS, released today at […]",
+    "id": 4,
+    "title": "Qualcomm to acquire PickNik Robotics and keep MoveIt open-source",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/qualcomm-acquires-picknik-robotics-keep-moveit-open-source/",
+    "published_at": "2026-09-23T11:29:32+00:00",
+    "summary": "Qualcomm plans to integrate the Dragonwing and Arduino platforms with the MoveIt open-source manipulation framework. The post Qualcomm to acquire PickNik Robotics and keep MoveIt open-source appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 85,
-    "why_selected": "Релиз NVIDIA Isaac ROS 5.0 — значимое событие для всей робототехнической экосистемы: GPU-ускоренные пакеты на базе ROS для physical AI. Высокая технологическая значимость и первоисточник (NVIDIA).",
-    "image_url": "https://blogs.nvidia.com/wp-content/uploads/2026/09/robotics-blog-corp-blog-ROSCon26-1920x1080-1.jpeg"
+    "ai_score": 8.8,
+    "why_selected": "Qualcomm приобретает PickNik Robotics и сохраняет MoveIt в open-source. Крупная сделка с влиянием на всю экосистему робототехники и манипуляции; значима для отрасли, хотя тема — общий robotics без приоритетных подкатегорий.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Qualcomm-Linux-2.0-upstream-kernel-Dragonwing.jpg"
   },
   {
     "rank": 4,
-    "id": 11,
-    "title": "Toborlife AI launches full-body teleoperation system for Unitree G1 humanoid robot - Robotics & Automation News",
-    "source": "Google News Robotics Research",
-    "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNaERJMUlhVS1ZZUhCeW1ZS1ZpQXRObUZwWkVPMjhVQTV1WDRXUXR3NlZVMTA0WTVjN2JVaHh6T214VE5WYVdxNXAtMHV0REFEQ2FRdW5sWVRpbE9LZllIWnBfZ2VCSHFYbzN0T0dZRVU4ZXdoM2Jja1NjbVRIT0txM3loWDBpS19INGJvQnBZcmpfRlgyeGk5Rm84WTRWUE1zaF9Da3J2UWVXREw5dW1hZjcwS1FLMnRiVkdIT1FPM1Bpb0JqV1VkUk5kN2pMMEZHcDBVRFBB?oc=5",
-    "published_at": "2026-09-23T19:10:48+00:00",
-    "summary": "Toborlife AI launches full-body teleoperation system for Unitree G1 humanoid robot    Robotics & Automation News",
+    "id": 1,
+    "title": "ANYbotics opens the door for inspections with ANYmal robots",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/anybotics-opens-the-door-for-inspections-with-anymal-robots/",
+    "published_at": "2026-09-24T13:27:58+00:00",
+    "summary": "ANYbotics partnered with dormakaba and LEGIC Identsystems to enable the ANYmal quadruped to gain access like a badged employee. The post ANYbotics opens the door for inspections with ANYmal robots appeared first on The Robot Report .",
     "topics": [
-      "robotics",
-      "humanoid"
+      "robot_dog"
     ],
-    "ai_score": 82,
-    "why_selected": "Система полно-body телеперации для гуманоида Unitree G1 — явно гуманоидная новость с практическим применением. Свежая, но источник — агрегатор, а подробности в карточке скудны.",
-    "image_url": null
+    "ai_score": 8.5,
+    "why_selected": "ANYmal quadruped от ANYbotics получает доступ в помещения как бейджированный сотрудник (партнёрство с dormakaba и LEGIC). Явная robot dog тема, практическое расширение сценариев автономных инспекций, свежая новость от профильного источника.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/ANYbotics-Door-Opening-Inspection_02.jpg"
   },
   {
     "rank": 5,
-    "id": 8,
-    "title": "RLWRLD outlines ‘deployment-first’ physical AI strategy for industrial humanoids - Robotics & Automation News",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNMEFHZ080VDNvazJpV0RudnVHcGcycFZxNHo0QTNETklFbzBIMmVUbnNQd0FJSlpobXQzZk5YZUY3RnFCekpmazFKeDBNSXBVTTV3MXc3OGVnV1F5c2oyRkJuQ0RXMzVpRmFJYm9xanpUMnNSazlQbXdnVWFxVEdQYS1UQkgwalhkODdtYkFmZUdpbEhYOUVjNVBOZHdNLWc2b1pTd0M2WlJZNjl6NnBYWU1WYk1od2JMUUJpNG1WOVF0WkRHZDAwaHRnbGFQZDFC?oc=5",
-    "published_at": "2026-09-23T17:03:50+00:00",
-    "summary": "RLWRLD outlines ‘deployment-first’ physical AI strategy for industrial humanoids    Robotics & Automation News",
+    "id": 12,
+    "title": "Quadruped Robots: Unitree ranks first, with Agibot and Deep Robotics vying for the second place? - eu.36kr.com",
+    "source": "Google News Robot Dogs",
+    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE14dDBpVjQwYS04c1NDTzlJR1pXNVhUY0gzT1FFajMzNDdma3ZlMmdadGRMX1JIMmlkME1QM0xpeDJwazcyYW1QNDhHUjZGaGEwcTVz?oc=5",
+    "published_at": "2026-09-24T16:02:19+00:00",
+    "summary": "Quadruped Robots: Unitree ranks first, with Agibot and Deep Robotics vying for the second place?    eu.36kr.com",
     "topics": [
       "robotics",
-      "humanoid"
+      "robot_dog"
     ],
-    "ai_score": 78,
-    "why_selected": "Стратегия «deployment-first» RLWRLD для промышленных гуманоидов — явно гуманоидная тема и важный сигнал о коммерциализации. Минус: короткая карточка и вторичный источник (Google News).",
+    "ai_score": 7.8,
+    "why_selected": "Рыночный расклад квадрупедов: Unitree на первом месте, Agibot и Deep Robotics борются за второе. Явная robot dog/quadruped тема, полезная аналитика конкуренции на ключевом рынке, но вторичность по отношению к первоисточнику снижает оценку.",
     "image_url": null
   }
 ]
