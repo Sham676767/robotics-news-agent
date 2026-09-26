@@ -1,79 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 2,
-    "title": "Robotics roadmaps from around the world spotlight of the month: China",
-    "source": "Robohub",
-    "url": "https://robohub.org/robotics-roadmaps-from-around-the-world-spotlight-of-the-month-china/",
-    "published_at": "2026-09-23T08:20:26+00:00",
-    "summary": "China is targeting the next industrial revolution by doubling down on embodied AI and humanoid robotics, building directly on its vast manufacturing infrastructure. By Ellen H. Rumley and Allison Okamura Beyond the Robot Olympics Chinese robots have quickly entered global public consciousness in recent years, appearing as background robo-dancers in pop concerts and as humanoid […]",
+    "id": 1,
+    "title": "Agility Robotics, maker of Digit humanoid, exploring wheeled robots",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/agility-robotics-maker-of-digit-humanoid-exploring-wheeled-robots/",
+    "published_at": "2026-09-25T14:08:27+00:00",
+    "summary": "Agility Robotics is exploring a range of robot designs and form factors, including wheels, to address different operating environments and customer needs. The post Agility Robotics, maker of Digit humanoid, exploring wheeled robots appeared first on The Robot Report .",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 9.2,
-    "why_selected": "Обзор дорожных карт робототехники с фокусом на стратегию Китая в embodied AI и гуманоидных роботах. Явное упоминание humanoid, высокая индустриальная и геополитическая значимость, свежая публикация авторитетного источника.",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/09/STB-china.jpeg"
+    "ai_score": 76,
+    "why_selected": "Agility Robotics (производитель Digit humanoid) исследует колёсные платформы — стратегически важный сигнал для рынка гуманоидов; свежая дата и профильный источник The Robot Report.",
+    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/agility-robotics-wheeled-robot.png"
   },
   {
     "rank": 2,
-    "id": 7,
-    "title": "Robot dog runs a marathon on a single battery charge",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-robot-dog-marathon-battery.html",
-    "published_at": "2026-09-23T16:00:16+00:00",
-    "summary": "A four-legged robot that can complete a marathon on a single battery charge has been demonstrated by a team from KAIST. The robot, which completed the Sangju Marathon in South Korea in 4 hours and 19 minutes alongside human runners, traveled three times as far per charge than existing robots and could pave the way for improved battery life in legged robots.",
+    "id": 2,
+    "title": "China Wants Robot Dogs to Join Astronauts in Space - Thomasnet",
+    "source": "Google News Robot Dogs",
+    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOVTZTLTVaSjllSm82N3hOWUdZdl85OHR4LVhtVVlDWlBBcWlOOGZEUi1HQ2xGLXVVS3RGSy10Q2I0aHpNakNGV2dwbU5JaVVKLWZXSzdiSHEweFhFWnd2aC10OFhkM0JzclNyUWlST0FjVEVxekFlUzR2djVRQkhrd2dfenZkcERVZV94N0J3?oc=5",
+    "published_at": "2026-09-25T17:01:55+00:00",
+    "summary": "China Wants Robot Dogs to Join Astronauts in Space    Thomasnet",
     "topics": [
       "robot_dog"
     ],
-    "ai_score": 9.6,
-    "why_selected": "Робот-собака KAIST прошла марафон на одном заряде за 4:19, превзойдя существующие модели по автономности в 3 раза. Явная quadruped-тема, высокая новизна, технологическая значимость (энергопотребление шагающих роботов) и широкий общественный интерес.",
+    "ai_score": 88,
+    "why_selected": "Роботы-собаки для космических миссий Китая — редкая и высокоинтересная новость в теме robot dog; свежая, но источник Thomasnet вторичен и без деталей.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 4,
-    "title": "Qualcomm to acquire PickNik Robotics and keep MoveIt open-source",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/qualcomm-acquires-picknik-robotics-keep-moveit-open-source/",
-    "published_at": "2026-09-23T11:29:32+00:00",
-    "summary": "Qualcomm plans to integrate the Dragonwing and Arduino platforms with the MoveIt open-source manipulation framework. The post Qualcomm to acquire PickNik Robotics and keep MoveIt open-source appeared first on The Robot Report .",
+    "id": 9,
+    "title": "Feather Launches $29,990 Humanoid Robot. Small Teams Are Rewriting The Economics Of Humanoids - Forbes",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQT0JxeElwZ1N3VkhGa1RyOF9nWUVqd1BDendQNnpmNmFiMW1MWHBPcGpvUVpDU2R2dUZmaTZ0UEtfUjNKT1dORzF2WGs3WERja1RDNjMtb3hHbS1FWGVKZDJXQ1h5TjI4czNTV3p3LUN4UFVmeURBRm5CS1hBTk8xSGsxQTZ5dWJjUFpEMTZfSEhVekcyb0o4RHl0RzhvUm9yeHdNQ1pUWWJHUjVpM091a2R5QTZqUFlqUFNGZ0prSzRDaXpyeGJYYl84ZHkyZW54cTluWFJZdDk1S0Fl?oc=5",
+    "published_at": "2026-09-25T22:20:29+00:00",
+    "summary": "Feather Launches $29,990 Humanoid Robot. Small Teams Are Rewriting The Economics Of Humanoids    Forbes",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 8.8,
-    "why_selected": "Qualcomm приобретает PickNik Robotics и сохраняет MoveIt в open-source. Крупная сделка с влиянием на всю экосистему робототехники и манипуляции; значима для отрасли, хотя тема — общий robotics без приоритетных подкатегорий.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/Qualcomm-Linux-2.0-upstream-kernel-Dragonwing.jpg"
+    "ai_score": 92,
+    "why_selected": "Запуск гуманоидного робота Feather за $29 990 — прямое попадание в тему humanoid, потенциально меняет экономику сегмента; свежая дата (25.09) и качественный источник Forbes.",
+    "image_url": null
   },
   {
     "rank": 4,
-    "id": 1,
-    "title": "ANYbotics opens the door for inspections with ANYmal robots",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/anybotics-opens-the-door-for-inspections-with-anymal-robots/",
-    "published_at": "2026-09-24T13:27:58+00:00",
-    "summary": "ANYbotics partnered with dormakaba and LEGIC Identsystems to enable the ANYmal quadruped to gain access like a badged employee. The post ANYbotics opens the door for inspections with ANYmal robots appeared first on The Robot Report .",
+    "id": 11,
+    "title": "Tutor Launches Automated Humanoid Robots for Warehouses - Supply & Demand Chain Executive",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQdVJ6eXlRR0UzQWQyWUxDUWhlRHZwaThGRS1xZ0RfVWV6Ql9DWVhrZmtpVGl2REFpaXZVYUtZUEJhTlZXVUl1amZNNTNRTWkyRXZYRE93TUhKVlJDMnBZRFVmNVZSb0xaUXdJcXkteUhpbjJIdUF1bjNvdWxaOXFaMl9KNDN5dTZmSUkxQU41RWJDanBVbDhFbzJFNkRPVFY4WWRlWHNaay1SYzdWVnpfUy1hdHcyTFJBRWx5bw?oc=5",
+    "published_at": "2026-09-25T14:39:23+00:00",
+    "summary": "Tutor Launches Automated Humanoid Robots for Warehouses    Supply & Demand Chain Executive",
     "topics": [
-      "robot_dog"
+      "humanoid"
     ],
-    "ai_score": 8.5,
-    "why_selected": "ANYmal quadruped от ANYbotics получает доступ в помещения как бейджированный сотрудник (партнёрство с dormakaba и LEGIC). Явная robot dog тема, практическое расширение сценариев автономных инспекций, свежая новость от профильного источника.",
-    "image_url": "https://www.therobotreport.com/wp-content/uploads/2026/09/ANYbotics-Door-Opening-Inspection_02.jpg"
+    "ai_score": 80,
+    "why_selected": "Коммерческий запуск гуманоидных роботов для складов — значимая новость в теме humanoid, свежая (25.09), но источник нишевый и без подробностей.",
+    "image_url": null
   },
   {
     "rank": 5,
-    "id": 12,
-    "title": "Quadruped Robots: Unitree ranks first, with Agibot and Deep Robotics vying for the second place? - eu.36kr.com",
-    "source": "Google News Robot Dogs",
-    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE14dDBpVjQwYS04c1NDTzlJR1pXNVhUY0gzT1FFajMzNDdma3ZlMmdadGRMX1JIMmlkME1QM0xpeDJwazcyYW1QNDhHUjZGaGEwcTVz?oc=5",
-    "published_at": "2026-09-24T16:02:19+00:00",
-    "summary": "Quadruped Robots: Unitree ranks first, with Agibot and Deep Robotics vying for the second place?    eu.36kr.com",
+    "id": 10,
+    "title": "Japanese humanoid robotics startup O-ID raises $1.2 million to move modular robot into production - Robotics & Automation News",
+    "source": "Google News Humanoid Robot Funding",
+    "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPT1MyRTFZOGZiWHp0MmhxWEo0TTR2SHljX25zZFFES0wzdHBUeTRoOE1yLWVlYzZQbGEzbkJNc0Z2THFRbVNLaUhyMGRFc1FlaklBQ0Y5NlRPQWxxRkwtdHhnZTkzV0k0MEZ2QnR4Y0NoV1JwR2w1U05TN1JHN05IZTUzbkR2RVphNGlyOHR5RGdDVW1sbHhVOGR4cEg3N2ZfUWMyalFLc01vSU83MXhTOGJoV2hTaGNrR2Jvdm55V3pIcEZmWVg1OGZncnpLdE5JTjVsZ3ZVRXVYTGJ5VmtpYlpsUFdjY21W?oc=5",
+    "published_at": "2026-09-24T22:14:49+00:00",
+    "summary": "Japanese humanoid robotics startup O-ID raises $1.2 million to move modular robot into production    Robotics & Automation News",
     "topics": [
       "robotics",
-      "robot_dog"
+      "humanoid"
     ],
-    "ai_score": 7.8,
-    "why_selected": "Рыночный расклад квадрупедов: Unitree на первом месте, Agibot и Deep Robotics борются за второе. Явная robot dog/quadruped тема, полезная аналитика конкуренции на ключевом рынке, но вторичность по отношению к первоисточнику снижает оценку.",
+    "ai_score": 72,
+    "why_selected": "Японский стартап O-ID привлёк $1,2 млн для вывода модульного гуманоида в производство — тематически релевантно (humanoid), но сумма небольшая и источник вторичный.",
     "image_url": null
   }
 ]
