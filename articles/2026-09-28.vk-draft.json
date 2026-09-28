@@ -1,0 +1,26 @@
+{
+  "status": "review_required",
+  "publication_performed": false,
+  "message": "🤖 РОБОТОТЕХНИКА — ДАЙДЖЕСТ ДНЯ\n\nРазвитие экзоскелетов, гуманоидных роботов и новых технологий в робототехнике\n\nВ робототехнике появляются новые решения для реабилитации и массового производства гуманоидных роботов. Также отмечается применение инновационных аккумуляторов и открытие части программной платформы для разработчиков. В области мягкой робототехники представлен робот с автономным движением на основе инфракрасного света.\n\n1️⃣ FDA одобрила коммерческую продажу экзоскелета Eve для пациентов с травмами спинного мозга\n\nФранцузская компания Wandercraft получила разрешение от FDA на продажу экзоскелета Eve. Устройство позволяет людям с травмами спинного мозга самостоятельно стоять и выполнять бытовые действия. Одобрение подтверждает соответствие медицинским стандартам и открывает путь к применению экзоскелета.\n\n🔗 Источник: New Atlas Robotics\nhttps://newatlas.com/robotics/wandercraft-eve-exoskeleton-self-balancing/\n\n2️⃣ Foxconn и Alter создают Beijing Futekang для массового производства гуманоидных роботов\n\nКомпании Foxconn и Alter объявили о создании совместного предприятия Beijing Futekang. Цель проекта — запуск платформы для серийного производства гуманоидных роботов. Это свидетельствует о намерении развивать массовое производство гуманоидных систем.\n\n🔗 Источник: Google News Humanoid Robots\nhttps://news.google.com/rss/articles/CBMi7AFBVV95cUxQTmFJMFNDOXE3dzVvaXNmNE93a0F2blU3ai1pOFFmMzFGUXlCREgzVzhyb0w1WDZId0d0a2VnMURod3VFQkp1Mk1kaHJrWm14NHA1MFEyaERTRExYcE1UanBheWwtSUxYTk1TVHo2R25Zd1VudzZ6d2pKVFBobXZsa3VScWZsSVBkQk5ZSDBTTjdKTERwaHdNYjhaa25ERFU4T3QxSnZIUTVsRUZtQ3BZUmVlTW1aYXZpWGRTOHBwVTJMMEdTbXJXcHdRUUpwUnFqR2NXZ3k2SVZ6WXNRVS1OSDJ3UE94U0JsOVFZOA?oc=5\n\n3️⃣ Твердотельные аккумуляторы впервые тестируют на гуманоидных роботах\n\nТвердотельные аккумуляторы применяются в качестве испытательного стенда на гуманоидных роботах. Такой подход отличается от традиционного тестирования на электромобилях. Это отражает пересечение энергетических инноваций и развития гуманоидных роботов.\n\n🔗 Источник: Google News Humanoid Robots\nhttps://news.google.com/rss/articles/CBMidkFVX3lxTFBoSWt1UjdNNGxhX2tCcWVpS1JraWdmRGJGM0RZVVE1eS1paHBHcTZfcnZtWXRXcGgtWmJWU1c0NEZReFRwb1NkLXlTR01tOEdiYXFxN3lCOFJHb2F5b0ZJT1RaQlFpb3FYWlJUeXVpX2NXZjlaOFE?oc=5\n\n4️⃣ Intrinsic (Google) открывает часть платформы Intrinsic Core для разработки роботов\n\nКомпания Intrinsic, входящая в структуру Google, открыла часть платформы Intrinsic Core. Платформа совместима с ROS и предназначена для создания сложных робототехнических приложений. Открытие направлено на поддержку экосистемы разработки роботов.\n\n🔗 Источник: Robohub\nhttps://robohub.org/an-open-source-approach-to-physical-ai-from-intrinsic/\n\n5️⃣ Мягкий робот на заводной пружине прыгает, используя инфракрасный свет\n\nИсследователи из Северокаролинского государственного университета создали мягкого робота, который прыгает бесконечно долго. Робот использует энергию инфракрасного света для подзарядки заводной пружины. Эксперимент демонстрирует новые возможности в мягкой робототехнике и энергоавтономных системах.\n\n🔗 Источник: New Atlas Robotics\nhttps://newatlas.com/robotics/elastic-robot-jump-infrared-light/\n\n—\n🤖 Пять событий дня без рекламных обещаний и неподтверждённых выводов.",
+  "image_sources": [
+    {
+      "item_index": 1,
+      "headline": "FDA одобрила коммерческую продажу экзоскелета Eve для пациентов с травмами спинного мозга",
+      "image_url": "https://assets.newatlas.com/dims4/default/2775d25/2147483647/strip/true/crop/5521x2899+0+391/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F6f%2Ffc%2F98366a494aca9db584558c2ed156%2F3j0a7437.png&na.image_optimisation=0",
+      "source_url": "https://newatlas.com/robotics/wandercraft-eve-exoskeleton-self-balancing/"
+    },
+    {
+      "item_index": 4,
+      "headline": "Intrinsic (Google) открывает часть платформы Intrinsic Core для разработки роботов",
+      "image_url": "https://robohub.org/wp-content/uploads/2026/09/DeborahLupton-PopChips-1280x678-1-1024x542.jpg",
+      "source_url": "https://robohub.org/an-open-source-approach-to-physical-ai-from-intrinsic/"
+    },
+    {
+      "item_index": 5,
+      "headline": "Мягкий робот на заводной пружине прыгает, используя инфракрасный свет",
+      "image_url": "https://assets.newatlas.com/dims4/default/c2a1db8/2147483647/strip/true/crop/2133x1120+0+132/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fec%2F99%2F1ecc813b4a74bb5d39ec065857ae%2Fjie-yin-jumping-ring-header-full.jpg&na.image_optimisation=0",
+      "source_url": "https://newatlas.com/robotics/elastic-robot-jump-infrared-light/"
+    }
+  ],
+  "note": "Это черновик. Изображения перечислены как исходные URL и не были загружены в VK. Публикация возможна только отдельным подтверждённым запуском."
+}

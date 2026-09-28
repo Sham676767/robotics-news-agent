@@ -1,77 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 3,
-    "title": "China Wants Robot Dogs to Join Astronauts in Space - Thomasnet",
-    "source": "Google News Robot Dogs",
-    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPSWUxczM5eFA5eGJ1eF9pS1lIcUdwcWlnbGdQVWxweHRoS0dabW4wX3U5Rzh5a24wcUpZVDFXdkU3bk93MnRaQUZLWWI1Wl9tM1VDczZRMG5fMFRiWnNybE84aWJiQ0JuSUMwUmRCRVNGbEY0WEdTLU1TZXg3T2EtbTVQa1FwcWRWbWUzYmwtNA?oc=5",
-    "published_at": "2026-09-25T17:01:55+00:00",
-    "summary": "China Wants Robot Dogs to Join Astronauts in Space    Thomasnet",
+    "id": 2,
+    "title": "FDA-cleared exoskeleton puts spinal-cord patients back on their feet",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/wandercraft-eve-exoskeleton-self-balancing/",
+    "published_at": "2026-09-27T08:03:00+00:00",
+    "summary": "A robotic suit that lets someone with a spinal-cord injury stand up, look a friend in the eye, or stir a pot on the stove without anyone's help just cleared its biggest hurdle. The US Food and Drug Administration (FDA), the agency that vets medical devices before they reach the public, has authorized commercial sale of Eve, a personal exoskeleton built by French company Wandercraft. Continue Reading Category: Robotics , Engineering Tags: Robotics , Exoskeleton , Mobility , Wearable",
     "topics": [
-      "robot_dog"
+      "robotics",
+      "exoskeleton"
     ],
-    "ai_score": 95,
-    "why_selected": "Роботы-собаки в космосе — явно указана тема robot dog, высокая новизна и общественный интерес, свежая дата.",
-    "image_url": null
+    "ai_score": 9.6,
+    "why_selected": "Явный экзоскелет: FDA выдала разрешение на коммерческие продажи персонального экзоскелета Eve (Wandercraft) для пациентов с травмой спинного мозга. Регуляторная веха, сильный человеческий интерес, качественный источник (New Atlas), свежая дата.",
+    "image_url": "https://assets.newatlas.com/dims4/default/2775d25/2147483647/strip/true/crop/5521x2899+0+391/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F6f%2Ffc%2F98366a494aca9db584558c2ed156%2F3j0a7437.png&na.image_optimisation=0"
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "China's exoskeleton robots muscle into the consumer mainstream - asia.nikkei.com",
-    "source": "Google News Consumer Exoskeletons",
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPVFZuWC1QRE9tT3VmRi0tbzVNNDd5SjFsTmQtNk9wZHlMNEg3Q09WX2VTOEF3eDRaN0EwVDVkR3lRd0toNDVIenZ6RUpUcGxVYlpTYVdVQTNHSkNrMVdJdzVJdUVmQTBfV0ZRVWU3aEk5WXlSU0I4b0Jpc1k1QmhFbk5BaHZtd2FqZVV3S3NnRWVCSWEySXBtdi1Mc1pvcVNhMFRvQUJMSmRUQQ?oc=5",
-    "published_at": "2026-09-27T04:46:00+00:00",
-    "summary": "China's exoskeleton robots muscle into the consumer mainstream    asia.nikkei.com",
+    "id": 1,
+    "title": "Foxconn and Alter form Beijing Futekang to launch humanoid robot mass production platform - Global Sources",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTmFJMFNDOXE3dzVvaXNmNE93a0F2blU3ai1pOFFmMzFGUXlCREgzVzhyb0w1WDZId0d0a2VnMURod3VFQkp1Mk1kaHJrWm14NHA1MFEyaERTRExYcE1UanBheWwtSUxYTk1TVHo2R25Zd1VudzZ6d2pKVFBobXZsa3VScWZsSVBkQk5ZSDBTTjdKTERwaHdNYjhaa25ERFU4T3QxSnZIUTVsRUZtQ3BZUmVlTW1aYXZpWGRTOHBwVTJMMEdTbXJXcHdRUUpwUnFqR2NXZ3k2SVZ6WXNRVS1OSDJ3UE94U0JsOVFZOA?oc=5",
+    "published_at": "2026-09-28T03:33:45+00:00",
+    "summary": "Foxconn and Alter form Beijing Futekang to launch humanoid robot mass production platform    Global Sources",
     "topics": [
-      "exoskeleton"
+      "humanoid"
     ],
-    "ai_score": 92,
-    "why_selected": "Экзоскелеты выходят на потребительский рынок в Китае — явно указана тема exoskeleton, технологическая и рыночная значимость, свежесть.",
+    "ai_score": 9.4,
+    "why_selected": "Явный гуманоид: Foxconn и Alter создают Beijing Futekang — платформу массового производства гуманоидных роботов. Крупный промышленный игрок, сигнал о переходе гуманоидов к серийному выпуску, высокая технологическая и рыночная значимость.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 1,
-    "title": "New humanoid robot 'cowers' and drops to its knees when workers get too close - The Cool Down",
+    "id": 11,
+    "title": "Solid-State Batteries' First Test Bed Is Humanoid Robots, Not EVs - finance.biggo.com",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOcktqZDJscWwzanZFMDFNSmp6azNSV19jVHdFc193aE1IRGFuWHE3ZUdDQjZnd2VXb0RaMkZDcjl4TXJzUTkzNFRQZG11TW9PNkZoT3BpejdneVdvNlMyWkNoUUV6RXRjc0VCZ3Y2MGVFblZBbkpkeHIyNm1WemJpVl83eWdKZGFLTkxsN2IxdkF3QQ?oc=5",
-    "published_at": "2026-09-26T23:27:00+00:00",
-    "summary": "New humanoid robot 'cowers' and drops to its knees when workers get too close    The Cool Down",
+    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBoSWt1UjdNNGxhX2tCcWVpS1JraWdmRGJGM0RZVVE1eS1paHBHcTZfcnZtWXRXcGgtWmJWU1c0NEZReFRwb1NkLXlTR01tOEdiYXFxN3lCOFJHb2F5b0ZJT1RaQlFpb3FYWlJUeXVpX2NXZjlaOFE?oc=5",
+    "published_at": "2026-09-27T22:25:00+00:00",
+    "summary": "Solid-State Batteries' First Test Bed Is Humanoid Robots, Not EVs    finance.biggo.com",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 85,
-    "why_selected": "Новый гуманоидный робот с безопасным поведением рядом с людьми — явно humanoid, интересная деталь безопасности, свежая дата.",
+    "ai_score": 8.3,
+    "why_selected": "Явный гуманоид: твердотельные аккумуляторы впервые тестируются на гуманоидных роботах, а не на электромобилях. Значимая технологическая тенденция на стыке энергетики и гуманоидов.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 4,
-    "title": "Amazon to invest $100M in new Indiana manufacturing facility",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/amazon-to-invest-100m-in-new-indiana-manufacturing-facility/",
-    "published_at": "2026-09-25T18:59:01+00:00",
-    "summary": "The new facility will produce products that power Amazon's fulfillment and robotics network across North America. The post Amazon to invest $100M in new Indiana manufacturing facility appeared first on The Robot Report .",
+    "id": 8,
+    "title": "An open source approach to physical AI from Intrinsic",
+    "source": "Robohub",
+    "url": "https://robohub.org/an-open-source-approach-to-physical-ai-from-intrinsic/",
+    "published_at": "2026-09-25T08:41:15+00:00",
+    "summary": "Deborah Lupton / Pop Chips / Licenced by CC-BY 4.0 Intrinsic (an AI robotics group at Google) announced that the company is making parts of its platform open source. Intrinsic Core™ is a set of ROS-compatible capabilities for building sophisticated robotic applications. The capabilities included in the open source package are as follow: Intrinsic Control. […]",
     "topics": [
       "robotics"
     ],
-    "ai_score": 68,
-    "why_selected": "Инвестиции Amazon $100M в производство робототехники — общая робототехника, крупный масштаб, но без приоритетных тем.",
-    "image_url": null
+    "ai_score": 7.2,
+    "why_selected": "Робототехника: Intrinsic (Google) открывает часть платформы (ROS-совместимый Intrinsic Core). Важно для экосистемы разработки роботов, весомый игрок, но меньше массового резонанса.",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/09/DeborahLupton-PopChips-1280x678-1-1024x542.jpg"
   },
   {
     "rank": 5,
-    "id": 9,
-    "title": "Meet Feather, the startup building the ‘Android of robotics’ for developers",
-    "source": "TechCrunch Robotics",
-    "url": "https://techcrunch.com/2026/09/24/meet-feather-the-startup-building-the-android-of-robotics-for-developers/",
-    "published_at": "2026-09-24T18:52:38+00:00",
-    "summary": "Feather is betting on a customizable, $30,000 platform built for software developers.",
+    "id": 5,
+    "title": "Wind-up elastic robot jumps forever when fed infrared light",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/elastic-robot-jump-infrared-light/",
+    "published_at": "2026-09-28T02:43:49+00:00",
+    "summary": "Robots – that is, self-guided mechanisms interacting with or changing their environments – exist in the popular imagination as large, blocky, metallic beings like R2D2 or TARS from Interstellar. But the field of soft robotics offers a vast array of robotic limbs, sensors, and body types that greatly expand our understanding of what shapes a robot can manifest and what tasks it can perform. Continue Reading Category: Robotics , Engineering Tags: North Carolina State University , Soft Robotics , locomotion , Infrared",
     "topics": [
       "robotics"
     ],
-    "ai_score": 64,
-    "why_selected": "Стартап Feather с платформой $30,000 для разработчиков — рыночно значимо для общей робототехники.",
-    "image_url": "https://techcrunch.com/wp-content/uploads/2026/09/Feather-cropped.jpg?resize=1200,829"
+    "ai_score": 6.8,
+    "why_selected": "Робототехника: мягкий робот на заводной пружине, прыгающий от инфракрасного света (NC State). Новизна в soft robotics и энергоавтономности, интересный research-сюжет.",
+    "image_url": "https://assets.newatlas.com/dims4/default/c2a1db8/2147483647/strip/true/crop/2133x1120+0+132/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fec%2F99%2F1ecc813b4a74bb5d39ec065857ae%2Fjie-yin-jumping-ring-header-full.jpg&na.image_optimisation=0"
   }
 ]
