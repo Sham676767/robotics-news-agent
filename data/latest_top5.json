@@ -1,78 +1,81 @@
 [
   {
     "rank": 1,
+    "id": 3,
+    "title": "World robotics conference, held in Pittsburgh, boasts everything from robot dogs to humanoid boxers - TribLIVE.com",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQUV9ndVoyTTItbDVnYnNFOU5CQ3duOE00d2x2M1BlQU9lQ1MyQ0hFNDBpMUxqQ21NUVliY2o1Vm8yOVZZcm9aTTVXYndqa3I2b3JNR3FKR2wwSnMyMW9nU2FoZnJTNWgwcEpxaHBSTGFnX1l0VVRyRzE5RlMxOE5Xdmw3cWJIMEJEUGFvLWJrblBIZmVBSXZYWWpFTWNHU2RzVlJhM0FUeGpYMVdPaERFMzk3WVBEbnJKSWZXYmFVSmlqV19yMGlTd0ZmdGVielJSdDZENGpB?oc=5",
+    "published_at": "2026-09-28T20:58:01+00:00",
+    "summary": "World robotics conference, held in Pittsburgh, boasts everything from robot dogs to humanoid boxers    TribLIVE.com",
+    "topics": [
+      "robotics",
+      "robot_dog",
+      "humanoid"
+    ],
+    "ai_score": 28.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": null
+  },
+  {
+    "rank": 2,
     "id": 2,
-    "title": "FDA-cleared exoskeleton puts spinal-cord patients back on their feet",
-    "source": "New Atlas Robotics",
-    "url": "https://newatlas.com/robotics/wandercraft-eve-exoskeleton-self-balancing/",
-    "published_at": "2026-09-27T08:03:00+00:00",
-    "summary": "A robotic suit that lets someone with a spinal-cord injury stand up, look a friend in the eye, or stir a pot on the stove without anyone's help just cleared its biggest hurdle. The US Food and Drug Administration (FDA), the agency that vets medical devices before they reach the public, has authorized commercial sale of Eve, a personal exoskeleton built by French company Wandercraft. Continue Reading Category: Robotics , Engineering Tags: Robotics , Exoskeleton , Mobility , Wearable",
+    "title": "Angel Robotics launches ‘phai-x1’ wearable robot platform for physical AI research - Korea Biomedical Review",
+    "source": "Google News Robotics Research",
+    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1CZzE4RnBITEhENlJWZ0NCMjVvYnJ4VGlrQ2M5S3JxZjVxY0E1SGdSXzV3cVFETElCWm9Fa1FXaGtDbFVJSWtGNVpRSi1mSW4wcnlkeDI0NEJ4RGF1RjB4Vy1pdGs1VXdxZVYtVUFB0gFyQVVfeXFMT2xrSWRoWHJTZnhsMV8xTm1ndG5URTRXVkc2d1A1NHE0dDFlUW81T3UycUlFRUJQems3WkNaRFh5Q1J0R2dnbWZCWDJhRXRWcFVXdW9jNktMZ2JOdDFfUkFwcEUxSTl5Nk83V0lURjlCWXRB?oc=5",
+    "published_at": "2026-09-29T01:49:15+00:00",
+    "summary": "Angel Robotics launches ‘phai-x1’ wearable robot platform for physical AI research    Korea Biomedical Review",
     "topics": [
       "robotics",
       "exoskeleton"
     ],
-    "ai_score": 9.6,
-    "why_selected": "Явный экзоскелет: FDA выдала разрешение на коммерческие продажи персонального экзоскелета Eve (Wandercraft) для пациентов с травмой спинного мозга. Регуляторная веха, сильный человеческий интерес, качественный источник (New Atlas), свежая дата.",
-    "image_url": "https://assets.newatlas.com/dims4/default/2775d25/2147483647/strip/true/crop/5521x2899+0+391/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F6f%2Ffc%2F98366a494aca9db584558c2ed156%2F3j0a7437.png&na.image_optimisation=0"
-  },
-  {
-    "rank": 2,
-    "id": 1,
-    "title": "Foxconn and Alter form Beijing Futekang to launch humanoid robot mass production platform - Global Sources",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTmFJMFNDOXE3dzVvaXNmNE93a0F2blU3ai1pOFFmMzFGUXlCREgzVzhyb0w1WDZId0d0a2VnMURod3VFQkp1Mk1kaHJrWm14NHA1MFEyaERTRExYcE1UanBheWwtSUxYTk1TVHo2R25Zd1VudzZ6d2pKVFBobXZsa3VScWZsSVBkQk5ZSDBTTjdKTERwaHdNYjhaa25ERFU4T3QxSnZIUTVsRUZtQ3BZUmVlTW1aYXZpWGRTOHBwVTJMMEdTbXJXcHdRUUpwUnFqR2NXZ3k2SVZ6WXNRVS1OSDJ3UE94U0JsOVFZOA?oc=5",
-    "published_at": "2026-09-28T03:33:45+00:00",
-    "summary": "Foxconn and Alter form Beijing Futekang to launch humanoid robot mass production platform    Global Sources",
-    "topics": [
-      "humanoid"
-    ],
-    "ai_score": 9.4,
-    "why_selected": "Явный гуманоид: Foxconn и Alter создают Beijing Futekang — платформу массового производства гуманоидных роботов. Крупный промышленный игрок, сигнал о переходе гуманоидов к серийному выпуску, высокая технологическая и рыночная значимость.",
+    "ai_score": 31.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 11,
-    "title": "Solid-State Batteries' First Test Bed Is Humanoid Robots, Not EVs - finance.biggo.com",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBoSWt1UjdNNGxhX2tCcWVpS1JraWdmRGJGM0RZVVE1eS1paHBHcTZfcnZtWXRXcGgtWmJWU1c0NEZReFRwb1NkLXlTR01tOEdiYXFxN3lCOFJHb2F5b0ZJT1RaQlFpb3FYWlJUeXVpX2NXZjlaOFE?oc=5",
-    "published_at": "2026-09-27T22:25:00+00:00",
-    "summary": "Solid-State Batteries' First Test Bed Is Humanoid Robots, Not EVs    finance.biggo.com",
+    "id": 1,
+    "title": "Robonomics on the threshold: Economic autonomy, smart cities, and crypto wallets for humanoids",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/robotics-threshold-economic-autonomy-crypto-wallets-humanoids/",
+    "published_at": "2026-09-28T13:56:56+00:00",
+    "summary": "Economics is both a robotics impetus and a constraint, as systems make deliveries on streets or do chores in households. The post Robonomics on the threshold: Economic autonomy, smart cities, and crypto wallets for humanoids appeared first on The Robot Report .",
     "topics": [
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 8.3,
-    "why_selected": "Явный гуманоид: твердотельные аккумуляторы впервые тестируются на гуманоидных роботах, а не на электромобилях. Значимая технологическая тенденция на стыке энергетики и гуманоидов.",
+    "ai_score": 53.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 8,
-    "title": "An open source approach to physical AI from Intrinsic",
-    "source": "Robohub",
-    "url": "https://robohub.org/an-open-source-approach-to-physical-ai-from-intrinsic/",
-    "published_at": "2026-09-25T08:41:15+00:00",
-    "summary": "Deborah Lupton / Pop Chips / Licenced by CC-BY 4.0 Intrinsic (an AI robotics group at Google) announced that the company is making parts of its platform open source. Intrinsic Core™ is a set of ROS-compatible capabilities for building sophisticated robotic applications. The capabilities included in the open source package are as follow: Intrinsic Control. […]",
+    "id": 5,
+    "title": "Could soil process information without a brain? New engineering perspective makes the case",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-09-soil-brain-perspective-case.html",
+    "published_at": "2026-09-28T11:40:01+00:00",
+    "summary": "Researchers in the Bio-Inspired Robotics Laboratory at Cambridge are exploring how soil behaves as an intelligent system. By studying its structure, chemistry and biological network of microbes and fungi, they aim to inspire new technologies in bio-inspired computing, precision agriculture and environmental sensing.",
     "topics": [
       "robotics"
     ],
-    "ai_score": 7.2,
-    "why_selected": "Робототехника: Intrinsic (Google) открывает часть платформы (ROS-совместимый Intrinsic Core). Важно для экосистемы разработки роботов, весомый игрок, но меньше массового резонанса.",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/09/DeborahLupton-PopChips-1280x678-1-1024x542.jpg"
+    "ai_score": 40.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": null
   },
   {
     "rank": 5,
-    "id": 5,
-    "title": "Wind-up elastic robot jumps forever when fed infrared light",
-    "source": "New Atlas Robotics",
-    "url": "https://newatlas.com/robotics/elastic-robot-jump-infrared-light/",
-    "published_at": "2026-09-28T02:43:49+00:00",
-    "summary": "Robots – that is, self-guided mechanisms interacting with or changing their environments – exist in the popular imagination as large, blocky, metallic beings like R2D2 or TARS from Interstellar. But the field of soft robotics offers a vast array of robotic limbs, sensors, and body types that greatly expand our understanding of what shapes a robot can manifest and what tasks it can perform. Continue Reading Category: Robotics , Engineering Tags: North Carolina State University , Soft Robotics , locomotion , Infrared",
+    "id": 4,
+    "title": "Gecko Robotics works with NVIDIA to add AI agent security and control",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/gecko-robotics-works-with-nvidia-adds-ai-agent-security-and-control/",
+    "published_at": "2026-09-28T17:41:32+00:00",
+    "summary": "Gecko Robotics is using the new NVIDIA Open Agent Safety Platform to ensure the secure autonomous control of systems. The post Gecko Robotics works with NVIDIA to add AI agent security and control appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 6.8,
-    "why_selected": "Робототехника: мягкий робот на заводной пружине, прыгающий от инфракрасного света (NC State). Новизна в soft robotics и энергоавтономности, интересный research-сюжет.",
-    "image_url": "https://assets.newatlas.com/dims4/default/c2a1db8/2147483647/strip/true/crop/2133x1120+0+132/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2Fec%2F99%2F1ecc813b4a74bb5d39ec065857ae%2Fjie-yin-jumping-ring-header-full.jpg&na.image_optimisation=0"
+    "ai_score": 40.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": null
   }
 ]
