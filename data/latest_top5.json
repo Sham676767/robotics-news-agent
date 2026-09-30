@@ -1,81 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 3,
-    "title": "World robotics conference, held in Pittsburgh, boasts everything from robot dogs to humanoid boxers - TribLIVE.com",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQUV9ndVoyTTItbDVnYnNFOU5CQ3duOE00d2x2M1BlQU9lQ1MyQ0hFNDBpMUxqQ21NUVliY2o1Vm8yOVZZcm9aTTVXYndqa3I2b3JNR3FKR2wwSnMyMW9nU2FoZnJTNWgwcEpxaHBSTGFnX1l0VVRyRzE5RlMxOE5Xdmw3cWJIMEJEUGFvLWJrblBIZmVBSXZYWWpFTWNHU2RzVlJhM0FUeGpYMVdPaERFMzk3WVBEbnJKSWZXYmFVSmlqV19yMGlTd0ZmdGVielJSdDZENGpB?oc=5",
-    "published_at": "2026-09-28T20:58:01+00:00",
-    "summary": "World robotics conference, held in Pittsburgh, boasts everything from robot dogs to humanoid boxers    TribLIVE.com",
+    "id": 12,
+    "title": "From Humanoids to Quadrupeds: Qazbot Technologies to Showcase “Embodied AI” at AI & Digital Bridge 2026 - Tiek.kz",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE1IVTdlVmNsTUJpMW9kV1VPRWJIRlJMZFUtRzV2M25mVUlrZUxnZWRjWDE2akVJSGlpajBDZUdZVjVTM3E2OU90ZA?oc=5",
+    "published_at": "2026-09-29T05:38:54+00:00",
+    "summary": "From Humanoids to Quadrupeds: Qazbot Technologies to Showcase “Embodied AI” at AI & Digital Bridge 2026    Tiek.kz",
     "topics": [
-      "robotics",
       "robot_dog",
       "humanoid"
     ],
-    "ai_score": 28.0,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "ai_score": 8.3,
+    "why_selected": "Двойное попадание в приоритетные темы: humanoid и quadruped в одном анонсе; событие-шоуcase, но источник менее авторитетный.",
     "image_url": null
   },
   {
     "rank": 2,
     "id": 2,
-    "title": "Angel Robotics launches ‘phai-x1’ wearable robot platform for physical AI research - Korea Biomedical Review",
-    "source": "Google News Robotics Research",
-    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1CZzE4RnBITEhENlJWZ0NCMjVvYnJ4VGlrQ2M5S3JxZjVxY0E1SGdSXzV3cVFETElCWm9Fa1FXaGtDbFVJSWtGNVpRSi1mSW4wcnlkeDI0NEJ4RGF1RjB4Vy1pdGs1VXdxZVYtVUFB0gFyQVVfeXFMT2xrSWRoWHJTZnhsMV8xTm1ndG5URTRXVkc2d1A1NHE0dDFlUW81T3UycUlFRUJQems3WkNaRFh5Q1J0R2dnbWZCWDJhRXRWcFVXdW9jNktMZ2JOdDFfUkFwcEUxSTl5Nk83V0lURjlCWXRB?oc=5",
-    "published_at": "2026-09-29T01:49:15+00:00",
-    "summary": "Angel Robotics launches ‘phai-x1’ wearable robot platform for physical AI research    Korea Biomedical Review",
+    "title": "China Just Showed Off a Robot Dog Armed With a Machine Gun and Rocket Launcher - Gadget Review",
+    "source": "Google News Robot Dogs",
+    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPQ1JnV0VBcnhScEtnVTVRSzl5ZjNLbUZMVEJsQnZ6WkR4MWlXUFk4anZ4YmdFZF9BeVJwcHQxSFlaeWJRTHFGUFRKeTZhTW5Ea0RsRFpBRnd4OWdYRWhvcU9jV0dHdWZkZGJNSFIteTZYTk5ZUmZsV1VkZlkxYUNpOVZDVEdrUm5wREhnb2xYN0RqVkJmdW9xOWI3TGF5Z3FBNTktSUlQcGRmMm8?oc=5",
+    "published_at": "2026-09-29T17:44:57+00:00",
+    "summary": "China Just Showed Off a Robot Dog Armed With a Machine Gun and Rocket Launcher    Gadget Review",
     "topics": [
-      "robotics",
-      "exoskeleton"
+      "robot_dog"
     ],
-    "ai_score": 31.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "ai_score": 9.5,
+    "why_selected": "Явный robot dog в военном контексте (пулемёт и ракетница) — высокая новизна и общественный интерес, свежая публикация; источник агрегаторный, но тема резонансная.",
     "image_url": null
   },
   {
     "rank": 3,
     "id": 1,
-    "title": "Robonomics on the threshold: Economic autonomy, smart cities, and crypto wallets for humanoids",
+    "title": "Meet Flourish One, the Raspberry Pi-powered humanoid built for busy parents",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/robotics-threshold-economic-autonomy-crypto-wallets-humanoids/",
-    "published_at": "2026-09-28T13:56:56+00:00",
-    "summary": "Economics is both a robotics impetus and a constraint, as systems make deliveries on streets or do chores in households. The post Robonomics on the threshold: Economic autonomy, smart cities, and crypto wallets for humanoids appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/meet-flourish-one-raspberry-pi-powered-humanoid-built-busy-parents/",
+    "published_at": "2026-09-29T14:00:12+00:00",
+    "summary": "Flourish is releasing a $3,555 phone-trainable home robot, targeting busy parents with personalized, cloud-trained chore automation. The post Meet Flourish One, the Raspberry Pi-powered humanoid built for busy parents appeared first on The Robot Report .",
     "topics": [
-      "robotics",
       "humanoid"
     ],
-    "ai_score": 53.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "ai_score": 9.2,
+    "why_selected": "Явный humanoid: потребительский домашний робот с конкретной ценой и сценарием использования; свежо, авторитетный профильный источник The Robot Report.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 5,
-    "title": "Could soil process information without a brain? New engineering perspective makes the case",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-soil-brain-perspective-case.html",
-    "published_at": "2026-09-28T11:40:01+00:00",
-    "summary": "Researchers in the Bio-Inspired Robotics Laboratory at Cambridge are exploring how soil behaves as an intelligent system. By studying its structure, chemistry and biological network of microbes and fungi, they aim to inspire new technologies in bio-inspired computing, precision agriculture and environmental sensing.",
+    "id": 10,
+    "title": "DYNA Robotics Launches DYNA 2.1 Physical Agent, a Semi-humanoid Robot that Completes Full Workflows such as a Commercial Laundry Shift - PR Newswire",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxNZHo3LVNnS0Ywdk1uTGU0b0NWNmlWSEE5dnBmZFpLZVhtS0ZDVnN1NlB2UjJEQ0VMRl9jTFJnbmpDS2J5R3RrSXltZDV4MGYxZlJyT1M1VXgwZGlXX3FKc21vTG9MRzc2NVliVC11d2M0OFlIeWN4N1hKMXNzd1FBazF1ZFRmUEdUa19sU3hmbXl1aWIzSXpvZUIwVFNkTUFVRUNuWE8tUlZDLTI0RUkxWkdrX3FOQW1RUzg1TDdXZm4tVXRSUjUwaXlpdGRIWDA3LTBpb3lMNU5ma3IxbVNZbUhncXJWbm42SHZsQlJ2alotdGx0M3ZXaWZJSlY4VHBLdV94b052U0lZRUJIRHE1aklhR1hVLTJw?oc=5",
+    "published_at": "2026-09-29T12:00:00+00:00",
+    "summary": "DYNA Robotics Launches DYNA 2.1 Physical Agent, a Semi-humanoid Robot that Completes Full Workflows such as a Commercial Laundry Shift    PR Newswire",
     "topics": [
-      "robotics"
+      "robotics",
+      "humanoid"
     ],
-    "ai_score": 40.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "ai_score": 8.9,
+    "why_selected": "Запуск semi-humanoid DYNA 2.1 с описанием реальных рабочих процессов; прямой приоритет по humanoid, значимый релиз, свежая дата.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 4,
-    "title": "Gecko Robotics works with NVIDIA to add AI agent security and control",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/gecko-robotics-works-with-nvidia-adds-ai-agent-security-and-control/",
-    "published_at": "2026-09-28T17:41:32+00:00",
-    "summary": "Gecko Robotics is using the new NVIDIA Open Agent Safety Platform to ensure the secure autonomous control of systems. The post Gecko Robotics works with NVIDIA to add AI agent security and control appeared first on The Robot Report .",
+    "id": 11,
+    "title": "Humanoid robots may be coming to the GCC. But don’t throw out your mop yet - Fast Company Middle East",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQd3cyc0RsRG5uWXZjNmlaUEw2Q29CdnhJWWFyel9hdERlU0hzSlFrTFd1eG1VcmN3NHBGWnVHMWV5LXhjN1NGWUVvVkc5OVRna3VMYXhGLWpQUllNNTlXMG5XRG5mdjYxT0l3bXNuWFhLQlJ6V19fNmh6a0NpRFJFZjZHalFrSUs2dWdIcGVwNUVkZF9WUFpKOFhwdGE5U1U4aS1xWWNfaXVaTWVMWmo4?oc=5",
+    "published_at": "2026-09-30T05:00:39+00:00",
+    "summary": "Humanoid robots may be coming to the GCC. But don’t throw out your mop yet    Fast Company Middle East",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 40.5,
-    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "ai_score": 7.6,
+    "why_selected": "Явный humanoid: аналитика выхода гуманоидов на рынок GCC; общественный интерес, свежесть, но материал обзорный, без конкретного события.",
     "image_url": null
   }
 ]
