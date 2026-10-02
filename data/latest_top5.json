@@ -1,79 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 6,
-    "title": "Soccer-playing humanoid robots score a major robotics goal for coordination",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-soccer-playing-humanoid-robots-score.html",
-    "published_at": "2026-09-30T09:30:02+00:00",
-    "summary": "We are used to seeing images of humanoid robots clumsily walking, stumbling over objects and awkwardly freezing in place. Struggling with real-world movement is one of the biggest drawbacks of current robotics. But now a team of researchers has come up with a new system to make them move and react far more reliably, and they worked everything out on a bunch of soccer-playing robots.",
+    "id": 1,
+    "title": "Atlas Robot’s New Hand May Outperform Humanlike Designs",
+    "source": "IEEE Spectrum Robotics",
+    "url": "https://spectrum.ieee.org/robust-robot-hand",
+    "published_at": "2026-10-01T14:40:12+00:00",
+    "summary": "Today, Boston Dynamics is announcing a redesigned hand for its Atlas robot . The previous generation could do some crazy superhuman things with its three fingers, but it was never intended for mass production in the tens or hundreds of thousands. Switching from research hardware to a scalable product makes previously ignorable questions suddenly paramount: How can you make a hand that does everything you need it to do but is also rugged and reliable and cost-effective? It’s questions like these that drove the design of the new Atlas hand, and while it doesn’t look much like a human hand, it might be a hand that makes it out into the real world. - YouTube www.youtube.com Compared to the almost eerily humanlike hands designed by a litany of other humanoid robotics companies , Atlas’s new hand does look awfully clunky. We’ve certainly seen some of those robots with much more humanlike hands perform dexterous manipulation tasks that are, speaking as someone who has personally witnessed robots haplessly fumble their way through the world for nearly two decades now, nothing short of incredible. And it’s not just what these hands can do—it’s how they look while doing it, as slim, graceful mechanical copies of our own hands. They seem like science fiction, and to some extent, that’s exactly what they are. “Hands are a ruthless design trade-off,” Alberto Rodriguez , director of robot behavior at Boston Dynamics, tells IEEE Spectrum . “There’s no way around it, you’re always giving up ",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 9.0,
-    "why_selected": "Прорыв в надёжности движений и координации гуманоидных роботов на примере футбольных роботов: явный humanoid, значимый технологический результат и широкий публичный интерес.",
-    "image_url": null
+    "ai_score": 9.5,
+    "why_selected": "Явно humanoid: Boston Dynamics представляет переработанную руку Atlas с переходом от исследовательского прототипа к масштабируемому продукту. Высокая технологическая значимость, свежая дата, качественный источник IEEE Spectrum.",
+    "image_url": "https://spectrum.ieee.org/media-library/close-up-of-a-robotic-hand-with-three-fingers-and-a-thumb-making-a-gesture-similar-to-the-sign-of-the-horns.jpg?id=67879402&width=1200&height=600&coordinates=0%2C173%2C0%2C660"
   },
   {
     "rank": 2,
-    "id": 10,
-    "title": "Seizing the initiative: HTX launches H2RC to train humanoid robots for public safety - Home Team Science and Technology Agency",
-    "source": "Google News Embodied AI Robotics",
-    "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOaU5vTjNieS1nMVYyU0dZQnNMRUtaTi10MTU3OTMybjBtVlJuNTJvMy1rTkpWQU1OQVJCTkZsa3V4eU52THJLMDBWbW9oaGx3OWdnMVFDZldVUm9UWmhhdTFhUTExVlVUY1dsNnRqcDJUZnBSUVhPblZiY3RnR3JxbG80QnkyeWlmcy04UWxWaE80eTB1UTdRR0s2amZxc2RmbWQzZUlWV3lPdUNaZWJXZjFxRklOQjRERW1xMTIyRmlLS1loeHNzV2JkbUV3LTQ5aHh2eEpKUm5PLUpxVHc2ZDZpM1JvaFgzUkE?oc=5",
-    "published_at": "2026-10-01T07:32:52+00:00",
-    "summary": "Seizing the initiative: HTX launches H2RC to train humanoid robots for public safety    Home Team Science and Technology Agency",
+    "id": 3,
+    "title": "Boston Dynamics drops pinkie on new humanoid hand",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/boston-dynamics-drops-pinkie-on-new-humanoid-hand/",
+    "published_at": "2026-10-01T17:52:51+00:00",
+    "summary": "Boston Dynamics engineers taped their pinkies and ring fingers together for a day to learn what they weren’t able to do. The post Boston Dynamics drops pinkie on new humanoid hand appeared first on The Robot Report .",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 9.2,
-    "why_selected": "Запуск HTX центра H2RC для обучения гуманоидных роботов в сфере общественной безопасности: явный humanoid, самая свежая дата (1 октября), высокая новизна и общественный интерес.",
+    "ai_score": 8.5,
+    "why_selected": "Явно humanoid: инженерный разбор дизайна новой руки Boston Dynamics с необычной методикой тестирования. Свежая публикация, профильный источник The Robot Report, дополняет и конкретизирует анонс Atlas.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 11,
-    "title": "Agility and FORT Robotics Announce Strategic Partnership to Advance Humanoid Robot Safety - Yahoo Finance",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQaElXd0oxSUxjRndxTzZkZHpJcVV4R09uem1CeF9aWXQxOU5yRmtJTGhPZ2VwWnA2a3RVUmFtN0NlMTk5YzlGLTgtZDlRbnJRdHZQOG9JTkgySVpFdVllTTI4SGZZVEZnckxsMWhSbzBaS3FUSnhzQlJlS2g0ZlN6ZXZMSi0yb2dUYWszci1nVzhiQ0lycThoZVQxSHU5ZE9jbHBuNXRvYw?oc=5",
-    "published_at": "2026-10-01T11:00:00+00:00",
-    "summary": "Agility and FORT Robotics Announce Strategic Partnership to Advance Humanoid Robot Safety    Yahoo Finance",
+    "id": 7,
+    "title": "Roboticist says safety should be top concern with humanoid robots",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-09-roboticist-safety-humanoid-robots.html",
+    "published_at": "2026-09-30T09:00:05+00:00",
+    "summary": "A quick search of humanoid robot videos will deliver demonstrations of two-legged robots playing soccer, dancing, jumping several feet in the air, even competing in kickboxing matches. It is all dazzling, certainly. But roboticist Aaron Ames, the Booth-Kresa Leadership Chair and director of Caltech's Center for Autonomous Systems and Technologies (CAST) and a leader in the field of robotic safety, has deep concerns. What is crucially missing before humanoids can play a larger role in our lives and society, Ames says, is safety.",
     "topics": [
-      "robotics",
       "humanoid"
     ],
-    "ai_score": 8.7,
-    "why_selected": "Стратегическое партнёрство Agility и FORT Robotics по безопасности гуманоидных роботов: явный humanoid, свежая новость с участием крупного разработчика, важна для индустрии.",
+    "ai_score": 7.5,
+    "why_selected": "Явно humanoid: мнение известного эксперта Caltech о безопасности гуманоидных роботов перед их массовым внедрением. Высокий общественный интерес, но это экспертная позиция, а не новое событие или продукт.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 1,
-    "title": "Innodata opens motion-capture lab to help humanoids move more like people",
+    "id": 2,
+    "title": "How Maven Robotics plans to automate industrial work, one task at a time",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/innodata-opens-motion-capture-lab-help-humanoids-move-more-like-people/",
-    "published_at": "2026-09-30T12:59:12+00:00",
-    "summary": "Innodata uses Vicon cameras to measure movements with sub-millimeter accuracy and to collect real-world training data for robots. The post Innodata opens motion-capture lab to help humanoids move more like people appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/how-maven-robotics-plans-automate-industrial-work-one-task-at-a-time/",
+    "published_at": "2026-10-01T12:30:39+00:00",
+    "summary": "With the $100 million it raised earlier this month, Maven Robotics is looking towards mass producing its mobile manipulator robot. The post How Maven Robotics plans to automate industrial work, one task at a time appeared first on The Robot Report .",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 8.3,
-    "why_selected": "Открытие лаборатории motion-capture Innodata для сбора тренировочных данных гуманоидов: явный humanoid, технологическая значимость для обучения роботов, качественный источник.",
+    "ai_score": 7.0,
+    "why_selected": "Робототехника: привлечение $100 млн Maven Robotics для массового производства мобильного манипулятора. Значимое финансирование и планы масштабирования, однако деталей мало и нет явного упоминания humanoid или quadruped.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 3,
-    "title": "State of Robots in Manufacturing",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/state-of-robots-in-manufacturing/",
-    "published_at": "2026-09-29T13:22:56+00:00",
-    "summary": "The Robot Report looks at recent advances in automation for manufacturing, from improvements in technologies and use cases to the potential of humanoids and AI. The post State of Robots in Manufacturing appeared first on The Robot Report .",
+    "id": 6,
+    "title": "New AI framework to help machines understand 3D spaces in finer detail",
+    "source": "Tech Xplore Robotics",
+    "url": "https://techxplore.com/news/2026-09-ai-framework-machines-3d-spaces.html",
+    "published_at": "2026-09-30T11:20:24+00:00",
+    "summary": "For a service robot moving through an office, recognizing \"furniture\" is useful. When the robot has to plan a route or interact with objects, it also needs finer detail, such as whether that furniture is a chair, table or bookcase, and whether an opening is a door or a window. These distinctions can affect how a machine moves, avoids obstacles and decides what it can safely interact with.",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 6.8,
-    "why_selected": "Обзор состояния роботов в производстве с акцентом на потенциал гуманоидов и ИИ: полезная аналитика по теме, но без конкретного нового события.",
+    "ai_score": 6.5,
+    "why_selected": "Робототехника: новый ИИ-фреймворк для детального понимания машинами 3D-пространств. Технологическая значимость для навигации сервисных роботов, но это исследовательская новость без прорывного статуса.",
     "image_url": null
   }
 ]
