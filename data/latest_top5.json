@@ -1,78 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 1,
-    "title": "Atlas Robot’s New Hand May Outperform Humanlike Designs",
-    "source": "IEEE Spectrum Robotics",
-    "url": "https://spectrum.ieee.org/robust-robot-hand",
-    "published_at": "2026-10-01T14:40:12+00:00",
-    "summary": "Today, Boston Dynamics is announcing a redesigned hand for its Atlas robot . The previous generation could do some crazy superhuman things with its three fingers, but it was never intended for mass production in the tens or hundreds of thousands. Switching from research hardware to a scalable product makes previously ignorable questions suddenly paramount: How can you make a hand that does everything you need it to do but is also rugged and reliable and cost-effective? It’s questions like these that drove the design of the new Atlas hand, and while it doesn’t look much like a human hand, it might be a hand that makes it out into the real world. - YouTube www.youtube.com Compared to the almost eerily humanlike hands designed by a litany of other humanoid robotics companies , Atlas’s new hand does look awfully clunky. We’ve certainly seen some of those robots with much more humanlike hands perform dexterous manipulation tasks that are, speaking as someone who has personally witnessed robots haplessly fumble their way through the world for nearly two decades now, nothing short of incredible. And it’s not just what these hands can do—it’s how they look while doing it, as slim, graceful mechanical copies of our own hands. They seem like science fiction, and to some extent, that’s exactly what they are. “Hands are a ruthless design trade-off,” Alberto Rodriguez , director of robot behavior at Boston Dynamics, tells IEEE Spectrum . “There’s no way around it, you’re always giving up ",
+    "id": 2,
+    "title": "Precision In Motion. Vishay Precision Group, Inc. (VPG) to Showcase Custom Sensing Capabilities for Humanoid Robotics at RoboBusiness 2026",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/precision-in-motion-vishay-precision-group-inc-vpg-to-showcase-custom-sensing-capabilities-for-humanoid-robotics-at-robobusiness-2026/",
+    "published_at": "2026-10-01T15:29:55+00:00",
+    "summary": "As humanoid robots move from research labs into factories, warehouses, homes, and other shared spaces, accurate physical feedback becomes crucial. The post Precision In Motion. Vishay Precision Group, Inc. (VPG) to Showcase Custom Sensing Capabilities for Humanoid Robotics at RoboBusiness 2026 appeared first on The Robot Report .",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 9.5,
-    "why_selected": "Явно humanoid: Boston Dynamics представляет переработанную руку Atlas с переходом от исследовательского прототипа к масштабируемому продукту. Высокая технологическая значимость, свежая дата, качественный источник IEEE Spectrum.",
-    "image_url": "https://spectrum.ieee.org/media-library/close-up-of-a-robotic-hand-with-three-fingers-and-a-thumb-making-a-gesture-similar-to-the-sign-of-the-horns.jpg?id=67879402&width=1200&height=600&coordinates=0%2C173%2C0%2C660"
+    "ai_score": 7.0,
+    "why_selected": "Явно гуманоидная тема: сенсорные решения для гуманоидных роботов на RoboBusiness 2026 — важный компонентный сегмент перехода гуманоидов в промышленность, но новость о поставщике компонентов, а не о роботе.",
+    "image_url": null
   },
   {
     "rank": 2,
-    "id": 3,
-    "title": "Boston Dynamics drops pinkie on new humanoid hand",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/boston-dynamics-drops-pinkie-on-new-humanoid-hand/",
-    "published_at": "2026-10-01T17:52:51+00:00",
-    "summary": "Boston Dynamics engineers taped their pinkies and ring fingers together for a day to learn what they weren’t able to do. The post Boston Dynamics drops pinkie on new humanoid hand appeared first on The Robot Report .",
+    "id": 1,
+    "title": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026 - PR Newswire",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxNU2xQNUlnWDdYSm9SUmdqNlE0RkJjNnpvTDZJS1pMdjhtdU1wLW1jUVA0Vm9DUFd5SUdMRDQ4YnRtNjFNcFpMNXNta1pFc1FOSnFuLV9vNWRrd3JoUld1TEtZODIyaHQyM1RyaHBuZ3FKa3dSTExXTkJRTnlQeVRMZUkwbzZpbkZ0TG83dnFNSW40T1ZNcmxQUjFMVHByZW9adE5wb2pNUHBwdUdhemgtX2M2RVJjVnBMclJZOHZyN0ZHMU5iN0FyVmd1VVdGX0NNMEtiWkx6dEoxdWdiWEYwUGpoeXJIaVZUbFk4OXI1aTBsVnVTaHNjb2Vwaml4bERGR3c?oc=5",
+    "published_at": "2026-10-01T13:30:00+00:00",
+    "summary": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026    PR Newswire",
     "topics": [
-      "humanoid"
+      "robot_dog"
     ],
-    "ai_score": 8.5,
-    "why_selected": "Явно humanoid: инженерный разбор дизайна новой руки Boston Dynamics с необычной методикой тестирования. Свежая публикация, профильный источник The Robot Report, дополняет и конкретизирует анонс Atlas.",
+    "ai_score": 9.0,
+    "why_selected": "Явный квадрупед (robot dog): дебют «первого в мире промышленного образовательного квадрупеда» на IROS 2026 — сильный элемент новизны, крупная отраслевая площадка, свежая дата (01.10).",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 7,
-    "title": "Roboticist says safety should be top concern with humanoid robots",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-roboticist-safety-humanoid-robots.html",
-    "published_at": "2026-09-30T09:00:05+00:00",
-    "summary": "A quick search of humanoid robot videos will deliver demonstrations of two-legged robots playing soccer, dancing, jumping several feet in the air, even competing in kickboxing matches. It is all dazzling, certainly. But roboticist Aaron Ames, the Booth-Kresa Leadership Chair and director of Caltech's Center for Autonomous Systems and Technologies (CAST) and a leader in the field of robotic safety, has deep concerns. What is crucially missing before humanoids can play a larger role in our lives and society, Ames says, is safety.",
+    "id": 12,
+    "title": "Video: Uncut footage shows humanoid robot doing factory work with claimed 60% autonomy - Interesting Engineering",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPYy04Y0ZNcjZRcXZ3UHNSelRCQ3U1bk94ZmtPdzhxLWRvX1R0MXpId2l5OGEtTnFqcXkwX1RhX3RnZFdsTWUzb0ZVUldqTGkzVXFfVWY4S05WTEJkbDg4MEdJU0MxRjJyWmtoQkkwNVBlUHVPcXUyNUQ3WHlDM1d5TjZGSWRsdTA?oc=5",
+    "published_at": "2026-10-02T15:54:00+00:00",
+    "summary": "Video: Uncut footage shows humanoid robot doing factory work with claimed 60% autonomy    Interesting Engineering",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 7.5,
-    "why_selected": "Явно humanoid: мнение известного эксперта Caltech о безопасности гуманоидных роботов перед их массовым внедрением. Высокий общественный интерес, но это экспертная позиция, а не новое событие или продукт.",
+    "ai_score": 9.5,
+    "why_selected": "Явно гуманоидная тема: непрерывные (uncut) кадры работы гуманоидного робота на фабрике с заявленной автономией 60% — редкий проверяемый демо-материал, высокая общественная значимость и свежесть (02.10).",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 2,
-    "title": "How Maven Robotics plans to automate industrial work, one task at a time",
+    "id": 4,
+    "title": "Runway introduces Praxis-1 world action model for robotics",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/how-maven-robotics-plans-automate-industrial-work-one-task-at-a-time/",
-    "published_at": "2026-10-01T12:30:39+00:00",
-    "summary": "With the $100 million it raised earlier this month, Maven Robotics is looking towards mass producing its mobile manipulator robot. The post How Maven Robotics plans to automate industrial work, one task at a time appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/runway-introduces-praxis-1-world-action-model-robotics/",
+    "published_at": "2026-10-02T18:32:13+00:00",
+    "summary": "When Runway does release Praxis-1 publicly, it plans to ship it with open weights rather than as a closed model. The post Runway introduces Praxis-1 world action model for robotics appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 7.0,
-    "why_selected": "Робототехника: привлечение $100 млн Maven Robotics для массового производства мобильного манипулятора. Значимое финансирование и планы масштабирования, однако деталей мало и нет явного упоминания humanoid или quadruped.",
+    "ai_score": 8.0,
+    "why_selected": "Значимая для робототехники AI-новость: Runway представляет мировую action-модель Praxis-1 с планами открытых весов — технологическая значимость и новизна игрока в робототехнике, свежая публикация The Robot Report.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 6,
-    "title": "New AI framework to help machines understand 3D spaces in finer detail",
-    "source": "Tech Xplore Robotics",
-    "url": "https://techxplore.com/news/2026-09-ai-framework-machines-3d-spaces.html",
-    "published_at": "2026-09-30T11:20:24+00:00",
-    "summary": "For a service robot moving through an office, recognizing \"furniture\" is useful. When the robot has to plan a route or interact with objects, it also needs finer detail, such as whether that furniture is a chair, table or bookcase, and whether an opening is a door or a window. These distinctions can affect how a machine moves, avoids obstacles and decides what it can safely interact with.",
+    "id": 5,
+    "title": "MIT robot swims through water via living muscle cells",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/mit-robot-swims-light-living-muscle-cells/",
+    "published_at": "2026-10-03T01:00:00+00:00",
+    "summary": "An MIT robot powered by a single layer of living muscle cells swam through a watery maze, following a light held in a researcher’s hand. It is slow, tiny and nowhere near ready for the open ocean, but its thin design could point toward softer, cheaper swimming machines. Continue Reading Category: Robotics , Engineering Tags: MIT , Research , Robotics , Water , Swim",
     "topics": [
       "robotics"
     ],
     "ai_score": 6.5,
-    "why_selected": "Робототехника: новый ИИ-фреймворк для детального понимания машинами 3D-пространств. Технологическая значимость для навигации сервисных роботов, но это исследовательская новость без прорывного статуса.",
-    "image_url": null
+    "why_selected": "Новизна и научный интерес: робот MIT с живыми мышечными клетками проходит лабиринт по свету — оригинальное биогибридное исследование в рамках общей робототехники, хотя пока ранняя стадия.",
+    "image_url": "https://assets.newatlas.com/dims4/default/ae18159/2147483647/strip/true/crop/1800x945+0+127/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F8d%2F0a%2F2c4e524944869787ad1acf136f17%2Fmit-robomuscle-01-press-0.jpg&na.image_optimisation=0"
   }
 ]
