@@ -1,78 +1,77 @@
 [
   {
     "rank": 1,
-    "id": 2,
-    "title": "Precision In Motion. Vishay Precision Group, Inc. (VPG) to Showcase Custom Sensing Capabilities for Humanoid Robotics at RoboBusiness 2026",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/precision-in-motion-vishay-precision-group-inc-vpg-to-showcase-custom-sensing-capabilities-for-humanoid-robotics-at-robobusiness-2026/",
-    "published_at": "2026-10-01T15:29:55+00:00",
-    "summary": "As humanoid robots move from research labs into factories, warehouses, homes, and other shared spaces, accurate physical feedback becomes crucial. The post Precision In Motion. Vishay Precision Group, Inc. (VPG) to Showcase Custom Sensing Capabilities for Humanoid Robotics at RoboBusiness 2026 appeared first on The Robot Report .",
-    "topics": [
-      "robotics",
-      "humanoid"
-    ],
-    "ai_score": 7.0,
-    "why_selected": "Явно гуманоидная тема: сенсорные решения для гуманоидных роботов на RoboBusiness 2026 — важный компонентный сегмент перехода гуманоидов в промышленность, но новость о поставщике компонентов, а не о роботе.",
-    "image_url": null
-  },
-  {
-    "rank": 2,
     "id": 1,
-    "title": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026 - PR Newswire",
-    "source": "Google News Embodied AI Robotics",
-    "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxNU2xQNUlnWDdYSm9SUmdqNlE0RkJjNnpvTDZJS1pMdjhtdU1wLW1jUVA0Vm9DUFd5SUdMRDQ4YnRtNjFNcFpMNXNta1pFc1FOSnFuLV9vNWRrd3JoUld1TEtZODIyaHQyM1RyaHBuZ3FKa3dSTExXTkJRTnlQeVRMZUkwbzZpbkZ0TG83dnFNSW40T1ZNcmxQUjFMVHByZW9adE5wb2pNUHBwdUdhemgtX2M2RVJjVnBMclJZOHZyN0ZHMU5iN0FyVmd1VVdGX0NNMEtiWkx6dEoxdWdiWEYwUGpoeXJIaVZUbFk4OXI1aTBsVnVTaHNjb2Vwaml4bERGR3c?oc=5",
-    "published_at": "2026-10-01T13:30:00+00:00",
-    "summary": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026    PR Newswire",
-    "topics": [
-      "robot_dog"
-    ],
-    "ai_score": 9.0,
-    "why_selected": "Явный квадрупед (robot dog): дебют «первого в мире промышленного образовательного квадрупеда» на IROS 2026 — сильный элемент новизны, крупная отраслевая площадка, свежая дата (01.10).",
-    "image_url": null
-  },
-  {
-    "rank": 3,
-    "id": 12,
-    "title": "Video: Uncut footage shows humanoid robot doing factory work with claimed 60% autonomy - Interesting Engineering",
+    "title": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS - StreetInsider",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPYy04Y0ZNcjZRcXZ3UHNSelRCQ3U1bk94ZmtPdzhxLWRvX1R0MXpId2l5OGEtTnFqcXkwX1RhX3RnZFdsTWUzb0ZVUldqTGkzVXFfVWY4S05WTEJkbDg4MEdJU0MxRjJyWmtoQkkwNVBlUHVPcXUyNUQ3WHlDM1d5TjZGSWRsdTA?oc=5",
-    "published_at": "2026-10-02T15:54:00+00:00",
-    "summary": "Video: Uncut footage shows humanoid robot doing factory work with claimed 60% autonomy    Interesting Engineering",
+    "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOaG9xUzNkYV9PM1FJSWt4TGNBZTZsamQteDFXa1NPS1FvMHIxcVRGWUlHSzBKN2diS3cwMTl5YXp6QTR3ZkpkOWpzbmtYYnRkdGx5Y1VkTW5MQUQwMmx6anVNanYzVG9hcUxMZzZFRGw1c0dlaW1uQVM4RzI1dVR4TUY3Rk1rakhIYzA0dE02MFRMTmpubGtnOFYwSjBaRUstblFnMnlfZVluMUt2a3Y1eGpGeUppM0tXZ2NBWFFHTWE4RzZMVHZwaUxxWEtSNHZmTnBnMXpNZldHd0pn?oc=5",
+    "published_at": "2026-10-04T03:24:46+00:00",
+    "summary": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS    StreetInsider",
     "topics": [
       "humanoid"
     ],
     "ai_score": 9.5,
-    "why_selected": "Явно гуманоидная тема: непрерывные (uncut) кадры работы гуманоидного робота на фабрике с заявленной автономией 60% — редкий проверяемый демо-материал, высокая общественная значимость и свежесть (02.10).",
+    "why_selected": "Премьера полностекового open-source гуманоидного робота RP1 на IROS — явный humanoid, высокая новизна и технологическая значимость, свежая дата публикации.",
+    "image_url": null
+  },
+  {
+    "rank": 2,
+    "id": 2,
+    "title": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026 - Thailand Business News",
+    "source": "Google News Quadruped Robots",
+    "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOZW1yRGhNX25haHk3TmZEaDQ3aVBTZTF2UXNuTGU5QWtpOVFHVmVHVHdOSWpNUnRXSVVaT3pFS1pScWsyQUpOeEtsckMwejlXeFZxVHU2RzJKMGZuejFFUU5vVW1GV2xCYWVGTFd5RFhMNlRpU2ZRelVZSk8wZTFSdUxvbXNwb29tT3BWcVlHMWRpTmxmeWl6YmhrTGFyc1laNUo5SmZvYVNCbWZGbExZbk9BWW9udm1VcGZhRXJjNllwc1UtOGRSUXpOQWNJdEJFU0ZzT1JFTDBxb0cyaXJLZU9sMUdXZTJPYW50REFHTGkzLVhhd2c?oc=5",
+    "published_at": "2026-10-01T22:20:39+00:00",
+    "summary": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026    Thailand Business News",
+    "topics": [
+      "robot_dog"
+    ],
+    "ai_score": 9.0,
+    "why_selected": "Дебют первого в мире промышленного образовательного квадрупеда на IROS 2026 — явный robot dog/quadruped, значимая новинка с заявленной новизной.",
+    "image_url": null
+  },
+  {
+    "rank": 3,
+    "id": 10,
+    "title": "Humanoid robots can sprint and box – but the real test is doing the laundry - Nation.Cymru",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOeldZZzh0dkhqLTFSR3NMaS1Qai1Fd3lWREpIVFNCSnIzZDIxRkExRUcyd1c4NlRSNWFWLTllWmstLUEzYVJ6azM4dG9OQVlza1dmQmZHRW1HNFZxaXRvcktPbWlodlRsV25UdkpzY19iUmpSTktRWlc5Z05UZnFrRUx1YnpvNUdoblhwMkpLc09IVFJXdHdmOFJWVi1BTkoxTXBOdFdn?oc=5",
+    "published_at": "2026-10-04T07:24:58+00:00",
+    "summary": "Humanoid robots can sprint and box – but the real test is doing the laundry    Nation.Cymru",
+    "topics": [
+      "humanoid"
+    ],
+    "ai_score": 7.5,
+    "why_selected": "Аналитика о гуманоидных роботах (спринт, бокс vs бытовые задачи) — явный humanoid, свежая публикация, широкий общественный интерес.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 4,
-    "title": "Runway introduces Praxis-1 world action model for robotics",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/runway-introduces-praxis-1-world-action-model-robotics/",
-    "published_at": "2026-10-02T18:32:13+00:00",
-    "summary": "When Runway does release Praxis-1 publicly, it plans to ship it with open weights rather than as a closed model. The post Runway introduces Praxis-1 world action model for robotics appeared first on The Robot Report .",
+    "id": 12,
+    "title": "Mikelorobotics Bets on Physical AI With Robots That Mimic Skilled Painters - thelec.net",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE44ZWI4TnNSUlNtVVc3NVUyR1haYVNYZkk3QmtSa0Z5eUt1bHpZUUxiQmdwbWhsWThmaWp5d1Q1MGQzRzFVdkpCVE53MUY1UGo0WVRsY3h2SWlZSWFFSzd2S3RhNzROQkE?oc=5",
+    "published_at": "2026-10-02T12:32:35+00:00",
+    "summary": "Mikelorobotics Bets on Physical AI With Robots That Mimic Skilled Painters    thelec.net",
     "topics": [
       "robotics"
     ],
-    "ai_score": 8.0,
-    "why_selected": "Значимая для робототехники AI-новость: Runway представляет мировую action-модель Praxis-1 с планами открытых весов — технологическая значимость и новизна игрока в робототехнике, свежая публикация The Robot Report.",
+    "ai_score": 6.0,
+    "why_selected": "Mikelorobotics ставит на physical AI с роботами, имитирующими художников — заметный кейс в робототехнике, умеренная новизна.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 5,
-    "title": "MIT robot swims through water via living muscle cells",
-    "source": "New Atlas Robotics",
-    "url": "https://newatlas.com/robotics/mit-robot-swims-light-living-muscle-cells/",
-    "published_at": "2026-10-03T01:00:00+00:00",
-    "summary": "An MIT robot powered by a single layer of living muscle cells swam through a watery maze, following a light held in a researcher’s hand. It is slow, tiny and nowhere near ready for the open ocean, but its thin design could point toward softer, cheaper swimming machines. Continue Reading Category: Robotics , Engineering Tags: MIT , Research , Robotics , Water , Swim",
+    "id": 3,
+    "title": "The physical AI race will be won in the patent office",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/physical-ai-race-will-be-won-in-patent-office/",
+    "published_at": "2026-10-03T14:30:07+00:00",
+    "summary": "Patent protection is important for robotics startups, but they should be strategic in determining what IP is important, says Lightbringer. The post The physical AI race will be won in the patent office appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 6.5,
-    "why_selected": "Новизна и научный интерес: робот MIT с живыми мышечными клетками проходит лабиринт по свету — оригинальное биогибридное исследование в рамках общей робототехники, хотя пока ранняя стадия.",
-    "image_url": "https://assets.newatlas.com/dims4/default/ae18159/2147483647/strip/true/crop/1800x945+0+127/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F8d%2F0a%2F2c4e524944869787ad1acf136f17%2Fmit-robomuscle-01-press-0.jpg&na.image_optimisation=0"
+    "ai_score": 5.0,
+    "why_selected": "Аналитика о роли патентов в гонке physical AI — важный стратегический материал для индустрии, но мнение, а не событие.",
+    "image_url": null
   }
 ]
