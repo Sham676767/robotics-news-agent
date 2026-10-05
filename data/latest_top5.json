@@ -1,77 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 1,
-    "title": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS - StreetInsider",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOaG9xUzNkYV9PM1FJSWt4TGNBZTZsamQteDFXa1NPS1FvMHIxcVRGWUlHSzBKN2diS3cwMTl5YXp6QTR3ZkpkOWpzbmtYYnRkdGx5Y1VkTW5MQUQwMmx6anVNanYzVG9hcUxMZzZFRGw1c0dlaW1uQVM4RzI1dVR4TUY3Rk1rakhIYzA0dE02MFRMTmpubGtnOFYwSjBaRUstblFnMnlfZVluMUt2a3Y1eGpGeUppM0tXZ2NBWFFHTWE4RzZMVHZwaUxxWEtSNHZmTnBnMXpNZldHd0pn?oc=5",
-    "published_at": "2026-10-04T03:24:46+00:00",
-    "summary": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS    StreetInsider",
+    "id": 11,
+    "title": "Clone Robotics shows humanlike robot hand moving under remote control - Interesting Engineering",
+    "source": "Google News Humanoid Robot Launches",
+    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPUW15ekhuR1RtdFZWNkpabmZiSFRWRVBrb201RlZGejRrbUZOVlZvaWljdVpGYlkydVg5WXJDVUZLeVJGXzlvbnhHdVMxZEljRDJvdXNUTDBBSjlHZ2J5cGt0Q3k2UE9DNFlHcXFzTDJXeWZFLXdFdUdUWUpJRmFGQnYxYm9yRWhhOUpKNzFGeXY?oc=5",
+    "published_at": "2026-10-02T13:20:00+00:00",
+    "summary": "Clone Robotics shows humanlike robot hand moving under remote control    Interesting Engineering",
     "topics": [
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 9.5,
-    "why_selected": "Премьера полностекового open-source гуманоидного робота RP1 на IROS — явный humanoid, высокая новизна и технологическая значимость, свежая дата публикации.",
+    "ai_score": 8.0,
+    "why_selected": "Демонстрация человекоподобной роботизированной руки под дистанционным управлением; тег humanoid, заметная технологическая новизна и зрелищность.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026 - Thailand Business News",
-    "source": "Google News Quadruped Robots",
-    "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOZW1yRGhNX25haHk3TmZEaDQ3aVBTZTF2UXNuTGU5QWtpOVFHVmVHVHdOSWpNUnRXSVVaT3pFS1pScWsyQUpOeEtsckMwejlXeFZxVHU2RzJKMGZuejFFUU5vVW1GV2xCYWVGTFd5RFhMNlRpU2ZRelVZSk8wZTFSdUxvbXNwb29tT3BWcVlHMWRpTmxmeWl6YmhrTGFyc1laNUo5SmZvYVNCbWZGbExZbk9BWW9udm1VcGZhRXJjNllwc1UtOGRSUXpOQWNJdEJFU0ZzT1JFTDBxb0cyaXJLZU9sMUdXZTJPYW50REFHTGkzLVhhd2c?oc=5",
-    "published_at": "2026-10-01T22:20:39+00:00",
-    "summary": "GENISOM AI Showcases Embodied Intelligence and Debuts World's First Industry-Grade Educational Quadruped at IROS 2026    Thailand Business News",
+    "id": 1,
+    "title": "UBTECH Liuzhou factory achieves 10-minute production pace for industrial humanoids - Global Sources",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQZU1vZnhsbUViWV9hMWt6alozTzRvVXNJT1o0dWs4LTZVQ2I3Y1lyQWIwNEt1Rl9IWENTV1NMUXRrUHhTci00U1Blb2ZhWElMN2hDUl8wNWtBYnFKcmxhLUtNRkw0NXNFV1FRVmtTN18zRkpoUzJTaUNySU9tdEttc0J2eVFMdnlCZHNGRGd3RnVpTXFCQ0VocmtHOTVIaWVPXzEtbFgtMWFVdjVjQ0IweFZWVnFEVG5XQzYwMEF0Z2JoeFZTZVgwYVk1NnNqMS1kT3J2TGJobk1kX0psa1BtZzBraw?oc=5",
+    "published_at": "2026-10-05T09:17:56+00:00",
+    "summary": "UBTECH Liuzhou factory achieves 10-minute production pace for industrial humanoids    Global Sources",
     "topics": [
-      "robot_dog"
+      "humanoid"
     ],
-    "ai_score": 9.0,
-    "why_selected": "Дебют первого в мире промышленного образовательного квадрупеда на IROS 2026 — явный robot dog/quadruped, значимая новинка с заявленной новизной.",
+    "ai_score": 9.5,
+    "why_selected": "Явный humanoid-фокус: серийное производство промышленных гуманоидов с темпом 10 минут на единицу; высокая технологическая и промышленная значимость, максимальная свежесть (5 октября).",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 10,
-    "title": "Humanoid robots can sprint and box – but the real test is doing the laundry - Nation.Cymru",
+    "id": 7,
+    "title": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS - Japan Wire by Kyodo News",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOeldZZzh0dkhqLTFSR3NMaS1Qai1Fd3lWREpIVFNCSnIzZDIxRkExRUcyd1c4NlRSNWFWLTllWmstLUEzYVJ6azM4dG9OQVlza1dmQmZHRW1HNFZxaXRvcktPbWlodlRsV25UdkpzY19iUmpSTktRWlc5Z05UZnFrRUx1YnpvNUdoblhwMkpLc09IVFJXdHdmOFJWVi1BTkoxTXBOdFdn?oc=5",
-    "published_at": "2026-10-04T07:24:58+00:00",
-    "summary": "Humanoid robots can sprint and box – but the real test is doing the laundry    Nation.Cymru",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1aNW5YalJtUVFLaGxJc040aGU2aVdTWjBuanN6UTZNbmc0R0dTaHlsRURBZXNfc25QLUhud1NvbG5RWlp3MDRJenZMTHVyWFRNNmRuN1NqOHV4dw?oc=5",
+    "published_at": "2026-10-05T00:56:00+00:00",
+    "summary": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS    Japan Wire by Kyodo News",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 7.5,
-    "why_selected": "Аналитика о гуманоидных роботах (спринт, бокс vs бытовые задачи) — явный humanoid, свежая публикация, широкий общественный интерес.",
+    "ai_score": 9.0,
+    "why_selected": "Дебют полностекового открытого гуманоида RP1 на конференции IROS; прямой humanoid-мажор, высокая новизна и интерес робототехнического сообщества.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 12,
-    "title": "Mikelorobotics Bets on Physical AI With Robots That Mimic Skilled Painters - thelec.net",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE44ZWI4TnNSUlNtVVc3NVUyR1haYVNYZkk3QmtSa0Z5eUt1bHpZUUxiQmdwbWhsWThmaWp5d1Q1MGQzRzFVdkpCVE53MUY1UGo0WVRsY3h2SWlZSWFFSzd2S3RhNzROQkE?oc=5",
-    "published_at": "2026-10-02T12:32:35+00:00",
-    "summary": "Mikelorobotics Bets on Physical AI With Robots That Mimic Skilled Painters    thelec.net",
+    "id": 3,
+    "title": "Research could guide the future design of social robots",
+    "source": "Robohub",
+    "url": "https://robohub.org/research-could-guide-the-future-design-of-social-robots/",
+    "published_at": "2026-10-05T10:00:33+00:00",
+    "summary": "By the University of Glasgow Giving robot companions animal-like or anime-style faces and voices could maximise their emotional appeal to users, according to new research which could help guide the growing field of social robotics. Social robots can provide companionship and comfort to their owners by mimicking human or petlike behaviours. Although the robots are […]",
     "topics": [
       "robotics"
     ],
     "ai_score": 6.0,
-    "why_selected": "Mikelorobotics ставит на physical AI с роботами, имитирующими художников — заметный кейс в робототехнике, умеренная новизна.",
-    "image_url": null
+    "why_selected": "Свежее исследование Университета Глазго по дизайну социальных роботов; научная новизна и задел на будущее направления, умеренная массовость.",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/10/Screenshot-2026-09-27-at-10.29.52-1-1024x599.png"
   },
   {
     "rank": 5,
-    "id": 3,
-    "title": "The physical AI race will be won in the patent office",
+    "id": 2,
+    "title": "How robotics and physical AI can responsibly tackle key physical security challenges",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/physical-ai-race-will-be-won-in-patent-office/",
-    "published_at": "2026-10-03T14:30:07+00:00",
-    "summary": "Patent protection is important for robotics startups, but they should be strategic in determining what IP is important, says Lightbringer. The post The physical AI race will be won in the patent office appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/how-robotics-physical-ai-can-responsibly-tackle-key-physical-security-challenges/",
+    "published_at": "2026-10-04T12:52:11+00:00",
+    "summary": "Cyber and physical security threats are rapidly evolving, but robotics and AI can evolve to meet them, writes a columnist. The post How robotics and physical AI can responsibly tackle key physical security challenges appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 5.0,
-    "why_selected": "Аналитика о роли патентов в гонке physical AI — важный стратегический материал для индустрии, но мнение, а не событие.",
+    "ai_score": 4.5,
+    "why_selected": "Колумнистский материал о применении робототехники и physical AI в физической безопасности; мнения без конкретного события.",
     "image_url": null
   }
 ]
