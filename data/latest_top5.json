@@ -1,78 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 11,
-    "title": "Clone Robotics shows humanlike robot hand moving under remote control - Interesting Engineering",
-    "source": "Google News Humanoid Robot Launches",
-    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPUW15ekhuR1RtdFZWNkpabmZiSFRWRVBrb201RlZGejRrbUZOVlZvaWljdVpGYlkydVg5WXJDVUZLeVJGXzlvbnhHdVMxZEljRDJvdXNUTDBBSjlHZ2J5cGt0Q3k2UE9DNFlHcXFzTDJXeWZFLXdFdUdUWUpJRmFGQnYxYm9yRWhhOUpKNzFGeXY?oc=5",
-    "published_at": "2026-10-02T13:20:00+00:00",
-    "summary": "Clone Robotics shows humanlike robot hand moving under remote control    Interesting Engineering",
+    "id": 10,
+    "title": "New RP1 humanoid for open-source robotics research unveiled by RoboParty - Interesting Engineering",
+    "source": "Google News Robotics Research",
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPR2tfeDBQWUN4U3I0UEwzYlppUjB4SXliTXZrSTk2RTRWdXBOWHRzcXNJLXRWdDlOQWJOdDVFc0ZfR1d3X2o4dHV0cDFJXzc4NWxMUllYZ1JTN2ZDUjdPSVFCRjduU0VnRmFoOWtWeHhLN2VrWmNYSU9lR0dscWVEVDkzMXo2YlYwbnp5LTRHaTFRSVV4Q1E?oc=5",
+    "published_at": "2026-10-05T13:24:00+00:00",
+    "summary": "New RP1 humanoid for open-source robotics research unveiled by RoboParty    Interesting Engineering",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 8.0,
-    "why_selected": "Демонстрация человекоподобной роботизированной руки под дистанционным управлением; тег humanoid, заметная технологическая новизна и зрелищность.",
+    "ai_score": 8.2,
+    "why_selected": "Явно гуманоидная новость: презентация открытого RP1 для исследований в робототехнике. Значимо для open-source-сообщества и разработчиков, свежий релиз, авторитетный источник.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 1,
-    "title": "UBTECH Liuzhou factory achieves 10-minute production pace for industrial humanoids - Global Sources",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQZU1vZnhsbUViWV9hMWt6alozTzRvVXNJT1o0dWs4LTZVQ2I3Y1lyQWIwNEt1Rl9IWENTV1NMUXRrUHhTci00U1Blb2ZhWElMN2hDUl8wNWtBYnFKcmxhLUtNRkw0NXNFV1FRVmtTN18zRkpoUzJTaUNySU9tdEttc0J2eVFMdnlCZHNGRGd3RnVpTXFCQ0VocmtHOTVIaWVPXzEtbFgtMWFVdjVjQ0IweFZWVnFEVG5XQzYwMEF0Z2JoeFZTZVgwYVk1NnNqMS1kT3J2TGJobk1kX0psa1BtZzBraw?oc=5",
-    "published_at": "2026-10-05T09:17:56+00:00",
-    "summary": "UBTECH Liuzhou factory achieves 10-minute production pace for industrial humanoids    Global Sources",
+    "id": 2,
+    "title": "Exoskeleton and Wearable Robotics News 2026 – Week 40 - Exoskeleton Report",
+    "source": "Google News Exoskeletons",
+    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNWFZBNnJqSTVVM0k5dHdYUHg4UTg1WWhhalRGaXpnamZNSGNZRE94TGh0RldGVXlMQVp4OWUxOXdSN0Q1dS1BRm5qc0RlLVR0Z0JJSEpEUVhuOGEwVmpEYldqZHJMU3lJVkV0MWIxejFkZDI2cnB1R2tGTUV4Nlhpd0N1LWR2RWVCbktqWm9zb3k3ZjRF?oc=5",
+    "published_at": "2026-10-06T05:43:38+00:00",
+    "summary": "Exoskeleton and Wearable Robotics News 2026 – Week 40    Exoskeleton Report",
     "topics": [
-      "humanoid"
+      "robotics",
+      "exoskeleton"
     ],
-    "ai_score": 9.5,
-    "why_selected": "Явный humanoid-фокус: серийное производство промышленных гуманоидов с темпом 10 минут на единицу; высокая технологическая и промышленная значимость, максимальная свежесть (5 октября).",
+    "ai_score": 7.0,
+    "why_selected": "Прямой тематический фокус на экзоскелетах: еженедельный дайджест Exoskeleton Report. Полезная сводка по нише, но формат дайджеста снижает новизну и уникальность.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 7,
-    "title": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS - Japan Wire by Kyodo News",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1aNW5YalJtUVFLaGxJc040aGU2aVdTWjBuanN6UTZNbmc0R0dTaHlsRURBZXNfc25QLUhud1NvbG5RWlp3MDRJenZMTHVyWFRNNmRuN1NqOHV4dw?oc=5",
-    "published_at": "2026-10-05T00:56:00+00:00",
-    "summary": "RoboParty Unveils RP1, a High-Performance Full-Stack Open-Source Humanoid Robot at IROS    Japan Wire by Kyodo News",
+    "id": 1,
+    "title": "Chinese Humanoid Robots Appear at National Assembly Audit... \"South Korea's Physical AI Investment Falls Woefully Short\" - news.sbs.co.kr",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9lOFdpd3hmU3B6UFFueGs1VE9SZm5qeWFjSzByWWRLNWd6M1o2dXBwc3pmQWozbDV1SXcwM1NEYzlZRnJnVm92clhXTm96TFNKdEVtQ0tINWpMVk5jVFpxeGNna2FTWnhIVTJ3LUJ30gFmQVVfeXFMTkNTUV8yYUZ1S1AtVl84OXYzc2FBODNHYllzbUtmMkVEeHpyZnMzTFJLWDNqeFYxWWlIWnBhdmROSkhkaHhDWkE5VElGOW9uVlNUMU00dldvM1NtV0d5UExQbnJwYy13?oc=5",
+    "published_at": "2026-10-06T10:46:22+00:00",
+    "summary": "Chinese Humanoid Robots Appear at National Assembly Audit... \"South Korea's Physical AI Investment Falls Woefully Short\"    news.sbs.co.kr",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 9.0,
-    "why_selected": "Дебют полностекового открытого гуманоида RP1 на конференции IROS; прямой humanoid-мажор, высокая новизна и интерес робототехнического сообщества.",
+    "ai_score": 9.3,
+    "why_selected": "Явно про гуманоидных роботов: китайские гуманоиды на аудите Национального собрания Южной Кореи. Сильный геополитический контекст (отставание Кореи в Physical AI), крупный источник SBS, максимальная свежесть и общественный интерес.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 3,
-    "title": "Research could guide the future design of social robots",
-    "source": "Robohub",
-    "url": "https://robohub.org/research-could-guide-the-future-design-of-social-robots/",
-    "published_at": "2026-10-05T10:00:33+00:00",
-    "summary": "By the University of Glasgow Giving robot companions animal-like or anime-style faces and voices could maximise their emotional appeal to users, according to new research which could help guide the growing field of social robotics. Social robots can provide companionship and comfort to their owners by mimicking human or petlike behaviours. Although the robots are […]",
+    "id": 8,
+    "title": "Agile Robots CEO: ‘Physical AI is going to be 10x bigger than automotive’ - Robotics & Automation News",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOMTk1YUIzR2VUeXpWNUVYZGhxejJXbmdZY2dyMjhWekpmdkluWkNLUzlZRUZKVlE1WWg1QlBDNnIySFJvMmxoNFcxV2tzcnFvNGV6bk1tVnBTNDR5akhqZV9XcHR6WEdMNVJKY1ZwS1lNQ0psYzFDTmlWZE5WeGoyQ3FTTWh4V3ZrLXlESjVzS2U0d0RzQ01zTEhzX3RTV1NYVDF5WXFiUERvWWFqUDY0cjFubkVfTGwxRVIweEpXdUVXTFlWTUE?oc=5",
+    "published_at": "2026-10-06T09:18:42+00:00",
+    "summary": "Agile Robots CEO: ‘Physical AI is going to be 10x bigger than automotive’    Robotics & Automation News",
     "topics": [
       "robotics"
     ],
-    "ai_score": 6.0,
-    "why_selected": "Свежее исследование Университета Глазго по дизайну социальных роботов; научная новизна и задел на будущее направления, умеренная массовость.",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/10/Screenshot-2026-09-27-at-10.29.52-1-1024x599.png"
+    "ai_score": 7.6,
+    "why_selected": "Резонансное заявление CEO Agile Robots о том, что Physical AI будет в 10 раз больше автомобильного рынка. Свежо и задает повестку, но это комментарий без конкретного продукта.",
+    "image_url": null
   },
   {
     "rank": 5,
-    "id": 2,
-    "title": "How robotics and physical AI can responsibly tackle key physical security challenges",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/how-robotics-physical-ai-can-responsibly-tackle-key-physical-security-challenges/",
-    "published_at": "2026-10-04T12:52:11+00:00",
-    "summary": "Cyber and physical security threats are rapidly evolving, but robotics and AI can evolve to meet them, writes a columnist. The post How robotics and physical AI can responsibly tackle key physical security challenges appeared first on The Robot Report .",
+    "id": 9,
+    "title": "Doosan Robotics Pushes ‘Korean Physical AI’ with Homegrown AI Chips - Korea IT Times",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9lT1pPdjgybjNLTEt4cnIzcEMwaVZUNG5oNEkwMFNlSFUtcXlLN0YzT1hWM0dQN1lDRnBjc2RwT1RwaDFFMUlEZFJHcjJTUnd0Ml9pMW40Y1QxWTdQN29pUWlvWHVhdTFkNmdCSjVpcmY?oc=5",
+    "published_at": "2026-10-06T03:21:06+00:00",
+    "summary": "Doosan Robotics Pushes ‘Korean Physical AI’ with Homegrown AI Chips    Korea IT Times",
     "topics": [
       "robotics"
     ],
-    "ai_score": 4.5,
-    "why_selected": "Колумнистский материал о применении робототехники и physical AI в физической безопасности; мнения без конкретного события.",
+    "ai_score": 7.4,
+    "why_selected": "Doosan Robotics развивает корейский Physical AI на собственных ИИ-чипах. Технологически значимо для робототехники, свежо, однако без прямого фокуса на гуманоидах или квадрупедах.",
     "image_url": null
   }
 ]
