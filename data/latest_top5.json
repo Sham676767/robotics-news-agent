@@ -1,79 +1,79 @@
 [
   {
     "rank": 1,
-    "id": 10,
-    "title": "New RP1 humanoid for open-source robotics research unveiled by RoboParty - Interesting Engineering",
-    "source": "Google News Robotics Research",
-    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPR2tfeDBQWUN4U3I0UEwzYlppUjB4SXliTXZrSTk2RTRWdXBOWHRzcXNJLXRWdDlOQWJOdDVFc0ZfR1d3X2o4dHV0cDFJXzc4NWxMUllYZ1JTN2ZDUjdPSVFCRjduU0VnRmFoOWtWeHhLN2VrWmNYSU9lR0dscWVEVDkzMXo2YlYwbnp5LTRHaTFRSVV4Q1E?oc=5",
-    "published_at": "2026-10-05T13:24:00+00:00",
-    "summary": "New RP1 humanoid for open-source robotics research unveiled by RoboParty    Interesting Engineering",
+    "id": 1,
+    "title": "Video: Dexterous robot hand learns the delicate art of silk embroidery",
+    "source": "New Atlas Robotics",
+    "url": "https://newatlas.com/robotics/agilink-robot-hand-learns-silk-embroidery/",
+    "published_at": "2026-10-06T14:03:00+00:00",
+    "summary": "Agilink, a spin-off of Chinese robotics giant AgiBot, asked Fu Xianghong, a master of traditional Suzhou embroidery, to train its OmniHand 3 Ultra. The synthetic hand has learned to split silk strands, thread a needle, stretch fabric across a frame, and stitch, following a craft with more than 2,500 years of history. Continue Reading Category: Robotics , Engineering Tags: Robotics , Hand , Humanoid , Dexterity , Silk",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 8.2,
-    "why_selected": "Явно гуманоидная новость: презентация открытого RP1 для исследований в робототехнике. Значимо для open-source-сообщества и разработчиков, свежий релиз, авторитетный источник.",
-    "image_url": null
+    "ai_score": 53.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://assets.newatlas.com/dims4/default/b99540e/2147483647/strip/true/crop/3238x1700+91+0/resize/1200x630!/quality/90/?url=https%3A%2F%2Fnewatlas-brightspot.s3.ap-southeast-2.amazonaws.com%2F38%2F38%2Ffe81e0694fed8cd4141a9d3c83fd%2Fscreenshot-2026-10-05-at-17-38-00.png&na.image_optimisation=0"
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "Exoskeleton and Wearable Robotics News 2026 – Week 40 - Exoskeleton Report",
-    "source": "Google News Exoskeletons",
-    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNWFZBNnJqSTVVM0k5dHdYUHg4UTg1WWhhalRGaXpnamZNSGNZRE94TGh0RldGVXlMQVp4OWUxOXdSN0Q1dS1BRm5qc0RlLVR0Z0JJSEpEUVhuOGEwVmpEYldqZHJMU3lJVkV0MWIxejFkZDI2cnB1R2tGTUV4Nlhpd0N1LWR2RWVCbktqWm9zb3k3ZjRF?oc=5",
-    "published_at": "2026-10-06T05:43:38+00:00",
-    "summary": "Exoskeleton and Wearable Robotics News 2026 – Week 40    Exoskeleton Report",
-    "topics": [
-      "robotics",
-      "exoskeleton"
-    ],
-    "ai_score": 7.0,
-    "why_selected": "Прямой тематический фокус на экзоскелетах: еженедельный дайджест Exoskeleton Report. Полезная сводка по нише, но формат дайджеста снижает новизну и уникальность.",
-    "image_url": null
-  },
-  {
-    "rank": 3,
-    "id": 1,
-    "title": "Chinese Humanoid Robots Appear at National Assembly Audit... \"South Korea's Physical AI Investment Falls Woefully Short\" - news.sbs.co.kr",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9lOFdpd3hmU3B6UFFueGs1VE9SZm5qeWFjSzByWWRLNWd6M1o2dXBwc3pmQWozbDV1SXcwM1NEYzlZRnJnVm92clhXTm96TFNKdEVtQ0tINWpMVk5jVFpxeGNna2FTWnhIVTJ3LUJ30gFmQVVfeXFMTkNTUV8yYUZ1S1AtVl84OXYzc2FBODNHYllzbUtmMkVEeHpyZnMzTFJLWDNqeFYxWWlIWnBhdmROSkhkaHhDWkE5VElGOW9uVlNUMU00dldvM1NtV0d5UExQbnJwYy13?oc=5",
-    "published_at": "2026-10-06T10:46:22+00:00",
-    "summary": "Chinese Humanoid Robots Appear at National Assembly Audit... \"South Korea's Physical AI Investment Falls Woefully Short\"    news.sbs.co.kr",
+    "id": 11,
+    "title": "Humanoid Robot Deployments Buyer Checklist: Practical 2026 Guide",
+    "source": "RoboBrief",
+    "url": "https://robobrief.tech/blog/humanoid-robot-deployments-buyer-checklist-2026/",
+    "published_at": "2026-10-05T00:00:00+00:00",
+    "summary": "A practical guide to humanoid robot deployments buyer checklist with selection criteria, tradeoffs, setup tips, FAQs, and buyer-friendly next steps.",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 9.3,
-    "why_selected": "Явно про гуманоидных роботов: китайские гуманоиды на аудите Национального собрания Южной Кореи. Сильный геополитический контекст (отставание Кореи в Physical AI), крупный источник SBS, максимальная свежесть и общественный интерес.",
+    "ai_score": 50.0,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
+    "image_url": "https://robobrief.tech/blog/humanoid-robot-deployments-buyer-checklist-2026/opengraph-image?90550f5b7aa5e5f3"
+  },
+  {
+    "rank": 3,
+    "id": 3,
+    "title": "Pegasus 1.6 brings video understanding to physical AI, says TwelveLabs",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/pegasus-1-6-brings-video-understanding-physical-ai-says-twelvelabs/",
+    "published_at": "2026-10-06T20:07:48+00:00",
+    "summary": "TwelveLabs says its Pegasus 1.6 model understands first-person video and supports workflows including labeling for robotics developers. The post Pegasus 1.6 brings video understanding to physical AI, says TwelveLabs appeared first on The Robot Report .",
+    "topics": [
+      "robotics"
+    ],
+    "ai_score": 40.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 8,
-    "title": "Agile Robots CEO: ‘Physical AI is going to be 10x bigger than automotive’ - Robotics & Automation News",
+    "id": 7,
+    "title": "YYForce Opens Singapore Robotics Center to Advance Humanoid Training and Service Robot Deployment - PR Newswire",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOMTk1YUIzR2VUeXpWNUVYZGhxejJXbmdZY2dyMjhWekpmdkluWkNLUzlZRUZKVlE1WWg1QlBDNnIySFJvMmxoNFcxV2tzcnFvNGV6bk1tVnBTNDR5akhqZV9XcHR6WEdMNVJKY1ZwS1lNQ0psYzFDTmlWZE5WeGoyQ3FTTWh4V3ZrLXlESjVzS2U0d0RzQ01zTEhzX3RTV1NYVDF5WXFiUERvWWFqUDY0cjFubkVfTGwxRVIweEpXdUVXTFlWTUE?oc=5",
-    "published_at": "2026-10-06T09:18:42+00:00",
-    "summary": "Agile Robots CEO: ‘Physical AI is going to be 10x bigger than automotive’    Robotics & Automation News",
+    "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOZTZ3UGV2YW0ycGlLZzlGQ0JDZ1plcUhwdjdfTFM2S0tGVmtBU09xLWpMV0JCVXJ4cFlnaXNmUzZUVkVTYUl4YzRuNDRHWHZsZF9wVnFDb2JMbWJJU05nbjVJZmdETFJ0UURvMDMwNUI1LTV5c0JKLTVjZElRV3JheUNFaUN5NElYNFd3ZzJURl8xWTdVQkJiZ0MzRVJoc0ZVYVQ3bXJNZ3ZuVUxyMlo2SEluN2pFcEo4TUlMU2dfY18xZFNzdzF6enhfNHU0LTRCWGJDSkxydDh3OTA3eXlqV0VGVTNqb0VJ?oc=5",
+    "published_at": "2026-10-06T20:10:00+00:00",
+    "summary": "YYForce Opens Singapore Robotics Center to Advance Humanoid Training and Service Robot Deployment    PR Newswire",
     "topics": [
-      "robotics"
+      "robotics",
+      "humanoid"
     ],
-    "ai_score": 7.6,
-    "why_selected": "Резонансное заявление CEO Agile Robots о том, что Physical AI будет в 10 раз больше автомобильного рынка. Свежо и задает повестку, но это комментарий без конкретного продукта.",
+    "ai_score": 37.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 9,
-    "title": "Doosan Robotics Pushes ‘Korean Physical AI’ with Homegrown AI Chips - Korea IT Times",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9lT1pPdjgybjNLTEt4cnIzcEMwaVZUNG5oNEkwMFNlSFUtcXlLN0YzT1hWM0dQN1lDRnBjc2RwT1RwaDFFMUlEZFJHcjJTUnd0Ml9pMW40Y1QxWTdQN29pUWlvWHVhdTFkNmdCSjVpcmY?oc=5",
-    "published_at": "2026-10-06T03:21:06+00:00",
-    "summary": "Doosan Robotics Pushes ‘Korean Physical AI’ with Homegrown AI Chips    Korea IT Times",
+    "id": 4,
+    "title": "Teradyne invests in Bright Machines to bring robotics to AI infrastructure manufacturing",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/teradyne-invests-ibright-machines-brings-robotics-ai-infrastructure-manufacturing/",
+    "published_at": "2026-10-05T23:34:35+00:00",
+    "summary": "The companies plan to integrate Teradyne robotics and test technologies with the Bright Machines manufacturing platform. The post Teradyne invests in Bright Machines to bring robotics to AI infrastructure manufacturing appeared first on The Robot Report .",
     "topics": [
       "robotics"
     ],
-    "ai_score": 7.4,
-    "why_selected": "Doosan Robotics развивает корейский Physical AI на собственных ИИ-чипах. Технологически значимо для робототехники, свежо, однако без прямого фокуса на гуманоидах или квадрупедах.",
+    "ai_score": 33.5,
+    "why_selected": "AI ranking unavailable; deterministic freshness-and-event fallback",
     "image_url": null
   }
 ]
