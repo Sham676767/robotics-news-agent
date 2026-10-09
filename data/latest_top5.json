@@ -1,81 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 1,
-    "title": "This Disembodied Hand Is All the Robot You Need",
-    "source": "IEEE Spectrum Robotics",
-    "url": "https://spectrum.ieee.org/walking-robotic-hand",
-    "published_at": "2026-10-08T12:00:02+00:00",
-    "summary": "A hand attached to the end of an arm is a given for most humans, but what if robots didn’t have to play by the same rules as we do? Researchers from ETH Zurich have turned an off-the-shelf robotic hand into a completely self-contained robot that walks on its fingertips while using those same fingers to manipulate its environment. Besides making the perfect Halloween accessory for anyone planning to dress up as a member of The Addams Family – who were famously accompanied by a disembodied walking hand called Thing – the researchers say the approach could make it possible to operate controls and handle objects in places a traditional robot arm can’t reach. Soft Robotics Lab, ETH Zurich/YouTube Amirhossein Kazemipour , a Ph.D. candidate in the Soft Robotics Lab at ETH Zurich in Switzerland who led the project, believes this hand could prove useful in contexts like fiddly maintenance tasks in industrial settings, or in search and rescue, where a robot could detach its hand to explore confined spaces too tight for the rest of its body. More broadly, he says, the work is a step toward a new approach to robotics in which body parts are not confined to a single role. “I wanted to see how much a robotic hand could do without the rest of the robot,” Kazemipour told IEEE Spectrum . “Instead of having this traditional view of robotic parts, what if we could use those parts to do other tasks that they are not designed to do.” This is not the first attempt to get a robot hand to walk , but",
+    "id": 9,
+    "title": "Deep Robotics Tests DR02 Humanoids in Hangzhou Traffic and Tourist Areas - AI Insider",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPa3EzeHNBcFBxQUdpZEtZUFU1S0dMQTVKaWRySWQ1Ni1uOE5HMXdGZm9MMWYwaTJhQ0s1VF9XV1dSNUlpN2JsY3FhdWlqeW5TdEZ3dE5xT21NTHNPMUtqS0JUaFVaQWVKY1VLSlQ5MkVjdDZSTHItTXd4V3I0OWhGNmg1NzVCT2V1eEtpQkY2Tm01V3piaUZtV0VfSmVCU3h5VElTLWZvX1l0cHNHM1Y4?oc=5",
+    "published_at": "2026-10-09T02:00:00+00:00",
+    "summary": "Deep Robotics Tests DR02 Humanoids in Hangzhou Traffic and Tourist Areas    AI Insider",
     "topics": [
       "robotics",
-      "robot_dog"
+      "humanoid"
     ],
-    "ai_score": 9.3,
-    "why_selected": "Нестандартная разработка ETH Zurich: роботизированная рука, ходящая на пальцах и самостоятельно манипулирующая предметами. Высокая новизна, технологическая значимость (поиск и спасение, промышленное обслуживание), свежая дата и сильный источник IEEE Spectrum.",
-    "image_url": "https://spectrum.ieee.org/media-library/image.jpg?id=68383399&width=1200&height=600&coordinates=0%2C15%2C0%2C15"
+    "ai_score": 92,
+    "why_selected": "Реальные полевые испытания гуманоидов DR02 в трафике и туристических зонах Ханчжоу: явное упоминание humanoid, высокая наглядность и общественный интерес, свежая дата (9 октября), известный разработчик Deep Robotics.",
+    "image_url": null
   },
   {
     "rank": 2,
-    "id": 3,
-    "title": "Robot data startup Mecka AI nabs $60M from Sequoia",
-    "source": "TechCrunch Robotics",
-    "url": "https://techcrunch.com/2026/10/07/robot-data-startup-mecka-ai-nabs-60m-from-sequoia/",
-    "published_at": "2026-10-07T23:36:57+00:00",
-    "summary": "Mecka AI collects and analyzes human motion data to train humanoid robots and other kinds of robots. The startup pays people to record everyday tasks.",
+    "id": 7,
+    "title": "Startup Launches Humanoid Robot for Under $30,000 - Assembly Magazine",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPMDlUSmR5MTJDZVdwZVYyWVBLdmVJQlpFNXJyOTZmTkYxS2ZmTTFnX2sxQzdIRWhFTWtzenlLWmFhVndTOXZlVXFmUVpqQXM2Rk82NkpwekJRVUk2Z0NtLTFlQ2R6b2xrcnlEVTdUTmJ4Q2o5MGNLd0w0cllPMWp6a2ZLNkREaTdYT1FKZk1fVExuUElkcVpF?oc=5",
+    "published_at": "2026-10-09T11:04:00+00:00",
+    "summary": "Startup Launches Humanoid Robot for Under $30,000    Assembly Magazine",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 9.0,
-    "why_selected": "Крупный раунд $60M от Sequoia для стартапа Mecka AI, собирающего данные движений людей для обучения гуманоидных роботов. Явно указан humanoid, значимое финансирование, высокий общественный интерес, свежесть и качественный источник TechCrunch.",
-    "image_url": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2082335389.jpg?resize=1200,857"
+    "ai_score": 88,
+    "why_selected": "Запуск гуманоида дешевле $30 000 — явный humanoid, сильный публичный интерес к ценовому барьеру входа, свежесть (9 октября), авторитетный отраслевой источник Assembly Magazine, хотя деталей в карточке мало.",
+    "image_url": null
   },
   {
     "rank": 3,
-    "id": 2,
-    "title": "HiPHI: A Large-Scale Benchmark for High-Precision Human Motion and Object Interaction",
-    "source": "IEEE Spectrum Robotics",
-    "url": "https://content.knowledgehub.wiley.com/hiphi-a-large-scale-benchmark-for-high-precision-human-motion-and-object-interaction/",
-    "published_at": "2026-10-07T13:49:48+00:00",
-    "summary": "This White Paper gives robotics researchers and engineers an overview of a new large-scale motion capture dataset built to close the data gap limiting humanoid robot learning. It also shows how policies trained on the dataset transfer to a real humanoid robot. What you will learn about: Why humanoid robot learning, a central problem in embodied AI and Physical AI, needs data that internet video and existing motion capture datasets cannot provide. How FrameNet , a linguistic framework for human action, can guide motion capture collection to systematically cover a broad range of whole-body motion. Why synchronized object trajectories and meshes make human-object interaction data useful for teaching robots real-world tasks such as carrying, pushing, and pulling. How reinforcement learning policies trained on this motion capture data improve with scale, and how sim-to-real transfer carries them onto a physical humanoid robot. Download this free whitepaper now!",
+    "id": 1,
+    "title": "Jabil discusses the pace of humanoid robot development and production",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/jabil-discusses-pace-humanoid-robot-development-production/",
+    "published_at": "2026-10-08T16:16:21+00:00",
+    "summary": "Jabil, which is working with robot developers such as Apptronik, provides a design perspective on humanoid progress. The post Jabil discusses the pace of humanoid robot development and production appeared first on The Robot Report .",
     "topics": [
-      "robotics",
       "humanoid"
     ],
-    "ai_score": 8.6,
-    "why_selected": "Масштабный бенчмарк HiPHI с датасетом захвата движений для обучения гуманоидных роботов и переносом политик на реального гуманоида. Явно указан humanoid, высокая технологическая значимость для embodied AI, авторитетный источник IEEE Spectrum.",
-    "image_url": "https://content.knowledgehub.wiley.com/wp-content/uploads/2026/09/HiPHIMktImage2-scaled-e1790068839496-500x302.png"
+    "ai_score": 85,
+    "why_selected": "Взгляд производителя Jabil (партнёр Apptronik) на темпы разработки и производства гуманоидов: явный humanoid, технологическая и производственная значимость, качественный источник The Robot Report.",
+    "image_url": null
   },
   {
     "rank": 4,
-    "id": 9,
-    "title": "Lumos Robotics stages the ‘world’s first’ humanoid robot theater in Shenzhen - Robotics & Automation News",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPSDZOc3FJanFsblNQYTJtTlFQWk9SUG5ySTlMSkRadG5qSnFNclFUMFJHZ2NPUWhpZlNINVJxZmluMmJUa0VtdV82VE5Vc2wwbUFteDNraHpycG5SWXhtVGpiOFpwTlBLWlliZ1BCbEtxN081eVlJSXBWUnRjMXBZS0t3SXVNSkxhSXVHRFpRRmJCSHIyX0xpY3BDVkF6UzNXRm02aDVyaDNiR0lVaWdoWHJmc2NKMGxWc0FPeHhxWGN4TWxyeDRDWjhn?oc=5",
-    "published_at": "2026-10-08T08:26:08+00:00",
-    "summary": "Lumos Robotics stages the ‘world’s first’ humanoid robot theater in Shenzhen    Robotics & Automation News",
+    "id": 2,
+    "title": "AWS launches open-source Physical AI Toolchain for robotics",
+    "source": "The Robot Report",
+    "url": "https://www.therobotreport.com/aws-launches-open-source-physical-ai-toolchain-for-robotics/",
+    "published_at": "2026-10-08T13:23:58+00:00",
+    "summary": "The toolchain combines AWS and NVIDIA tools for synthetic data generation, model training, simulation and validation, edge deployment, and continuous improvement. The post AWS launches open-source Physical AI Toolchain for robotics appeared first on The Robot Report .",
     "topics": [
-      "robotics",
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 8.4,
-    "why_selected": "Заявленный «первый в мире» театр гуманоидных роботов от Lumos Robotics в Шэньчжэне. Явно указан humanoid, заметный общественный интерес и свежесть, хотя источник среднего уровня и нет деталей в кратком описании.",
+    "ai_score": 84,
+    "why_selected": "AWS выпускает open-source Physical AI Toolchain с NVIDIA: значимая инфраструктурная новость для робототехники (синтетические данные, симуляция, edge-деплой), крупный игрок, хороший источник, свежая дата.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 10,
-    "title": "DEEP Robotics' Humanoid Robot Debuts in Xihu District, Exploring New Approaches to Smart Transportation - Yahoo Finance",
+    "id": 4,
+    "title": "Humanoid Robot Competition Shifts to \"Getting Work Done\" — Can Crowdsourced Data Platforms Crack the Deployment Challenge? - BigGo Finance",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQcFJXWmZ5UXQzOGZpQUt1Tm9GeHp4bE9tOVdwcHRDQWZfYUx0UDVDM0hkS2NScl9pZjJmRUgwYkI0ajNnRXphVl94LTZpeDJwdlBmNWdrT2JhZ2xuaU5JWm9jRzU4RGNzRnpZaWRXY3c1ekQySG5mR3FkRFJlSHhSYmpkMWNTcXF2VDR1aWhVbmFURFVuUkhHYlpyOG00enlm?oc=5",
-    "published_at": "2026-10-08T08:15:00+00:00",
-    "summary": "DEEP Robotics' Humanoid Robot Debuts in Xihu District, Exploring New Approaches to Smart Transportation    Yahoo Finance",
+    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE90ODk0bHNXb09mbURtUWFueTg4UW9KS0ZTZHV6bEZ5WmpHbXpURkl2aDZSLVdlUW5ubkhpUGUyMm1zUXk0dndFZVBGUnpiNjNMTEpHR2dFUUxWTkFDcVVSNEhSVXlpX2Y4U0w1Q2NjRm0tZDhMakE?oc=5",
+    "published_at": "2026-10-09T03:35:00+00:00",
+    "summary": "Humanoid Robot Competition Shifts to \"Getting Work Done\" — Can Crowdsourced Data Platforms Crack the Deployment Challenge?    BigGo Finance",
     "topics": [
-      "robotics",
       "humanoid"
     ],
-    "ai_score": 7.9,
-    "why_selected": "Дебют гуманоидного робота DEEP Robotics в районе Сиху в контексте умного транспорта. Явно указан humanoid, актуальная дата, публичный интерес; источник агрегированный, детали ограничены.",
+    "ai_score": 78,
+    "why_selected": "Сдвиг фокуса соревнований гуманоидов на реальную работу и роль краудсорсинг-платформ данных: явный humanoid, отражает отраслевой тренд, свежесть (9 октября), но источник вторичен (агрегатор).",
     "image_url": null
   }
 ]
