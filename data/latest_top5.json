@@ -1,78 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 9,
-    "title": "Deep Robotics Tests DR02 Humanoids in Hangzhou Traffic and Tourist Areas - AI Insider",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPa3EzeHNBcFBxQUdpZEtZUFU1S0dMQTVKaWRySWQ1Ni1uOE5HMXdGZm9MMWYwaTJhQ0s1VF9XV1dSNUlpN2JsY3FhdWlqeW5TdEZ3dE5xT21NTHNPMUtqS0JUaFVaQWVKY1VLSlQ5MkVjdDZSTHItTXd4V3I0OWhGNmg1NzVCT2V1eEtpQkY2Tm01V3piaUZtV0VfSmVCU3h5VElTLWZvX1l0cHNHM1Y4?oc=5",
-    "published_at": "2026-10-09T02:00:00+00:00",
-    "summary": "Deep Robotics Tests DR02 Humanoids in Hangzhou Traffic and Tourist Areas    AI Insider",
+    "id": 12,
+    "title": "Beyond the Demo: How to Evaluate Humanoid Robots on Evidence That Matters - Robotics Tomorrow",
+    "source": "Google News Humanoid Robot Launches",
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPN2hwWkk1Q3F5Y2p4ZXVtNE15OFItNWFHemtHSmNIR1I5a3F2S1VIZEtXUGlhbTlrdUdObDBBZmNtVWk2cDduWnRQaWpyWUsyRGZWQkhQRndiTHMzd0NQUjFnNm9Za1VEVlNYZ0dzeUdaSEU2MUE4LTFud2E0R2pHRnZDa1ZZdnRkNllCMUt3cXhFaER1RmdESkUzaFpzeU9PZ0FVUWtEYUxQazVwZktCeXdGTFJsMTh5clExQ01oSXVuRXllYnc?oc=5",
+    "published_at": "2026-10-08T12:50:00+00:00",
+    "summary": "Beyond the Demo: How to Evaluate Humanoid Robots on Evidence That Matters    Robotics Tomorrow",
     "topics": [
       "robotics",
       "humanoid"
     ],
-    "ai_score": 92,
-    "why_selected": "Реальные полевые испытания гуманоидов DR02 в трафике и туристических зонах Ханчжоу: явное упоминание humanoid, высокая наглядность и общественный интерес, свежая дата (9 октября), известный разработчик Deep Robotics.",
+    "ai_score": 74,
+    "why_selected": "Методология оценки гуманоидных роботов по доказательным метрикам; полезный материал по теме humanoid, хотя вторичный и аналитический характер снижает новизну.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 7,
-    "title": "Startup Launches Humanoid Robot for Under $30,000 - Assembly Magazine",
+    "id": 5,
+    "title": "BYD unveils design for its first self-developed humanoid robot - CarNewsChina.com",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPMDlUSmR5MTJDZVdwZVYyWVBLdmVJQlpFNXJyOTZmTkYxS2ZmTTFnX2sxQzdIRWhFTWtzenlLWmFhVndTOXZlVXFmUVpqQXM2Rk82NkpwekJRVUk2Z0NtLTFlQ2R6b2xrcnlEVTdUTmJ4Q2o5MGNLd0w0cllPMWp6a2ZLNkREaTdYT1FKZk1fVExuUElkcVpF?oc=5",
-    "published_at": "2026-10-09T11:04:00+00:00",
-    "summary": "Startup Launches Humanoid Robot for Under $30,000    Assembly Magazine",
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNeUVoczJXOFdCQmQxZGJ2OTl2SXVBQTBOTE5YMEU5Z2dfTHoydzZvd0VMNkVOcUZqVG5zTmhpQlo3Rlg2ZzFsc011VElvcFlUXzlyOThHSnY2blZUNEZkbTdTaUNpREJzaVctb1hFeC10dDg2QzBFdmU0alo0WlM1ZHl3VEY0R2NyTE82d3ZvdnhrbzZhVzRZWkMwSTc0U0pm?oc=5",
+    "published_at": "2026-10-10T06:25:00+00:00",
+    "summary": "BYD unveils design for its first self-developed humanoid robot    CarNewsChina.com",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 88,
-    "why_selected": "Запуск гуманоида дешевле $30 000 — явный humanoid, сильный публичный интерес к ценовому барьеру входа, свежесть (9 октября), авторитетный отраслевой источник Assembly Magazine, хотя деталей в карточке мало.",
+    "ai_score": 92,
+    "why_selected": "Дебют первого собственного гуманоидного робота BYD — крупного мирового производителя; высокая новизна, явная тема humanoid, широкий общественный интерес, свежая дата публикации.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 1,
-    "title": "Jabil discusses the pace of humanoid robot development and production",
+    "id": 2,
+    "title": "Boston Dynamics gives more insight into its redesigned humanoid hand",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/jabil-discusses-pace-humanoid-robot-development-production/",
-    "published_at": "2026-10-08T16:16:21+00:00",
-    "summary": "Jabil, which is working with robot developers such as Apptronik, provides a design perspective on humanoid progress. The post Jabil discusses the pace of humanoid robot development and production appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/boston-dynamics-gives-more-insight-into-its-redesigned-humanoid-hand/",
+    "published_at": "2026-10-09T16:59:57+00:00",
+    "summary": "The Robot Report spoke with Alberto Rodriguez, the director of robot behavior for Atlas at Boston Dynamics, about the humanoid's new hand. The post Boston Dynamics gives more insight into its redesigned humanoid hand appeared first on The Robot Report .",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 85,
-    "why_selected": "Взгляд производителя Jabil (партнёр Apptronik) на темпы разработки и производства гуманоидов: явный humanoid, технологическая и производственная значимость, качественный источник The Robot Report.",
+    "ai_score": 88,
+    "why_selected": "Эксклюзивное интервью с директором по поведению робота Atlas в Boston Dynamics о редизайне руки гуманоида; значимая технологическая деталь от лидера отрасли, качественный профильный источник.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 2,
-    "title": "AWS launches open-source Physical AI Toolchain for robotics",
+    "id": 1,
+    "title": "Why humanoid robot demos still fail the generalization test",
     "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/aws-launches-open-source-physical-ai-toolchain-for-robotics/",
-    "published_at": "2026-10-08T13:23:58+00:00",
-    "summary": "The toolchain combines AWS and NVIDIA tools for synthetic data generation, model training, simulation and validation, edge deployment, and continuous improvement. The post AWS launches open-source Physical AI Toolchain for robotics appeared first on The Robot Report .",
+    "url": "https://www.therobotreport.com/why-humanoid-robot-demos-still-fail-the-generalization-test/",
+    "published_at": "2026-10-09T19:28:41+00:00",
+    "summary": "How better data and human judgment can help robots move beyond demos toward reliable real-world performance. The post Why humanoid robot demos still fail the generalization test appeared first on The Robot Report .",
     "topics": [
-      "robotics"
+      "humanoid"
     ],
-    "ai_score": 84,
-    "why_selected": "AWS выпускает open-source Physical AI Toolchain с NVIDIA: значимая инфраструктурная новость для робототехники (синтетические данные, симуляция, edge-деплой), крупный игрок, хороший источник, свежая дата.",
+    "ai_score": 82,
+    "why_selected": "Аналитика о провале гуманоидных демо на тесте генерализации — важная дискуссия о реальной готовности humanoid-роботов; авторитетный источник, высокая технологическая значимость.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 4,
-    "title": "Humanoid Robot Competition Shifts to \"Getting Work Done\" — Can Crowdsourced Data Platforms Crack the Deployment Challenge? - BigGo Finance",
+    "id": 7,
+    "title": "Jabil discusses the pace of humanoid robot development and production - The Robot Report",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE90ODk0bHNXb09mbURtUWFueTg4UW9KS0ZTZHV6bEZ5WmpHbXpURkl2aDZSLVdlUW5ubkhpUGUyMm1zUXk0dndFZVBGUnpiNjNMTEpHR2dFUUxWTkFDcVVSNEhSVXlpX2Y4U0w1Q2NjRm0tZDhMakE?oc=5",
-    "published_at": "2026-10-09T03:35:00+00:00",
-    "summary": "Humanoid Robot Competition Shifts to \"Getting Work Done\" — Can Crowdsourced Data Platforms Crack the Deployment Challenge?    BigGo Finance",
+    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNa0ZCNU9aNThHZmlvLW1jbW9KaEJiY0dQcExJdEJFc1VoZmpJbDhiQlMzMXlhdGdKZExyZ3VzUzhGTDdFZVVvSzl5dTJ4VFJMeVVVUDdxSWZTVVQwTmFCbmxMNmNVYUMxelJEcjk0ZlhLWEdXSmxqcGdkVU43RGsySDdWYnlJQ2xUUUVqMkotZUpQMjd1?oc=5",
+    "published_at": "2026-10-08T16:28:24+00:00",
+    "summary": "Jabil discusses the pace of humanoid robot development and production    The Robot Report",
     "topics": [
       "humanoid"
     ],
     "ai_score": 78,
-    "why_selected": "Сдвиг фокуса соревнований гуманоидов на реальную работу и роль краудсорсинг-платформ данных: явный humanoid, отражает отраслевой тренд, свежесть (9 октября), но источник вторичен (агрегатор).",
+    "why_selected": "Комментарии Jabil о темпах разработки и производства гуманоидных роботов — инсайт в промышленный масштабирование humanoid-сегмента от крупного контрактного производителя.",
     "image_url": null
   }
 ]
