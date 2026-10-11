@@ -1,78 +1,77 @@
 [
   {
     "rank": 1,
-    "id": 12,
-    "title": "Beyond the Demo: How to Evaluate Humanoid Robots on Evidence That Matters - Robotics Tomorrow",
-    "source": "Google News Humanoid Robot Launches",
-    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPN2hwWkk1Q3F5Y2p4ZXVtNE15OFItNWFHemtHSmNIR1I5a3F2S1VIZEtXUGlhbTlrdUdObDBBZmNtVWk2cDduWnRQaWpyWUsyRGZWQkhQRndiTHMzd0NQUjFnNm9Za1VEVlNYZ0dzeUdaSEU2MUE4LTFud2E0R2pHRnZDa1ZZdnRkNllCMUt3cXhFaER1RmdESkUzaFpzeU9PZ0FVUWtEYUxQazVwZktCeXdGTFJsMTh5clExQ01oSXVuRXllYnc?oc=5",
-    "published_at": "2026-10-08T12:50:00+00:00",
-    "summary": "Beyond the Demo: How to Evaluate Humanoid Robots on Evidence That Matters    Robotics Tomorrow",
+    "id": 11,
+    "title": "UBTECH and Volkswagen team up to test humanoid robots in car factories - Interesting Engineering",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQRXRLQkFMRnFmM0dkN3FaZzBOWlhwbkI1akNSX0g1VjJCRHhoT1NhR1VMbHVfWklaTzJFdzFZTDJKbXVTa2o5c0VaUi1zeXR1Sl82TzZaTEdtbDZocVVRcmJOQUs0LVlvWW9IVGQ3eXJ5QlNkVzE3NVlQcnZoLThheTBFajNGTWhjM21oNzF3?oc=5",
+    "published_at": "2026-10-09T10:07:00+00:00",
+    "summary": "UBTECH and Volkswagen team up to test humanoid robots in car factories    Interesting Engineering",
     "topics": [
-      "robotics",
       "humanoid"
     ],
-    "ai_score": 74,
-    "why_selected": "Методология оценки гуманоидных роботов по доказательным метрикам; полезный материал по теме humanoid, хотя вторичный и аналитический характер снижает новизну.",
+    "ai_score": 95,
+    "why_selected": "Явно указан humanoid: UBTECH и Volkswagen тестируют гуманоидных роботов на автозаводах — крупный промышленный пилот с узнаваемыми брендами, высокая технологическая и общественная значимость.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 5,
-    "title": "BYD unveils design for its first self-developed humanoid robot - CarNewsChina.com",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNeUVoczJXOFdCQmQxZGJ2OTl2SXVBQTBOTE5YMEU5Z2dfTHoydzZvd0VMNkVOcUZqVG5zTmhpQlo3Rlg2ZzFsc011VElvcFlUXzlyOThHSnY2blZUNEZkbTdTaUNpREJzaVctb1hFeC10dDg2QzBFdmU0alo0WlM1ZHl3VEY0R2NyTE82d3ZvdnhrbzZhVzRZWkMwSTc0U0pm?oc=5",
-    "published_at": "2026-10-10T06:25:00+00:00",
-    "summary": "BYD unveils design for its first self-developed humanoid robot    CarNewsChina.com",
+    "id": 2,
+    "title": "KAIST Declares Physical AI Vision With President Demonstrating Wearable Robot - DongA Science",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBQMWNIT01ZX2JUbUJIUDBrMmpZdUl5bjQ1N3RpYWk2M3dDMkhDelIwQ2hDdW1iajBON1ZzOXhuckNtUjdQZFJidDgwcVVLYzNQd0xsRQ?oc=5",
+    "published_at": "2026-10-11T03:03:00+00:00",
+    "summary": "KAIST Declares Physical AI Vision With President Demonstrating Wearable Robot    DongA Science",
     "topics": [
-      "humanoid"
+      "exoskeleton"
     ],
     "ai_score": 92,
-    "why_selected": "Дебют первого собственного гуманоидного робота BYD — крупного мирового производителя; высокая новизна, явная тема humanoid, широкий общественный интерес, свежая дата публикации.",
+    "why_selected": "Экзоскелет/носимый робот, продемонстрированный президентом KAIST при объявлении стратегии Physical AI; свежая дата, авторитетный научный источник DongA Science.",
     "image_url": null
   },
   {
     "rank": 3,
-    "id": 2,
-    "title": "Boston Dynamics gives more insight into its redesigned humanoid hand",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/boston-dynamics-gives-more-insight-into-its-redesigned-humanoid-hand/",
-    "published_at": "2026-10-09T16:59:57+00:00",
-    "summary": "The Robot Report spoke with Alberto Rodriguez, the director of robot behavior for Atlas at Boston Dynamics, about the humanoid's new hand. The post Boston Dynamics gives more insight into its redesigned humanoid hand appeared first on The Robot Report .",
+    "id": 8,
+    "title": "Take me to your checkout: Humanoid robots coming to Danish grocery stores - Yahoo News Canada",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNUjdRbmxtZURlODQ0Ml9PcEs1anhJbERzQS1lOTVhSjItcGtUb1lRU1NIc2VaSDI0ZkRLZzY2WWtfT1NYc3k4ZnY0S3RjTC10QXByMlFxeFBQbXdZMDZNYkdreUFvdzVkTE45RUxhaTYwYVVNZmFPN3Y1Mm9aOHQ2U1Fja0hydw?oc=5",
+    "published_at": "2026-10-11T10:02:02+00:00",
+    "summary": "Take me to your checkout: Humanoid robots coming to Danish grocery stores    Yahoo News Canada",
     "topics": [
       "humanoid"
     ],
     "ai_score": 88,
-    "why_selected": "Эксклюзивное интервью с директором по поведению робота Atlas в Boston Dynamics о редизайне руки гуманоида; значимая технологическая деталь от лидера отрасли, качественный профильный источник.",
+    "why_selected": "Гуманоидные роботы в датских супермаркетах — явный humanoid, свежая новость с высоким общественным интересом и реальным применением в рознице.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 1,
-    "title": "Why humanoid robot demos still fail the generalization test",
-    "source": "The Robot Report",
-    "url": "https://www.therobotreport.com/why-humanoid-robot-demos-still-fail-the-generalization-test/",
-    "published_at": "2026-10-09T19:28:41+00:00",
-    "summary": "How better data and human judgment can help robots move beyond demos toward reliable real-world performance. The post Why humanoid robot demos still fail the generalization test appeared first on The Robot Report .",
+    "id": 9,
+    "title": "Humanoid Robot DRAM Demand to Grow 20-Fold by 2030, Opening New Market for Samsung and SK Hynix - BigGo Finance",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5NS0tpcnh3dnlEbno5WF9nNC1SWkZiOVBwSW80bEhQSEpGcmdYSFRtVmZ3NDN1cHZucFVHeFdUUTRhVURhTHpadERaS2FLU25TTUgtTUd0NFE2SmRfNE5VOXB3U3RoSmpoMXRVZlNHTmtvenRlcWc?oc=5",
+    "published_at": "2026-10-11T02:25:00+00:00",
+    "summary": "Humanoid Robot DRAM Demand to Grow 20-Fold by 2030, Opening New Market for Samsung and SK Hynix    BigGo Finance",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 82,
-    "why_selected": "Аналитика о провале гуманоидных демо на тесте генерализации — важная дискуссия о реальной готовности humanoid-роботов; авторитетный источник, высокая технологическая значимость.",
+    "ai_score": 85,
+    "why_selected": "Прогноз 20-кратного роста спроса на DRAM для гуманоидных роботов к 2030 году с выходом на Samsung и SK Hynix — значимый рыночный сигнал по humanoid-тематике.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 7,
-    "title": "Jabil discusses the pace of humanoid robot development and production - The Robot Report",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNa0ZCNU9aNThHZmlvLW1jbW9KaEJiY0dQcExJdEJFc1VoZmpJbDhiQlMzMXlhdGdKZExyZ3VzUzhGTDdFZVVvSzl5dTJ4VFJMeVVVUDdxSWZTVVQwTmFCbmxMNmNVYUMxelJEcjk0ZlhLWEdXSmxqcGdkVU43RGsySDdWYnlJQ2xUUUVqMkotZUpQMjd1?oc=5",
-    "published_at": "2026-10-08T16:28:24+00:00",
-    "summary": "Jabil discusses the pace of humanoid robot development and production    The Robot Report",
+    "id": 1,
+    "title": "KAIST Unveils 'Physical AI' Platform Strategy Beyond Humanoids - BigGo Finance",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE92b0dydkkyTHd3c1ZnUHBmVG5KSmZ3a092WENLaVU1Zl9PeFJUQkZoc2xsYlhlNU9tOWN2RDNhNmd0d2lONEdwZGZzTmRkV0pBWEZueEsyQ2Z4eUxwZk1Kb3hFTmZDMktVd0lDb0kwOF90MjFiMVE?oc=5",
+    "published_at": "2026-10-11T04:05:00+00:00",
+    "summary": "KAIST Unveils 'Physical AI' Platform Strategy Beyond Humanoids    BigGo Finance",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 78,
-    "why_selected": "Комментарии Jabil о темпах разработки и производства гуманоидных роботов — инсайт в промышленный масштабирование humanoid-сегмента от крупного контрактного производителя.",
+    "ai_score": 80,
+    "why_selected": "Стратегия KAIST в области Physical AI с выходом за пределы гуманоидов; свежая публикация, явная привязка к humanoid, умеренное качество источника.",
     "image_url": null
   }
 ]
