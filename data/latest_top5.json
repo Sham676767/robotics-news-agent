@@ -1,77 +1,78 @@
 [
   {
     "rank": 1,
-    "id": 11,
-    "title": "UBTECH and Volkswagen team up to test humanoid robots in car factories - Interesting Engineering",
-    "source": "Google News Embodied AI Robotics",
-    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQRXRLQkFMRnFmM0dkN3FaZzBOWlhwbkI1akNSX0g1VjJCRHhoT1NhR1VMbHVfWklaTzJFdzFZTDJKbXVTa2o5c0VaUi1zeXR1Sl82TzZaTEdtbDZocVVRcmJOQUs0LVlvWW9IVGQ3eXJ5QlNkVzE3NVlQcnZoLThheTBFajNGTWhjM21oNzF3?oc=5",
-    "published_at": "2026-10-09T10:07:00+00:00",
-    "summary": "UBTECH and Volkswagen team up to test humanoid robots in car factories    Interesting Engineering",
+    "id": 2,
+    "title": "Humanoid and Robot Dog Insured for 140k Euros in Romania - The Romania Journal",
+    "source": "Google News Quadruped Robots",
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdkQyWmNKMmJYbjlxOXNhTE9XbEwyWXhNN2xNLVB4Z2JIcDVMZjdIUGNzaW9EMTNlY2t5UnhuZm9zV3ZmOFlJU0ZDdHRrUUJERWZiQUlJTGdMS2FZWTZOMHZQRWJfUmUwNjIwSm12SFNIQXNUS1FCVElJUzBKeUNQcVlQbjQxLW51ZXh4S196dmx5WG9hcWF2c1dsOEY0ODBEaVNOMmN1eEczUmlzZVhtc0I5cnhfaEXSAbwBQVVfeXFMUHRaMzY5M3JmZThZUjJpQ1JVOUtMX18wQTRWQ2dtbXRYT2ptbk12NUFSRTFQRFlCc0EtUHVaX08tZnhlMzM1eUcyb2NUQ0pUNVpFRm5QXzhNWldQZGM0Y0pvaUtudEtacUVWem1jZGtnSmxaZklQdl9HSGhhaXFDbFBiRTk3QWJyWFZ1Wi1RcW5QY0VGX3JLMmFIX211SUJpdU1OWnl4dFpyZWR4aVRlOE12WTBHMU44ZzlNOV8?oc=5",
+    "published_at": "2026-10-12T08:30:18+00:00",
+    "summary": "Humanoid and Robot Dog Insured for 140k Euros in Romania    The Romania Journal",
     "topics": [
+      "robot_dog",
       "humanoid"
     ],
-    "ai_score": 95,
-    "why_selected": "Явно указан humanoid: UBTECH и Volkswagen тестируют гуманоидных роботов на автозаводах — крупный промышленный пилот с узнаваемыми брендами, высокая технологическая и общественная значимость.",
+    "ai_score": 7.0,
+    "why_selected": "Явно упомянуты robot dog и humanoid (страховка на 140 тыс. евро в Румынии) — двойное попадание в приоритетные темы, свежая дата, но нишевый сюжет и источник среднего уровня (региональное издание).",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 2,
-    "title": "KAIST Declares Physical AI Vision With President Demonstrating Wearable Robot - DongA Science",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBQMWNIT01ZX2JUbUJIUDBrMmpZdUl5bjQ1N3RpYWk2M3dDMkhDelIwQ2hDdW1iajBON1ZzOXhuckNtUjdQZFJidDgwcVVLYzNQd0xsRQ?oc=5",
-    "published_at": "2026-10-11T03:03:00+00:00",
-    "summary": "KAIST Declares Physical AI Vision With President Demonstrating Wearable Robot    DongA Science",
+    "id": 1,
+    "title": "Humanoid robots can sprint and box – but the real test is doing the laundry",
+    "source": "Robohub",
+    "url": "https://robohub.org/humanoid-robots-can-sprint-and-box-but-the-real-test-is-doing-the-laundry/",
+    "published_at": "2026-10-12T07:51:21+00:00",
+    "summary": "By Wai-keung Fung, Cardiff Metropolitan University At the recent World Humanoid Robot Games 2026 in Beijing, robots sprinted, boxed, played football and tackled tasks inspired by factories, restaurants and emergency situations. The robot Tiangong Ultra even completed the 100 metres in 8.64 seconds, quicker than Usain Bolt’s 9.58-second world record. But if we really want […]",
     "topics": [
-      "exoskeleton"
+      "humanoid"
     ],
-    "ai_score": 92,
-    "why_selected": "Экзоскелет/носимый робот, продемонстрированный президентом KAIST при объявлении стратегии Physical AI; свежая дата, авторитетный научный источник DongA Science.",
-    "image_url": null
+    "ai_score": 9.5,
+    "why_selected": "Явный humanoid-фокус: World Humanoid Robot Games 2026 в Пекине, спринт, бокс, рекорд Tiangong Ultra на 100 м. Высокая новизна, свежая дата (12.10), широкий общественный интерес, качественный профильный источник Robohub.",
+    "image_url": "https://robohub.org/wp-content/uploads/2026/10/sophiamartin-clothes-pins-8281931-1024x683.jpg"
   },
   {
     "rank": 3,
     "id": 8,
-    "title": "Take me to your checkout: Humanoid robots coming to Danish grocery stores - Yahoo News Canada",
+    "title": "Forbes Global CEO Conference 2026: Chinese EV Maker Xpeng To Launch Humanoid Robots - Forbes",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNUjdRbmxtZURlODQ0Ml9PcEs1anhJbERzQS1lOTVhSjItcGtUb1lRU1NIc2VaSDI0ZkRLZzY2WWtfT1NYc3k4ZnY0S3RjTC10QXByMlFxeFBQbXdZMDZNYkdreUFvdzVkTE45RUxhaTYwYVVNZmFPN3Y1Mm9aOHQ2U1Fja0hydw?oc=5",
-    "published_at": "2026-10-11T10:02:02+00:00",
-    "summary": "Take me to your checkout: Humanoid robots coming to Danish grocery stores    Yahoo News Canada",
+    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQUjdSalJYWnZPbFdweEo2a1ZNS0VNaUxwb2JCUnMyd1VUTkF4RWpZdFN1Wl9UYi1xaTBaaVptVV9VeV84c3ZFRnh5WTFRX3g2Yk5PYW1ZdjFNSkhrWHNMS1V1UjhwU05IejVZOFlFeFB3TFpBWmRXR2xTaXQzMGJpWDg0NEVTandCcEh1dlU5QmVEUHRzMmtwUFk0VGxDY2QyazF1M2M2Y1dCNmZkMlVCVFAyMHpCOUJEMmhRRlVzQ01JV0ZFa2UxMDVR?oc=5",
+    "published_at": "2026-10-12T07:37:38+00:00",
+    "summary": "Forbes Global CEO Conference 2026: Chinese EV Maker Xpeng To Launch Humanoid Robots    Forbes",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 88,
-    "why_selected": "Гуманоидные роботы в датских супермаркетах — явный humanoid, свежая новость с высоким общественным интересом и реальным применением в рознице.",
+    "ai_score": 9.0,
+    "why_selected": "Заявление Xpeng о запуске гуманоидных роботов — значимая новость для индустрии humanoid, крупный игрок, свежая публикация, авторитетный источник Forbes.",
     "image_url": null
   },
   {
     "rank": 4,
     "id": 9,
-    "title": "Humanoid Robot DRAM Demand to Grow 20-Fold by 2030, Opening New Market for Samsung and SK Hynix - BigGo Finance",
+    "title": "Global Humanoid Robot Shipments Surge 4X: Unveiling the Key Industry Players Reaping the Huge Profits - 36 Kr",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5NS0tpcnh3dnlEbno5WF9nNC1SWkZiOVBwSW80bEhQSEpGcmdYSFRtVmZ3NDN1cHZucFVHeFdUUTRhVURhTHpadERaS2FLU25TTUgtTUd0NFE2SmRfNE5VOXB3U3RoSmpoMXRVZlNHTmtvenRlcWc?oc=5",
-    "published_at": "2026-10-11T02:25:00+00:00",
-    "summary": "Humanoid Robot DRAM Demand to Grow 20-Fold by 2030, Opening New Market for Samsung and SK Hynix    BigGo Finance",
+    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5NaXlicWtzWnJnODlFc0hEbWhsblJJMFNsQzJzZzlnVEVrVmFRQXM0RVJzeHdfT0Ztd09hWGhDdWRpUFJ3dEN5ZzFVRzlvbVdnUm1N?oc=5",
+    "published_at": "2026-10-12T07:24:19+00:00",
+    "summary": "Global Humanoid Robot Shipments Surge 4X: Unveiling the Key Industry Players Reaping the Huge Profits    36 Kr",
     "topics": [
       "humanoid"
     ],
-    "ai_score": 85,
-    "why_selected": "Прогноз 20-кратного роста спроса на DRAM для гуманоидных роботов к 2030 году с выходом на Samsung и SK Hynix — значимый рыночный сигнал по humanoid-тематике.",
+    "ai_score": 8.5,
+    "why_selected": "Рост мировых поставок гуманоидных роботов в 4 раза — важная отраслевая метрика с прямым отношением к humanoid-тематике, свежая дата, источник 36Kr силён в китайской робототехнике.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 1,
-    "title": "KAIST Unveils 'Physical AI' Platform Strategy Beyond Humanoids - BigGo Finance",
-    "source": "Google News Physical AI",
-    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE92b0dydkkyTHd3c1ZnUHBmVG5KSmZ3a092WENLaVU1Zl9PeFJUQkZoc2xsYlhlNU9tOWN2RDNhNmd0d2lONEdwZGZzTmRkV0pBWEZueEsyQ2Z4eUxwZk1Kb3hFTmZDMktVd0lDb0kwOF90MjFiMVE?oc=5",
-    "published_at": "2026-10-11T04:05:00+00:00",
-    "summary": "KAIST Unveils 'Physical AI' Platform Strategy Beyond Humanoids    BigGo Finance",
+    "id": 5,
+    "title": "Danu Robotics’ fight to build a better recycling robot",
+    "source": "TechCrunch Robotics",
+    "url": "https://techcrunch.com/2026/10/09/danu-robotics-fight-to-build-a-better-recycling-robot/",
+    "published_at": "2026-10-09T16:45:00+00:00",
+    "summary": "For six years, Danu founder Amy Ma has been working on a better way to sort recyclable waste.",
     "topics": [
-      "humanoid"
+      "robotics"
     ],
-    "ai_score": 80,
-    "why_selected": "Стратегия KAIST в области Physical AI с выходом за пределы гуманоидов; свежая публикация, явная привязка к humanoid, умеренное качество источника.",
-    "image_url": null
+    "ai_score": 6.0,
+    "why_selected": "История Danu Robotics о сортировке вторсырья — интересный индустриальный сюжет в теме robotics от TechCrunch, но без приоритетных подкатегорий и с умеренной новизной.",
+    "image_url": "https://techcrunch.com/wp-content/uploads/2026/10/Guarding-installed.jpeg?resize=1200,900"
   }
 ]
