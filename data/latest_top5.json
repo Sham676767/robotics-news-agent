@@ -1,78 +1,80 @@
 [
   {
     "rank": 1,
-    "id": 2,
-    "title": "Humanoid and Robot Dog Insured for 140k Euros in Romania - The Romania Journal",
-    "source": "Google News Quadruped Robots",
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdkQyWmNKMmJYbjlxOXNhTE9XbEwyWXhNN2xNLVB4Z2JIcDVMZjdIUGNzaW9EMTNlY2t5UnhuZm9zV3ZmOFlJU0ZDdHRrUUJERWZiQUlJTGdMS2FZWTZOMHZQRWJfUmUwNjIwSm12SFNIQXNUS1FCVElJUzBKeUNQcVlQbjQxLW51ZXh4S196dmx5WG9hcWF2c1dsOEY0ODBEaVNOMmN1eEczUmlzZVhtc0I5cnhfaEXSAbwBQVVfeXFMUHRaMzY5M3JmZThZUjJpQ1JVOUtMX18wQTRWQ2dtbXRYT2ptbk12NUFSRTFQRFlCc0EtUHVaX08tZnhlMzM1eUcyb2NUQ0pUNVpFRm5QXzhNWldQZGM0Y0pvaUtudEtacUVWem1jZGtnSmxaZklQdl9HSGhhaXFDbFBiRTk3QWJyWFZ1Wi1RcW5QY0VGX3JLMmFIX211SUJpdU1OWnl4dFpyZWR4aVRlOE12WTBHMU44ZzlNOV8?oc=5",
-    "published_at": "2026-10-12T08:30:18+00:00",
-    "summary": "Humanoid and Robot Dog Insured for 140k Euros in Romania    The Romania Journal",
+    "id": 11,
+    "title": "The First Pure-Play Humanoid Robot Stock Is About to Go Public. Here's What Investors Need to Know About Agility Robotics. - The Motley Fool",
+    "source": "Google News Humanoid Robots",
+    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUms0ZzNmWG9fSnRia1dqS1BMR1FKX1dGeVNkOUNobTJjVXdRbGplQ2UtLXo4bDVfLVk0MUZjU2EzSHMxWGVPYmlDOXQyMlJZcC15QkNDRGNJWHhrZEZpYVJpaGdvQ2d5QkEwRGdmeTVseXNibHJHbkR5TFpWdnhzdW92OHI2OTZsXzNzaUxVUHJRM2hReVI4?oc=5",
+    "published_at": "2026-10-13T15:15:00+00:00",
+    "summary": "The First Pure-Play Humanoid Robot Stock Is About to Go Public. Here's What Investors Need to Know About Agility Robotics.    The Motley Fool",
     "topics": [
-      "robot_dog",
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 7.0,
-    "why_selected": "Явно упомянуты robot dog и humanoid (страховка на 140 тыс. евро в Румынии) — двойное попадание в приоритетные темы, свежая дата, но нишевый сюжет и источник среднего уровня (региональное издание).",
+    "ai_score": 9.5,
+    "why_selected": "Первое IPO чисто гуманоидной робототехнической компании (Agility Robotics) — крупное событие для всей индустрии гуманоидов с высоким инвестиционным и общественным интересом; явное упоминание humanoid.",
     "image_url": null
   },
   {
     "rank": 2,
-    "id": 1,
-    "title": "Humanoid robots can sprint and box – but the real test is doing the laundry",
-    "source": "Robohub",
-    "url": "https://robohub.org/humanoid-robots-can-sprint-and-box-but-the-real-test-is-doing-the-laundry/",
-    "published_at": "2026-10-12T07:51:21+00:00",
-    "summary": "By Wai-keung Fung, Cardiff Metropolitan University At the recent World Humanoid Robot Games 2026 in Beijing, robots sprinted, boxed, played football and tackled tasks inspired by factories, restaurants and emergency situations. The robot Tiangong Ultra even completed the 100 metres in 8.64 seconds, quicker than Usain Bolt’s 9.58-second world record. But if we really want […]",
+    "id": 2,
+    "title": "AI robot dog joins scientific expedition in Southwest China’s Ailao Mountains, first of its kind - Global Times",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9MQjFyYWtUQTl0SnNvbk9EdVBxWWdHN2xwcG9zUEU0RE03X3VqRmszWkRQYTNaS2YzSUw2T1I0SFFsdjV0c3FlNGlTNDlaTGs5RDY5N0xyNUZ6T0dJRXpqUENn?oc=5",
+    "published_at": "2026-10-14T06:52:00+00:00",
+    "summary": "AI robot dog joins scientific expedition in Southwest China’s Ailao Mountains, first of its kind    Global Times",
     "topics": [
-      "humanoid"
+      "robot_dog"
     ],
-    "ai_score": 9.5,
-    "why_selected": "Явный humanoid-фокус: World Humanoid Robot Games 2026 в Пекине, спринт, бокс, рекорд Tiangong Ultra на 100 м. Высокая новизна, свежая дата (12.10), широкий общественный интерес, качественный профильный источник Robohub.",
-    "image_url": "https://robohub.org/wp-content/uploads/2026/10/sophiamartin-clothes-pins-8281931-1024x683.jpg"
+    "ai_score": 9.2,
+    "why_selected": "Первое в своём роде применение ИИ-робо-собаки в научной экспедиции в горах Аилао — прямое попадание в тему robot dog, высокая новизна и свежесть (14.10).",
+    "image_url": null
   },
   {
     "rank": 3,
-    "id": 8,
-    "title": "Forbes Global CEO Conference 2026: Chinese EV Maker Xpeng To Launch Humanoid Robots - Forbes",
-    "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQUjdSalJYWnZPbFdweEo2a1ZNS0VNaUxwb2JCUnMyd1VUTkF4RWpZdFN1Wl9UYi1xaTBaaVptVV9VeV84c3ZFRnh5WTFRX3g2Yk5PYW1ZdjFNSkhrWHNMS1V1UjhwU05IejVZOFlFeFB3TFpBWmRXR2xTaXQzMGJpWDg0NEVTandCcEh1dlU5QmVEUHRzMmtwUFk0VGxDY2QyazF1M2M2Y1dCNmZkMlVCVFAyMHpCOUJEMmhRRlVzQ01JV0ZFa2UxMDVR?oc=5",
-    "published_at": "2026-10-12T07:37:38+00:00",
-    "summary": "Forbes Global CEO Conference 2026: Chinese EV Maker Xpeng To Launch Humanoid Robots    Forbes",
+    "id": 12,
+    "title": "Booster Robotics Ranks Among Global Top 3 in Humanoid Robot Shipments, IDC Reports - StreetInsider",
+    "source": "Google News Embodied AI Robotics",
+    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOOGhpNmFxd2NYY2F1NHVKTVFjNnI4aFRFckl2Z2hnYUNEaHlGemJWQzZOel9UVlZXb0FPbGR2a0ZScnFSMEoxY0dndms5d2FWdHdKME42dlhncHp0cVZnbk05aFo5TEE5OHRMMjRwdWliOUpqVE9WVTZsb05BOWZyS3BJWjVTZEtOZDNNQklDNEcyeVNZMjZlN0NSTHF4Q3ZvTHF5M3VOLXRhU0I3TlVVSVozMkl5djFIbmFYVHhEY3BVb3RfOTFSMFR5Ulg3RG1LTFE?oc=5",
+    "published_at": "2026-10-14T04:17:00+00:00",
+    "summary": "Booster Robotics Ranks Among Global Top 3 in Humanoid Robot Shipments, IDC Reports    StreetInsider",
     "topics": [
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 9.0,
-    "why_selected": "Заявление Xpeng о запуске гуманоидных роботов — значимая новость для индустрии humanoid, крупный игрок, свежая публикация, авторитетный источник Forbes.",
+    "ai_score": 8.6,
+    "why_selected": "Данные IDC о вхождении Booster Robotics в топ-3 по поставкам гуманоидных роботов — значимый рыночный сигнал с явным упоминанием humanoid и опорой на авторитетный источник аналитики.",
     "image_url": null
   },
   {
     "rank": 4,
-    "id": 9,
-    "title": "Global Humanoid Robot Shipments Surge 4X: Unveiling the Key Industry Players Reaping the Huge Profits - 36 Kr",
+    "id": 8,
+    "title": "German robotics unicorn NEURA launches Neuron AI to advance Physical AI and humanoid robotics - EU-Startups",
     "source": "Google News Humanoid Robots",
-    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5NaXlicWtzWnJnODlFc0hEbWhsblJJMFNsQzJzZzlnVEVrVmFRQXM0RVJzeHdfT0Ztd09hWGhDdWRpUFJ3dEN5ZzFVRzlvbVdnUm1N?oc=5",
-    "published_at": "2026-10-12T07:24:19+00:00",
-    "summary": "Global Humanoid Robot Shipments Surge 4X: Unveiling the Key Industry Players Reaping the Huge Profits    36 Kr",
+    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQdUlub2lCTVM5UENWMkEtY0ZXVlFCTHZ0a3RRQzZ3ZEUwaFNMSmFCSGhpSjB5WTRWUFBnQ1BXTU81c3VoM2xKbE1rSmhZSGlxX2s2MDYxOHFpNEkzdnVtNUtvdE8zeU5zWVN1VmoxdUhwQmphQ2pYc2lrSjlFRnl3QlN4R3puUF83a0hWcWhoTDlKNjI1UXQ1VU9PUGVsd3R6UVVHVmlwZFI0X1A1eUwtNGIzMUdPSlllODhfa1hWSFhUaC1SZVhNY3ln?oc=5",
+    "published_at": "2026-10-14T08:12:07+00:00",
+    "summary": "German robotics unicorn NEURA launches Neuron AI to advance Physical AI and humanoid robotics    EU-Startups",
     "topics": [
+      "robotics",
       "humanoid"
     ],
-    "ai_score": 8.5,
-    "why_selected": "Рост мировых поставок гуманоидных роботов в 4 раза — важная отраслевая метрика с прямым отношением к humanoid-тематике, свежая дата, источник 36Kr силён в китайской робототехнике.",
+    "ai_score": 8.3,
+    "why_selected": "Запуск NEURA Neuron — фундаментальной ИИ-модели для physical AI с фокусом на гуманоидную робототехнику; высокая технологическая значимость, явное упоминание humanoid, свежая публикация.",
     "image_url": null
   },
   {
     "rank": 5,
-    "id": 5,
-    "title": "Danu Robotics’ fight to build a better recycling robot",
-    "source": "TechCrunch Robotics",
-    "url": "https://techcrunch.com/2026/10/09/danu-robotics-fight-to-build-a-better-recycling-robot/",
-    "published_at": "2026-10-09T16:45:00+00:00",
-    "summary": "For six years, Danu founder Amy Ma has been working on a better way to sort recyclable waste.",
+    "id": 7,
+    "title": "NEURA Robotics Unveils Neuron AI Foundation Model for Physical AI - Unite.AI",
+    "source": "Google News Physical AI",
+    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOOWVpNm01ZVRRMzdXZWljS19jWEFYV210Tl9yX1R0MloyYnJ0cnZUMnIwNV9UbGt0M09aZjFPT2NSNUw4c01DQXA5NXExX18zU2JaR2tLbG05dU5tVkJNUDYteFFjcHBQeVF3ZEpWMmNYNlpIX29zLUFUa253N19uZTYzem5fZ1J0dlRFS05ySUg?oc=5",
+    "published_at": "2026-10-14T06:40:09+00:00",
+    "summary": "NEURA Robotics Unveils Neuron AI Foundation Model for Physical AI    Unite.AI",
     "topics": [
       "robotics"
     ],
-    "ai_score": 6.0,
-    "why_selected": "История Danu Robotics о сортировке вторсырья — интересный индустриальный сюжет в теме robotics от TechCrunch, но без приоритетных подкатегорий и с умеренной новизной.",
-    "image_url": "https://techcrunch.com/wp-content/uploads/2026/10/Guarding-installed.jpeg?resize=1200,900"
+    "ai_score": 8.0,
+    "why_selected": "То же событие от NEURA Robotics (Neuron AI foundation model) — важная новость для physical AI, но без прямого акцента на гуманоидов в заголовке; частично дублирует карточку 8.",
+    "image_url": null
   }
 ]
