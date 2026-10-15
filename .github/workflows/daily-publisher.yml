@@ -37,40 +37,20 @@ jobs:
         run: |
           pytest -q
 
-      - name: Validate publication configuration
+      - name: Validate article-generation configuration
         env:
-          VK_ACCESS_TOKEN: ${{ secrets.VK_ACCESS_TOKEN }}
-          VK_TOKEN: ${{ secrets.VK_TOKEN }}
-          VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          if [ -z "${VK_ACCESS_TOKEN:-}" ] && [ -z "${VK_TOKEN:-}" ]; then
-            echo "❌ VK access token secret is missing"
-            exit 1
-          fi
-          if [ -z "${VK_GROUP_ID:-}" ]; then
-            echo "❌ VK group ID secret is missing"
-            exit 1
-          fi
-          case "${VK_GROUP_ID}" in
-            ''|*[!0-9]*)
-              echo "❌ VK_GROUP_ID must contain digits only"
-              exit 1
-              ;;
-          esac
           if [ -z "${OPENROUTER_API_KEY:-}" ]; then
             echo "❌ OPENROUTER_API_KEY secret is missing"
             exit 1
           fi
-          echo "✅ VK and OpenRouter publication configuration is present"
+          echo "✅ OpenRouter configuration is present; VK publishing is disabled"
 
       - name: Run agent
         env:
-          VK_ACCESS_TOKEN: ${{ secrets.VK_ACCESS_TOKEN }}
-          VK_TOKEN: ${{ secrets.VK_TOKEN }}
-          VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
-          VK_PUBLISH_REQUIRED: "true"
-          VK_PUBLISH_ENABLED: "true"
+          VK_PUBLISH_REQUIRED: "false"
+          VK_PUBLISH_ENABLED: "false"
           VK_PUBLISH_NOT_BEFORE_MSK: "09:00"
           VK_UPLOAD_SOURCE_IMAGES: "false"
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
