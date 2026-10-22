@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import re
-from typing import Any
+from collections.abc import Sequence
+
+from app.models import LegalDraft, LegalSource
 
 # Capture both decimal notation (``1.8`` / ``1,8``) and grouped thousands
 # notation (``5,000`` / ``5 000``).  Russian editorial text commonly replaces
@@ -10,18 +12,6 @@ from typing import Any
 _NUMBER_RE = re.compile(
     r"(?<!\d)(?:\d{1,3}(?:[ \u00A0\u202F.,]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)(?!\d)"
 )
-# Publication timestamps are part of each source card and may be used as dates.
-# URLs and image metadata are excluded because incidental digits are not evidence.
-_SOURCE_FIELDS = (
-    "title",
-    "summary",
-    "description",
-    "content",
-    "published_at",
-    "published",
-    "date",
-)
-
 _UNSUPPORTED_EMBELLISHMENTS = (
     "в реальном времени",
     "готовую архитектуру",
@@ -29,9 +19,6 @@ _UNSUPPORTED_EMBELLISHMENTS = (
     "важным этапом",
     "ключевым шагом",
     "активным прогрессом",
-    "агрессивные маневры",
-    "между роботами и людьми",
-    "коммерческую зрелость",
     "лидерство в отрасли",
     "меняет правила игры",
     "новую эру",
@@ -80,12 +67,9 @@ def _numbers(text: str) -> set[str]:
     return {_canonical_number(value) for value in _NUMBER_RE.findall(text or "")}
 
 
-def _source_text(cards: list[dict[str, Any]]) -> str:
-    return " ".join(
-        str(card.get(field) or "")
-        for card in cards
-        for field in _SOURCE_FIELDS
-    )
+def _source_text(sources: Sequence[LegalSource]) -> str:
+    # URLs and publisher names can contain incidental digits: exclude them.
+    return " ".join(f"{source.title} {source.content}" for source in sources)
 
 
 def _validate_editorial_text(
@@ -102,34 +86,24 @@ def _validate_editorial_text(
     if unsupported_numbers:
         values = ", ".join(sorted(unsupported_numbers))
         raise ValueError(
-            f"{scope} contains numbers absent from its source card: {values}"
+            f"{scope} contains numbers absent from its source material: {values}"
         )
 
 
-def validate_factual_grounding(article: dict[str, Any], top5: list[dict[str, Any]]) -> None:
-    """Reject obvious factual additions before a draft can be published.
+def validate_factual_grounding(draft: LegalDraft, sources: Sequence[LegalSource]) -> None:
+    """Detect numeric additions and unsupported emphasis, not legal validity.
 
-    This deliberately narrow check verifies numeric claims against the matching
-    source card and blocks recurring unsupported embellishments. It does not try
-    to translate or fact-check every Russian sentence.
+    This narrow check cannot verify article identifiers, current wording of law,
+    jurisdiction, applicability or semantic accuracy. Manual review is required.
     """
-    digest_text = f"{article.get('title', '')} {article.get('intro', '')}"
     _validate_editorial_text(
-        digest_text,
-        _source_text(top5),
-        scope="Article title/intro",
+        f"{draft.title} {draft.intro}", _source_text(sources), scope="Draft title/intro",
     )
-
-    items = article.get("items") or []
-    for index, item in enumerate(items, start=1):
-        card_index = item.get("card_index", index)
-        if not isinstance(card_index, int) or not 1 <= card_index <= len(top5):
-            raise ValueError(f"Article item #{index} has no matching source card")
-
-        card = top5[card_index - 1]
-        editorial_text = f"{item.get('headline', '')} {item.get('body', '')}"
+    for index, section in enumerate(draft.sections, start=1):
+        if type(section.source_index) is not int or not 1 <= section.source_index <= len(sources):
+            raise ValueError(f"Draft section #{index} has no matching source")
         _validate_editorial_text(
-            editorial_text,
-            _source_text([card]),
-            scope=f"Article item #{index}",
+            f"{section.headline} {section.body}",
+            _source_text([sources[section.source_index - 1]]),
+            scope=f"Draft section #{index}",
         )
