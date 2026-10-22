@@ -127,3 +127,24 @@ def test_cli_count_and_window_overrides(collection_setup):
 def test_cli_rejects_nonpositive_settings(collection_setup, flag):
     path, _, _ = collection_setup
     assert main(["collect", "--sources", str(path), flag, "0"]) == 2
+
+
+def test_collect_result_feeds_script_without_changing_history(collection_setup, script_data, monkeypatch, tmp_path, capsys):
+    import httpx
+    from app.reel_script import topic_sources
+    from app.script_generator import load_script_topic
+    from dataclasses import asdict
+
+    _, config, _ = collection_setup
+    collect_topics(config, KEY, now=NOW)
+    topic = load_script_topic(config.output_path)
+    script_data["sources"] = [asdict(source) for source in topic_sources(topic)]
+    post = Mock(return_value=httpx.Response(200, json={
+        "choices": [{"message": {"content": json.dumps(script_data)}}],
+    }))
+    monkeypatch.setattr(httpx, "post", post)
+    before = config.history_path.read_bytes()
+    assert main(["script", "--input", str(config.output_path), "--output", str(tmp_path / "script.json")]) == 0
+    assert json.loads(capsys.readouterr().out) == script_data
+    assert config.history_path.read_bytes() == before
+    post.assert_called_once()
