@@ -1,0 +1,95 @@
+# Public sources only. Selectors and availability must be reviewed periodically.
+collection:
+  topics_per_video: 1
+  freshness_days: 30
+  max_items_per_source: 15
+  max_candidates: 60
+  semantic_batch_size: 12
+  fetch_timeout: 12
+  fetch_attempts: 2
+  max_response_bytes: 4000000
+  history_path: data/topic_history.sqlite3
+  output_path: data/collected_topics.json
+
+# These domains may supply primary documents; a news homepage alone is insufficient.
+primary_hosts:
+  - pravo.gov.ru
+  - duma.gov.ru
+  - ksrf.ru
+  - vsrf.ru
+  - nalog.gov.ru
+  - rostrud.gov.ru
+  - arbitr.ru
+
+sources:
+  - id: official-publication
+    name: Официальное опубликование правовых актов
+    url: https://publication.pravo.gov.ru/documents
+    format: html
+    kind: official
+    item_selector: "a[href*='/document/']"
+    link_pattern: '/document/\d+'
+    article_selector: "main, .document-page, body"
+
+  - id: state-duma
+    name: Государственная Дума
+    url: https://duma.gov.ru/news/
+    format: html
+    kind: official
+    item_selector: "a[href*='/news/']"
+    link_pattern: '/news/\d+'
+    article_selector: "article, .article, main"
+
+  - id: constitutional-court
+    name: Конституционный Суд РФ
+    url: https://www.ksrf.ru/news/
+    format: html
+    kind: official
+    item_selector: "a[href*='/news/']"
+    link_pattern: '/news/\d+'
+    article_selector: "article, .news-detail, main"
+
+  - id: supreme-court
+    name: Верховный Суд РФ
+    url: https://vsrf.ru/news
+    format: html
+    kind: official
+    item_selector: "a[href*='/news/'], a[href*='/press_center/news/']"
+    link_pattern: '/(?:news|press_center/news)/[^/?]+'
+    article_selector: "article, .news-detail, main"
+
+  - id: federal-tax-service
+    name: ФНС России
+    url: https://www.nalog.gov.ru/rn77/rss/
+    format: rss
+    kind: official
+    article_https: true
+    article_trailing_slash: true
+    article_selector: "#content, .content, article, main"
+
+  - id: federal-labour-service
+    name: Роструд
+    url: https://rostrud.gov.ru/press_center/novosti/
+    format: html
+    kind: official
+    item_selector: "a[href*='/press_center/novosti/']"
+    link_pattern: '/press_center/novosti/[^/?]+'
+    article_selector: "article, .news-detail, main"
+
+  - id: pravo-media
+    name: Право.ru
+    url: https://pravo.ru/rss/
+    format: rss
+    kind: media
+    article_https: true
+    article_trailing_slash: true
+    article_selector: "article, .article, main"
+
+  - id: rapsi
+    name: РАПСИ
+    url: https://rapsinews.ru/news/
+    format: html
+    kind: media
+    item_selector: "a[href*='_news/'], a[href*='_publication/']"
+    link_pattern: '/\d{8}/\d+\.html'
+    article_selector: ".article, .article__text, article, main"
