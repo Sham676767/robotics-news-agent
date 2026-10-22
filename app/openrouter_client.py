@@ -160,8 +160,8 @@ def request_json(
                 # Safe repair guidance: never echo rejected output or exception text.
                 payload["messages"] = [*messages, {"role": "user", "content": (
                     "Предыдущий ответ не прошёл проверку JSON или содержания. "
-                    "Верни заново только объект по схеме. Проверь все поля, ограничения "
-                    "длины, структуру и дословное сохранение источников и CTA из задания."
+                    "Верни заново только объект по переданной схеме. Проверь обязательные "
+                    "поля, ограничения длины, полноту списков и соответствие исходным данным."
                 )}]
 
         if attempt + 1 < config.openrouter_max_attempts:

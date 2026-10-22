@@ -11,8 +11,13 @@ from app.language_guard import validate_russian_text
 from app.primary_evidence import citations
 from app.topics import Topic
 from app.topic_urls import canonical_url
+from app.legal_references import explicit_norms
 
-DISCLAIMER = "Информация носит общий характер и не заменяет индивидуальную юридическую консультацию."
+DISCLAIMER = "Не является юридической консультацией"
+MAX_SCREEN_LINES = 6
+MAX_SCREEN_CHARS = 60
+MAX_CAPTION_CHARS = 1000
+MAX_HASHTAGS = 10
 _WORD = re.compile(r"[^\W_]+(?:[-–][^\W_]+)*", re.UNICODE)
 _STRING = {"type": "string", "minLength": 1}
 _HASHTAG_PATTERN = r"^#[A-Za-zА-Яа-яЁё0-9_]+$"
@@ -20,16 +25,19 @@ SCRIPT_SCHEMA: dict[str, Any] = {
     "type": "object", "additionalProperties": False,
     "required": ["hook", "voiceover", "on_screen_text", "caption", "hashtags", "sources", "disclaimer"],
     "properties": {
-        "hook": dict(_STRING), "voiceover": dict(_STRING), "caption": dict(_STRING),
+        "hook": dict(_STRING), "voiceover": dict(_STRING),
+        "caption": {**_STRING, "maxLength": MAX_CAPTION_CHARS},
         "disclaimer": {"type": "string", "enum": [DISCLAIMER]},
-        "on_screen_text": {"type": "array", "minItems": 1, "items": dict(_STRING)},
-        "hashtags": {"type": "array", "minItems": 1,
+        "on_screen_text": {"type": "array", "minItems": 1, "maxItems": MAX_SCREEN_LINES,
+                           "items": {**_STRING, "maxLength": MAX_SCREEN_CHARS}},
+        "hashtags": {"type": "array", "minItems": 1, "maxItems": MAX_HASHTAGS,
                      "items": {"type": "string", "pattern": _HASHTAG_PATTERN}},
         "sources": {"type": "array", "minItems": 1, "items": {
             "type": "object", "additionalProperties": False,
-            "required": ["title", "url", "citation"], "properties": {
+            "required": ["title", "url", "citation", "law", "article", "part"], "properties": {
                 "title": dict(_STRING), "url": dict(_STRING),
                 "citation": {"type": "string"},
+                "law": {"type": "string"}, "article": {"type": "string"}, "part": {"type": "string"},
             },
         }},
     },
@@ -41,6 +49,9 @@ class ScriptSource:
     title: str
     url: str
     citation: str
+    law: str = ""
+    article: str = ""
+    part: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -89,7 +100,14 @@ def topic_sources(topic: Topic) -> tuple[ScriptSource, ...]:
             raise ValueError("Selected topic has an unverified or incomplete primary reference")
         canonical_url(ref.url)
         # The collector has no separate document title: its verbatim citation is the title.
-        sources.append(ScriptSource(ref.citation, ref.url, ref.citation))
+        if not isinstance(ref.content, str):
+            raise ValueError("Primary content must be a string")
+        norms = explicit_norms(ref.content)
+        if norms:
+            sources.extend(ScriptSource(ref.citation, ref.url, ref.citation, norm.law, norm.article, norm.part)
+                           for norm in norms)
+        else:
+            sources.append(ScriptSource(ref.citation, ref.url, ref.citation))
     for article in topic.articles:
         canonical_url(article.url)
         if not article.title.strip() or not article.text.strip():
@@ -108,6 +126,13 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
     disclaimer = _text(data["disclaimer"], "disclaimer")
     screens = _texts(data["on_screen_text"], "on_screen_text")
     hashtags = _texts(data["hashtags"], "hashtags")
+    if len(screens) > MAX_SCREEN_LINES or any(len(line) > MAX_SCREEN_CHARS or
+                                            "\n" in line or "\r" in line for line in screens):
+        raise ValueError("on_screen_text allows up to six single lines of sixty characters")
+    if len(caption) > MAX_CAPTION_CHARS:
+        raise ValueError("caption allows up to 1000 characters")
+    if len(hashtags) > MAX_HASHTAGS:
+        raise ValueError("hashtags allows up to ten items")
     if any(re.fullmatch(_HASHTAG_PATTERN, tag) is None for tag in hashtags) or len(set(hashtags)) != len(hashtags):
         raise ValueError("hashtags must be unique #words")
     raw_sources = data["sources"]
@@ -115,11 +140,14 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
         raise ValueError("sources must be a non-empty array")
     sources: list[ScriptSource] = []
     for source in raw_sources:
-        if not isinstance(source, dict) or set(source) != {"title", "url", "citation"}:
-            raise ValueError("Each source requires exactly title, url and citation")
+        if not isinstance(source, dict) or set(source) != {"title", "url", "citation", "law", "article", "part"}:
+            raise ValueError("Each source requires exactly title, url, citation, law, article and part")
         sources.append(ScriptSource(
             _text(source["title"], "source.title"), _text(source["url"], "source.url"),
             _text(source["citation"], "source.citation", allow_empty=True),
+            _text(source["law"], "source.law", allow_empty=True),
+            _text(source["article"], "source.article", allow_empty=True),
+            _text(source["part"], "source.part", allow_empty=True),
         ))
     if len(sources) != len(set(sources)) or set(sources) != set(topic_sources(topic)):
         raise ValueError("sources must exactly preserve the selected topic's source cards")
@@ -136,7 +164,7 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
         raise ValueError("disclaimer must match the required editorial notice")
     evidence = "\n".join([
         *(f"{article.title}\n{article.text}" for article in topic.articles),
-        *(f"{ref.citation}\n{ref.excerpt}" for ref in topic.references),
+        *(f"{ref.citation}\n{ref.excerpt}\n{ref.content}" for ref in topic.references),
     ])
     texts = {"hook": hook, "voiceover": voiceover, "caption": caption,
              **{f"on_screen_text[{index}]": text for index, text in enumerate(screens)}}

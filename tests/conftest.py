@@ -11,6 +11,21 @@ from app.config import Settings
 from app.reel_script import DISCLAIMER, topic_sources
 from app.topics import Article, PrimaryReference, Topic
 
+FIXTURE_HOOK = "Подписываете договор? Проверьте детали."
+FIXTURE_ESSENCE = (
+    "В договоре легко пропустить условие, которое позже станет причиной разногласий. "
+    "Этот учебный пример показывает, как подготовиться к обсуждению документа со специалистом. "
+    "Обратите внимание на описание обязательств, порядок общения сторон и документы, которые "
+    "помогают восстановить ход событий. Отдельная фраза не заменяет чтение полного текста."
+)
+FIXTURE_ACTIONS = (
+    "Соберите договор, приложения и переписку в одном месте. Выпишите непонятные формулировки "
+    "и вопросы, которые хотите задать. Сравните собственные ожидания с тем, что написано "
+    "в документе. Если ситуация вызывает сомнения, обсудите её с юристом, предоставив исходные "
+    "материалы. Так разговор будет предметным и понятным."
+)
+FIXTURE_NORM = "Синтетический реквизит для теста, не реальная норма: ч. 2 ст. 999 99999-ФЗ."
+
 
 @pytest.fixture(autouse=True)
 def block_external_apis(monkeypatch):
@@ -37,28 +52,36 @@ def script_topic():
                 "документы, переписка, консультация и вопросы специалисту.",
                 datetime(2026, 10, 22, tzinfo=timezone.utc)),
     ), (PrimaryReference("document", "Учебный документ без норм права",
-                         "https://law.example/document/fixture", "Учебный материал для тестов.", True),))
+                         "https://law.example/document/fixture", "Учебный материал для тестов.", True,
+                         "\n".join([FIXTURE_NORM, FIXTURE_HOOK, FIXTURE_ESSENCE, FIXTURE_ACTIONS,
+                                    "Соберите документы", "Подготовьте вопросы",
+                                    "Учебный пример подготовки вопросов по договору."])),))
 
 
 @pytest.fixture
 def script_data(script_topic):
-    hook = "Подписываете договор? Проверьте детали."
-    essence = (
-        "В договоре легко пропустить условие, которое позже станет причиной разногласий. "
-        "Этот учебный пример показывает, как подготовиться к обсуждению документа со специалистом. "
-        "Обратите внимание на описание обязательств, порядок общения сторон и документы, которые "
-        "помогают восстановить ход событий. Отдельная фраза не заменяет чтение полного текста."
-    )
-    actions = (
-        "Соберите договор, приложения и переписку в одном месте. Выпишите непонятные формулировки "
-        "и вопросы, которые хотите задать. Сравните собственные ожидания с тем, что написано "
-        "в документе. Если ситуация вызывает сомнения, обсудите её с юристом, предоставив исходные "
-        "материалы. Так разговор будет предметным и понятным."
-    )
     return {
-        "hook": hook, "voiceover": "\n\n".join([hook, essence, actions, Settings().script_cta]),
+        "hook": FIXTURE_HOOK,
+        "voiceover": "\n\n".join([FIXTURE_HOOK, FIXTURE_ESSENCE, FIXTURE_ACTIONS, Settings().script_cta]),
         "on_screen_text": ["Соберите документы", "Подготовьте вопросы"],
         "caption": "Учебный пример подготовки вопросов по договору.",
         "hashtags": ["#договор", "#юридическаяПомощь"],
         "sources": [asdict(source) for source in topic_sources(script_topic)], "disclaimer": DISCLAIMER,
     }
+
+
+@pytest.fixture
+def review_payload():
+    from app.script_review import review_claims
+
+    def build(script, topic, settings):
+        primary = topic.references[0]
+        checks = []
+        for claim in review_claims(script, settings):
+            non_factual = claim.field == "hashtags" or claim.text.rstrip(".!?…") == settings.script_cta.rstrip(".!?…")
+            checks.append({"id": claim.id, "verdict": "non_factual" if non_factual else "supported",
+                           "source_url": "" if non_factual else primary.url,
+                           "quote": "" if non_factual else (FIXTURE_NORM if claim.field.startswith("sources[") else claim.text),
+                           "reason": "Призыв или теги." if non_factual else "Подтверждено синтетическим материалом."})
+        return {"summary": "Учебная сверка завершена.", "claims": checks}
+    return build

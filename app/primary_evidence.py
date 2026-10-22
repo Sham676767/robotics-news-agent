@@ -61,5 +61,6 @@ def find_primary_references(articles: tuple[Article, ...], hosts: tuple[str, ...
                 # only; the document's legal content still requires review.
                 if "pdf" not in page.content_type.lower() and _key(citation) not in _key(primary_text):
                     continue
-                result.append(PrimaryReference(kind, citation, canonical_url(page.url), excerpt, True))
+                content = "" if "pdf" in page.content_type.lower() else primary_text
+                result.append(PrimaryReference(kind, citation, canonical_url(page.url), excerpt, True, content))
     return tuple(dict.fromkeys(result))

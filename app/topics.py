@@ -32,6 +32,8 @@ class PrimaryReference:
     excerpt: str
     # Availability of a URL is not a legal opinion or a check of current law.
     availability_verified: bool = False
+    # Actual official HTML document text; an excerpt from a news article is not this.
+    content: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,7 +62,8 @@ def topic_to_dict(topic: Topic) -> dict[str, Any]:
         ],
         "primary_references": [
             {"kind": ref.kind, "citation": ref.citation, "url": ref.url,
-             "excerpt": ref.excerpt, "availability_verified": ref.availability_verified}
+             "excerpt": ref.excerpt, "availability_verified": ref.availability_verified,
+             "content": ref.content}
             for ref in topic.references
         ],
     }

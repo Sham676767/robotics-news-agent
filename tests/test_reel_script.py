@@ -86,7 +86,7 @@ def test_structure_language_and_grounding(script_data, script_topic, change):
     elif change == "english":
         script_data["caption"] = "Review all the documents before signing the agreement."
     elif change == "number":
-        script_data["caption"] = "Проверьте договор за 999 дней."
+        script_data["caption"] = "Проверьте договор за 77778 дней."
     else:
         # Same number exists in evidence, but a different legal identifier must fail.
         script_topic = replace(script_topic, articles=(replace(script_topic.articles[0], text="Учебный пример 15-ФЗ."),))
