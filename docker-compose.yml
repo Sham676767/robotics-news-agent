@@ -6,4 +6,5 @@ services:
       - .env
     volumes:
       - ./drafts:/app/drafts
+      - ./data:/app/data
     restart: "no"

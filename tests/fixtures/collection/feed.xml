@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Синтетическая тестовая лента</title>
+<item><title>Учебный договор и защита бизнеса</title><link>https://media.example/news/1?utm_source=test</link><pubDate>Thu, 22 Oct 2026 09:00:00 +0300</pubDate><description><![CDATA[<p>Учебный текст о договорном споре. Реквизит 99999-ФЗ используется только в тесте.</p><a href="https://law.example/document/100">Тестовый первоисточник</a>]]></description></item>
+<item><title>Элемент без даты</title><link>https://media.example/news/2</link><description>Нельзя считать свежим без даты.</description></item>
+<item><title></title><link>https://media.example/empty</link></item>
+</channel></rss>
