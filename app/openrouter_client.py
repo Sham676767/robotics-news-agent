@@ -6,6 +6,7 @@ import json
 import logging
 import math
 import time
+from collections.abc import Callable
 from typing import Any
 
 import httpx
@@ -19,6 +20,31 @@ RETRYABLE_STATUSES = {408, 409, 429, 500, 502, 503, 504}
 
 class OpenRouterError(RuntimeError):
     """A request exhausted its attempts or cannot be retried."""
+
+
+def parse_strict_json_object(content: str) -> dict[str, Any]:
+    """Accept exactly one JSON object, without fences, duplicate keys or NaN."""
+    def pairs(items: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError("Duplicate JSON key")
+            result[key] = value
+        return result
+
+    def constant(value: str) -> Any:
+        raise ValueError("Non-finite JSON constant")
+
+    def floating(value: str) -> float:
+        number = float(value)
+        if not math.isfinite(number):
+            raise ValueError("Non-finite JSON number")
+        return number
+
+    result = json.loads(content, object_pairs_hook=pairs, parse_constant=constant, parse_float=floating)
+    if not isinstance(result, dict):
+        raise ValueError("Expected a JSON object")
+    return result
 
 
 def parse_json_object(content: str) -> dict[str, Any]:
@@ -64,6 +90,9 @@ def request_json(
     *,
     settings: Settings | None = None,
     schema: dict[str, Any] | None = None,
+    schema_name: str = "legal_draft",
+    strict_json: bool = False,
+    validator: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """Request JSON explicitly; no default prompt or legal assertions are supplied.
 
@@ -86,7 +115,7 @@ def request_json(
     if schema is not None:
         payload["response_format"] = {
             "type": "json_schema",
-            "json_schema": {"name": "legal_draft", "strict": True, "schema": schema},
+            "json_schema": {"name": schema_name, "strict": True, "schema": schema},
         }
     if len(models) > 1:
         payload.update(models=models, route="fallback")
@@ -117,13 +146,23 @@ def request_json(
                 content = message.get("content") if isinstance(message, dict) else None
                 if not isinstance(content, str) or not content.strip():
                     raise ValueError("Empty completion")
-                result = parse_json_object(content)
+                result = (parse_strict_json_object(content) if strict_json else parse_json_object(content))
+                if validator is not None:
+                    # Schema and content failures share the transport attempt budget.
+                    validator(result)
                 logger.info("OpenRouter JSON received on attempt %d", attempt + 1)
                 return result
         except httpx.TransportError:
             reason = "transport_error"
         except ValueError:
-            reason = "invalid_json_response"
+            reason = "invalid_json_or_content"
+            if strict_json or validator is not None:
+                # Safe repair guidance: never echo rejected output or exception text.
+                payload["messages"] = [*messages, {"role": "user", "content": (
+                    "Предыдущий ответ не прошёл проверку JSON или содержания. "
+                    "Верни заново только объект по схеме. Проверь все поля, ограничения "
+                    "длины, структуру и дословное сохранение источников и CTA из задания."
+                )}]
 
         if attempt + 1 < config.openrouter_max_attempts:
             delay = _retry_delay(config, attempt, response)

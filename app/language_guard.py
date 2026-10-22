@@ -15,6 +15,11 @@ def _language_ratio(text: str) -> float:
     return cyrillic / letters if letters else 0.0
 
 
+def validate_russian_text(text: str, *, scope: str, min_ratio: float = 0.45) -> None:
+    if _language_ratio(text) < min_ratio:
+        raise ValueError(f"{scope} is not sufficiently Russian")
+
+
 def validate_russian_draft(draft: LegalDraft, *, min_ratio: float = 0.45) -> None:
     """Retain the Cyrillic check without imposing a daily publication format."""
     for field, text in (("title", draft.title), ("intro", draft.intro)):

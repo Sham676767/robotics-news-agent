@@ -14,6 +14,7 @@ from app.openrouter_client import OpenRouterError
 from app.source_config import load_source_config
 from app.topic_collector import collect_topics
 from app.topic_history import TopicHistory
+from app.script_generator import generate_script, load_script_topic, save_script
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +33,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     mark.add_argument("ids", nargs="+")
     mark.add_argument("--sources", type=Path, default=Path("sources.yaml"))
     mark.add_argument("--history", type=Path)
+    script = commands.add_parser("script", help="Сценарий одной выбранной темы через OpenRouter")
+    script.add_argument("--input", type=Path, default=Path("data/collected_topics.json"))
+    script.add_argument("--topic-id", help="Обязательно, если в подборке несколько тем")
+    script.add_argument("--output", type=Path, help="Новый JSON-файл; существующий файл не заменяется")
     args = parser.parse_args(argv)
     if args.command and args.draft:
         parser.error("--draft cannot be combined with a subcommand")
@@ -62,6 +67,13 @@ def main(argv: Sequence[str] | None = None) -> int:
                               "selected_topics": [{"id": item["id"], "title": item["title"], "score": item["score"]}
                                                   for item in report["selected_topics"]]}, ensure_ascii=False, indent=2))
             return 0 if len(report["selected_topics"]) == config.topics_per_video else 3
+        elif args.command == "script":
+            if args.output is not None and args.output.exists():
+                raise ValueError("Output already exists; choose a new --output path")
+            topic = load_script_topic(args.input, args.topic_id)
+            result = generate_script(topic, settings)
+            save_script(result, topic, settings, args.output)
+            print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
         elif args.command == "mark-used":
             path = args.history or load_source_config(args.sources).history_path
             with TopicHistory(path) as history:

@@ -107,3 +107,8 @@ def validate_factual_grounding(draft: LegalDraft, sources: Sequence[LegalSource]
             _source_text([sources[section.source_index - 1]]),
             scope=f"Draft section #{index}",
         )
+
+
+def validate_grounded_text(text: str, source_text: str, *, scope: str) -> None:
+    """Public text-level check; this does not establish legal accuracy."""
+    _validate_editorial_text(text, source_text, scope=scope)

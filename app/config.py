@@ -21,12 +21,15 @@ class Settings:
     openrouter_max_attempts: int = 3
     retry_base_seconds: float = 2.0
     retry_max_seconds: float = 20.0
+    script_cta: str = "Сохраните ролик и поделитесь им"
 
     def __post_init__(self) -> None:
         if self.log_level not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:
             raise ValueError("LOG_LEVEL must be DEBUG, INFO, WARNING, ERROR or CRITICAL")
         if not self.openrouter_model.strip():
             raise ValueError("OPENROUTER_MODEL must not be empty")
+        if not self.script_cta.strip() or "\n" in self.script_cta or "\r" in self.script_cta:
+            raise ValueError("SCRIPT_CTA must be a non-empty single line")
         if self.openrouter_max_attempts < 1:
             raise ValueError("OPENROUTER_MAX_ATTEMPTS must be positive")
         if not math.isfinite(self.openrouter_timeout) or self.openrouter_timeout <= 0:
@@ -68,4 +71,5 @@ class Settings:
             openrouter_max_attempts=attempts,
             retry_base_seconds=base,
             retry_max_seconds=maximum,
+            script_cta=env.get("SCRIPT_CTA", "Сохраните ролик и поделитесь им").strip(),
         )
