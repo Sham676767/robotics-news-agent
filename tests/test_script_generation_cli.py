@@ -10,8 +10,9 @@ import pytest
 from app.cli import main
 from app.config import Settings
 from app.openrouter_client import OpenRouterError, parse_strict_json_object
-from app.reel_script import SCRIPT_SCHEMA
+from app.reel_script import SCRIPT_SCHEMA, parse_script
 from app.script_generator import generate_script, load_script_topic, save_script
+from app.script_review import review_script
 from app.topic_history import TopicHistory
 from app.topics import topic_to_dict
 
@@ -147,25 +148,31 @@ def test_invalid_article_data_is_a_clean_input_error(report_file, field, value):
         load_script_topic(report_file)
 
 
-def test_save_is_atomic_unique_and_never_overwrites(monkeypatch, settings, script_topic, script_data):
-    monkeypatch.setattr(httpx, "post", Mock(return_value=completion(script_data)))
+def test_save_is_atomic_unique_and_never_overwrites(monkeypatch, settings, script_topic, script_data, review_payload):
+    post = Mock(return_value=completion(script_data))
+    monkeypatch.setattr(httpx, "post", post)
     script = generate_script(script_topic, settings)
-    first = save_script(script, script_topic, settings)
-    second = save_script(script, script_topic, settings)
+    post.return_value = completion(review_payload(script, script_topic, settings))
+    review = review_script(script, script_topic, settings)
+    first = save_script(script, script_topic, settings, review=review)
+    second = save_script(script, script_topic, settings, review=review)
     assert first != second
     assert json.loads(first.read_text()) == script_data
     with pytest.raises(FileExistsError):
-        save_script(script, script_topic, settings, first)
+        save_script(script, script_topic, settings, first, review=review)
     assert json.loads(first.read_text()) == script_data
-    assert len(list(settings.drafts_dir.iterdir())) == 2
+    assert len(list(settings.drafts_dir.iterdir())) == 4  # two scripts and their audits
 
 
-def test_failed_save_cleans_temporary_file(monkeypatch, settings, script_topic, script_data):
-    monkeypatch.setattr(httpx, "post", Mock(return_value=completion(script_data)))
+def test_failed_save_cleans_temporary_file(monkeypatch, settings, script_topic, script_data, review_payload):
+    post = Mock(return_value=completion(script_data))
+    monkeypatch.setattr(httpx, "post", post)
     script = generate_script(script_topic, settings)
+    post.return_value = completion(review_payload(script, script_topic, settings))
+    review = review_script(script, script_topic, settings)
     monkeypatch.setattr("app.script_generator.os.link", Mock(side_effect=OSError("fixture disk failure")))
     with pytest.raises(OSError):
-        save_script(script, script_topic, settings)
+        save_script(script, script_topic, settings, review=review)
     assert list(settings.drafts_dir.iterdir()) == []
 
 
@@ -173,9 +180,11 @@ def setup_cli(monkeypatch, settings):
     monkeypatch.setattr("app.cli.Settings.from_env", Mock(return_value=settings))
 
 
-def test_cli_json_and_file_match_without_marking_used(monkeypatch, settings, report_file, script_topic, script_data, capsys, tmp_path):
+def test_cli_json_and_file_match_without_marking_used(monkeypatch, settings, report_file, script_topic, script_data, capsys, tmp_path, review_payload):
     setup_cli(monkeypatch, settings)
-    monkeypatch.setattr(httpx, "post", Mock(return_value=completion(script_data)))
+    script = parse_script(script_data, script_topic, settings)
+    post = Mock(side_effect=[completion(script_data), completion(review_payload(script, script_topic, settings))])
+    monkeypatch.setattr(httpx, "post", post)
     history_path = tmp_path / "history.sqlite3"
     with TopicHistory(history_path) as history:
         history.save_selected([script_topic])
@@ -183,20 +192,23 @@ def test_cli_json_and_file_match_without_marking_used(monkeypatch, settings, rep
     output = tmp_path / "result.json"
     assert main(["script", "--input", str(report_file), "--output", str(output)]) == 0
     assert json.loads(capsys.readouterr().out) == script_data == json.loads(output.read_text())
+    assert json.loads(output.with_suffix(".review.json").read_text())["review"]["status"] == "checked"
+    assert post.call_count == 2
     assert history_path.read_bytes() == before
     with TopicHistory(history_path) as history:
         assert history.used_topics() == []
 
 
-def test_cli_default_input_and_output(monkeypatch, settings, report_file, script_data, capsys, tmp_path):
+def test_cli_default_input_and_output(monkeypatch, settings, report_file, script_data, script_topic, capsys, tmp_path, review_payload):
     setup_cli(monkeypatch, settings)
     monkeypatch.chdir(tmp_path)
     Path("data").mkdir()
     Path("data/collected_topics.json").write_bytes(report_file.read_bytes())
-    monkeypatch.setattr(httpx, "post", Mock(return_value=completion(script_data)))
+    script = parse_script(script_data, script_topic, settings)
+    monkeypatch.setattr(httpx, "post", Mock(side_effect=[completion(script_data), completion(review_payload(script, script_topic, settings))]))
     assert main(["script"]) == 0
     assert json.loads(capsys.readouterr().out) == script_data
-    assert len(list(settings.drafts_dir.glob("reel-script-*.json"))) == 1
+    assert len([path for path in settings.drafts_dir.glob("reel-script-*.json") if not path.name.endswith(".review.json")]) == 1
 
 
 @pytest.mark.parametrize("failure", ["invalid_json", "missing_key", "missing_input", "existing_output"])

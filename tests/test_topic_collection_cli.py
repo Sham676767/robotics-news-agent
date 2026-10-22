@@ -46,6 +46,7 @@ def collection_setup(tmp_path, monkeypatch):
         return {"groups": [[key] for key in ids]}
     monkeypatch.setattr("app.topic_dedup.request_json", compare)
     monkeypatch.setenv("OPENROUTER_API_KEY", "test-only-key")
+    monkeypatch.setenv("DRAFTS_DIR", str(tmp_path / "drafts"))
     return config_path, config, pages
 
 
@@ -129,22 +130,32 @@ def test_cli_rejects_nonpositive_settings(collection_setup, flag):
     assert main(["collect", "--sources", str(path), flag, "0"]) == 2
 
 
-def test_collect_result_feeds_script_without_changing_history(collection_setup, script_data, monkeypatch, tmp_path, capsys):
+def test_collect_without_specific_article_is_quarantined_without_changing_history(collection_setup, script_data, monkeypatch, tmp_path, capsys):
     import httpx
     from app.reel_script import topic_sources
     from app.script_generator import load_script_topic
+    from app.reel_script import parse_script
+    from app.script_review import review_claims
     from dataclasses import asdict
 
     _, config, _ = collection_setup
     collect_topics(config, KEY, now=NOW)
     topic = load_script_topic(config.output_path)
     script_data["sources"] = [asdict(source) for source in topic_sources(topic)]
-    post = Mock(return_value=httpx.Response(200, json={
-        "choices": [{"message": {"content": json.dumps(script_data)}}],
-    }))
+    script = parse_script(script_data, topic, Settings.from_env())
+    review = {"summary": "Недостаточно данных.", "claims": [
+        {"id": claim.id, "verdict": "insufficient", "source_url": "", "quote": "",
+         "reason": "Нет конкретной статьи в первоисточнике."}
+        for claim in review_claims(script, Settings.from_env())]}
+    post = Mock(side_effect=[httpx.Response(200, json={
+        "choices": [{"message": {"content": json.dumps(data)}}],
+    }) for data in (script_data, review)])
     monkeypatch.setattr(httpx, "post", post)
     before = config.history_path.read_bytes()
-    assert main(["script", "--input", str(config.output_path), "--output", str(tmp_path / "script.json")]) == 0
-    assert json.loads(capsys.readouterr().out) == script_data
+    assert main(["script", "--input", str(config.output_path), "--output", str(tmp_path / "script.json")]) == 3
+    assert capsys.readouterr().out == ""
+    assert not (tmp_path / "script.json").exists()
+    held = json.loads(next((tmp_path / "drafts/quarantine").glob("*.json")).read_text())
+    assert "missing_norm" in {issue["code"] for issue in held["review"]["issues"]}
     assert config.history_path.read_bytes() == before
-    post.assert_called_once()
+    assert post.call_count == 2

@@ -15,6 +15,7 @@ from app.openrouter_client import parse_strict_json_object, request_json
 from app.reel_script import DISCLAIMER, SCRIPT_SCHEMA, ReelScript, parse_script, topic_sources
 from app.topics import Topic, topic_from_dict, topic_to_dict
 from app.topic_urls import canonical_url
+from app.script_review import ScriptReview
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +79,12 @@ def generate_script(topic: Topic, settings: Settings) -> ReelScript:
         "этих блоков. on_screen_text — короткие русские титры; caption — подпись к ролику; "
         "hashtags — массив уникальных #слов. sources — в точности все переданные source_cards "
         "без изменения полей, URL или реквизитов. disclaimer — дословный переданный текст. "
+        "sources содержат title, url, citation, law, article, part. Не придумывай недостающую "
+        "норму; пустые реквизиты останутся причиной блокировки на проверке. "
+        "Титры: до шести строк, каждая до шестидесяти символов и без переносов. "
+        "Подпись до тысячи символов; от одного до десяти хэштегов. "
+        "Запрещены категоричные обещания вроде «вам точно положено» без подтверждённых "
+        "оговорок в том же предложении. Не выдумывай номера статей, частей и дел. "
         "Перед ответом проверь число слов, четыре абзаца, схему и соответствие источникам."
     )
     messages = [
@@ -98,9 +105,37 @@ def generate_script(topic: Topic, settings: Settings) -> ReelScript:
     return script
 
 
-def save_script(script: ReelScript, topic: Topic, settings: Settings, output: Path | None = None) -> Path:
+def save_script(script: ReelScript, topic: Topic, settings: Settings, output: Path | None = None,
+                *, review: ScriptReview) -> Path:
     data = parse_script(script.to_dict(), topic, settings).to_dict()
+    review.require_match(script, topic)
+    if not review.passed:
+        raise ValueError("Unreviewed or rejected scripts cannot enter the normal output")
     path = output if output is not None else settings.drafts_dir / f"reel-script-{uuid4().hex}.json"
+    audit = path.with_suffix(".review.json")
+    if path.exists() or audit.exists():
+        raise FileExistsError("Script or review output already exists")
+    _save_new_json({"review": review.to_dict(), "topic": topic_to_dict(topic)}, audit)
+    try:
+        _save_new_json(data, path)
+    except OSError:
+        audit.unlink(missing_ok=True)
+        raise
+    logger.info("Script and independent review saved: %s", path)
+    return path
+
+
+def save_quarantined_script(script: ReelScript, topic: Topic, settings: Settings, review: ScriptReview) -> Path:
+    review.require_match(script, topic)
+    if review.passed:
+        raise ValueError("A passed review does not belong in quarantine")
+    path = settings.drafts_dir / "quarantine" / f"reel-script-{uuid4().hex}.json"
+    _save_new_json({"script": script.to_dict(), "review": review.to_dict(), "topic": topic_to_dict(topic)}, path)
+    logger.warning("Script held as a draft: %s; reasons: %s", path, ",".join(issue.code for issue in review.issues))
+    return path
+
+
+def _save_new_json(data: dict[str, Any], path: Path) -> None:
     content = json.dumps(data, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary: Path | None = None
@@ -113,5 +148,3 @@ def save_script(script: ReelScript, topic: Topic, settings: Settings, output: Pa
     finally:
         if temporary is not None:
             temporary.unlink(missing_ok=True)
-    logger.info("Script saved for editorial review: %s", path)
-    return path

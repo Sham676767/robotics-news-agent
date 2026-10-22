@@ -86,6 +86,7 @@ def test_primary_reference_requires_direct_trusted_available_document():
     assert refs[0].citation == "99999-ФЗ"
     assert refs[0].availability_verified
     assert refs[0].citation in refs[0].excerpt
+    assert refs[0].content == "Учебный документ 99999-ФЗ"
     assert find_primary_references((item,), ("other.example",), Fetcher(page)) == ()
     assert find_primary_references((item,), ("law.example",), Fetcher(SourceFetchError("unavailable"))) == ()
 
@@ -98,3 +99,10 @@ def test_primary_html_must_expose_matching_identifier():
 def test_homepage_is_not_primary_document():
     assert not is_document_url("https://law.example/")
     assert not is_document_url("https://law.example/news/100")
+
+
+def test_primary_pdf_availability_does_not_create_fake_extracted_text():
+    page = FetchedPage("https://law.example/document/100", "%PDF-1.7 test", "application/pdf")
+    refs = find_primary_references(topic().articles, ("law.example",), Fetcher(page))
+    assert refs and refs[0].availability_verified
+    assert refs[0].content == ""

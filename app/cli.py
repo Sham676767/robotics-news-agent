@@ -14,7 +14,8 @@ from app.openrouter_client import OpenRouterError
 from app.source_config import load_source_config
 from app.topic_collector import collect_topics
 from app.topic_history import TopicHistory
-from app.script_generator import generate_script, load_script_topic, save_script
+from app.script_generator import generate_script, load_script_topic, save_script, save_quarantined_script
+from app.script_review import review_script
 
 logger = logging.getLogger(__name__)
 
@@ -68,11 +69,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                                                   for item in report["selected_topics"]]}, ensure_ascii=False, indent=2))
             return 0 if len(report["selected_topics"]) == config.topics_per_video else 3
         elif args.command == "script":
-            if args.output is not None and args.output.exists():
+            if args.output is not None and (args.output.exists() or args.output.with_suffix(".review.json").exists()):
                 raise ValueError("Output already exists; choose a new --output path")
             topic = load_script_topic(args.input, args.topic_id)
             result = generate_script(topic, settings)
-            save_script(result, topic, settings, args.output)
+            review = review_script(result, topic, settings)
+            if not review.passed:
+                save_quarantined_script(result, topic, settings, review)
+                return 3
+            save_script(result, topic, settings, args.output, review=review)
             print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
         elif args.command == "mark-used":
             path = args.history or load_source_config(args.sources).history_path

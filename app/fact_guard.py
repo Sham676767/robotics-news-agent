@@ -28,6 +28,22 @@ _UNSUPPORTED_EMBELLISHMENTS = (
     "без аналогов",
     "переломным моментом",
 )
+_CATEGORICAL = re.compile(
+    r"(?:\bточно\s+(?:не\s+)?(?:положен\w*|получ\w*|верн\w*|выигра\w*)|"
+    r"\bгарантирован\w*|\bбезусловно\b|\bв\s+любом\s+случае\b|"
+    r"\b(?:всегда|обязательно)\s+(?:получ\w*|верн\w*|положен\w*|выигра\w*)|"
+    r"\b(?:никаких\s+рисков|без\s+рисков|всем\s+положено)\b|100\s*%)", re.I,
+)
+_QUALIFIER = re.compile(
+    r"\b(?:если|при\s+условии|при\s+наличии|при\s+соблюдении|зависит\s+от)\b|"
+    r"\b(?:не|нельзя|недопустимо)\s+(?:обещ\w*|гарантиров\w*|утвержд\w*)", re.I,
+)
+
+
+def categorical_claims(text: str) -> tuple[str, ...]:
+    """Require a qualification in the same sentence, not a distant disclaimer."""
+    return tuple(sentence.strip() for sentence in re.split(r"[.!?;\n]+", text)
+                 if _CATEGORICAL.search(sentence) and not _QUALIFIER.search(sentence))
 
 
 def _canonical_number(value: str) -> str:
@@ -96,6 +112,9 @@ def validate_factual_grounding(draft: LegalDraft, sources: Sequence[LegalSource]
     This narrow check cannot verify article identifiers, current wording of law,
     jurisdiction, applicability or semantic accuracy. Manual review is required.
     """
+    all_text = "\n".join([draft.title, draft.intro, *(f"{item.headline}\n{item.body}" for item in draft.sections)])
+    if categorical_claims(all_text):
+        raise ValueError("Draft contains an unqualified categorical legal claim")
     _validate_editorial_text(
         f"{draft.title} {draft.intro}", _source_text(sources), scope="Draft title/intro",
     )
