@@ -1,48 +1,27 @@
-import unittest
+from dataclasses import replace
 
-from app.language_guard import validate_russian_article
+import pytest
 
-
-class RussianLanguageGuardTests(unittest.TestCase):
-    def _article(self, body):
-        return {
-            "title": "Робототехника дня",
-            "intro": "Это русское вступление о сегодняшних событиях. Здесь есть общий технологический контекст.",
-            "items": [
-                {"headline": f"Событие {i}", "body": body, "card_index": i}
-                for i in range(1, 6)
-            ],
-        }
-
-    def test_accepts_russian_prose_with_english_product_name(self):
-        body = "Компания представила новый робот Atlas Pro. Разработка предназначена для складских задач. В карточке приведены конкретные сведения о проекте."
-        validate_russian_article(self._article(body))
-
-    def test_rejects_weekly_framing_in_daily_digest(self):
-        article = self._article("Компания представила новый робот. Это описание события. Источник содержит факты.")
-        article["title"] = "Дайджест за неделю в робототехнике"
-        with self.assertRaises(ValueError):
-            validate_russian_article(article)
-
-    def test_rejects_predominantly_english_headline(self):
-        article = self._article(
-            "Компания представила новый робот. Это описание события. Источник содержит факты."
-        )
-        article["items"][0]["headline"] = "Company launches warehouse humanoid robot"
-        with self.assertRaises(ValueError):
-            validate_russian_article(article)
-
-    def test_rejects_predominantly_english_body(self):
-        body = "The company announced a new humanoid robot. It is designed for warehouse tasks. The source provides additional technical details."
-        with self.assertRaises(ValueError):
-            validate_russian_article(self._article(body))
-
-    def test_rejects_non_russian_intro(self):
-        article = self._article("Компания представила новый робот. Это описание события. Источник содержит факты.")
-        article["intro"] = "This is an English introduction about robotics. It summarizes the week."
-        with self.assertRaises(ValueError):
-            validate_russian_article(article)
+from app.language_guard import validate_russian_draft
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_accepts_russian_text_with_original_name(legal_package):
+    draft, _ = legal_package
+    section = replace(draft.sections[0], body="Учебный материал включает название Example Service и описание проверки.")
+    validate_russian_draft(replace(draft, sections=(section,)))
+
+
+def test_does_not_apply_daily_digest_rules(legal_package):
+    draft, _ = legal_package
+    validate_russian_draft(replace(draft, title="Материал для обсуждения на неделе"))
+
+
+@pytest.mark.parametrize("field", ["title", "intro", "headline", "body"])
+def test_rejects_non_russian_text_in_every_field(legal_package, field):
+    draft, _ = legal_package
+    if field in {"title", "intro"}:
+        draft = replace(draft, **{field: "This is an English legal draft."})
+    else:
+        draft = replace(draft, sections=(replace(draft.sections[0], **{field: "English text for review."}),))
+    with pytest.raises(ValueError, match="not sufficiently Russian"):
+        validate_russian_draft(draft)

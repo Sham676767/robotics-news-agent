@@ -1,80 +1,67 @@
+from dataclasses import replace
+
 import pytest
 
 from app.fact_guard import validate_factual_grounding
+from app.models import LegalDraft, LegalSection, LegalSource
 
 
-def _article(body: str) -> dict:
-    return {
-        "items": [
-            {"headline": "Событие", "body": body, "card_index": 1},
-        ],
-    }
+def draft(body, *, title="Учебный материал", intro="Проверка исходного текста."):
+    return LegalDraft(title, intro, (LegalSection("Описание материала", body, 1),))
 
 
-def _cards() -> list[dict]:
-    return [{
-        "title": "Robot 42 completes a 1.8 meter test",
-        "summary": "Company reported that Robot 42 completed a test.",
-    }]
+def source(content, url="https://example.com/source-99"):
+    return LegalSource("Учебный материал", "Тестовый источник", url, content)
 
 
-def test_accepts_numbers_present_in_the_matching_source_card():
-    validate_factual_grounding(
-        _article("Робот 42 завершил испытание длиной 1,8 метра. Источник сообщает об этом."),
-        _cards(),
-    )
+@pytest.mark.parametrize(("original", "rewritten"), [
+    ("42 и 1.8", "Значения 42 и 1,8."),
+    ("5,000 и 13,000", "Значения 5 000 и 13 000."),
+    ("1,800.50", "Значение 1 800,5."),
+    ("1.800,50", "Значение 1800.5."),
+    ("5 000", "Значение 5\u00a0000."),
+    ("5 000", "Значение 5\u202f000."),
+])
+def test_accepts_numbers_from_matching_source(original, rewritten):
+    validate_factual_grounding(draft(rewritten), [source(original)])
 
 
-def test_accepts_thousands_grouped_with_spaces_in_russian_text():
-    cards = [{
-        "title": "Company sells 5,000 robots and reaches 13,000 total units",
-        "summary": "The company reported 5,000 orders and 13,000 sales.",
-    }]
-    validate_factual_grounding(
-        _article("Компания сообщила о 5 000 заказов и 13 000 проданных роботах."),
-        cards,
-    )
-
-
-def test_rejects_changed_thousands_grouped_number():
-    cards = [{
-        "title": "Company sells 5,000 robots",
-        "summary": "The company reported 5,000 orders.",
-    }]
+@pytest.mark.parametrize("text", ["Значение 99.", "Значение 6 000."])
+def test_rejects_numbers_absent_from_source(text):
     with pytest.raises(ValueError, match="numbers absent"):
-        validate_factual_grounding(
-            _article("Компания сообщила о 6 000 заказов."),
-            cards,
-        )
+        validate_factual_grounding(draft(text), [source("Значение 5,000.")])
 
 
-def test_rejects_number_in_digest_intro_absent_from_all_sources():
-    article = _article("Робот 42 завершил испытание. Источник сообщает об этом.")
-    article["title"] = "10 роботов дня"
-    article["intro"] = "В выпуске собраны новости о роботах. Источники описывают отдельные события."
-    with pytest.raises(ValueError, match="Article title/intro.*numbers absent"):
-        validate_factual_grounding(article, _cards())
+def test_rechecks_title_and_intro_numbers():
+    with pytest.raises(ValueError, match="Draft title/intro.*numbers absent"):
+        validate_factual_grounding(draft("Текст.", title="10 выводов"), [source("Текст.")])
 
 
-def test_rejects_unsupported_embellishment_in_digest_title():
-    article = _article("Робот 42 завершил испытание. Источник сообщает об этом.")
-    article["title"] = "Новый стандарт в робототехнике"
-    article["intro"] = "В выпуске собраны новости о роботах. Источники описывают отдельные события."
-    with pytest.raises(ValueError, match="Article title/intro.*unsupported embellishment"):
-        validate_factual_grounding(article, _cards())
-
-
-def test_rejects_numeric_claim_absent_from_source_card():
-    with pytest.raises(ValueError, match="numbers absent"):
-        validate_factual_grounding(
-            _article("Робот 99 завершил испытание. Это подтверждает источник."),
-            _cards(),
-        )
-
-
-def test_rejects_recurring_unsupported_embellishment():
+@pytest.mark.parametrize("scope", ["title", "body"])
+def test_rejects_unsupported_embellishment(scope):
+    value = draft("Описание.", title="Учебный материал")
+    if scope == "title":
+        value = replace(value, title="Новый стандарт")
+    else:
+        value = replace(value, sections=(replace(value.sections[0], body="Это меняет правила игры."),))
     with pytest.raises(ValueError, match="unsupported embellishment"):
-        validate_factual_grounding(
-            _article("Компания представила робота. Это ключевым шагом для отрасли."),
-            _cards(),
-        )
+        validate_factual_grounding(value, [source("Описание.")])
+
+
+def test_numbers_from_other_source_do_not_ground_section():
+    with pytest.raises(ValueError, match="numbers absent"):
+        validate_factual_grounding(draft("Значение 42."), [source("Текст."), source("42")])
+
+
+def test_url_and_publisher_numbers_are_not_evidence():
+    value = replace(source("Текст."), source="Источник 99")
+    with pytest.raises(ValueError, match="numbers absent"):
+        validate_factual_grounding(draft("Значение 99."), [value])
+
+
+@pytest.mark.parametrize("index", [0, -1, 2, True])
+def test_rejects_invalid_source_binding(index):
+    value = draft("Текст.")
+    value = replace(value, sections=(replace(value.sections[0], source_index=index),))
+    with pytest.raises(ValueError, match="matching source"):
+        validate_factual_grounding(value, [source("Текст.")])

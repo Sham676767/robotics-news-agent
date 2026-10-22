@@ -1,10 +1,9 @@
 services:
   agent:
     build: .
-    image: robotics-news-agent:local
+    image: legal-reels-agent:local
     env_file:
       - .env
     volumes:
-      - ./data:/app/data
-      - ./articles:/app/articles
+      - ./drafts:/app/drafts
     restart: "no"
