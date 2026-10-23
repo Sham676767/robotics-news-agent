@@ -7,4 +7,5 @@ services:
     volumes:
       - ./drafts:/app/drafts
       - ./data:/app/data
+      - ./audio:/app/audio
     restart: "no"

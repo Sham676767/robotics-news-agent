@@ -11,5 +11,6 @@ __pycache__/
 *.sqlite3
 logs/
 drafts/
+audio/
 data/
 .DS_Store

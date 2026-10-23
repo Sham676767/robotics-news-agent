@@ -78,6 +78,10 @@ python -m app --draft tests/fixtures/legal_draft.json
 | `APP_ENV`, `LOG_LEVEL` | Окружение и уровень логов |
 | `DRAFTS_DIR` | Папка черновиков, по умолчанию `drafts` |
 | `SCRIPT_CTA` | Финальная фраза озвучки: «Сохраните ролик и поделитесь им» |
+| `TTS_PROVIDER`, `TTS_OUTPUT_DIR` | Провайдер озвучки и папка аудио; по умолчанию `elevenlabs`, `audio` |
+| `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | Ключ ElevenLabs и выбранный голос, задаются в `.env` для Compose |
+| `ELEVENLABS_MODEL_ID` | Модель озвучки; по умолчанию `eleven_multilingual_v2` |
+| `TTS_TIMEOUT`, `TTS_MAX_ATTEMPTS`, `TTS_RETRY_BASE_SECONDS`, `TTS_RETRY_MAX_SECONDS` | Таймаут и ограниченные повторы TTS |
 | `OPENROUTER_API_KEY` | Ключ для `collect` и `script` |
 | `OPENROUTER_MODEL`, `OPENROUTER_FALLBACK_MODELS` | Основная модель и необязательные запасные модели |
 | `OPENROUTER_TIMEOUT`, `OPENROUTER_MAX_ATTEMPTS` | Таймаут и максимальное число запросов |
@@ -109,6 +113,10 @@ app/
   script_generator.py   — выбранная тема → OpenRouter → отдельный JSON
   script_review.py      — отдельная LLM-сверка и причины отказа
   legal_references.py   — извлечение явных реквизитов без додумывания
+  tts.py                — интерфейс TTSProvider, типы и оценочные тайминги
+  elevenlabs_tts.py     — ElevenLabs: посимвольные метки → слова, PCM → WAV
+  tts_factory.py        — выбор реализации через конфиг
+  tts_pipeline.py       — проверка и сохранение аудио с таймингами
 ```
 
 Тесты запрещают реальные сетевые обращения и используют моки для OpenRouter.
@@ -202,3 +210,33 @@ docker compose run --rm agent python -m app script
 не выдаётся. Старые подборки без текста первоисточника нужно собрать заново.
 Тема останется неиспользованной до отдельной команды `mark-used`.
 Подробности: [docs/script.md](docs/script.md).
+
+## Озвучка и тайминги слов
+
+В `.env` задайте `ELEVENLABS_API_KEY` и `ELEVENLABS_VOICE_ID` своего голоса.
+`TTS_PROVIDER=elevenlabs` выбирает первую реализацию общего `TTSProvider`.
+
+```bash
+docker compose build
+docker compose run --rm agent python -m app tts --input drafts/reel-script-ID.json
+# Локально — с переменными окружения, Python сам .env не читает:
+python -m app tts --input drafts/reel-script-ID.json
+python -m app tts --input drafts/reel-script-ID.json --output-dir audio/preview
+```
+
+Вход — успешный сценарий и соседний `.review.json`. Изменённый или заблокированный
+сценарий отклоняется до запроса TTS. Озвучивается только весь `voiceover`, один раз;
+хук и CTA повторно не добавляются. Правовая публикация и подтверждение использования
+темы не выполняются.
+
+Результат каждого запуска — новая папка `audio/tts-<uuid>/` с `audio.wav` и
+`timings.json`. В JSON для каждого слова есть `word`, `start`, `end` в секундах.
+Основной вариант — тайминги ElevenLabs (`timing_source: provider`). Если их нет
+или они относятся к другому тексту, используются явно помеченные оценочные
+тайминги (`estimated`) по длине фраз и фактической длительности WAV.
+Повреждённые тайминги не выдаются за корректные. Аудио подключено к контейнеру
+как `./audio:/app/audio` и исключено из Git.
+
+Новые провайдеры добавляются отдельным адаптером и записью в фабрике без
+изменения пайплайна. Вторая реализация пока не добавлялась.
+Формат, ограничения и инструкция: [docs/tts.md](docs/tts.md).

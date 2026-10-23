@@ -22,6 +22,15 @@ class Settings:
     retry_base_seconds: float = 2.0
     retry_max_seconds: float = 20.0
     script_cta: str = "Сохраните ролик и поделитесь им"
+    tts_provider: str = "elevenlabs"
+    tts_output_dir: Path = Path("audio")
+    tts_timeout: float = 120.0
+    tts_max_attempts: int = 3
+    tts_retry_base_seconds: float = 2.0
+    tts_retry_max_seconds: float = 20.0
+    elevenlabs_api_key: str = field(default="", repr=False)
+    elevenlabs_voice_id: str = ""
+    elevenlabs_model_id: str = "eleven_multilingual_v2"
 
     def __post_init__(self) -> None:
         if self.log_level not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:
@@ -42,6 +51,17 @@ class Settings:
                 raise ValueError(f"{name} must be finite and non-negative")
         if self.retry_max_seconds < self.retry_base_seconds:
             raise ValueError("OPENROUTER_RETRY_MAX_SECONDS must be >= base delay")
+        if not self.tts_provider.strip() or not self.elevenlabs_model_id.strip():
+            raise ValueError("TTS_PROVIDER and ELEVENLABS_MODEL_ID must not be empty")
+        if type(self.tts_max_attempts) is not int or self.tts_max_attempts < 1:
+            raise ValueError("TTS_MAX_ATTEMPTS must be a positive integer")
+        if not math.isfinite(self.tts_timeout) or self.tts_timeout <= 0:
+            raise ValueError("TTS_TIMEOUT must be finite and positive")
+        if any(not math.isfinite(value) or value < 0 for value in
+               (self.tts_retry_base_seconds, self.tts_retry_max_seconds)):
+            raise ValueError("TTS retry delays must be finite and non-negative")
+        if self.tts_retry_max_seconds < self.tts_retry_base_seconds:
+            raise ValueError("TTS_RETRY_MAX_SECONDS must be >= base delay")
 
     @classmethod
     def from_env(cls, environ: Mapping[str, str] | None = None) -> Settings:
@@ -49,13 +69,20 @@ class Settings:
         drafts_dir = env.get("DRAFTS_DIR", "drafts").strip()
         if not drafts_dir:
             raise ValueError("DRAFTS_DIR must not be empty")
+        tts_output_dir = env.get("TTS_OUTPUT_DIR", "audio").strip()
+        if not tts_output_dir:
+            raise ValueError("TTS_OUTPUT_DIR must not be empty")
         try:
             attempts = int(env.get("OPENROUTER_MAX_ATTEMPTS", "3"))
             timeout = float(env.get("OPENROUTER_TIMEOUT", "120"))
             base = float(env.get("OPENROUTER_RETRY_BASE_SECONDS", "2"))
             maximum = float(env.get("OPENROUTER_RETRY_MAX_SECONDS", "20"))
+            tts_timeout = float(env.get("TTS_TIMEOUT", "120"))
+            tts_attempts = int(env.get("TTS_MAX_ATTEMPTS", "3"))
+            tts_base = float(env.get("TTS_RETRY_BASE_SECONDS", "2"))
+            tts_maximum = float(env.get("TTS_RETRY_MAX_SECONDS", "20"))
         except ValueError as exc:
-            raise ValueError("OpenRouter attempts/timeout/delays must be numeric") from exc
+            raise ValueError("API attempts/timeout/delays must be numeric") from exc
         return cls(
             app_env=env.get("APP_ENV", "development"),
             log_level=env.get("LOG_LEVEL", "INFO").strip().upper(),
@@ -72,4 +99,11 @@ class Settings:
             retry_base_seconds=base,
             retry_max_seconds=maximum,
             script_cta=env.get("SCRIPT_CTA", "Сохраните ролик и поделитесь им").strip(),
+            tts_provider=env.get("TTS_PROVIDER", "elevenlabs").strip().lower(),
+            tts_output_dir=Path(tts_output_dir), tts_timeout=tts_timeout,
+            tts_max_attempts=tts_attempts, tts_retry_base_seconds=tts_base,
+            tts_retry_max_seconds=tts_maximum,
+            elevenlabs_api_key=env.get("ELEVENLABS_API_KEY", "").strip(),
+            elevenlabs_voice_id=env.get("ELEVENLABS_VOICE_ID", "").strip(),
+            elevenlabs_model_id=env.get("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2").strip(),
         )
