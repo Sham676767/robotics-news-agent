@@ -85,3 +85,26 @@ def review_payload():
                            "reason": "Призыв или теги." if non_factual else "Подтверждено синтетическим материалом."})
         return {"summary": "Учебная сверка завершена.", "claims": checks}
     return build
+
+
+@pytest.fixture
+def tts_settings(tmp_path):
+    return Settings(elevenlabs_api_key="eleven-test-key", elevenlabs_voice_id="fixture-voice",
+                    elevenlabs_model_id="fixture-model", tts_timeout=5,
+                    tts_retry_base_seconds=0, tts_retry_max_seconds=0,
+                    tts_output_dir=tmp_path / "audio")
+
+
+@pytest.fixture
+def wav_bytes():
+    import io
+    import wave
+    def build(duration=1.0, rate=24000):
+        buffer = io.BytesIO()
+        with wave.open(buffer, "wb") as file:
+            file.setnchannels(1)
+            file.setsampwidth(2)
+            file.setframerate(rate)
+            file.writeframes(b"\0\0" * round(duration * rate))
+        return buffer.getvalue()
+    return build

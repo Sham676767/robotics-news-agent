@@ -6,14 +6,15 @@ import json
 import logging
 import re
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any, Literal, cast
 
 from app.config import Settings
 from app.fact_guard import categorical_claims, validate_grounded_text
 from app.legal_references import Norm, explicit_norms, identifier_tokens
-from app.openrouter_client import OpenRouterError, request_json
-from app.reel_script import DISCLAIMER, ReelScript
-from app.topics import Topic, topic_to_dict
+from app.openrouter_client import OpenRouterError, request_json, parse_strict_json_object
+from app.reel_script import DISCLAIMER, ReelScript, parse_script
+from app.topics import Topic, topic_to_dict, topic_from_dict
 
 Verdict = Literal["supported", "contradicted", "insufficient", "non_factual"]
 logger = logging.getLogger(__name__)
@@ -243,3 +244,39 @@ def review_script(script: ReelScript, topic: Topic, settings: Settings) -> Scrip
     logger.info("Independent script check: %d claims, %d issues", len(checks), len(issues))
     return ScriptReview(digest(script.to_dict()), digest(topic_to_dict(topic)), settings.openrouter_model,
                         tuple(dict.fromkeys(issues)), checks, summary)
+
+
+def load_checked_script(path: Path, settings: Settings) -> tuple[ReelScript, Topic, ScriptReview]:
+    """Load the existing review gate for downstream preview stages without LLM calls."""
+    script_data = parse_strict_json_object(path.read_text(encoding="utf-8"))
+    audit = parse_strict_json_object(path.with_suffix(".review.json").read_text(encoding="utf-8"))
+    try:
+        topic = topic_from_dict(audit["topic"])
+        script = parse_script(script_data, topic, settings)
+        raw = audit["review"]
+        if (raw["status"] != "checked" or raw["eligible_for_next_stage"] is not True
+                or raw["publication_allowed"] is not False or raw["human_review_required"] is not True
+                or not isinstance(raw["issues"], list) or raw["issues"]):
+            raise ValueError("Review was rejected")
+        claims = review_claims(script, settings)
+        by_id = {claim.id: claim for claim in claims}
+        reduced: list[dict[str, str]] = []
+        if not isinstance(raw["claims"], list):
+            raise ValueError("Missing checked claims")
+        for item in raw["claims"]:
+            if not isinstance(item, dict) or set(item) != {"id", "verdict", "source_url", "quote", "reason", "text", "field"}:
+                raise ValueError("Invalid stored claim")
+            claim = by_id[item["id"]]
+            if item["text"] != claim.text or item["field"] != claim.field:
+                raise ValueError("Claim text changed")
+            reduced.append({key: item[key] for key in ("id", "verdict", "source_url", "quote", "reason")})
+        checks = parse_review({"claims": reduced, "summary": raw["summary"]}, claims, primary_texts(topic))
+        if not isinstance(raw["requested_model"], str) or not raw["requested_model"].strip():
+            raise ValueError("Missing review model")
+        review = ScriptReview(raw["script_sha256"], raw["topic_sha256"], raw["requested_model"], (), checks, raw["summary"])
+        review.require_match(script, topic)
+        if not review.passed or local_safety_issues(script, topic):
+            raise ValueError("Script failed its review gate")
+    except (KeyError, ValueError, TypeError, AttributeError):
+        raise ValueError("Script or its source review is invalid; regenerate script and review") from None
+    return script, topic, review

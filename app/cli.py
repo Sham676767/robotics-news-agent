@@ -15,7 +15,9 @@ from app.source_config import load_source_config
 from app.topic_collector import collect_topics
 from app.topic_history import TopicHistory
 from app.script_generator import generate_script, load_script_topic, save_script, save_quarantined_script
-from app.script_review import review_script
+from app.script_review import review_script, load_checked_script, digest
+from app.tts import TTSError
+from app.tts_pipeline import synthesize_audio
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +40,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     script.add_argument("--input", type=Path, default=Path("data/collected_topics.json"))
     script.add_argument("--topic-id", help="Обязательно, если в подборке несколько тем")
     script.add_argument("--output", type=Path, help="Новый JSON-файл; существующий файл не заменяется")
+    tts = commands.add_parser("tts", help="Озвучить проверенный сценарий и сохранить тайминги слов")
+    tts.add_argument("--input", required=True, type=Path, help="Сценарий JSON с соседним .review.json")
+    tts.add_argument("--output-dir", type=Path, help="Папка для новых комплектов аудио и таймингов")
     args = parser.parse_args(argv)
     if args.command and args.draft:
         parser.error("--draft cannot be combined with a subcommand")
@@ -79,6 +84,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                 return 3
             save_script(result, topic, settings, args.output, review=review)
             print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
+        elif args.command == "tts":
+            if args.output_dir is not None:
+                settings = replace(settings, tts_output_dir=args.output_dir)
+            checked, _, _ = load_checked_script(args.input, settings)
+            audio = synthesize_audio(checked.voiceover, settings, script_sha256=digest(checked.to_dict()))
+            print(json.dumps(audio.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
         elif args.command == "mark-used":
             path = args.history or load_source_config(args.sources).history_path
             with TopicHistory(path) as history:
@@ -91,6 +102,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             logger.info("Legal Reels Agent: configuration valid; foundation stage ready")
             logger.info("Use --draft PATH to validate and save a local legal text draft")
         return 0
-    except (ValueError, OSError, sqlite3.Error, OpenRouterError) as exc:
+    except (ValueError, OSError, sqlite3.Error, OpenRouterError, TTSError) as exc:
         logger.error("Command failed: %s", exc)
         return 2

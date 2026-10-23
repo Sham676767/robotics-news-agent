@@ -6,5 +6,6 @@ __pycache__
 .mypy_cache
 .ruff_cache
 drafts
+audio
 data
 logs
