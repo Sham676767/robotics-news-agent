@@ -1,0 +1,14 @@
+# Offline configuration fixture; no legal material or live feed is included.
+primary_hosts: [law.example.org]
+collection:
+  freshness_days: 30
+  max_candidates: 12
+  semantic_batch_size: 12
+  history_path: data/topic_history.sqlite3
+  output_path: data/collected_topics.json
+sources:
+  - id: fixture
+    name: Учебный источник без норм права
+    url: https://law.example.org/feed.xml
+    format: rss
+    kind: official

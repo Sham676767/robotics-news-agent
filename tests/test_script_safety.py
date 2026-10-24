@@ -5,7 +5,7 @@ import pytest
 
 from app.config import Settings
 from app.fact_guard import categorical_claims, validate_factual_grounding
-from app.legal_references import explicit_norms, identifier_tokens
+from app.legal_references import explicit_norms
 from app.reel_script import DISCLAIMER, parse_script, topic_sources
 from app.script_review import local_safety_issues
 from app.topics import topic_from_dict, topic_to_dict

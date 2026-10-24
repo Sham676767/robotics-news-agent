@@ -8,7 +8,7 @@ from typing import Any
 from app.config import Settings
 from app.openrouter_client import request_json
 from app.topics import Article, Topic
-from app.topic_urls import canonical_url, stable_id, url_key
+from app.topic_urls import stable_id, url_key
 
 JSONRequester = Callable[..., dict[str, Any]]
 
