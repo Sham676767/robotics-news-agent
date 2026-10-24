@@ -18,6 +18,7 @@ from app.script_generator import generate_script, load_script_topic, save_script
 from app.script_review import review_script, load_checked_script, digest
 from app.tts import TTSError
 from app.tts_pipeline import synthesize_audio
+from app.video_renderer import RenderError, render_video
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     tts = commands.add_parser("tts", help="Озвучить проверенный сценарий и сохранить тайминги слов")
     tts.add_argument("--input", required=True, type=Path, help="Сценарий JSON с соседним .review.json")
     tts.add_argument("--output-dir", type=Path, help="Папка для новых комплектов аудио и таймингов")
+    render = commands.add_parser("render", help="Собрать MP4 из проверенного сценария, аудио и таймингов")
+    render.add_argument("--input", required=True, type=Path, help="Сценарий JSON с соседним .review.json")
+    render.add_argument("--timings", required=True, type=Path, help="timings.json рядом с audio.wav")
+    render.add_argument("--template", type=Path)
+    render.add_argument("--clips-dir", type=Path, help="Локальные фоновые клипы; иначе градиент")
+    render.add_argument("--output-dir", type=Path)
     args = parser.parse_args(argv)
     if args.command and args.draft:
         parser.error("--draft cannot be combined with a subcommand")
@@ -90,6 +97,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             checked, _, _ = load_checked_script(args.input, settings)
             audio = synthesize_audio(checked.voiceover, settings, script_sha256=digest(checked.to_dict()))
             print(json.dumps(audio.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
+        elif args.command == "render":
+            result = render_video(args.input, args.timings, settings, template_path=args.template,
+                                  output_dir=args.output_dir, clips_dir=args.clips_dir)
+            print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
         elif args.command == "mark-used":
             path = args.history or load_source_config(args.sources).history_path
             with TopicHistory(path) as history:
@@ -102,6 +113,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             logger.info("Legal Reels Agent: configuration valid; foundation stage ready")
             logger.info("Use --draft PATH to validate and save a local legal text draft")
         return 0
-    except (ValueError, OSError, sqlite3.Error, OpenRouterError, TTSError) as exc:
+    except (ValueError, OSError, sqlite3.Error, OpenRouterError, TTSError, RenderError) as exc:
         logger.error("Command failed: %s", exc)
         return 2

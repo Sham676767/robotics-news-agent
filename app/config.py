@@ -32,6 +32,11 @@ class Settings:
     elevenlabs_voice_id: str = ""
     elevenlabs_model_id: str = "eleven_multilingual_v2"
 
+    render_output_dir: Path = Path("renders")
+    render_template: Path = Path("templates/default.yaml")
+    ffmpeg_bin: str = "ffmpeg"
+    ffprobe_bin: str = "ffprobe"
+
     def __post_init__(self) -> None:
         if self.log_level not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:
             raise ValueError("LOG_LEVEL must be DEBUG, INFO, WARNING, ERROR or CRITICAL")
@@ -83,6 +88,9 @@ class Settings:
             tts_maximum = float(env.get("TTS_RETRY_MAX_SECONDS", "20"))
         except ValueError as exc:
             raise ValueError("API attempts/timeout/delays must be numeric") from exc
+        for name in ("RENDER_OUTPUT_DIR", "RENDER_TEMPLATE", "FFMPEG_BIN", "FFPROBE_BIN"):
+            if not env.get(name, "default").strip():
+                raise ValueError(f"{name} must not be empty")
         return cls(
             app_env=env.get("APP_ENV", "development"),
             log_level=env.get("LOG_LEVEL", "INFO").strip().upper(),
@@ -99,6 +107,10 @@ class Settings:
             retry_base_seconds=base,
             retry_max_seconds=maximum,
             script_cta=env.get("SCRIPT_CTA", "Сохраните ролик и поделитесь им").strip(),
+            render_output_dir=Path(env.get("RENDER_OUTPUT_DIR", "renders")),
+            render_template=Path(env.get("RENDER_TEMPLATE", "templates/default.yaml")),
+            ffmpeg_bin=env.get("FFMPEG_BIN", "ffmpeg").strip(),
+            ffprobe_bin=env.get("FFPROBE_BIN", "ffprobe").strip(),
             tts_provider=env.get("TTS_PROVIDER", "elevenlabs").strip().lower(),
             tts_output_dir=Path(tts_output_dir), tts_timeout=tts_timeout,
             tts_max_attempts=tts_attempts, tts_retry_base_seconds=tts_base,

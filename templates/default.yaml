@@ -1,0 +1,13 @@
+# RGB colors without #. Use a locally installed font supporting Cyrillic.
+font: DejaVu Sans
+background_top: '101C32'
+background_bottom: '244B61'
+text_color: 'FFFFFF'
+accent_color: '7CE5CF'
+caption_size: 72
+words_per_caption: 5
+end_seconds: 3
+header_text: 'ПРАВО РФ • ПРАКТИЧЕСКИЙ РАЗБОР'
+# Fill in your own name and contact; empty values are not shown.
+service_name: ''
+contact: ''

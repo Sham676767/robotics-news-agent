@@ -8,4 +8,7 @@ services:
       - ./drafts:/app/drafts
       - ./data:/app/data
       - ./audio:/app/audio
+      - ./renders:/app/renders
+      - ./templates:/app/templates:ro
+      - ./backgrounds:/app/backgrounds:ro
     restart: "no"
