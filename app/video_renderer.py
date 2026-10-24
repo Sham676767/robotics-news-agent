@@ -149,8 +149,8 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
         run_media(base + background + ["-i", str(audio.path), "-map", "0:v:0", "-map", "1:a:0",
                                      "-vf", filters, "-af", f"apad,atrim=duration={frames / 30:.8f}",
                                      "-frames:v", str(frames), "-t", f"{frames / 30:.8f}",
-                                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-threads", "2",
-                                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
+                                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-maxrate", "25M", "-bufsize", "50M", "-threads", "2",
+                                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-ar", "48000",
                                      "-movflags", "+faststart", "video.mp4"], cwd=stage)
         probe = probe_media(stage / "video.mp4", ffprobe)
         actual = verify_video(probe, duration)

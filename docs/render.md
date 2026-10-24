@@ -20,7 +20,7 @@ docker compose run --rm agent python -m app render \
 Локально нужен Python 3.11+, зависимости проекта, FFmpeg с `libx264`, AAC,
 фильтром `ass`/libass и установленным шрифтом `DejaVu Sans` либо своим
 шрифтом с поддержкой кириллицы. Команда та же без `docker compose run --rm agent`.
-Python не читает `.env` автоматически; Compose передаёт его как окружение.
+Python читает `.env` из текущей папки проекта; Compose передаёт его как окружение.
 
 Выбор оформления и локального фона:
 

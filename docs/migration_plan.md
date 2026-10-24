@@ -138,3 +138,10 @@ Instagram Reels, 9:16, 30–60 секунд. **Этот этап — тольк�
 1080×1920 H.264/AAC, синхронные субтитры, плашки норм и настраиваемый финал,
 общий максимум 90 секунд. Публикация остаётся отдельным этапом.
 Проверки: [render_verification.md](render_verification.md).
+
+
+## Этап Instagram и полного пайплайна
+
+Добавлены S3-хранилище, ручное одобрение, публикация Reels через Graph API,
+run-all, read-only dry-run и локальный stub. Подробности — [instagram.md](instagram.md),
+проверки и границы — [instagram_verification.md](instagram_verification.md).

@@ -8,7 +8,8 @@ Python-проект для коротких вертикальных видео 
 с ретраями, проверки текста и черновики для редактора. Команда `script`
 генерирует сценарий через OpenRouter и сохраняет проверенный JSON.
 Озвучка через ElevenLabs и рендер вертикального MP4 доступны командами `tts`
-и `render`. Публикация относится к следующим этапам.
+и `render`. Публикация Reels через Instagram Graph API выполняется отдельной
+командой `publish` после ручного `approve`; полный запуск — `run-all`.
 
 План переноса: [docs/migration_plan.md](docs/migration_plan.md).
 Допущения: [docs/decisions.md](docs/decisions.md).
@@ -88,8 +89,9 @@ python -m app --draft tests/fixtures/legal_draft.json
 | `OPENROUTER_TIMEOUT`, `OPENROUTER_MAX_ATTEMPTS` | Таймаут и максимальное число запросов |
 | `OPENROUTER_RETRY_BASE_SECONDS`, `OPENROUTER_RETRY_MAX_SECONDS` | Задержки между повторными запросами |
 
-Python CLI **не загружает `.env` автоматически**. Локально задавайте переменные
-окружения через оболочку, например `export DRAFTS_DIR=./drafts`.
+Python CLI читает `.env` из текущей папки проекта. Уже заданные переменные
+окружения имеют приоритет. Секреты храните только в `.env`/окружении, не в коде
+и не в аргументах команд; Compose использует тот же файл.
 Команды `collect` и `script` используют `app.openrouter_client.request_json`.
 Для них нужен `OPENROUTER_API_KEY`; запуск без аргументов и
 проверка локального черновика по-прежнему работают без ключа. Модель оставлена из прежнего
@@ -220,7 +222,7 @@ docker compose run --rm agent python -m app script
 ```bash
 docker compose build
 docker compose run --rm agent python -m app tts --input drafts/reel-script-ID.json
-# Локально — с переменными окружения, Python сам .env не читает:
+# Локально — из папки проекта, с настройками в .env:
 python -m app tts --input drafts/reel-script-ID.json
 python -m app tts --input drafts/reel-script-ID.json --output-dir audio/preview
 ```
@@ -264,3 +266,82 @@ docker compose run --rm agent python -m app render \
 `service_name` и `contact` в `templates/default.yaml`. Пока поля пусты,
 финал показывает CTA и дисклеймер. Шаблоны, фоновые клипы, полный пример
 запуска и проверок: [docs/render.md](docs/render.md).
+
+## Полный запуск и публикация в Instagram
+
+Заполните `.env` по `.env.example`: ключи OpenRouter/ElevenLabs, Instagram
+Business/Creator и S3. `INSTAGRAM_LOGIN=instagram` выбран по умолчанию;
+Facebook Login также поддерживается настройкой. `INSTAGRAM_API_VERSION`
+нужно явно указать по поддерживаемой версии приложения Meta.
+
+```bash
+docker compose build
+# Проверка ключей по формату, FFmpeg, шрифтов, шаблона, папок и источников.
+# Без сети, платных запросов, новых черновиков и изменений истории:
+docker compose run --rm agent python -m app run-all --dry-run
+
+# Полностью локальный тест: фиксированный текст, тон 440 Гц и настоящий MP4.
+docker compose run --rm agent python -m app run-all --stub
+
+# Обычная генерация полного комплекта до ручной проверки:
+docker compose run --rm agent python -m app run-all --count 1
+# Просмотрите файлы в drafts/reels/reel-ID/, затем:
+docker compose run --rm agent python -m app approve reel-ID
+docker compose run --rm agent python -m app publish reel-ID --dry-run
+docker compose run --rm agent python -m app publish reel-ID
+```
+
+`run-all` останавливается на черновике. `approve` только фиксирует ручное
+одобрение, `publish` публикует отдельно. Каждый черновик хранит сценарий,
+проверку источников, аудио, тайминги, видео, подпись, источники и состояния.
+Изменённые после одобрения материалы блокируются. Тестовые черновики `--stub`
+никогда не допускаются к публикации. Сбор, генерация и публикация не заменяют
+отдельный `mark-used`, согласованный для истории тем.
+
+Перед созданием контейнера REELS видео загружается в S3-совместимое хранилище.
+При наличии `S3_PUBLIC_BASE_URL` используется публичный URL, иначе — подписанный
+на `S3_PRESIGN_TTL_SECONDS` (по умолчанию 7200 секунд). После успешной публикации
+объект удаляется, если `S3_DELETE_AFTER_PUBLISH=true`. При потере ответа
+`media_publish` повторный запуск сначала сверяет старый контейнер, без слепого
+повторного поста. Токены и подписанные URL не выводятся в логи.
+
+Настройки, разрешения, восстановление после ошибок и импорт уже готового
+ролика командой `prepare`: [docs/instagram.md](docs/instagram.md).
+
+## Локальный MinIO для проверки S3
+
+Этот пример проверяет совместимость хранилища; Instagram не сможет скачать
+видео с localhost. Community-репозиторий MinIO архивирован; готовые релизные
+образы при проверке были недоступны. Поэтому отдельный Dockerfile собирает
+фиксированный исходный релиз `RELEASE.2025-10-15T17-29-55Z` с исправлениями
+безопасности. Первая сборка скачивает Go-зависимости и занимает несколько минут.
+Сервис доступен только на loopback и предназначен для локального теста.
+
+1. Запишите в `.env` **собственные тестовые**, не облачные значения
+   `MINIO_TEST_USER` и `MINIO_TEST_PASSWORD` (пароль не короче 8 символов).
+2. Запустите сервер:
+
+```bash
+docker compose -f docker-compose.minio.yml up --build -d
+```
+
+3. Откройте `http://127.0.0.1:9001`, войдите с этими значениями и создайте
+   бакет `legal-reels-test`.
+4. Для **локального Python-запуска** настройте `.env`: `S3_ENDPOINT=http://127.0.0.1:9000`,
+   `S3_BUCKET=legal-reels-test`, `S3_REGION=us-east-1`, `S3_ADDRESSING_STYLE=path`.
+   `S3_ACCESS_KEY` и `S3_SECRET_KEY` должны совпадать с выбранными локальными
+   учётными данными MinIO; `S3_PUBLIC_BASE_URL` оставьте пустым.
+5. Из папки проекта, в установленном виртуальном окружении:
+
+```bash
+python -m scripts.check_minio drafts/reels/reel-ID/video.mp4
+# Завершить локальную проверку; данные бакета в томе сохраняются:
+docker compose -f docker-compose.minio.yml down
+```
+
+Замените путь на тестовое видео. Скрипт загружает один объект, получает его
+по подписанной ссылке, сверяет контрольную сумму и удаляет только этот объект.
+Ключи и URL не печатаются. При запуске скрипта из Docker Desktop вместо
+`127.0.0.1` используйте `host.docker.internal`; для реальной публикации верните
+настройки публичного S3-совместимого сервиса. `run-all --dry-run` в live-режиме
+правильно сообщит, что локальный HTTP endpoint не подходит Instagram.
