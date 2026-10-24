@@ -8,9 +8,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Mapping
 
+from dotenv import dotenv_values
+from app.publishing_config import PublishingSettings
+
 
 @dataclass(frozen=True, slots=True)
 class Settings:
+    publishing: PublishingSettings = field(default_factory=PublishingSettings)
     app_env: str = "development"
     log_level: str = "INFO"
     drafts_dir: Path = Path("drafts")
@@ -70,7 +74,9 @@ class Settings:
 
     @classmethod
     def from_env(cls, environ: Mapping[str, str] | None = None) -> Settings:
-        env = os.environ if environ is None else environ
+        # Read only this project's .env, without changing the process environment.
+        env = ({**{key: value for key, value in dotenv_values(Path(".env"), interpolate=False).items()
+                   if value is not None}, **os.environ} if environ is None else environ)
         drafts_dir = env.get("DRAFTS_DIR", "drafts").strip()
         if not drafts_dir:
             raise ValueError("DRAFTS_DIR must not be empty")
@@ -92,6 +98,7 @@ class Settings:
             if not env.get(name, "default").strip():
                 raise ValueError(f"{name} must not be empty")
         return cls(
+            publishing=PublishingSettings.from_env(env),
             app_env=env.get("APP_ENV", "development"),
             log_level=env.get("LOG_LEVEL", "INFO").strip().upper(),
             drafts_dir=Path(drafts_dir),

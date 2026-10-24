@@ -19,6 +19,13 @@ from app.script_review import review_script, load_checked_script, digest
 from app.tts import TTSError
 from app.tts_pipeline import synthesize_audio
 from app.video_renderer import RenderError, render_video
+from app.full_pipeline import run_all
+from app.pipeline_preflight import dry_run
+from app.reel_drafts import ReelDrafts
+from app.instagram_publisher import publish_draft
+from app.instagram_client import InstagramError
+from app.video_storage import StorageError
+from app.secret_logging import protect_logs
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +57,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     render.add_argument("--template", type=Path)
     render.add_argument("--clips-dir", type=Path, help="Локальные фоновые клипы; иначе градиент")
     render.add_argument("--output-dir", type=Path)
+    pipeline = commands.add_parser("run-all", help="Собрать полные черновики до ручного одобрения")
+    pipeline.add_argument("--sources", type=Path, default=Path("sources.yaml"))
+    pipeline.add_argument("--count", type=int, default=1, help="Количество роликов, по одной теме в каждом")
+    pipeline.add_argument("--clips-dir", type=Path)
+    pipeline.add_argument("--dry-run", action="store_true", help="Проверка готовности и план без сети и записи файлов")
+    pipeline.add_argument("--stub", action="store_true", help="Тестовый сценарий, локальный тон, реальный рендер")
+    prepare = commands.add_parser("prepare", help="Собрать черновик из существующих сценария, TTS и видео")
+    prepare.add_argument("--input", required=True, type=Path)
+    prepare.add_argument("--timings", required=True, type=Path)
+    prepare.add_argument("--video", required=True, type=Path)
+    approve = commands.add_parser("approve", help="Подтвердить ручную проверку конкретного ролика и аккаунта")
+    approve.add_argument("id")
+    publish = commands.add_parser("publish", help="Опубликовать ранее одобренный ролик в Instagram")
+    publish.add_argument("id")
+    publish.add_argument("--dry-run", action="store_true", help="Проверить одобрение без S3 и Graph API")
     args = parser.parse_args(argv)
     if args.command and args.draft:
         parser.error("--draft cannot be combined with a subcommand")
@@ -58,13 +80,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     except ValueError as exc:
         logging.basicConfig(level=logging.INFO)
         logger.error("Invalid configuration: %s", exc)
+        if args.command == "run-all" and args.dry_run:
+            print(json.dumps({"dry_run": True, "ready": False, "issues": [str(exc)]}, ensure_ascii=False))
         return 2
     logging.basicConfig(
         level=settings.log_level,
         format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     )
+    protect_logs(settings)
     try:
-        if args.command == "collect":
+        if args.command == "run-all":
+            result = (dry_run(settings, args.sources, count=args.count, stub=args.stub, clips_dir=args.clips_dir) if args.dry_run
+                      else run_all(settings, args.sources, count=args.count, stub=args.stub, clips_dir=args.clips_dir))
+            print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+            return (0 if result["ready"] else 2) if args.dry_run else (0 if result["status"] == "ok" else 3)
+        elif args.command == "prepare":
+            reel_id = ReelDrafts(settings).prepare(args.input, args.timings, args.video)
+            print(json.dumps({"id": reel_id, "status": "awaiting_approval"}, ensure_ascii=False))
+        elif args.command == "approve":
+            print(json.dumps(ReelDrafts(settings).approve(args.id), ensure_ascii=False, indent=2))
+        elif args.command == "publish":
+            print(json.dumps(publish_draft(args.id, settings, dry_run=args.dry_run), ensure_ascii=False, indent=2))
+        elif args.command == "collect":
             config = load_source_config(args.sources)
             overrides = {}
             for arg, field in (("count", "topics_per_video"), ("max_age_days", "freshness_days"),
@@ -113,6 +150,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             logger.info("Legal Reels Agent: configuration valid; foundation stage ready")
             logger.info("Use --draft PATH to validate and save a local legal text draft")
         return 0
-    except (ValueError, OSError, sqlite3.Error, OpenRouterError, TTSError, RenderError) as exc:
+    except (ValueError, OSError, sqlite3.Error, OpenRouterError, TTSError, RenderError, InstagramError, StorageError) as exc:
         logger.error("Command failed: %s", exc)
         return 2

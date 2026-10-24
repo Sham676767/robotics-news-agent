@@ -2,3 +2,5 @@ httpx==0.28.1
 beautifulsoup4==4.15.0
 feedparser==6.0.14
 PyYAML==6.0.2
+boto3==1.43.118
+python-dotenv==1.2.4

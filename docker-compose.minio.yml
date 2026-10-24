@@ -1,0 +1,19 @@
+# Local compatibility test only, bound to loopback. Credentials come from .env.
+services:
+  minio:
+    build:
+      context: .
+      dockerfile: Dockerfile.minio
+    image: legal-reels-minio-local:2025-10-15
+    command: server /data --console-address ':9001'
+    environment:
+      MINIO_ROOT_USER: ${MINIO_TEST_USER:?Set MINIO_TEST_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_TEST_PASSWORD:?Set MINIO_TEST_PASSWORD in .env}
+    ports:
+      - '127.0.0.1:9000:9000'
+      - '127.0.0.1:9001:9001'
+    volumes:
+      - minio-local-data:/data
+    restart: 'no'
+volumes:
+  minio-local-data:
