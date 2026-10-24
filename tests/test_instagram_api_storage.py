@@ -8,7 +8,7 @@ from botocore.exceptions import ClientError
 
 from app.instagram_client import InstagramClient, InstagramError, PublishUncertain, retry_after_seconds
 from app.publishing_config import PublishingSettings, public_video_url
-from app.video_storage import S3VideoStorage, StorageError, StoredVideo
+from app.video_storage import S3VideoStorage, StorageError
 
 
 @pytest.fixture

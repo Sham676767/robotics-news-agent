@@ -112,6 +112,8 @@ def load_source_config(path: Path) -> CollectionConfig:
         if any(type(value) is not bool for value in url_rules.values()):
             raise ValueError("Article URL rules must be booleans")
         sources.append(SourceConfig(source_id, name, url, format_, kind, **selectors, link_pattern=pattern, **url_rules))
+    if not sources:
+        raise ValueError("At least one enabled source is required")
     hosts = data.get("primary_hosts")
     if not isinstance(hosts, list) or not hosts or any(
         not isinstance(host, str) or not host or "/" in host or ":" in host or " " in host for host in hosts
