@@ -1,11 +1,13 @@
 """Strict script contract and checks against the selected topic's source snapshot."""
 from __future__ import annotations
 
+import copy
 import re
 from dataclasses import asdict, dataclass
 from typing import Any
 
 from app.config import Settings
+from app.editorial import EditorialPlan, parse_editorial
 from app.fact_guard import validate_grounded_text
 from app.language_guard import validate_russian_text
 from app.primary_evidence import citations
@@ -44,6 +46,20 @@ SCRIPT_SCHEMA: dict[str, Any] = {
 }
 
 
+EDITORIAL_SCHEMA = copy.deepcopy(SCRIPT_SCHEMA)
+EDITORIAL_SCHEMA["required"].append("editorial")
+EDITORIAL_SCHEMA["properties"]["editorial"] = {
+    "type": "object", "additionalProperties": False,
+    "required": ["format", "hook_variants", "selected_hook"],
+    "properties": {
+        "format": {"type": "string", "enum": ["question_answer", "three_mistakes", "before_after", "checklist"]},
+        "hook_variants": {"type": "array", "minItems": 2, "maxItems": 3, "items": dict(_STRING)},
+        "selected_hook": {"type": "integer", "minimum": 0, "maximum": 2},
+    },
+}
+EDITORIAL_SCHEMA["properties"]["hashtags"].update(minItems=3, maxItems=5)
+
+
 @dataclass(frozen=True, slots=True)
 class ScriptSource:
     title: str
@@ -63,6 +79,7 @@ class ReelScript:
     hashtags: tuple[str, ...]
     sources: tuple[ScriptSource, ...]
     disclaimer: str
+    editorial: EditorialPlan | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -70,6 +87,7 @@ class ReelScript:
             "on_screen_text": list(self.on_screen_text), "caption": self.caption,
             "hashtags": list(self.hashtags), "sources": [asdict(source) for source in self.sources],
             "disclaimer": self.disclaimer,
+            **({"editorial": self.editorial.to_dict()} if self.editorial else {}),
         }
 
 
@@ -118,8 +136,9 @@ def topic_sources(topic: Topic) -> tuple[ScriptSource, ...]:
 
 def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> ReelScript:
     """Validate every schema field plus length, structure, sources and narrow grounding."""
-    if not isinstance(data, dict) or set(data) != set(SCRIPT_SCHEMA["required"]):
+    if not isinstance(data, dict) or set(data) not in (set(SCRIPT_SCHEMA["required"]), set(EDITORIAL_SCHEMA["required"])):
         raise ValueError("Script must contain exactly the seven required fields")
+    editorial = parse_editorial(data["editorial"], data.get("hook")) if "editorial" in data else None
     hook = _text(data["hook"], "hook")
     voiceover = _text(data["voiceover"], "voiceover")
     caption = _text(data["caption"], "caption")
@@ -158,16 +177,26 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
     paragraphs = [part.strip() for part in re.split(r"\n\s*\n", voiceover.strip())]
     if len(paragraphs) != 4 or any(not part for part in paragraphs):
         raise ValueError("voiceover requires four paragraphs: hook, essence, actions, CTA")
-    if paragraphs[0] != hook or paragraphs[-1].rstrip(".!?…") != settings.script_cta.rstrip(".!?…"):
+    if paragraphs[0] != hook or paragraphs[-1].rstrip(".!?…") != (settings.client_cta if editorial else settings.script_cta).rstrip(".!?…"):
         raise ValueError("voiceover must start with hook and end with configured CTA")
     if disclaimer != DISCLAIMER:
         raise ValueError("disclaimer must match the required editorial notice")
+    if editorial:
+        if not 3 <= len(hashtags) <= 5:
+            raise ValueError("Editorial scripts require three to five hashtags")
+        lines = caption.splitlines()
+        if not 4 <= len(lines) <= 5 or lines[0] != hook or lines[-1] != settings.client_cta:
+            raise ValueError("caption requires hook, two or three benefit lines and the configured CTA")
+        if len(re.split(r"(?<=[.!?;])\s+(?=[А-ЯЁ])", paragraphs[1])) != 3:
+            raise ValueError("Essence must contain three short points")
     evidence = "\n".join([
         *(f"{article.title}\n{article.text}" for article in topic.articles),
         *(f"{ref.citation}\n{ref.excerpt}\n{ref.content}" for ref in topic.references),
     ])
     texts = {"hook": hook, "voiceover": voiceover, "caption": caption,
              **{f"on_screen_text[{index}]": text for index, text in enumerate(screens)}}
+    if editorial:
+        texts.update({f"hook_variants[{i}]": text for i, text in enumerate(editorial.hook_variants)})
     evidence_citations = {_citation_key(citation) for _, citation, _ in citations(evidence)}
     for field, text in texts.items():
         validate_russian_text(text, scope=field)
@@ -175,7 +204,7 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
         if any(_citation_key(citation) not in evidence_citations for _, citation, _ in citations(text)):
             raise ValueError(f"{field} contains a citation absent from the selected topic")
     validate_grounded_text(" ".join(hashtags), evidence, scope="hashtags")
-    return ReelScript(hook, voiceover, screens, caption, hashtags, tuple(sources), disclaimer)
+    return ReelScript(hook, voiceover, screens, caption, hashtags, tuple(sources), disclaimer, editorial)
 
 
 def _citation_key(value: str) -> str:

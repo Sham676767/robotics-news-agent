@@ -15,6 +15,7 @@ from typing import Any, Iterator
 from uuid import uuid4
 
 from app.config import Settings
+from app.editorial import publication_caption
 from app.openrouter_client import parse_strict_json_object
 from app.render_inputs import load_render_audio
 from app.script_review import digest, load_checked_script
@@ -102,7 +103,7 @@ class ReelDrafts:
     def finish(self, folder: Path) -> None:
         script, _, _ = load_checked_script(folder / "script.json", self.settings)
         # The final caption is reviewed as a whole by the human; no new legal assertions added.
-        caption = "\n\n".join((script.caption, script.disclaimer, " ".join(script.hashtags)))
+        caption = publication_caption(script)
         if len(caption) > 2200:
             raise ValueError("Final Instagram caption is too long")
         (folder / "caption.txt").write_text(caption + "\n", encoding="utf-8")
@@ -136,7 +137,7 @@ class ReelDrafts:
         verify_video(probe_media(folder / "video.mp4", self.settings.ffprobe_bin), expected)
         if (folder / "video.mp4").stat().st_size > 1_000_000_000 or expected < 3:
             raise ValueError("Video exceeds Instagram file size or is too short")
-        caption = "\n\n".join((script.caption, script.disclaimer, " ".join(script.hashtags))) + "\n"
+        caption = publication_caption(script) + "\n"
         if (folder / "caption.txt").read_text(encoding="utf-8") != caption or len(caption.rstrip()) > 2200:
             raise ValueError("Caption does not match the reviewed script")
         if read_json(folder / "sources.json") != {"sources": script.to_dict()["sources"]}:

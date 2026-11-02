@@ -93,7 +93,9 @@ class ScriptReview:
 def script_texts(script: ReelScript) -> dict[str, str]:
     return {"hook": script.hook, "voiceover": script.voiceover, "caption": script.caption,
             **{f"on_screen_text[{i}]": line for i, line in enumerate(script.on_screen_text)},
-            "hashtags": " ".join(script.hashtags)}
+            "hashtags": " ".join(script.hashtags),
+            **({f"hook_variants[{i}]": text for i, text in enumerate(script.editorial.hook_variants)}
+               if script.editorial else {})}
 
 
 def primary_texts(topic: Topic) -> dict[str, str]:
@@ -145,7 +147,15 @@ def review_claims(script: ReelScript, settings: Settings) -> tuple[Claim, ...]:
     result: list[Claim] = []
     seen: set[str] = set()
     for field, text in script_texts(script).items():
-        for sentence in re.split(r"(?<=[.!?…])\s+(?=[А-ЯЁA-Z])|\n+", text):
+        # Keep the configured client CTA together; its guarantees/identifiers still undergo
+        # local safety checks and parse_review cannot mark those as non-factual.
+        parts = text.split(settings.client_cta) if script.editorial else [text]
+        sentences: list[str] = []
+        for index, part in enumerate(parts):
+            sentences.extend(re.split(r"(?<=[.!?…])\s+(?=[А-ЯЁA-Z])|\n+", part))
+            if index < len(parts) - 1:
+                sentences.append(settings.client_cta)
+        for sentence in sentences:
             sentence = sentence.strip()
             if not sentence or sentence in seen:
                 continue

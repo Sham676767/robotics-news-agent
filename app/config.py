@@ -10,6 +10,7 @@ from typing import Mapping
 
 from dotenv import dotenv_values
 from app.publishing_config import PublishingSettings
+from app.editorial import DEFAULT_CTA, client_cta
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,6 +27,17 @@ class Settings:
     retry_base_seconds: float = 2.0
     retry_max_seconds: float = 20.0
     script_cta: str = "Сохраните ролик и поделитесь им"
+    cta_keyword: str = "РАЗБОР"
+    cta_text: str = DEFAULT_CTA
+    cta_contact: str = "в директ"
+    expert_name: str = ""
+    brand_logo: Path | None = None
+    cover_frame_seconds: float = 1.0
+
+    @property
+    def client_cta(self) -> str:
+        return client_cta(self.cta_text, self.cta_keyword, self.cta_contact)
+
     tts_provider: str = "elevenlabs"
     tts_output_dir: Path = Path("audio")
     tts_timeout: float = 120.0
@@ -42,6 +54,11 @@ class Settings:
     ffprobe_bin: str = "ffprobe"
 
     def __post_init__(self) -> None:
+        self.client_cta
+        if not math.isfinite(self.cover_frame_seconds) or not 0 <= self.cover_frame_seconds <= 45:
+            raise ValueError("COVER_FRAME_SECONDS must be between 0 and 45")
+        if len(self.expert_name) > 40 or any(ord(c) < 32 for c in self.expert_name):
+            raise ValueError("EXPERT_NAME must be a short single line")
         if self.log_level not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:
             raise ValueError("LOG_LEVEL must be DEBUG, INFO, WARNING, ERROR or CRITICAL")
         if not self.openrouter_model.strip():
@@ -118,6 +135,12 @@ class Settings:
             render_template=Path(env.get("RENDER_TEMPLATE", "templates/default.yaml")),
             ffmpeg_bin=env.get("FFMPEG_BIN", "ffmpeg").strip(),
             ffprobe_bin=env.get("FFPROBE_BIN", "ffprobe").strip(),
+            cta_keyword=env.get("CTA_KEYWORD", "РАЗБОР").strip(),
+            cta_text=env.get("CTA_TEXT", DEFAULT_CTA).strip(),
+            cta_contact=env.get("CTA_CONTACT", "в директ").strip(),
+            expert_name=env.get("EXPERT_NAME", "").strip(),
+            brand_logo=Path(env["BRAND_LOGO"]) if env.get("BRAND_LOGO", "").strip() else None,
+            cover_frame_seconds=float(env.get("COVER_FRAME_SECONDS", "1")),
             tts_provider=env.get("TTS_PROVIDER", "elevenlabs").strip().lower(),
             tts_output_dir=Path(tts_output_dir), tts_timeout=tts_timeout,
             tts_max_attempts=tts_attempts, tts_retry_base_seconds=tts_base,

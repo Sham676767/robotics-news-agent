@@ -130,7 +130,7 @@ def test_cli_rejects_nonpositive_settings(collection_setup, flag):
     assert main(["collect", "--sources", str(path), flag, "0"]) == 2
 
 
-def test_collect_without_specific_article_is_quarantined_without_changing_history(collection_setup, script_data, monkeypatch, tmp_path, capsys):
+def test_collect_without_specific_article_is_quarantined_without_changing_history(collection_setup, editorial_data, monkeypatch, tmp_path, capsys):
     import httpx
     from app.reel_script import topic_sources
     from app.script_generator import load_script_topic
@@ -141,15 +141,15 @@ def test_collect_without_specific_article_is_quarantined_without_changing_histor
     _, config, _ = collection_setup
     collect_topics(config, KEY, now=NOW)
     topic = load_script_topic(config.output_path)
-    script_data["sources"] = [asdict(source) for source in topic_sources(topic)]
-    script = parse_script(script_data, topic, Settings.from_env())
+    editorial_data["sources"] = [asdict(source) for source in topic_sources(topic)]
+    script = parse_script(editorial_data, topic, Settings.from_env())
     review = {"summary": "Недостаточно данных.", "claims": [
         {"id": claim.id, "verdict": "insufficient", "source_url": "", "quote": "",
          "reason": "Нет конкретной статьи в первоисточнике."}
         for claim in review_claims(script, Settings.from_env())]}
     post = Mock(side_effect=[httpx.Response(200, json={
         "choices": [{"message": {"content": json.dumps(data)}}],
-    }) for data in (script_data, review)])
+    }) for data in (editorial_data, review)])
     monkeypatch.setattr(httpx, "post", post)
     before = config.history_path.read_bytes()
     assert main(["script", "--input", str(config.output_path), "--output", str(tmp_path / "script.json")]) == 3
