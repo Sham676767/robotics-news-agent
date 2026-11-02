@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from app.audio_edit import edit_silence, silence_ranges
-from app.caption_phrases import caption_lines, dangling, phrase_captions
+from app.caption_phrases import caption_lines, dangling, dangling_line, phrase_captions
 from app.music import licensed_music
 from app.render_inputs import RenderAudio
 from app.tts import WordTiming
@@ -27,7 +27,7 @@ def test_semantic_phrases_keep_all_words_and_function_words(text):
     for phrase in phrases:
         assert 2 <= len(phrase.words) <= 5
         assert not dangling(phrase.text)
-        assert all(not dangling(line) for line in caption_lines(phrase.text))
+        assert all(not dangling_line(line) for line in caption_lines(phrase.text))
         assert len(caption_lines(phrase.text)) <= 2
 
 

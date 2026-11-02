@@ -396,10 +396,13 @@ def test_real_stub_cli_creates_valid_mp4_and_cannot_be_approved(monkeypatch, pub
     from app.video_renderer import run_media
     from PIL import Image, ImageChops, ImageStat
     render = read_json(folder / "render.json")
+    assert render["mode"] == "stub"
     assert 30 <= render["duration_seconds"] <= 45
     assert all(shot["end"] - shot["start"] <= 4 for shot in render["shots"])
     cta = next(item for item in render["overlays"] if item["kind"] == "cta")
-    assert cta["start"] >= render["duration_seconds"] - 8 and cta["end"] >= render["duration_seconds"] - .04
+    assert 5 <= cta["end"] - cta["start"] <= 6
+    assert cta["end"] >= render["duration_seconds"] - .04
+    assert all(item["end"] <= cta["start"] for item in render["overlays"] if item["kind"] in {"caption", "number", "norm", "format", "expert"})
     assert any("РАЗБОР" in item["text"] for item in render["overlays"] if item["kind"] == "cta")
     assert all(not dangling(item["text"]) for item in render["overlays"] if item["kind"] == "caption")
     assert all(90 <= item["bounds"][0] and item["bounds"][2] <= 930 and 250 <= item["bounds"][1] and item["bounds"][3] <= 1520 for item in render["overlays"])
@@ -428,6 +431,17 @@ def test_real_stub_cli_creates_valid_mp4_and_cannot_be_approved(monkeypatch, pub
             frames.append(image.convert("RGB").resize((108, 192)))
         (folder / name).unlink()
     assert sum(ImageStat.Stat(ImageChops.difference(*frames)).mean) / 3 > 5
+    # Inspect actual encoded pixels: no dark lower gradient and no illustration on CTA.
+    for time in (.5, render["duration_seconds"] - .6):
+        name = f"light-{time:.1f}.png"
+        run_media(["ffmpeg", "-v", "error", "-ss", str(time), "-i", "video.mp4", "-frames:v", "1", "-update", "1", name], cwd=folder)
+        with Image.open(folder / name) as frame:
+            if time == .5:
+                assert sum(ImageStat.Stat(frame.crop((0, 1152, 1080, 1920))).mean) / 3 > 60
+            else:
+                for point in ((20, 20), (20, 1800), (1060, 1800), (1060, 20)):
+                    assert max(abs(a-b) for a, b in zip(frame.getpixel(point), (234, 231, 224))) < 5
+        (folder / name).unlink()
     import os
     if destination := os.environ.get("STUB_DEMO_DIR"):
         shutil.copytree(folder, Path(destination) / "stub-demo", dirs_exist_ok=True)

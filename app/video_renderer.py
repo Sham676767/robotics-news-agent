@@ -8,11 +8,12 @@ import math
 import shutil
 import subprocess
 import tempfile
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from uuid import uuid4
 
 from app.config import Settings
+from app.scene_visuals import load_visuals, match_shots
 from app.audio_edit import edit_silence
 from app.music import licensed_music
 from app.render_media import background_sequence, mix_video, review_images
@@ -84,9 +85,16 @@ def verify_video(data: dict, expected: float) -> float:
 
 
 
+STUB_HEADER = "ТЕСТ: ВЫМЫШЛЕННЫЕ РЕКВИЗИТЫ"
+
+
+def presentation_header(header: str, *, stub: bool) -> str:
+    return STUB_HEADER if stub else ("БИЗНЕС · ПРАВО РФ" if STUB_HEADER in header else header)
+
+
 def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
                  template_path: Path | None = None, output_dir: Path | None = None,
-                 clips_dir: Path | None = None) -> RenderResult:
+                 clips_dir: Path | None = None, stub: bool = False) -> RenderResult:
     script, topic, _ = load_checked_script(script_path, settings)
     theme = load_render_template(template_path or settings.render_template)
     original = load_render_audio(timings_path, script)
@@ -102,12 +110,8 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
         executables.append(str(Path(located).resolve()))
     ffmpeg, ffprobe = executables
     library = clips_dir if clips_dir is not None else settings.visuals_dir
-    if not library.is_dir():
-        raise ValueError("Background library directory does not exist")
-    assets = sorted(path.resolve() for path in library.iterdir() if path.is_file() and
-                    path.suffix.lower() in {".mp4", ".mov", ".mkv", ".webm", ".png", ".jpg", ".jpeg", ".webp"})
-    if not assets or len(assets) > 20:
-        raise ValueError("Background folder must contain 1–20 local images or video clips")
+    visual_assets = load_visuals(library)
+    assets = [asset.path for asset in visual_assets]
     music = licensed_music(settings.music_manifest) if settings.music_manifest else None
     if settings.brand_logo and (settings.brand_logo.is_symlink() or not settings.brand_logo.is_file() or
                                settings.brand_logo.suffix.lower() not in {".png", ".jpg", ".jpeg"}):
@@ -127,11 +131,10 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
         duration = frames / 30
         if not 30 <= duration <= 45:
             raise ValueError("Edited narration must last 30–45 seconds; regenerate speech at a calm pace")
-        shots = shots_for(duration, len(assets))
+        shots = match_shots(shots_for(duration, len(assets)), script, audio, visual_assets)
         cta = settings.client_cta if script.editorial else settings.script_cta
-        overlays = overlays_for(script, audio, header=theme.header_text, expert=settings.expert_name or theme.service_name, cta=cta, font=theme.font, maximum_words=theme.words_per_caption)
+        overlays = overlays_for(script, audio, header=presentation_header(theme.header_text, stub=stub), expert=settings.expert_name or theme.service_name, cta=cta, font=theme.font, maximum_words=theme.words_per_caption, cta_seconds=theme.cta_seconds)
         if settings.brand_logo:
-            from dataclasses import replace
             overlays = tuple(replace(item, bounds=(100, 390, 780, 470)) if item.kind == "expert" else item for item in overlays)
         format_name = script.editorial.format if script.editorial else "question_answer"
         preset = load_format_template(format_name)
@@ -147,15 +150,19 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
             words = essence_words[boundaries[index]:boundaries[index + 1]]
             if words and words[-1].end > 3:
                 overlays += (Overlay("format", max(3, words[0].start), words[-1].end, preset["steps"][index], (100, 480, 900, 570)),)
-        (stage / "subtitles.ass").write_text(build_subtitles(script, audio, theme, cta, overlays=overlays), encoding="utf-8")
+        end_start = audio.duration - theme.cta_seconds
+        overlays = tuple(replace(item, end=min(item.end, end_start)) if item.kind == "format" else item for item in overlays if item.kind != "format" or item.start < end_start)
+        if stub:
+            overlays = tuple(replace(item, end=audio.duration) if item.kind == "header" else item for item in overlays)
+        (stage / "subtitles.ass").write_text(build_subtitles(script, audio, theme, cta, overlays=overlays, cta_keyword=settings.cta_keyword if script.editorial else ""), encoding="utf-8")
         logger.info("Rendering %d moving shots, %.2fs, format=%s", len(shots), duration, format_name)
         background_sequence(stage, ffmpeg, assets, shots, run_media, colors=(theme.background_top, theme.background_bottom))
-        mix_video(stage, ffmpeg, audio.path, duration, music, settings.brand_logo.resolve() if settings.brand_logo else None, run_media)
+        mix_video(stage, ffmpeg, audio.path, duration, music, settings.brand_logo.resolve() if settings.brand_logo else None, run_media, cta_start=end_start, cta_background=theme.cta_background)
         probe = probe_media(stage / "video.mp4", ffprobe)
         actual = verify_video(probe, duration)
         cover_time = min(settings.cover_frame_seconds, actual - .1)
         review_images(stage, ffmpeg, actual, cover_time, run_media)
-        metadata = {"schema_version": 2, "video_file": "video.mp4", "script_sha256": digest(script.to_dict()),
+        metadata = {"schema_version": 2, "mode": "stub" if stub else "live", "video_file": "video.mp4", "script_sha256": digest(script.to_dict()),
                     "audio_sha256": original.sha256, "edited_audio_sha256": audio.sha256,
                     "video_sha256": hashlib.sha256((stage / "video.mp4").read_bytes()).hexdigest(),
                     "template": {key: value for key, value in asdict(theme).items() if key not in {"end_seconds", "contact"}}, "background": "clips" if clips_dir else "library",

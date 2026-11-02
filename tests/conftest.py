@@ -122,5 +122,5 @@ def editorial_data(script_data):
     data["voiceover"] = "\n\n".join((data["hook"], essence, actions, Settings().client_cta))
     data["caption"] = "\n".join((data["hook"], script_data["caption"], script_data["on_screen_text"][0], Settings().client_cta))
     data["hashtags"] = ["#договор", "#бизнес", "#юрист"]
-    data["editorial"] = {"format": "checklist", "hook_variants": [data["hook"], "Проверьте детали договора."], "selected_hook": 0}
+    data["editorial"] = {"format": "checklist", "hook_variants": [data["hook"], "Проверьте детали договора."], "selected_hook": 0, "scenes": [{"text": data["hook"], "tags": ["document"]}]}
     return data

@@ -216,6 +216,8 @@ def test_real_mixed_local_clips_loop_and_ignore_background_sound(render_package,
     result = render_video(path, audio.timings_path, settings, clips_dir=clips)
     assert verify_video(probe_media(result.video_path), 39) == pytest.approx(39, abs=0.08)
     assert json.loads(result.metadata_path.read_text())["background"] == "clips"
+    assert "ТЕСТ: ВЫМЫШЛЕННЫЕ РЕКВИЗИТЫ" not in (result.video_path.parent / "subtitles.ass").read_text()
+    assert json.loads(result.metadata_path.read_text())["mode"] == "live"
     # The captioned original narration and configured music are mixed, never the clip audio.
     raw = tmp_path / "decoded.pcm"
     run_media(["ffmpeg", "-v", "error", "-i", str(result.video_path), "-map", "0:a:0", "-f", "s16le", str(raw)])

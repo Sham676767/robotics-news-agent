@@ -42,8 +42,33 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
     return header + "\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
 
 
-def render_overlay(item: Overlay, theme: RenderTemplate) -> str:
+def cta_overlay(item: Overlay, theme: RenderTemplate, keyword: str) -> str:
+    """A typographic end card; keyword has its own line and emphasis."""
+    import re
+    match = (re.search(re.escape(keyword), item.text) or re.search(re.escape(keyword), item.text, re.I)) if keyword else None
+    blocks = [(item.text, item.bounds, 72, theme.cta_color)]
+    if match:
+        before = item.text[:match.start()].strip(' «“"')
+        after = item.text[match.end():].strip(' »”"')
+        blocks = [(before, (100, 520, 900, 780), 68, theme.cta_color),
+                  (match.group(), (100, 800, 900, 1020), 112, theme.cta_accent),
+                  (after, (100, 1040, 900, 1390), 64, theme.cta_color)]
+    output = ""
+    for text, bounds, initial, rgb in blocks:
+        if not text:
+            continue
+        x1, y1, x2, y2 = bounds
+        size, lines = layout(text, theme.font, initial, 60, x2-x1, y2-y1)
+        tags = rf"{{\an5\pos({(x1+x2)//2},{(y1+y2)//2})\clip({x1},{y1},{x2},{y2})\fs{size}\bord0\shad0\1c{color(rgb)}\fad(120,0)}}"
+        rendered = r"\N".join(escape_ass(line) for line in lines)
+        output += f"Dialogue: 3,{stamp(item.start)},{stamp(item.end)},CTA,,0,0,0,,{tags}{rendered}\n"
+    return output
+
+
+def render_overlay(item: Overlay, theme: RenderTemplate, *, cta_keyword: str = "") -> str:
     kind = item.kind
+    if kind == "cta":
+        return cta_overlay(item, theme, cta_keyword)
     styles = {"hook": "Hook", "header": "Header", "expert": "Expert", "caption": "Caption", "norm": "Norm", "cta": "CTA", "disclaimer": "Disclaimer", "format": "Format", "number": "Number"}
     x1, y1, x2, y2 = item.bounds
     x, y = (x1 + x2) // 2, (y1 + y2) // 2
@@ -66,12 +91,12 @@ def render_overlay(item: Overlay, theme: RenderTemplate) -> str:
         tags += rf"{{\fs{size}}}"
         if kind == "hook":
             tags = rf"{{\an5\move({x},{y + 28},{x},{y},0,220)\clip({x1},{y1},{x2},{y2})\fs{size}\fscx108\fscy108\t(0,240,\fscx100\fscy100)\fad(40,90)}}"
-        elif kind == "cta":
-            tags += rf"{{\1c{color(theme.accent_color)}}}"
+        elif kind == "disclaimer":
+            tags += rf"{{\bord0\1c{color(theme.cta_color)}}}"
     return f"Dialogue: 2,{stamp(item.start)},{stamp(item.end)},{styles[kind]},,0,0,0,,{tags}{text}\n"
 
 
 def build_subtitles(script: ReelScript, audio: RenderAudio, theme: RenderTemplate, cta: str,
-                    *, expert: str = "", overlays: tuple[Overlay, ...] | None = None) -> str:
-    items = overlays or overlays_for(script, audio, header=theme.header_text, expert=expert or theme.service_name, cta=cta, font=theme.font, maximum_words=theme.words_per_caption)
-    return ass_header(theme) + "".join(render_overlay(item, theme) for item in items)
+                    *, expert: str = "", overlays: tuple[Overlay, ...] | None = None, cta_keyword: str = "") -> str:
+    items = overlays or overlays_for(script, audio, header=theme.header_text, expert=expert or theme.service_name, cta=cta, font=theme.font, maximum_words=theme.words_per_caption, cta_seconds=theme.cta_seconds)
+    return ass_header(theme) + "".join(render_overlay(item, theme, cta_keyword=cta_keyword) for item in items)

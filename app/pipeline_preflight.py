@@ -78,10 +78,13 @@ def dry_run(settings: Settings, sources: Path, *, count: int = 1, stub: bool = F
         except (ValueError, OSError):
             issues.append("Музыка отсутствует или не подтверждена лицензия на коммерческое использование")
     library = clips_dir or settings.visuals_dir
-    assets = ([path for path in library.iterdir() if path.is_file() and path.suffix.lower() in
-               {".mp4", ".mov", ".mkv", ".webm", ".png", ".jpg", ".jpeg", ".webp"}] if library.is_dir() else [])
-    if not 1 <= len(assets) <= 20 or any(not os.access(path, os.R_OK) for path in assets):
-        issues.append("Библиотека фонов должна содержать 1–20 доступных фото или клипов")
+    from app.scene_visuals import load_visuals
+    try:
+        assets = load_visuals(library)
+        if any(not os.access(asset.path, os.R_OK) for asset in assets):
+            raise ValueError
+    except (ValueError, OSError):
+        issues.append("Библиотека фонов должна содержать 1–20 доступных фото или клипов и корректные теги library.yaml")
     from app.editorial import FORMATS
     for name in FORMATS:
         try:

@@ -10,6 +10,23 @@ from app.tts import WordTiming
 FUNCTION_WORDS = frozenset("а и но или либо да зато однако что чтобы как если когда пока хотя ведь ли же бы не ни в во на о об обо от до за из изо к ко с со у по под при про над перед без для через между из-за из-под около после ради благодаря ввиду вследствие согласно вопреки несмотря".split())
 
 
+PARTICLES = frozenset("ли бы же то не ни".split())
+
+
+def starts_particle(text: str) -> bool:
+    words = text.split()
+    return bool(words and words[0].strip(".,:;!?…\"'«»()[]—–").casefold() in PARTICLES)
+
+
+def dangling_line(text: str) -> bool:
+    # A particle stays with its previous word, including at a line boundary.
+    return dangling(text) and text.split()[-1].strip(".,:;!?…«»").casefold() not in PARTICLES
+
+
+def display_text(text: str) -> str:
+    return text.rstrip(" ,;:—–-")
+
+
 def dangling(text: str) -> bool:
     words = text.split()
     return bool(words and words[-1].strip(".,:;!?…\"'«»()[]—–").casefold() in FUNCTION_WORDS)
@@ -21,7 +38,7 @@ class CaptionPhrase:
 
     @property
     def text(self) -> str:
-        return " ".join(item.word for item in self.words)
+        return display_text(" ".join(item.word for item in self.words))
 
     @property
     def start(self) -> float:
@@ -48,10 +65,10 @@ def phrase_captions(words: tuple[WordTiming, ...], maximum: int = 5, *, fits: Ca
         options = []
         for count in range(2, maximum + 1):
             end = start + count
-            if end > len(words) or dangling(words[end - 1].word):
+            if end > len(words) or starts_particle(words[start].word) or dangling(words[end - 1].word):
                 continue
             # Keep the text compact before checking its measured font layout.
-            text = " ".join(word.word for word in words[start:end])
+            text = display_text(" ".join(word.word for word in words[start:end]))
             if len(text) > 46 or any(len(word.word) > 22 for word in words[start:end]):
                 continue
             try:
@@ -87,7 +104,7 @@ def caption_lines(text: str, width: int = 23) -> tuple[str, ...]:
         return (text,)
     words = text.split()
     splits = [(" ".join(words[:i]), " ".join(words[i:])) for i in range(1, len(words))
-              if not dangling(words[i - 1])]
+              if not dangling_line(words[i - 1]) and not starts_particle(words[i])]
     splits = [pair for pair in splits if max(map(len, pair)) <= width]
     if not splits:
         raise ValueError("Caption phrase is too wide for the safe area")

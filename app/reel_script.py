@@ -50,11 +50,15 @@ EDITORIAL_SCHEMA = copy.deepcopy(SCRIPT_SCHEMA)
 EDITORIAL_SCHEMA["required"].append("editorial")
 EDITORIAL_SCHEMA["properties"]["editorial"] = {
     "type": "object", "additionalProperties": False,
-    "required": ["format", "hook_variants", "selected_hook"],
+    "required": ["format", "hook_variants", "selected_hook", "scenes"],
     "properties": {
         "format": {"type": "string", "enum": ["question_answer", "three_mistakes", "before_after", "checklist"]},
         "hook_variants": {"type": "array", "minItems": 2, "maxItems": 3, "items": dict(_STRING)},
         "selected_hook": {"type": "integer", "minimum": 0, "maximum": 2},
+        "scenes": {"type": "array", "minItems": 1, "maxItems": 30, "items": {
+            "type": "object", "additionalProperties": False, "required": ["text", "tags"],
+            "properties": {"text": dict(_STRING), "tags": {"type": "array", "minItems": 1, "maxItems": 4,
+                "items": {"type": "string", "pattern": "^[a-z][a-z_]{0,31}$"}}}}},
     },
 }
 EDITORIAL_SCHEMA["properties"]["hashtags"].update(minItems=3, maxItems=5)
@@ -138,7 +142,7 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
     """Validate every schema field plus length, structure, sources and narrow grounding."""
     if not isinstance(data, dict) or set(data) not in (set(SCRIPT_SCHEMA["required"]), set(EDITORIAL_SCHEMA["required"])):
         raise ValueError("Script must contain exactly the seven required fields")
-    editorial = parse_editorial(data["editorial"], data.get("hook")) if "editorial" in data else None
+    editorial = parse_editorial(data["editorial"], data.get("hook"), data.get("voiceover", "")) if "editorial" in data else None
     hook = _text(data["hook"], "hook")
     voiceover = _text(data["voiceover"], "voiceover")
     caption = _text(data["caption"], "caption")

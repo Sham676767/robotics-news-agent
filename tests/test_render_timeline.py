@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from app.caption_phrases import dangling
+from app.caption_phrases import dangling, dangling_line
 from app.config import Settings
 from app.render_inputs import RenderAudio
 from app.render_subtitles import render_overlay
@@ -25,7 +25,7 @@ def test_every_shot_under_four_seconds_and_alternating_motion():
     shots = shots_for(45, 4)
     assert shots[0].start == 0 and shots[-1].end == 45
     assert all(0 < shot.end - shot.start <= 3.5 + 1 / 30 for shot in shots)
-    assert all(left.end == right.start and left.motion != right.motion and left.asset != right.asset for left, right in zip(shots, shots[1:]))
+    assert all(left.end == right.start and left.motion != right.motion for left, right in zip(shots, shots[1:]))
 
 
 def test_safe_zones_cta_last_eight_seconds_no_urls_or_early_disclaimer(timeline):
@@ -67,7 +67,7 @@ def test_actual_font_measurement_prevents_caption_clipping(timeline):
             font = measured_font("DejaVu Sans", size)
             assert size >= 60 and len(lines) <= 3
             assert all(font.getlength(line) * 1.08 <= 756 for line in lines)
-            assert all(not dangling(line) for line in lines)
+            assert all(not dangling_line(line) for line in lines)
             assert r"\clip(100,650,900,1140)" in render_overlay(item, RenderTemplate())
 
 
@@ -80,8 +80,8 @@ def test_unsafe_and_unreadable_overlay_rejected():
 
 def test_template_caption_word_limit_applies(timeline):
     script, audio, _ = timeline
-    overlays = overlays_for(script, audio, header="ПРАВО РФ", expert="", cta=Settings().client_cta, maximum_words=3)
-    assert all(2 <= len(item.text.split()) <= 3 for item in overlays if item.kind == "caption")
+    overlays = overlays_for(script, audio, header="ПРАВО РФ", expert="", cta=Settings().client_cta, maximum_words=4)
+    assert all(2 <= len(item.text.split()) <= 4 for item in overlays if item.kind == "caption")
 
 
 def test_list_items_stay_meaningful_instead_of_crossing_commas():
@@ -94,7 +94,7 @@ def test_list_items_stay_meaningful_instead_of_crossing_commas():
         except ValueError:
             return False
     phrases = [phrase.text for phrase in phrase_captions(words, fits=fits)]
-    assert "второй смену фона," in phrases
+    assert "второй смену фона" in phrases
     assert "третий синхронизацию титров." in phrases
 
 

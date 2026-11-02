@@ -59,6 +59,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     render.add_argument("--template", type=Path)
     render.add_argument("--clips-dir", type=Path, help="Локальные фоновые клипы; иначе градиент")
     render.add_argument("--output-dir", type=Path)
+    render.add_argument("--stub", action="store_true", help="Показать предупреждение о тестовых реквизитах")
     pipeline = commands.add_parser("run-all", help="Собрать полные черновики до ручного одобрения")
     pipeline.add_argument("--sources", type=Path, default=Path("sources.yaml"))
     pipeline.add_argument("--count", type=int, default=1, help="Количество роликов, по одной теме в каждом")
@@ -154,7 +155,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             audio = synthesize_audio(checked.voiceover, settings, script_sha256=digest(checked.to_dict()))
             print(json.dumps(audio.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
         elif args.command == "render":
-            result = render_video(args.input, args.timings, settings, template_path=args.template,
+            result = render_video(args.input, args.timings, settings, template_path=args.template, stub=args.stub,
                                   output_dir=args.output_dir, clips_dir=args.clips_dir)
             print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, allow_nan=False))
         elif args.command == "mark-used":

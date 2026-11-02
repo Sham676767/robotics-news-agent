@@ -11,18 +11,28 @@ from app.music import MusicTrack
 from app.render_timeline import Shot
 
 
-def background_sequence(stage: Path, ffmpeg: str, assets: list[Path], shots: tuple[Shot, ...], run: Callable, *, colors: tuple[str, str] = ("101C32", "244B61")) -> None:
+def background_sequence(stage: Path, ffmpeg: str, assets: list[Path], shots: tuple[Shot, ...], run: Callable, *, colors: tuple[str, str] = ("DCE3E2", "EAE7E0")) -> None:
+    # A readable neutral fallback, never an unrelated illustration.
+    from PIL import Image
+    canvas = Image.new("RGB", (1080, 1920))
+    top, bottom = (tuple(bytes.fromhex(value)) for value in colors)
+    for y in range(1920):
+        rgb = tuple(round(a + (b-a) * y / 1919) for a, b in zip(top, bottom))
+        canvas.paste(rgb, (0, y, 1080, y+1))
+    fallback = stage / "fallback.png"
+    canvas.save(fallback)
     for i, shot in enumerate(shots):
         frames = round((shot.end - shot.start) * 30)
-        image = assets[shot.asset].suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
-        source = (["-loop", "1", "-framerate", "30"] if image else ["-stream_loop", "-1"]) + ["-i", str(assets[shot.asset])]
+        asset = assets[shot.asset] if shot.asset >= 0 else fallback
+        image = asset.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+        source = (["-loop", "1", "-framerate", "30"] if image else ["-stream_loop", "-1"]) + ["-i", str(asset)]
         zoom = "min(1.09,1+on*0.0007)" if shot.motion == "push_in" else "max(1,1.09-on*0.0007)"
-        filters = ("fps=30,scale=1200:2134:force_original_aspect_ratio=increase,crop=1200:2134,setsar=1,"
+        filters = ("fps=30,scale=1200:2134:force_original_aspect_ratio=increase:out_range=tv,crop=1200:2134,setsar=1,"
                    f"zoompan=z='{zoom}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d={frames if image else 1}:s=1080x1920:fps=30,"
-                   f"eq=brightness=-0.24:saturation=0.75,drawbox=y=0:h=960:color=0x{colors[0]}@0.12:t=fill,drawbox=y=960:h=960:color=0x{colors[1]}@0.12:t=fill,fade=t=in:st=0:d=0.10,fade=t=out:st={max(0, frames / 30 - .1):.5f}:d=0.10")
+                   "eq=brightness=0:saturation=0.95,format=yuv420p,setparams=range=limited")
         run([ffmpeg, "-v", "error", "-nostdin", "-n", "-filter_threads", "1"] + source +
             ["-an", "-vf", filters, "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
-             "-threads", "2", "-pix_fmt", "yuv420p", f"shot-{i}.mp4"], cwd=stage)
+             "-threads", "2", "-pix_fmt", "yuv420p", "-color_range", "tv", f"shot-{i}.mp4"], cwd=stage)
     (stage / "shots.txt").write_text("".join(f"file 'shot-{i}.mp4'\n" for i in range(len(shots))))
 
 
@@ -40,10 +50,11 @@ def write_accent(path: Path) -> None:
 
 
 def mix_video(stage: Path, ffmpeg: str, narration: Path, duration: float, music: MusicTrack | None,
-              logo: Path | None, run: Callable) -> None:
+              logo: Path | None, run: Callable, *, cta_start: float | None = None, cta_background: str = "EAE7E0") -> None:
     write_accent(stage / "accent.wav")
     inputs = ["-f", "concat", "-safe", "1", "-i", "shots.txt", "-i", str(narration), "-i", "accent.wav"]
-    graph = "[0:v]ass=subtitles.ass:fontsdir=fonts[vsub];[1:a]loudnorm=I=-16:TP=-1.5:LRA=7,aresample=48000,asplit=2[voice][detector];"
+    background = (f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{cta_background}:t=fill:enable='gte(t,{cta_start:.6f})'," if cta_start is not None else "")
+    graph = "[0:v]" + background + "ass=subtitles.ass:fontsdir=fonts[vsub];[1:a]loudnorm=I=-16:TP=-1.5:LRA=7,aresample=48000,asplit=2[voice][detector];"
     if music:
         inputs += ["-stream_loop", "-1", "-i", str(music.path)]
         graph += ("[3:a]aresample=48000,volume=0.35[music];"
@@ -54,13 +65,14 @@ def mix_video(stage: Path, ffmpeg: str, narration: Path, duration: float, music:
     if logo:
         logo_index = 4 if music else 3
         inputs += ["-loop", "1", "-i", str(logo)]
-        graph += f"[{logo_index}:v]scale=80:60:force_original_aspect_ratio=decrease[logo];[vsub][logo]overlay=820:370:shortest=1[v]"
+        enable = f":enable='lt(t,{cta_start:.6f})'" if cta_start is not None else ""
+        graph += f"[{logo_index}:v]scale=80:60:force_original_aspect_ratio=decrease[logo];[vsub][logo]overlay=820:370:shortest=1{enable}[v]"
     else:
         graph += "[vsub]null[v]"
     run([ffmpeg, "-v", "error", "-nostdin", "-n", "-filter_complex_threads", "1"] + inputs +
         ["-filter_complex", graph, "-map", "[v]", "-map", "[a]", "-frames:v", str(round(duration * 30)), "-t", f"{duration:.8f}",
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-maxrate", "25M", "-bufsize", "50M", "-threads", "2",
-         "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-movflags", "+faststart", "video.mp4"], cwd=stage)
+         "-pix_fmt", "yuv420p", "-color_range", "tv", "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-movflags", "+faststart", "video.mp4"], cwd=stage)
 
 
 def review_images(stage: Path, ffmpeg: str, duration: float, cover_time: float, run: Callable) -> None:

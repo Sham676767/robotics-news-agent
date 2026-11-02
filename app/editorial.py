@@ -31,17 +31,28 @@ def client_cta(template: str, keyword: str, contact: str) -> str:
 
 
 @dataclass(frozen=True, slots=True)
+class SceneCue:
+    text: str
+    tags: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"text": self.text, "tags": list(self.tags)}
+
+
+@dataclass(frozen=True, slots=True)
 class EditorialPlan:
     format: str
     hook_variants: tuple[str, ...]
     selected_hook: int
+    scenes: tuple[SceneCue, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
-        return {"format": self.format, "hook_variants": list(self.hook_variants), "selected_hook": self.selected_hook}
+        return {"format": self.format, "hook_variants": list(self.hook_variants), "selected_hook": self.selected_hook,
+                **({"scenes": [scene.to_dict() for scene in self.scenes]} if self.scenes else {})}
 
 
-def parse_editorial(value: Any, hook: str) -> EditorialPlan:
-    if not isinstance(value, dict) or set(value) != {"format", "hook_variants", "selected_hook"}:
+def parse_editorial(value: Any, hook: str, voiceover: str = "") -> EditorialPlan:
+    if not isinstance(value, dict) or set(value) not in ({"format", "hook_variants", "selected_hook"}, {"format", "hook_variants", "selected_hook", "scenes"}):
         raise ValueError("editorial requires exactly format, hook_variants, selected_hook")
     variants, selected = value["hook_variants"], value["selected_hook"]
     if value["format"] not in FORMATS:
@@ -54,7 +65,27 @@ def parse_editorial(value: Any, hook: str) -> EditorialPlan:
         raise ValueError("selected_hook must identify the exact spoken hook")
     if any(re.match(r"\s*(сегодня|в этом видео|давайте поговорим)", item, re.I) for item in variants):
         raise ValueError("Start hooks with the audience's problem, without introductory words")
-    return EditorialPlan(value["format"], tuple(variants), selected)
+    scenes = []
+    if "scenes" in value:
+        raw = value["scenes"]
+        if not isinstance(raw, list) or not 1 <= len(raw) <= 30:
+            raise ValueError("scenes requires 1–30 ordered fragments")
+        if not isinstance(voiceover, str):
+            raise ValueError("voiceover must be text")
+        cursor, normalized = 0, " ".join(voiceover.split())
+        for scene in raw:
+            if (not isinstance(scene, dict) or set(scene) != {"text", "tags"} or
+                    not isinstance(scene["text"], str) or not scene["text"].strip() or
+                    not isinstance(scene["tags"], list) or not 1 <= len(scene["tags"]) <= 4 or
+                    any(not isinstance(tag, str) or not re.fullmatch(r"[a-z][a-z_]{0,31}", tag) for tag in scene["tags"])):
+                raise ValueError("Scene requires a spoken fragment and 1–4 lowercase tags")
+            text = " ".join(scene["text"].split())
+            position = normalized.find(text, cursor)
+            if position < 0:
+                raise ValueError("Scene fragments must occur in voiceover, in order without overlap")
+            cursor = position + len(text)
+            scenes.append(SceneCue(text, tuple(dict.fromkeys(scene["tags"]))))
+    return EditorialPlan(value["format"], tuple(variants), selected, tuple(scenes))
 
 
 def publication_caption(script: Any, *, music_credit: str = "") -> str:

@@ -36,7 +36,10 @@ def stub_script(settings: Settings) -> tuple[Topic, ReelScript, ScriptReview]:
         (PrimaryReference("document", "Техническая фикстура", primary, NORM, True, content),))
     raw = {"hook": HOOK, "voiceover": "\n\n".join((HOOK, ESSENCE, ACTIONS, settings.client_cta)),
            "on_screen_text": screens, "caption": "\n".join((HOOK, caption, screens[0], settings.client_cta)), "hashtags": ["#тест", "#демо", "#оформление"],
-           "editorial": {"format": "checklist", "hook_variants": [HOOK, "Проверьте договор: техническая демонстрация."], "selected_hook": 0},
+           "editorial": {"format": "checklist", "hook_variants": [HOOK, "Проверьте договор: техническая демонстрация."], "selected_hook": 0, "scenes": [
+               {"text": HOOK, "tags": ["document"]},
+               {"text": ESSENCE, "tags": ["phone"]},
+               {"text": ACTIONS, "tags": ["document"]}]},
            "sources": [asdict(item) for item in topic_sources(topic)], "disclaimer": DISCLAIMER}
     script = parse_script(raw, topic, settings)
     checks = []

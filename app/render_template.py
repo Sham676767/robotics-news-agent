@@ -12,19 +12,23 @@ import yaml
 @dataclass(frozen=True, slots=True)
 class RenderTemplate:
     font: str = "DejaVu Sans"
-    background_top: str = "101C32"
-    background_bottom: str = "244B61"
+    background_top: str = "DCE3E2"
+    background_bottom: str = "EAE7E0"
     text_color: str = "FFFFFF"
     accent_color: str = "7CE5CF"
     caption_size: int = 72
     words_per_caption: int = 5
+    cta_seconds: float = 5.5
+    cta_background: str = "EAE7E0"
+    cta_color: str = "162B3B"
+    cta_accent: str = "285F55"
     end_seconds: float = 3.0
     header_text: str = "БИЗНЕС · ПРАВО РФ"
     service_name: str = ""
     contact: str = ""
 
     def __post_init__(self) -> None:
-        for name in ("background_top", "background_bottom", "text_color", "accent_color"):
+        for name in ("background_top", "background_bottom", "text_color", "accent_color", "cta_background", "cta_color", "cta_accent"):
             if not isinstance(getattr(self, name), str) or not re.fullmatch(r"[0-9A-Fa-f]{6}", getattr(self, name)):
                 raise ValueError(f"Template {name} must be a six-digit RGB color")
         if type(self.caption_size) is not int or not 60 <= self.caption_size <= 88:
@@ -33,6 +37,8 @@ class RenderTemplate:
             raise ValueError("Template words_per_caption must be 2–5")
         if type(self.end_seconds) not in (int, float) or not math.isfinite(self.end_seconds) or not 1 <= self.end_seconds <= 10:
             raise ValueError("Template end_seconds must be 1–10")
+        if type(self.cta_seconds) not in (int, float) or not math.isfinite(self.cta_seconds) or not 5 <= self.cta_seconds <= 6:
+            raise ValueError("Template cta_seconds must be 5–6")
         for name, maximum in (("font", 80), ("header_text", 80), ("service_name", 80), ("contact", 120)):
             value = getattr(self, name)
             if not isinstance(value, str) or len(value) > maximum or any(ord(c) < 32 for c in value):

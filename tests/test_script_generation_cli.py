@@ -238,6 +238,7 @@ def test_selected_hook_from_config_must_be_obeyed(monkeypatch, settings, editori
     old = selected["hook"]
     selected["hook"] = selected["editorial"]["hook_variants"][1]
     selected["editorial"]["selected_hook"] = 1
+    selected["editorial"]["scenes"][0]["text"] = selected["hook"]
     selected["voiceover"] = selected["voiceover"].replace(old, selected["hook"], 1)
     selected["caption"] = selected["caption"].replace(old, selected["hook"], 1)
     post = Mock(side_effect=[completion(editorial_data), completion(selected)])
@@ -246,3 +247,14 @@ def test_selected_hook_from_config_must_be_obeyed(monkeypatch, settings, editori
     assert script.editorial.selected_hook == 1 and post.call_count == 2
     inputs = json.loads(post.call_args.kwargs["json"]["messages"][1]["content"])
     assert inputs["selected_hook_index"] == 1
+
+
+def test_generated_script_requires_scene_tags_and_retries(monkeypatch, settings, editorial_data, script_topic):
+    missing = copy.deepcopy(editorial_data)
+    del missing["editorial"]["scenes"]
+    post = Mock(side_effect=[completion(missing), completion(editorial_data)])
+    monkeypatch.setattr(httpx, "post", post)
+    script = generate_script(script_topic, settings)
+    assert script.editorial.scenes and post.call_count == 2
+    schema = post.call_args.kwargs["json"]["response_format"]["json_schema"]["schema"]
+    assert "scenes" in schema["properties"]["editorial"]["required"]
