@@ -1,0 +1,51 @@
+name: Generate six legal backgrounds
+on:
+  push:
+    branches: [codex/backgrounds-20261102]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: legal-backgrounds-batch
+  cancel-in-progress: false
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install httpx==0.28.1 Pillow==12.0.0
+      - uses: actions/cache/restore@v4
+        with:
+          path: assets/backgrounds/document
+          key: legal-backgrounds-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: legal-backgrounds-v1-
+      - name: Generate confirmed batch
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from app.backgrounds import ImageBackgroundProvider, generate_batch
+          provider = ImageBackgroundProvider(Path('assets/backgrounds'), os.environ.get('OPENROUTER_API_KEY',''),
+              'openai/gpt-image-2', Path('templates/backgrounds/law-office.txt').read_text())
+          print(json.dumps(generate_batch(provider,'document',6,yes=True)))
+          PY
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: assets/backgrounds/document
+          key: legal-backgrounds-v1-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: legal-backgrounds-document
+          path: assets/backgrounds/document/
+          if-no-files-found: warn
+          retention-days: 30
