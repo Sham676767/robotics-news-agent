@@ -50,6 +50,8 @@ class Settings:
 
     render_output_dir: Path = Path("renders")
     render_template: Path = Path("templates/default.yaml")
+    music_manifest: Path | None = Path("assets/music/license.yaml")
+    visuals_dir: Path = Path("assets/visuals")
     ffmpeg_bin: str = "ffmpeg"
     ffprobe_bin: str = "ffprobe"
 
@@ -133,6 +135,8 @@ class Settings:
             script_cta=env.get("SCRIPT_CTA", "Сохраните ролик и поделитесь им").strip(),
             render_output_dir=Path(env.get("RENDER_OUTPUT_DIR", "renders")),
             render_template=Path(env.get("RENDER_TEMPLATE", "templates/default.yaml")),
+            music_manifest=Path(env.get("MUSIC_MANIFEST", "assets/music/license.yaml")) if env.get("MUSIC_MANIFEST", "assets/music/license.yaml").strip() else None,
+            visuals_dir=Path(env.get("VISUALS_DIR", "assets/visuals")),
             ffmpeg_bin=env.get("FFMPEG_BIN", "ffmpeg").strip(),
             ffprobe_bin=env.get("FFPROBE_BIN", "ffprobe").strip(),
             cta_keyword=env.get("CTA_KEYWORD", "РАЗБОР").strip(),
