@@ -79,6 +79,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     stats = commands.add_parser("stats", help="Метрики опубликованных роликов, сравнение форматов и хуков")
     stats.add_argument("--id", action="append", dest="ids", help="Ограничиться конкретным черновиком; можно повторять")
     stats.add_argument("--output", type=Path, help="Сохранить снимок статистики в новый JSON-файл")
+    backgrounds = commands.add_parser("generate-backgrounds", help="План или подтверждённая пакетная генерация фонов")
+    backgrounds.add_argument("--count", type=int, default=6)
+    backgrounds.add_argument("--tag", required=True)
+    backgrounds.add_argument("--prompt-file", type=Path)
+    backgrounds.add_argument("--yes", action="store_true")
     args = parser.parse_args(argv)
     if args.command and args.draft:
         parser.error("--draft cannot be combined with a subcommand")
@@ -98,7 +103,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     protect_logs(settings)
     try:
-        if args.command == "stats":
+        if args.command == "generate-backgrounds":
+            from app.backgrounds import ImageBackgroundProvider, generate_batch
+            prompt = (args.prompt_file or settings.background_prompt).read_text()
+            provider = ImageBackgroundProvider(settings.backgrounds_dir, settings.openrouter_api_key,
+                                               settings.background_image_model, prompt)
+            result = generate_batch(provider, args.tag, args.count, yes=args.yes)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
+        elif args.command == "stats":
             if args.output is not None and args.output.exists():
                 raise ValueError("Stats output already exists; choose a new path")
             result = collect_stats(settings, ids=args.ids)

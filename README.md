@@ -350,3 +350,18 @@ docker compose run --rm agent sh -c 'python -m pip install -r requirements-dev.t
 [Озвучка](docs/tts.md) · [Рендер](docs/render.md) ·
 [Instagram и S3](docs/instagram.md) · [План миграции](docs/migration_plan.md) ·
 [Принятые решения](docs/decisions.md)
+
+### Пакетная генерация фонов
+
+```bash
+python -m app generate-backgrounds --count 6 --tag document
+python -m app generate-backgrounds --count 6 --tag document --yes
+```
+
+Первая команда показывает оценку запросов без сети и записи файлов. Вторая
+подтверждает платную генерацию через OpenRouter. `--prompt-file` заменяет шаблон
+сцены. Модель задаётся через `BACKGROUND_IMAGE_MODEL`, по умолчанию
+`openai/gpt-image-2`. Результаты и JSON с параметрами сохраняются в
+`assets/backgrounds/<tag>/`. Повторный запуск использует существующие файлы.
+Автоматического повторения запроса при сетевой ошибке нет, поскольку провайдер
+мог уже списать средства. Обычный run-all эту генерацию не вызывает.

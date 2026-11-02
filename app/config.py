@@ -52,6 +52,9 @@ class Settings:
     render_output_dir: Path = Path("renders")
     render_template: Path = Path("templates/default.yaml")
     music_manifest: Path | None = Path("assets/music/license.yaml")
+    background_image_model: str = "openai/gpt-image-2"
+    backgrounds_dir: Path = Path("assets/backgrounds")
+    background_prompt: Path = Path("templates/backgrounds/law-office.txt")
     visuals_dir: Path = Path("assets/visuals")
     ffmpeg_bin: str = "ffmpeg"
     ffprobe_bin: str = "ffprobe"
@@ -139,6 +142,9 @@ class Settings:
             render_output_dir=Path(env.get("RENDER_OUTPUT_DIR", "renders")),
             render_template=Path(env.get("RENDER_TEMPLATE", "templates/default.yaml")),
             music_manifest=Path(env.get("MUSIC_MANIFEST", "assets/music/license.yaml")) if env.get("MUSIC_MANIFEST", "assets/music/license.yaml").strip() else None,
+            background_image_model=env.get("BACKGROUND_IMAGE_MODEL", "openai/gpt-image-2"),
+            backgrounds_dir=Path(env.get("BACKGROUNDS_DIR", "assets/backgrounds")),
+            background_prompt=Path(env.get("BACKGROUND_PROMPT", "templates/backgrounds/law-office.txt")),
             visuals_dir=Path(env.get("VISUALS_DIR", "assets/visuals")),
             ffmpeg_bin=env.get("FFMPEG_BIN", "ffmpeg").strip(),
             ffprobe_bin=env.get("FFPROBE_BIN", "ffprobe").strip(),
