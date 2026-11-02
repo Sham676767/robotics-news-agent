@@ -57,9 +57,10 @@ def parse_editorial(value: Any, hook: str) -> EditorialPlan:
     return EditorialPlan(value["format"], tuple(variants), selected)
 
 
-def publication_caption(script: Any) -> str:
+def publication_caption(script: Any, *, music_credit: str = "") -> str:
     """No generated facts are added during packaging: source URLs are copied verbatim."""
-    if script.editorial is None:
+    if script.editorial is None and not music_credit:
         return "\n\n".join((script.caption, script.disclaimer, " ".join(script.hashtags)))
     urls = "\n".join(dict.fromkeys(source.url for source in script.sources))
-    return "\n\n".join((script.caption, urls, script.disclaimer, " ".join(script.hashtags)))
+    return "\n\n".join(value for value in (script.caption, urls, script.disclaimer,
+                                                  "Музыка: " + music_credit if music_credit else "", " ".join(script.hashtags)) if value)

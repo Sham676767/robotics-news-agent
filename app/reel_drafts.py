@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -104,7 +105,9 @@ class ReelDrafts:
     def finish(self, folder: Path) -> None:
         script, _, _ = load_checked_script(folder / "script.json", self.settings)
         # The final caption is reviewed as a whole by the human; no new legal assertions added.
-        caption = publication_caption(script)
+        render = read_json(folder / "render.json")
+        credit = (render.get("music") or {}).get("attribution", "")
+        caption = publication_caption(script, music_credit=credit)
         if len(caption) > 2200:
             raise ValueError("Final Instagram caption is too long")
         (folder / "caption.txt").write_text(caption + "\n", encoding="utf-8")
@@ -128,7 +131,7 @@ class ReelDrafts:
         audio = load_render_audio(folder / "timings.json", script)
         render = read_json(folder / "render.json")
         try:
-            expected = audio.duration + render["template"]["end_seconds"]
+            expected = render["duration_seconds"] if render.get("schema_version") == 2 else audio.duration + render["template"]["end_seconds"]
             if render.get("schema_version") == 2:
                 from app.audio_edit import silence_ranges
                 from app.tts import wav_duration
@@ -137,7 +140,7 @@ class ReelDrafts:
                 edited = folder / "narration.wav"
                 if checksum(edited) != render["edited_audio_sha256"]:
                     raise ValueError("Edited narration does not match render metadata")
-                expected = __import__("math").ceil(wav_duration(edited.read_bytes()) * 30 - 1e-8) / 30
+                expected = math.ceil(wav_duration(edited.read_bytes()) * 30 - 1e-8) / 30
                 if not 30 <= expected <= 45 or abs(expected - render["duration_seconds"]) > .08:
                     raise ValueError("Edited narration must match the 30–45 second render")
                 if render["hook"] != script.hook or render["cta"] != (self.settings.client_cta if script.editorial else self.settings.script_cta):
@@ -158,7 +161,8 @@ class ReelDrafts:
         verify_video(probe_media(folder / "video.mp4", self.settings.ffprobe_bin), expected)
         if (folder / "video.mp4").stat().st_size > 1_000_000_000 or expected < 3:
             raise ValueError("Video exceeds Instagram file size or is too short")
-        caption = publication_caption(script) + "\n"
+        credit = (render.get("music") or {}).get("attribution", "")
+        caption = publication_caption(script, music_credit=credit) + "\n"
         if (folder / "caption.txt").read_text(encoding="utf-8") != caption or len(caption.rstrip()) > 2200:
             raise ValueError("Caption does not match the reviewed script")
         if read_json(folder / "sources.json") != {"sources": script.to_dict()["sources"]}:

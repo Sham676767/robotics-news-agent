@@ -67,7 +67,7 @@ def norm_overlays(script: ReelScript, audio: RenderAudio) -> tuple[Overlay, ...]
     return tuple(result)
 
 
-def overlays_for(script: ReelScript, audio: RenderAudio, *, header: str, expert: str, cta: str, font: str = "DejaVu Sans") -> tuple[Overlay, ...]:
+def overlays_for(script: ReelScript, audio: RenderAudio, *, header: str, expert: str, cta: str, font: str = "DejaVu Sans", maximum_words: int = 5) -> tuple[Overlay, ...]:
     overlays = [Overlay("header", 0, audio.duration, header, (100, 270, 900, 370)),
                 Overlay("hook", 0, min(3, audio.duration), script.hook, (100, 580, 900, 1140))]
     if expert:
@@ -75,11 +75,11 @@ def overlays_for(script: ReelScript, audio: RenderAudio, *, header: str, expert:
     from app.typography import layout
     def fits(text: str) -> bool:
         try:
-            layout(text, font, 60, 60, 800, 490, max_lines=2)
+            layout(text, font, 60, 60, 800, 490, max_lines=3)
             return True
         except ValueError:
             return False
-    for phrase in phrase_captions(audio.words, fits=fits):
+    for phrase in phrase_captions(audio.words, maximum=maximum_words, fits=fits):
         # Hook already has a large complete card, without a second overlapping caption.
         if phrase.end > 3:
             overlays.append(Overlay("caption", max(3, phrase.start), phrase.end, phrase.text, (100, 650, 900, 1140)))
@@ -87,7 +87,7 @@ def overlays_for(script: ReelScript, audio: RenderAudio, *, header: str, expert:
     for index, word in enumerate(audio.words):
         if re.fullmatch(r"[₽№]?\d[\d.,–-]*(?:-ФЗ)?[.,:;!?]?", word.word, re.I):
             text = word.word.rstrip(".,:;!?")
-            if index + 1 < len(audio.words) and re.match(r"(?:руб|дн|дней|день|час|месяц|₽|%)", audio.words[index + 1].word, re.I):
+            if index + 1 < len(audio.words) and audio.words[index + 1].word.rstrip(".,:;!?").casefold() in {"руб", "рубль", "рубля", "рублей", "₽", "%", "день", "дня", "дней", "дн", "час", "часа", "часов", "месяц", "месяца", "месяцев", "суток", "сутки"}:
                 text += " " + audio.words[index + 1].word.rstrip(".,:;!?")
             overlays.append(Overlay("number", word.start, min(audio.duration, max(word.end, word.start + .8)), text, (100, 540, 900, 740)))
     overlays.extend(norm_overlays(script, audio))

@@ -6,7 +6,7 @@ import pytest
 from app.caption_phrases import dangling
 from app.config import Settings
 from app.render_inputs import RenderAudio
-from app.render_subtitles import build_subtitles, render_overlay
+from app.render_subtitles import render_overlay
 from app.render_template import RenderTemplate
 from app.render_timeline import Overlay, SAFE, norm_overlays, overlays_for, shots_for, validate_overlays
 from app.stub_pipeline import stub_script
@@ -63,9 +63,9 @@ def test_actual_font_measurement_prevents_caption_clipping(timeline):
     _, _, overlays = timeline
     for item in overlays:
         if item.kind == "caption":
-            size, lines = layout(item.text, "DejaVu Sans", 72, 60, 800, 490, max_lines=2)
+            size, lines = layout(item.text, "DejaVu Sans", 72, 60, 800, 490, max_lines=3)
             font = measured_font("DejaVu Sans", size)
-            assert size >= 60 and len(lines) <= 2
+            assert size >= 60 and len(lines) <= 3
             assert all(font.getlength(line) * 1.08 <= 756 for line in lines)
             assert all(not dangling(line) for line in lines)
             assert r"\clip(100,650,900,1140)" in render_overlay(item, RenderTemplate())
@@ -76,3 +76,28 @@ def test_unsafe_and_unreadable_overlay_rejected():
         validate_overlays((Overlay("hook", 0, 2, "Хук", (0, 0, 1000, 1800)),), 39)
     with pytest.raises(ValueError, match="minimum"):
         layout("Ш" * 100, "DejaVu Sans", 72, 60, 800, 400)
+
+
+def test_template_caption_word_limit_applies(timeline):
+    script, audio, _ = timeline
+    overlays = overlays_for(script, audio, header="ПРАВО РФ", expert="", cta=Settings().client_cta, maximum_words=3)
+    assert all(2 <= len(item.text.split()) <= 3 for item in overlays if item.kind == "caption")
+
+
+def test_list_items_stay_meaningful_instead_of_crossing_commas():
+    from app.caption_phrases import phrase_captions
+    words = estimate_word_timings("Первый пункт проверяет читаемость текста, второй — смену фона, третий — синхронизацию титров.", 6)
+    def fits(text):
+        try:
+            layout(text, "DejaVu Sans", 60, 60, 800, 490, max_lines=3)
+            return True
+        except ValueError:
+            return False
+    phrases = [phrase.text for phrase in phrase_captions(words, fits=fits)]
+    assert "второй смену фона," in phrases
+    assert "третий синхронизацию титров." in phrases
+
+
+def test_part_of_article_is_not_misread_as_a_time_unit(timeline):
+    _, _, overlays = timeline
+    assert all("часть" not in item.text for item in overlays if item.kind == "number")

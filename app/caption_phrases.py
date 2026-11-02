@@ -1,19 +1,18 @@
 """Phrase boundaries chosen from word timings, punctuation and Russian function words."""
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass
 from functools import lru_cache
 from collections.abc import Callable
 
 from app.tts import WordTiming
 
-FUNCTION_WORDS = frozenset("а и но или либо да зато однако что чтобы как если когда пока хотя ведь ли же бы не ни в во на о об обо от до за из изо к ко с со у по под при про над перед без для через между около после ради благодаря ввиду вследствие согласно вопреки несмотря".split())
+FUNCTION_WORDS = frozenset("а и но или либо да зато однако что чтобы как если когда пока хотя ведь ли же бы не ни в во на о об обо от до за из изо к ко с со у по под при про над перед без для через между из-за из-под около после ради благодаря ввиду вследствие согласно вопреки несмотря".split())
 
 
 def dangling(text: str) -> bool:
-    words = re.findall(r"[А-Яа-яЁё]+", text)
-    return bool(words and words[-1].casefold() in FUNCTION_WORDS)
+    words = text.split()
+    return bool(words and words[-1].strip(".,:;!?…\"'«»()[]—–").casefold() in FUNCTION_WORDS)
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,7 +50,7 @@ def phrase_captions(words: tuple[WordTiming, ...], maximum: int = 5, *, fits: Ca
             end = start + count
             if end > len(words) or dangling(words[end - 1].word):
                 continue
-            # One screen has at most two readable lines at 60+ px.
+            # Keep the text compact before checking its measured font layout.
             text = " ".join(word.word for word in words[start:end])
             if len(text) > 46 or any(len(word.word) > 22 for word in words[start:end]):
                 continue
@@ -67,7 +66,7 @@ def phrase_captions(words: tuple[WordTiming, ...], maximum: int = 5, *, fits: Ca
             punctuation = words[end - 1].word.endswith((".", "!", "?", ";", ":", ","))
             gap = words[end].start - words[end - 1].end if end < len(words) else 0
             # Penalize crossing strong punctuation inside a screen.
-            crossed = sum(word.word.endswith((".", "!", "?", ";", ":")) for word in words[start:end - 1])
+            crossed = sum(word.word.endswith((".", "!", "?", ";", ":", ",")) for word in words[start:end - 1])
             score = rest[0] + abs(count - 3) * .35 + crossed * 3 - (1.5 if punctuation else 0) - min(gap, .3) * 2
             options.append((score, (end,) + rest[1]))
         return min(options, key=lambda item: item[0]) if options else None

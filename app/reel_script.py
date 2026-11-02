@@ -13,7 +13,7 @@ from app.language_guard import validate_russian_text
 from app.primary_evidence import citations
 from app.topics import Topic
 from app.topic_urls import canonical_url
-from app.legal_references import explicit_norms
+from app.legal_references import explicit_norms, identifier_tokens, reference_key
 
 DISCLAIMER = "Не является юридической консультацией"
 MAX_SCREEN_LINES = 6
@@ -187,8 +187,17 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
         lines = caption.splitlines()
         if not 4 <= len(lines) <= 5 or lines[0] != hook or lines[-1] != settings.client_cta:
             raise ValueError("caption requires hook, two or three benefit lines and the configured CTA")
-        if len(re.split(r"(?<=[.!?;])\s+(?=[А-ЯЁ])", paragraphs[1])) != 3:
+        points = re.split(r"(?<=[.!?;])\s+(?=[А-ЯЁ])", paragraphs[1])
+        if len(points) != 3 or any(word_count(point) > 25 for point in points):
             raise ValueError("Essence must contain three short points")
+        actions = re.split(r"(?<=[.!?;])\s+(?=[А-ЯЁ])", paragraphs[2])
+        if not 1 <= len(actions) <= 2 or any(word_count(action) > 30 for action in actions):
+            raise ValueError("Provide one or two short practical actions")
+        spoken = identifier_tokens(voiceover)
+        if not any(("article", source.article) in spoken and
+                   reference_key(source.law) in reference_key(voiceover)
+                   for source in sources if source.law and source.article):
+            raise ValueError("Voiceover must speak a verified article and law")
     evidence = "\n".join([
         *(f"{article.title}\n{article.text}" for article in topic.articles),
         *(f"{ref.citation}\n{ref.excerpt}\n{ref.content}" for ref in topic.references),
@@ -200,7 +209,8 @@ def parse_script(data: dict[str, Any], topic: Topic, settings: Settings) -> Reel
     evidence_citations = {_citation_key(citation) for _, citation, _ in citations(evidence)}
     for field, text in texts.items():
         validate_russian_text(text, scope=field)
-        validate_grounded_text(text, evidence, scope=field)
+        fact_text = text.replace(settings.cta_contact, "") if editorial and settings.cta_contact else text
+        validate_grounded_text(fact_text, evidence, scope=field)
         if any(_citation_key(citation) not in evidence_citations for _, citation, _ in citations(text)):
             raise ValueError(f"{field} contains a citation absent from the selected topic")
     validate_grounded_text(" ".join(hashtags), evidence, scope="hashtags")

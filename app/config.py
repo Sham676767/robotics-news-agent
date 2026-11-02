@@ -27,6 +27,7 @@ class Settings:
     retry_base_seconds: float = 2.0
     retry_max_seconds: float = 20.0
     script_cta: str = "Сохраните ролик и поделитесь им"
+    hook_variant: int | None = None
     cta_keyword: str = "РАЗБОР"
     cta_text: str = DEFAULT_CTA
     cta_contact: str = "в директ"
@@ -57,7 +58,9 @@ class Settings:
 
     def __post_init__(self) -> None:
         self.client_cta
-        if not math.isfinite(self.cover_frame_seconds) or not .3 <= self.cover_frame_seconds <= 2.7:
+        if self.hook_variant is not None and (type(self.hook_variant) is not int or not 0 <= self.hook_variant <= 2):
+            raise ValueError("HOOK_VARIANT must be empty, 0, 1 or 2")
+        if type(self.cover_frame_seconds) not in (int, float) or not math.isfinite(self.cover_frame_seconds) or not .3 <= self.cover_frame_seconds <= 2.7:
             raise ValueError("COVER_FRAME_SECONDS must be between 0.3 and 2.7 (the opening hook)")
         if len(self.expert_name) > 40 or any(ord(c) < 32 for c in self.expert_name):
             raise ValueError("EXPERT_NAME must be a short single line")
@@ -139,6 +142,7 @@ class Settings:
             visuals_dir=Path(env.get("VISUALS_DIR", "assets/visuals")),
             ffmpeg_bin=env.get("FFMPEG_BIN", "ffmpeg").strip(),
             ffprobe_bin=env.get("FFPROBE_BIN", "ffprobe").strip(),
+            hook_variant=int(env["HOOK_VARIANT"]) if env.get("HOOK_VARIANT", "").strip() else None,
             cta_keyword=env.get("CTA_KEYWORD", "РАЗБОР").strip(),
             cta_text=env.get("CTA_TEXT", DEFAULT_CTA).strip(),
             cta_contact=env.get("CTA_CONTACT", "в директ").strip(),

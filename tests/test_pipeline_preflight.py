@@ -26,12 +26,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def offline_project(tmp_path, monkeypatch):
     shutil.copy2(ROOT / "tests/fixtures/preflight.env", tmp_path / ".env")
     shutil.copy2(ROOT / "tests/fixtures/preflight.yaml", tmp_path / "sources.yaml")
+    shutil.copytree(ROOT / "assets", tmp_path / "assets")
     (tmp_path / "templates").mkdir()
     shutil.copy2(ROOT / "templates/default.yaml", tmp_path / "templates/default.yaml")
     # Isolate from the developer's real credentials and output paths.
     for name in tuple(os.environ):
         if name.startswith(("OPENROUTER_", "ELEVENLABS_", "INSTAGRAM_", "S3_", "TTS_", "RENDER_")) or name in {
-            "PIPELINE_MODE", "DRAFTS_DIR", "FFMPEG_BIN", "FFPROBE_BIN", "SCRIPT_CTA", "LOG_LEVEL",
+            "PIPELINE_MODE", "DRAFTS_DIR", "FFMPEG_BIN", "FFPROBE_BIN", "SCRIPT_CTA", "LOG_LEVEL", "MUSIC_MANIFEST", "VISUALS_DIR", "HOOK_VARIANT", "COVER_FRAME_SECONDS", "EXPERT_NAME", "BRAND_LOGO", "CTA_KEYWORD", "CTA_TEXT", "CTA_CONTACT",
         }:
             monkeypatch.delenv(name)
     monkeypatch.chdir(tmp_path)

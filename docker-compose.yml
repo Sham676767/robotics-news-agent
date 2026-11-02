@@ -10,5 +10,6 @@ services:
       - ./audio:/app/audio
       - ./renders:/app/renders
       - ./templates:/app/templates:ro
+      - ./assets:/app/assets:ro
       - ./backgrounds:/app/backgrounds:ro
     restart: "no"

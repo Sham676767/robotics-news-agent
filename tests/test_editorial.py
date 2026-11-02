@@ -63,3 +63,29 @@ def test_unchosen_hook_also_subject_to_safety(editorial_data, script_topic):
     script = parse_script(editorial_data, script_topic, Settings())
     bad = replace(script, editorial=replace(script.editorial, hook_variants=(script.hook, "Вам точно положено возмещение")))
     assert any(issue.code == "categorical_claim" and issue.field == "hook_variants[1]" for issue in local_safety_issues(bad, script_topic))
+
+
+def test_contact_can_contain_user_supplied_phone_numbers(editorial_data, script_topic):
+    settings = Settings(cta_contact="по +79991234567")
+    old = Settings().client_cta
+    editorial_data["voiceover"] = editorial_data["voiceover"].replace(old, settings.client_cta)
+    editorial_data["caption"] = editorial_data["caption"].replace(old, settings.client_cta)
+    script = parse_script(editorial_data, script_topic, settings)
+    assert not local_safety_issues(script, script_topic, settings)
+
+
+def test_music_attribution_is_in_caption(editorial_data, script_topic):
+    script = parse_script(editorial_data, script_topic, Settings())
+    assert "Музыка: Автор — CC-BY-4.0" in publication_caption(script, music_credit="Автор — CC-BY-4.0")
+
+
+@pytest.mark.parametrize("value", [True, -1, 3])
+def test_invalid_hook_variant(value):
+    with pytest.raises(ValueError, match="HOOK_VARIANT"):
+        Settings(hook_variant=value)
+
+
+@pytest.mark.parametrize("value", [True, 0, 3, float("nan")])
+def test_cover_offset_must_stay_on_opening_hook(value):
+    with pytest.raises(ValueError, match="COVER_FRAME_SECONDS"):
+        Settings(cover_frame_seconds=value)

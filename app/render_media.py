@@ -11,7 +11,7 @@ from app.music import MusicTrack
 from app.render_timeline import Shot
 
 
-def background_sequence(stage: Path, ffmpeg: str, assets: list[Path], shots: tuple[Shot, ...], run: Callable) -> None:
+def background_sequence(stage: Path, ffmpeg: str, assets: list[Path], shots: tuple[Shot, ...], run: Callable, *, colors: tuple[str, str] = ("101C32", "244B61")) -> None:
     for i, shot in enumerate(shots):
         frames = round((shot.end - shot.start) * 30)
         image = assets[shot.asset].suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
@@ -19,7 +19,7 @@ def background_sequence(stage: Path, ffmpeg: str, assets: list[Path], shots: tup
         zoom = "min(1.09,1+on*0.0007)" if shot.motion == "push_in" else "max(1,1.09-on*0.0007)"
         filters = ("fps=30,scale=1200:2134:force_original_aspect_ratio=increase,crop=1200:2134,setsar=1,"
                    f"zoompan=z='{zoom}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d={frames if image else 1}:s=1080x1920:fps=30,"
-                   f"eq=brightness=-0.24:saturation=0.75,fade=t=in:st=0:d=0.10,fade=t=out:st={max(0, frames / 30 - .1):.5f}:d=0.10")
+                   f"eq=brightness=-0.24:saturation=0.75,drawbox=y=0:h=960:color=0x{colors[0]}@0.12:t=fill,drawbox=y=960:h=960:color=0x{colors[1]}@0.12:t=fill,fade=t=in:st=0:d=0.10,fade=t=out:st={max(0, frames / 30 - .1):.5f}:d=0.10")
         run([ffmpeg, "-v", "error", "-nostdin", "-n", "-filter_threads", "1"] + source +
             ["-an", "-vf", filters, "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
              "-threads", "2", "-pix_fmt", "yuv420p", f"shot-{i}.mp4"], cwd=stage)

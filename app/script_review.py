@@ -106,7 +106,7 @@ def primary_texts(topic: Topic) -> dict[str, str]:
     return {url: "\n".join(dict.fromkeys(texts)) for url, texts in grouped.items()}
 
 
-def local_safety_issues(script: ReelScript, topic: Topic) -> tuple[ReviewIssue, ...]:
+def local_safety_issues(script: ReelScript, topic: Topic, settings: Settings | None = None) -> tuple[ReviewIssue, ...]:
     issues: list[ReviewIssue] = []
     primary = primary_texts(topic)
     if not primary or any(not ref.content.strip() for ref in topic.references):
@@ -134,7 +134,8 @@ def local_safety_issues(script: ReelScript, topic: Topic) -> tuple[ReviewIssue, 
         if any(norm.key() not in source_norms for norm in explicit_norms(text)):
             issues.append(ReviewIssue("unsupported_norm", "Связка закона, статьи и части отсутствует в первоисточниках.", field))
         try:
-            validate_grounded_text(text, evidence, scope=field)
+            fact_text = text.replace(settings.cta_contact, "") if settings and script.editorial and settings.cta_contact else text
+            validate_grounded_text(fact_text, evidence, scope=field)
         except ValueError:
             issues.append(ReviewIssue("unsupported_text", "Числа или рекламные усиления не подтверждены источником.", field))
     if script.disclaimer != DISCLAIMER:
@@ -214,7 +215,7 @@ def parse_review(data: dict[str, Any], claims: tuple[Claim, ...], primary: dict[
 
 
 def review_script(script: ReelScript, topic: Topic, settings: Settings) -> ScriptReview:
-    issues = list(local_safety_issues(script, topic))
+    issues = list(local_safety_issues(script, topic, settings))
     claims, primary = review_claims(script, settings), primary_texts(topic)
     checks: tuple[ClaimCheck, ...] = ()
     summary = "Сверка не завершена."
@@ -226,7 +227,8 @@ def review_script(script: ReelScript, topic: Topic, settings: Settings) -> Scrip
             "Верни JSON по схеме: claims со всеми исходными id ровно по одному, summary. "
             "verdict: supported — текст прямо подтверждает утверждение; contradicted — противоречит; "
             "insufficient — доказательств недостаточно; non_factual — вопрос или рекомендация без "
-            "проверяемого факта. Для supported обязательны source_url из первоисточников и дословная "
+            "проверяемого факта. Вопрос с предпосылкой о правах/обязанностях тоже требует подтверждения. "
+            "Не считай фактическое обещание в CTA непроверяемой рекламой. Для supported обязательны source_url из первоисточников и дословная "
             "цитата quote от 12 до 600 символов. Для других вердиктов можно оставить source_url и quote пустыми. "
             "reason всегда объясняет вывод. Не считай дисклеймер оправданием категоричных обещаний. "
             "Проверь номера законов, статей, частей, дел, условия и исключения. Пустое part допустимо "
@@ -285,7 +287,7 @@ def load_checked_script(path: Path, settings: Settings) -> tuple[ReelScript, Top
             raise ValueError("Missing review model")
         review = ScriptReview(raw["script_sha256"], raw["topic_sha256"], raw["requested_model"], (), checks, raw["summary"])
         review.require_match(script, topic)
-        if not review.passed or local_safety_issues(script, topic):
+        if not review.passed or local_safety_issues(script, topic, settings):
             raise ValueError("Script failed its review gate")
     except (KeyError, ValueError, TypeError, AttributeError):
         raise ValueError("Script or its source review is invalid; regenerate script and review") from None

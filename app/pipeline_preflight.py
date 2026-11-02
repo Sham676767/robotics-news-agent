@@ -65,11 +65,32 @@ def dry_run(settings: Settings, sources: Path, *, count: int = 1, stub: bool = F
         folders.extend((config.history_path.parent, config.output_path.parent))
     if any(not writable_destination(folder) for folder in folders):
         issues.append("Нет доступа к папке черновиков, аудио, видео или данных")
-    if clips_dir is not None:
-        clips = ([path for path in clips_dir.iterdir() if path.is_file() and path.suffix.lower() in
-                  {".mp4", ".mov", ".mkv", ".webm"}] if clips_dir.is_dir() else [])
-        if not 1 <= len(clips) <= 20 or any(not os.access(path, os.R_OK) for path in clips):
-            issues.append("Папка фоновых клипов должна содержать 1–20 доступных видео")
+    from app.music import licensed_music
+    from app.typography import font_file
+    try:
+        if theme and not font_file(theme.font).is_file():
+            raise ValueError
+    except (ValueError, OSError):
+        issues.append("Не найден файл шрифта для измерения титров")
+    if settings.music_manifest:
+        try:
+            licensed_music(settings.music_manifest)
+        except (ValueError, OSError):
+            issues.append("Музыка отсутствует или не подтверждена лицензия на коммерческое использование")
+    library = clips_dir or settings.visuals_dir
+    assets = ([path for path in library.iterdir() if path.is_file() and path.suffix.lower() in
+               {".mp4", ".mov", ".mkv", ".webm", ".png", ".jpg", ".jpeg", ".webp"}] if library.is_dir() else [])
+    if not 1 <= len(assets) <= 20 or any(not os.access(path, os.R_OK) for path in assets):
+        issues.append("Библиотека фонов должна содержать 1–20 доступных фото или клипов")
+    from app.editorial import FORMATS
+    for name in FORMATS:
+        try:
+            from app.render_template import load_format_template
+            load_format_template(name)
+        except (OSError, ValueError):
+            issues.append(f"Нет корректного мини-шаблона {name}")
+    if settings.brand_logo and (not settings.brand_logo.is_file() or settings.brand_logo.is_symlink()):
+        issues.append("BRAND_LOGO отсутствует или является символической ссылкой")
     publication = settings.publishing
     if mode == "live":
         checks = (("OPENROUTER_API_KEY", settings.openrouter_api_key, r"sk-or-v1-[A-Za-z0-9_-]{12,}"),

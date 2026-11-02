@@ -19,7 +19,7 @@ from app.render_media import background_sequence, mix_video, review_images
 from app.render_timeline import Overlay, overlays_for, shots_for
 from app.render_inputs import load_render_audio
 from app.render_subtitles import build_subtitles
-from app.render_template import RenderTemplate, load_render_template
+from app.render_template import load_format_template, load_render_template
 from app.script_review import digest, load_checked_script
 
 logger = logging.getLogger(__name__)
@@ -129,10 +129,12 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
             raise ValueError("Edited narration must last 30–45 seconds; regenerate speech at a calm pace")
         shots = shots_for(duration, len(assets))
         cta = settings.client_cta if script.editorial else settings.script_cta
-        overlays = overlays_for(script, audio, header=theme.header_text, expert=settings.expert_name or theme.service_name, cta=cta, font=theme.font)
+        overlays = overlays_for(script, audio, header=theme.header_text, expert=settings.expert_name or theme.service_name, cta=cta, font=theme.font, maximum_words=theme.words_per_caption)
+        if settings.brand_logo:
+            from dataclasses import replace
+            overlays = tuple(replace(item, bounds=(100, 390, 780, 470)) if item.kind == "expert" else item for item in overlays)
         format_name = script.editorial.format if script.editorial else "question_answer"
-        import yaml
-        preset = yaml.safe_load((Path(__file__).resolve().parents[1] / "templates/formats" / f"{format_name}.yaml").read_text())
+        preset = load_format_template(format_name)
         overlays += (Overlay("format", 0, min(3, audio.duration), preset["badge"], (100, 480, 900, 570)),)
         # Three steps follow actual sentence word times, not an unrelated wall-clock rotation.
         paragraphs = script.voiceover.split("\n\n")
@@ -147,7 +149,7 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
                 overlays += (Overlay("format", max(3, words[0].start), words[-1].end, preset["steps"][index], (100, 480, 900, 570)),)
         (stage / "subtitles.ass").write_text(build_subtitles(script, audio, theme, cta, overlays=overlays), encoding="utf-8")
         logger.info("Rendering %d moving shots, %.2fs, format=%s", len(shots), duration, format_name)
-        background_sequence(stage, ffmpeg, assets, shots, run_media)
+        background_sequence(stage, ffmpeg, assets, shots, run_media, colors=(theme.background_top, theme.background_bottom))
         mix_video(stage, ffmpeg, audio.path, duration, music, settings.brand_logo.resolve() if settings.brand_logo else None, run_media)
         probe = probe_media(stage / "video.mp4", ffprobe)
         actual = verify_video(probe, duration)
@@ -156,13 +158,14 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
         metadata = {"schema_version": 2, "video_file": "video.mp4", "script_sha256": digest(script.to_dict()),
                     "audio_sha256": original.sha256, "edited_audio_sha256": audio.sha256,
                     "video_sha256": hashlib.sha256((stage / "video.mp4").read_bytes()).hexdigest(),
-                    "template": asdict(theme), "background": "clips" if clips_dir else "library",
+                    "template": {key: value for key, value in asdict(theme).items() if key not in {"end_seconds", "contact"}}, "background": "clips" if clips_dir else "library",
                     "background_files": [path.name for path in assets], "duration_seconds": actual,
                     "timing_source": audio.timing_source, "probe": probe, "topic": topic.title,
                     "format": format_name, "hook": script.hook, "cta": cta,
                     "cta_keyword": settings.cta_keyword if script.editorial else None,
                     "hook_variants": list(script.editorial.hook_variants) if script.editorial else [script.hook],
                     "selected_hook": script.editorial.selected_hook if script.editorial else 0,
+                    "brand": {"expert_name": settings.expert_name or theme.service_name, "logo_sha256": hashlib.sha256(settings.brand_logo.read_bytes()).hexdigest() if settings.brand_logo else None},
                     "publication_date": None, "cover_frame_seconds": cover_time, "cover_file": "cover.jpg",
                     "shots": [asdict(shot) for shot in shots], "overlays": [item.to_dict() for item in overlays],
                     "audio_edit": {"cuts": edit.cuts, "speed": edit.speed, "tail_silence_seconds": edit.tail_silence},

@@ -92,7 +92,7 @@ def generate_script(topic: Topic, settings: Settings) -> ReelScript:
         "before_after (было/стало), checklist (чек-лист); выбирай только подходящий материалам. "
         "Для before_after обе редакции должны быть в источниках, иначе выбери другой формат. "
         "hook_variants — 2–3 разных подтверждённых источником хука, selected_hook — индекс "
-        "выбранного, с нуля; hook дословно совпадает с выбранным вариантом. "
+        "выбранного, с нуля; если selected_hook_index задан, используй этот индекс и создай достаточно вариантов; hook дословно совпадает с выбранным вариантом. "
         "caption: первая строка hook, затем 2–3 строки пользы, последняя строка дословный CTA. "
         "URL, дисклеймер и хэштеги программа допишет из проверенных полей, не дублируй их. "
         "Перед ответом проверь число слов, четыре абзаца, схему и соответствие источникам."
@@ -101,14 +101,17 @@ def generate_script(topic: Topic, settings: Settings) -> ReelScript:
         {"role": "system", "content": system},
         {"role": "user", "content": json.dumps({
             "topic": topic_to_dict(topic), "source_cards": sources,
-            "cta": settings.client_cta, "cta_keyword": settings.cta_keyword, "disclaimer": DISCLAIMER,
+            "cta": settings.client_cta, "cta_keyword": settings.cta_keyword,
+            "selected_hook_index": settings.hook_variant, "disclaimer": DISCLAIMER,
         }, ensure_ascii=False)},
     ]
 
     def validate(data: dict[str, Any]) -> None:
         if "editorial" not in data:
             raise ValueError("Generated scripts require editorial choices")
-        parse_script(data, topic, settings)
+        script = parse_script(data, topic, settings)
+        if settings.hook_variant is not None and script.editorial.selected_hook != settings.hook_variant:
+            raise ValueError("The configured hook variant must be selected")
 
     data = request_json(messages, settings=settings, schema=EDITORIAL_SCHEMA,
                         schema_name="reel_script", strict_json=True, validator=validate)

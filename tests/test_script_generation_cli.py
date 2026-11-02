@@ -231,3 +231,18 @@ def test_cli_failures_leave_no_new_script(monkeypatch, settings, report_file, ca
     else:
         assert not output.exists()
     assert post.call_count == (3 if failure == "invalid_json" else 0)
+
+
+def test_selected_hook_from_config_must_be_obeyed(monkeypatch, settings, editorial_data, script_topic):
+    selected = copy.deepcopy(editorial_data)
+    old = selected["hook"]
+    selected["hook"] = selected["editorial"]["hook_variants"][1]
+    selected["editorial"]["selected_hook"] = 1
+    selected["voiceover"] = selected["voiceover"].replace(old, selected["hook"], 1)
+    selected["caption"] = selected["caption"].replace(old, selected["hook"], 1)
+    post = Mock(side_effect=[completion(editorial_data), completion(selected)])
+    monkeypatch.setattr(httpx, "post", post)
+    script = generate_script(script_topic, replace(settings, hook_variant=1))
+    assert script.editorial.selected_hook == 1 and post.call_count == 2
+    inputs = json.loads(post.call_args.kwargs["json"]["messages"][1]["content"])
+    assert inputs["selected_hook_index"] == 1

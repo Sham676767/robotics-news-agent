@@ -9,6 +9,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from app.config import Settings
+from app.reel_stats import collect_stats
 from app.legal_draft import load_legal_draft, save_legal_draft
 from app.openrouter_client import OpenRouterError
 from app.source_config import load_source_config
@@ -46,6 +47,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     mark.add_argument("--history", type=Path)
     script = commands.add_parser("script", help="Сценарий одной выбранной темы через OpenRouter")
     script.add_argument("--input", type=Path, default=Path("data/collected_topics.json"))
+    script.add_argument("--hook-variant", type=int, choices=(0, 1, 2))
     script.add_argument("--topic-id", help="Обязательно, если в подборке несколько тем")
     script.add_argument("--output", type=Path, help="Новый JSON-файл; существующий файл не заменяется")
     tts = commands.add_parser("tts", help="Озвучить проверенный сценарий и сохранить тайминги слов")
@@ -62,6 +64,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     pipeline.add_argument("--count", type=int, default=1, help="Количество роликов, по одной теме в каждом")
     pipeline.add_argument("--clips-dir", type=Path)
     pipeline.add_argument("--dry-run", action="store_true", help="Проверка готовности и план без сети и записи файлов")
+    pipeline.add_argument("--hook-variant", type=int, choices=(0, 1, 2))
     pipeline.add_argument("--stub", action="store_true", help="Тестовый сценарий, локальный тон, реальный рендер")
     prepare = commands.add_parser("prepare", help="Собрать черновик из существующих сценария, TTS и видео")
     prepare.add_argument("--input", required=True, type=Path)
@@ -72,11 +75,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     publish = commands.add_parser("publish", help="Опубликовать ранее одобренный ролик в Instagram")
     publish.add_argument("id")
     publish.add_argument("--dry-run", action="store_true", help="Проверить одобрение без S3 и Graph API")
+    stats = commands.add_parser("stats", help="Метрики опубликованных роликов, сравнение форматов и хуков")
+    stats.add_argument("--id", action="append", dest="ids", help="Ограничиться конкретным черновиком; можно повторять")
+    stats.add_argument("--output", type=Path, help="Сохранить снимок статистики в новый JSON-файл")
     args = parser.parse_args(argv)
     if args.command and args.draft:
         parser.error("--draft cannot be combined with a subcommand")
     try:
         settings = Settings.from_env()
+        if getattr(args, "hook_variant", None) is not None:
+            settings = replace(settings, hook_variant=args.hook_variant)
     except ValueError as exc:
         logging.basicConfig(level=logging.INFO)
         logger.error("Invalid configuration: %s", exc)
@@ -89,7 +97,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     protect_logs(settings)
     try:
-        if args.command == "run-all":
+        if args.command == "stats":
+            if args.output is not None and args.output.exists():
+                raise ValueError("Stats output already exists; choose a new path")
+            result = collect_stats(settings, ids=args.ids)
+            content = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False)
+            if args.output is not None:
+                args.output.parent.mkdir(parents=True, exist_ok=True)
+                with args.output.open("x", encoding="utf-8") as file:
+                    file.write(content + "\n")
+            print(content)
+            return 3 if result["status"] == "partial" else 0
+        elif args.command == "run-all":
             result = (dry_run(settings, args.sources, count=args.count, stub=args.stub, clips_dir=args.clips_dir) if args.dry_run
                       else run_all(settings, args.sources, count=args.count, stub=args.stub, clips_dir=args.clips_dir))
             print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))

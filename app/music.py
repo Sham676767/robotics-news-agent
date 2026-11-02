@@ -15,7 +15,10 @@ class MusicTrack:
 
 
 def licensed_music(manifest: Path) -> MusicTrack:
-    data = yaml.safe_load(manifest.read_text(encoding="utf-8"))
+    try:
+        data = yaml.safe_load(manifest.read_text(encoding="utf-8"))
+    except yaml.YAMLError:
+        raise ValueError("Invalid music licence YAML") from None
     if (not isinstance(data, dict) or set(data) != {"file", "license", "commercial_use", "source", "attribution"}
             or data["commercial_use"] is not True or data["license"] not in {"CC0-1.0", "CC-BY-4.0", "original", "licensed"}
             or any(not isinstance(data[key], str) for key in ("file", "license", "source", "attribution"))

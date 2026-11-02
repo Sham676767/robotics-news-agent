@@ -15,7 +15,7 @@ from app.render_subtitles import build_subtitles, escape_ass, stamp
 from app.render_template import RenderTemplate, load_render_template
 from app.script_generator import save_script
 from app.script_review import digest, review_script
-from app.tts import SynthesizedSpeech, TTSProvider, TTSError
+from app.tts import TTSProvider, TTSError
 from app.tts_pipeline import synthesize_audio
 from app.stub_pipeline import ToneProvider
 from app.video_renderer import RenderError, probe_media, render_video, run_media, verify_video
@@ -63,7 +63,6 @@ def test_unknown_theme_key_rejected(tmp_path):
 
 
 def test_subtitles_are_animated_without_urls_or_silent_end_screen(render_package):
-    import re
     _, script, audio, _ = render_package
     loaded = load_render_audio(audio.timings_path, script)
     theme = RenderTemplate(service_name="Учебный бренд", contact="example.org")

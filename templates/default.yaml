@@ -6,8 +6,7 @@ text_color: 'FFFFFF'
 accent_color: '7CE5CF'
 caption_size: 72
 words_per_caption: 5
-end_seconds: 3
-header_text: 'ПРАВО РФ • ПРАКТИЧЕСКИЙ РАЗБОР'
+header_text: 'БИЗНЕС · ПРАВО РФ'
 # Fill in your own name and contact; empty values are not shown.
 service_name: ''
 contact: ''

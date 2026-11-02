@@ -79,3 +79,10 @@ def test_unlicensed_or_unsafe_music_rejected(tmp_path, mutation):
     manifest.write_text(yaml.safe_dump(data))
     with pytest.raises(ValueError):
         licensed_music(manifest)
+
+
+def test_invalid_music_yaml_is_a_clean_input_error(tmp_path):
+    manifest = tmp_path / "license.yaml"
+    manifest.write_text("[invalid")
+    with pytest.raises(ValueError, match="YAML"):
+        licensed_music(manifest)
