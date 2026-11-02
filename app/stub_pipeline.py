@@ -14,11 +14,11 @@ from app.script_review import ClaimCheck, ScriptReview, digest, review_claims
 from app.topics import Article, PrimaryReference, Topic, topic_to_dict
 from app.tts import SynthesizedSpeech
 
-HOOK = "Это технический тест видеоролика."
-ESSENCE = ("Здесь демонстрируется оформление будущего видео, а не объясняются нормы права. "
-           "Тестовый текст помогает проверить размер букв, переносы строк и расположение элементов "
-           "на вертикальном экране. Указанные реквизиты вымышлены и используются только для проверки "
-           "программы. Они не относятся к реальным законам и не должны применяться в жизни.")
+HOOK = "Договор скрывает риск? Тест оформления."
+ESSENCE = ("Это техническая демонстрация оформления, а не юридический совет. "
+           "Первый пункт проверяет читаемость текста, второй — смену фона, третий — синхронизацию титров. "
+           "В тестовом источнике приведена статья 999 закона 99999-ФЗ, часть 2: реквизиты вымышлены, это не реальная норма.")
+
 ACTIONS = ("Посмотрите на центральные титры и нижнюю плашку. Проверьте, удобно ли читать текст "
            "на телефоне и виден ли дисклеймер. На финальном экране можно разместить название "
            "услуги и контакт. Вместо человеческого голоса звучит тихий тестовый тон. Настоящая "
@@ -30,18 +30,19 @@ def stub_script(settings: Settings) -> tuple[Topic, ReelScript, ScriptReview]:
     primary = "https://fixture.example/test-norm"
     caption = "Техническая демонстрация с вымышленными реквизитами, без юридических рекомендаций."
     screens = ["Технический тест", "Реквизиты вымышлены"]
-    content = "\n".join((NORM, HOOK, ESSENCE, ACTIONS, caption, *screens))
+    content = "\n".join((NORM, HOOK, ESSENCE, ACTIONS, caption, *screens, "Проверьте договор: техническая демонстрация."))
     topic = Topic("stub-topic", "Технический тест без реальных норм", (
         Article("stub", "Локальная фикстура", "media", "https://fixture.example/test", "Технический тест",
                 content, datetime.now(timezone.utc)),),
         (PrimaryReference("document", "Техническая фикстура", primary, NORM, True, content),))
-    raw = {"hook": HOOK, "voiceover": "\n\n".join((HOOK, ESSENCE, ACTIONS, settings.script_cta)),
-           "on_screen_text": screens, "caption": caption, "hashtags": ["#тест"],
+    raw = {"hook": HOOK, "voiceover": "\n\n".join((HOOK, ESSENCE, ACTIONS, settings.client_cta)),
+           "on_screen_text": screens, "caption": "\n".join((HOOK, caption, screens[0], settings.client_cta)), "hashtags": ["#тест", "#демо", "#оформление"],
+           "editorial": {"format": "checklist", "hook_variants": [HOOK, "Проверьте договор: техническая демонстрация."], "selected_hook": 0},
            "sources": [asdict(item) for item in topic_sources(topic)], "disclaimer": DISCLAIMER}
     script = parse_script(raw, topic, settings)
     checks = []
     for claim in review_claims(script, settings):
-        non_factual = claim.field == "hashtags" or claim.text.rstrip(".!?…") == settings.script_cta.rstrip(".!?…")
+        non_factual = claim.field == "hashtags" or claim.text.rstrip(".!?…") == settings.client_cta.rstrip(".!?…")
         checks.append(ClaimCheck(claim.id, "non_factual" if non_factual else "supported",
                                 "" if non_factual else primary,
                                 "" if non_factual else (NORM if claim.field.startswith("sources[") else claim.text),
@@ -54,7 +55,7 @@ def stub_script(settings: Settings) -> tuple[Topic, ReelScript, ScriptReview]:
 class ToneProvider:
     def synthesize(self, text: str) -> SynthesizedSpeech:
         buffer = io.BytesIO()
-        rate, seconds = 24000, 30
+        rate, seconds = 24000, 39
         with wave.open(buffer, "wb") as output:
             output.setparams((1, 2, rate, 0, "NONE", "not compressed"))
             samples = bytearray()

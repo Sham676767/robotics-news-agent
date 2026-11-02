@@ -78,8 +78,10 @@ def run_all(settings: Settings, sources: Path, *, count: int = 1, stub: bool = F
                 template.write_text(yaml.safe_dump(asdict(theme), allow_unicode=True), encoding="utf-8")
             video = render_video(folder / "script.json", folder / "timings.json", settings,
                                  template_path=template, output_dir=folder / ".video", clips_dir=clips_dir)
-            for name in ("video.mp4", "render.json", "subtitles.ass"):
-                shutil.copy2(video.video_path.parent / name, folder / name)
+            for name in ("video.mp4", "render.json", "subtitles.ass", "cover.jpg", "contact-sheet.jpg", "storyboard.json", "narration.wav"):
+                source_asset = video.video_path.parent / name
+                if name in {"video.mp4", "render.json", "subtitles.ass"} or source_asset.is_file():
+                    shutil.copy2(source_asset, folder / name)
             shutil.rmtree(folder / ".video")
             store.finish(folder)
             results.append({"id": folder.name, "status": "awaiting_approval" if not is_stub else "stub_preview",

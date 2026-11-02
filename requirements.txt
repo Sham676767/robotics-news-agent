@@ -4,3 +4,5 @@ feedparser==6.0.14
 PyYAML==6.0.2
 boto3==1.43.118
 python-dotenv==1.2.4
+
+Pillow==12.0.0

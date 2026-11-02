@@ -23,6 +23,7 @@ from app.video_renderer import probe_media, verify_video
 
 ASSETS = ("script.json", "script.review.json", "audio.wav", "timings.json", "video.mp4", "render.json",
           "subtitles.ass", "caption.txt", "sources.json")
+RENDER_V2_ASSETS = ("cover.jpg", "contact-sheet.jpg", "storyboard.json", "narration.wav")
 
 
 def now_iso() -> str:
@@ -97,7 +98,7 @@ class ReelDrafts:
             data["review_status"] = review_status
         if error:
             data["error"] = error
-        data["assets"] = {name: checksum(folder / name) for name in ASSETS if (folder / name).is_file()}
+        data["assets"] = {name: checksum(folder / name) for name in (*ASSETS, *RENDER_V2_ASSETS) if (folder / name).is_file()}
         write_json(folder / "draft.json", data)
 
     def finish(self, folder: Path) -> None:
@@ -117,9 +118,9 @@ class ReelDrafts:
         if (type(manifest.get("schema_version")) is not int or manifest["schema_version"] != 1 or manifest.get("id") != reel_id
                 or manifest.get("stage") != "ready" or manifest.get("review_status") != "checked"
                 or manifest.get("mode") not in ("live", "stub") or not isinstance(manifest.get("assets"), dict)
-                or set(manifest["assets"]) != set(ASSETS)):
+                or set(manifest["assets"]) not in (set(ASSETS), set(ASSETS + RENDER_V2_ASSETS))):
             raise ValueError("Draft is incomplete or its review did not pass")
-        for name in ASSETS:
+        for name in manifest["assets"]:
             path = folder / name
             if path.is_symlink() or checksum(path) != manifest["assets"][name]:
                 raise ValueError("Draft files changed; rebuild and approve the new version")
@@ -128,6 +129,26 @@ class ReelDrafts:
         render = read_json(folder / "render.json")
         try:
             expected = audio.duration + render["template"]["end_seconds"]
+            if render.get("schema_version") == 2:
+                from app.audio_edit import silence_ranges
+                from app.tts import wav_duration
+                if not set(RENDER_V2_ASSETS).issubset(manifest["assets"]):
+                    raise ValueError("New render requires its cover, storyboard and edited narration")
+                edited = folder / "narration.wav"
+                if checksum(edited) != render["edited_audio_sha256"]:
+                    raise ValueError("Edited narration does not match render metadata")
+                expected = __import__("math").ceil(wav_duration(edited.read_bytes()) * 30 - 1e-8) / 30
+                if not 30 <= expected <= 45 or abs(expected - render["duration_seconds"]) > .08:
+                    raise ValueError("Edited narration must match the 30–45 second render")
+                if render["hook"] != script.hook or render["cta"] != (self.settings.client_cta if script.editorial else self.settings.script_cta):
+                    raise ValueError("Render editorial choices do not match the script/configuration")
+                if script.editorial and (render["format"] != script.editorial.format or
+                                        render["selected_hook"] != script.editorial.selected_hook or
+                                        render["hook_variants"] != list(script.editorial.hook_variants)):
+                    raise ValueError("Render A/B metadata does not match the script")
+                quiet = silence_ranges(edited)
+                if quiet and quiet[-1][1] >= expected - .04 and quiet[-1][1] - quiet[-1][0] > .5:
+                    raise ValueError("Edited narration has a silent tail")
             if (render["script_sha256"] != digest(script.to_dict()) or render["audio_sha256"] != audio.sha256
                     or render["video_sha256"] != manifest["assets"]["video.mp4"]
                     or render["publication_allowed"] is not False or render["human_review_required"] is not True):
@@ -152,6 +173,8 @@ class ReelDrafts:
             pairs = {"script.json": script, "script.review.json": script.with_suffix(".review.json"),
                      "audio.wav": timings.parent / "audio.wav", "timings.json": timings, "video.mp4": video,
                      "render.json": video.parent / "render.json", "subtitles.ass": video.parent / "subtitles.ass"}
+            if read_json(video.parent / "render.json").get("schema_version") == 2:
+                pairs.update({name: video.parent / name for name in RENDER_V2_ASSETS})
             for name, source in pairs.items():
                 shutil.copy2(source, folder / name)
             self.finish(folder)

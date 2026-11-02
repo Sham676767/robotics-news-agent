@@ -57,8 +57,8 @@ class Settings:
 
     def __post_init__(self) -> None:
         self.client_cta
-        if not math.isfinite(self.cover_frame_seconds) or not 0 <= self.cover_frame_seconds <= 45:
-            raise ValueError("COVER_FRAME_SECONDS must be between 0 and 45")
+        if not math.isfinite(self.cover_frame_seconds) or not .3 <= self.cover_frame_seconds <= 2.7:
+            raise ValueError("COVER_FRAME_SECONDS must be between 0.3 and 2.7 (the opening hook)")
         if len(self.expert_name) > 40 or any(ord(c) < 32 for c in self.expert_name):
             raise ValueError("EXPERT_NAME must be a short single line")
         if self.log_level not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:

@@ -8,7 +8,7 @@ from typing import Any
 FORMATS = ("question_answer", "three_mistakes", "before_after", "checklist")
 DEFAULT_CTA = "Нужен разбор? Напишите «{keyword}» {contact}. Сохраните, чтобы не потерять."
 # Advertising promises are disallowed even when preceded by a conditional clause.
-_PROMISE = re.compile(r"гарант\w*|(?:точно|обязательно|всегда)\s+(?:выигра\w*|верн\w*|получ\w*)|выиграем\s+(?:дело|суд)|без\s+рисков", re.I)
+_PROMISE = re.compile(r"\b(?:выиграем|верн[её]м|добь[её]мся|обеспечим)\b|гарант\w*|(?:точно|обязательно|всегда)\s+(?:выигра\w*|верн\w*|получ\w*)|выиграем\s+(?:дело|суд)|без\s+рисков", re.I)
 
 
 def client_cta(template: str, keyword: str, contact: str) -> str:

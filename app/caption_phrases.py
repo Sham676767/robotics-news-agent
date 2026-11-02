@@ -4,6 +4,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from functools import lru_cache
+from collections.abc import Callable
 
 from app.tts import WordTiming
 
@@ -32,7 +33,7 @@ class CaptionPhrase:
         return self.words[-1].end
 
 
-def phrase_captions(words: tuple[WordTiming, ...], maximum: int = 5) -> tuple[CaptionPhrase, ...]:
+def phrase_captions(words: tuple[WordTiming, ...], maximum: int = 5, *, fits: Callable[[str], bool] | None = None) -> tuple[CaptionPhrase, ...]:
     """Globally partition into 2–5 words; punctuation/pauses favor meaningful boundaries.
 
     Fail closed for impossible input (e.g. an orphan preposition at the end), rather
@@ -53,6 +54,12 @@ def phrase_captions(words: tuple[WordTiming, ...], maximum: int = 5) -> tuple[Ca
             # One screen has at most two readable lines at 60+ px.
             text = " ".join(word.word for word in words[start:end])
             if len(text) > 46 or any(len(word.word) > 22 for word in words[start:end]):
+                continue
+            try:
+                caption_lines(text)
+            except ValueError:
+                continue
+            if fits is not None and not fits(text):
                 continue
             rest = best(end)
             if rest is None:

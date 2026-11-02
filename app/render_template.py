@@ -27,10 +27,10 @@ class RenderTemplate:
         for name in ("background_top", "background_bottom", "text_color", "accent_color"):
             if not isinstance(getattr(self, name), str) or not re.fullmatch(r"[0-9A-Fa-f]{6}", getattr(self, name)):
                 raise ValueError(f"Template {name} must be a six-digit RGB color")
-        if type(self.caption_size) is not int or not 48 <= self.caption_size <= 88:
-            raise ValueError("Template caption_size must be 48–88")
-        if type(self.words_per_caption) is not int or not 1 <= self.words_per_caption <= 7:
-            raise ValueError("Template words_per_caption must be 1–7")
+        if type(self.caption_size) is not int or not 60 <= self.caption_size <= 88:
+            raise ValueError("Template caption_size must be 60–88")
+        if type(self.words_per_caption) is not int or not 2 <= self.words_per_caption <= 5:
+            raise ValueError("Template words_per_caption must be 2–5")
         if type(self.end_seconds) not in (int, float) or not math.isfinite(self.end_seconds) or not 1 <= self.end_seconds <= 10:
             raise ValueError("Template end_seconds must be 1–10")
         for name, maximum in (("font", 80), ("header_text", 80), ("service_name", 80), ("contact", 120)):
