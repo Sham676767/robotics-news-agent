@@ -151,6 +151,8 @@ def test_collect_without_specific_article_is_quarantined_without_changing_histor
         "choices": [{"message": {"content": json.dumps(data)}}],
     }) for data in (script_data, review)])
     monkeypatch.setattr(httpx, "post", post)
+    monkeypatch.setattr("app.cli.generate_script", Mock(return_value=script))
+    post.side_effect = [httpx.Response(200, json={"choices": [{"message": {"content": json.dumps(review)}}]})]
     before = config.history_path.read_bytes()
     assert main(["script", "--input", str(config.output_path), "--output", str(tmp_path / "script.json")]) == 3
     assert capsys.readouterr().out == ""
@@ -158,4 +160,4 @@ def test_collect_without_specific_article_is_quarantined_without_changing_histor
     held = json.loads(next((tmp_path / "drafts/quarantine").glob("*.json")).read_text())
     assert "missing_norm" in {issue["code"] for issue in held["review"]["issues"]}
     assert config.history_path.read_bytes() == before
-    assert post.call_count == 2
+    assert post.call_count == 1

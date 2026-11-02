@@ -1,0 +1,25 @@
+{
+  "prompt": "A warm cinematic lawyer's study, one locked-off portrait composition. Wooden desk,\na table lamp with a warm cone of light, a stack of aged law books with abstract\nunlabelled covers, magnifying glass, notebook and pen. A warm fireplace in the\nbackground. Readable detail in the lower forty percent of the frame. Subtle\nvignette only. Quiet negative space at the left middle for captions. No readable\ntext, no logos, no names, no brands, no watermarks. No person. Photorealistic.\n\nComposition variant: 2. Portrait 9:16, at least 1080x1920.",
+  "model": "openai/gpt-image-2",
+  "created_at": "2026-11-02T16:17:08.717772+00:00",
+  "tag": "document",
+  "variant": 1,
+  "width": 1152,
+  "height": 2048,
+  "sha256": "ada18e42d73ca85caa15fc406938a994ed9b1e47868f4824bf1d87a0544194ee",
+  "fire_box": [
+    0.03,
+    0.48,
+    0.24,
+    0.2
+  ],
+  "light_box": [
+    0.35,
+    0.3,
+    0.5,
+    0.45
+  ],
+  "original_file": "dd40d75caa6d8bbc02835fb7.png",
+  "original_sha256": "b3f4bef575a4f4c11186c5d4b8f703f7b81175eafc0a0633d04df81b19d6ba4d",
+  "encoding": "JPEG export of original generated PNG"
+}

@@ -159,10 +159,10 @@ def test_llm_approval_cannot_override_local_block(monkeypatch, script_data, scri
 
 
 @pytest.mark.parametrize("failure", ["contradiction", "insufficient", "timeout", "malformed", "categorical"])
-def test_cli_quarantines_with_reason_and_never_writes_normal_output(monkeypatch, tmp_path, script_data, script_topic, review_settings, review_payload, capsys, failure):
+def test_cli_quarantines_with_reason_and_never_writes_normal_output(monkeypatch, tmp_path, editorial_data, script_topic, review_settings, review_payload, capsys, failure):
     if failure == "categorical":
-        script_data["caption"] = "Вам точно положено возмещение."
-    script = parse_script(script_data, script_topic, review_settings)
+        editorial_data["caption"] = editorial_data["caption"].replace("Соберите документы", "Вам точно положено возмещение.")
+    script = parse_script(editorial_data, script_topic, review_settings)
     data = review_payload(script, script_topic, review_settings)
     expected = "categorical_claim"
     if failure in {"contradiction", "insufficient"}:
@@ -175,10 +175,10 @@ def test_cli_quarantines_with_reason_and_never_writes_normal_output(monkeypatch,
                 item["quote"] = script_topic.references[0].content.splitlines()[0]
     if failure in {"timeout", "malformed"}:
         rejected = httpx.ConnectTimeout("test-only-key") if failure == "timeout" else completion({"approved": True})
-        responses = [completion(script_data), *([rejected] * review_settings.openrouter_max_attempts)]
+        responses = [completion(editorial_data), *([rejected] * review_settings.openrouter_max_attempts)]
         expected = "review_unavailable"
     else:
-        responses = [completion(script_data), completion(data)]
+        responses = [completion(editorial_data), completion(data)]
     post = Mock(side_effect=responses)
     monkeypatch.setattr(httpx, "post", post)
     monkeypatch.setattr("app.cli.Settings.from_env", Mock(return_value=review_settings))
@@ -191,7 +191,7 @@ def test_cli_quarantines_with_reason_and_never_writes_normal_output(monkeypatch,
     held = list((review_settings.drafts_dir / "quarantine").glob("*.json"))
     assert len(held) == 1
     bundle = json.loads(held[0].read_text())
-    assert bundle["script"] == script_data
+    assert bundle["script"] == editorial_data
     assert expected in {issue["code"] for issue in bundle["review"]["issues"]}
     assert not bundle["review"]["eligible_for_next_stage"]
     assert not bundle["review"]["publication_allowed"]

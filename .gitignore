@@ -15,7 +15,10 @@ audio/
 data/
 .DS_Store
 renders/
-backgrounds/
+/backgrounds/
+# Keep paid PNG originals as a local cache; commit the six JPEG library exports.
+/assets/backgrounds/**/*.png
+/assets/backgrounds/**/[0-9a-f][0-9a-f][0-9a-f][0-9a-f]*.json
 .coverage
 .coverage.*
 htmlcov/

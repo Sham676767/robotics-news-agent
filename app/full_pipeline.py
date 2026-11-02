@@ -3,14 +3,13 @@ from __future__ import annotations
 
 import logging
 import shutil
-from dataclasses import asdict, replace
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
 from app.config import Settings
 from app.reel_drafts import ReelDrafts, write_json
-from app.render_template import load_render_template
 from app.script_generator import generate_script, save_script, save_quarantined_script
 from app.script_review import digest, review_script
 from app.source_config import load_source_config
@@ -70,16 +69,12 @@ def run_all(settings: Settings, sources: Path, *, count: int = 1, stub: bool = F
             shutil.rmtree(folder / ".audio")
             store.checkpoint(folder, stage="render")
             stage = "render"
-            template = settings.render_template
-            if is_stub:
-                theme = replace(load_render_template(template), header_text="ТЕСТ: ВЫМЫШЛЕННЫЕ РЕКВИЗИТЫ")
-                template = folder / "test-template.yaml"
-                import yaml
-                template.write_text(yaml.safe_dump(asdict(theme), allow_unicode=True), encoding="utf-8")
             video = render_video(folder / "script.json", folder / "timings.json", settings,
-                                 template_path=template, output_dir=folder / ".video", clips_dir=clips_dir)
-            for name in ("video.mp4", "render.json", "subtitles.ass"):
-                shutil.copy2(video.video_path.parent / name, folder / name)
+                                 output_dir=folder / ".video", clips_dir=clips_dir, stub=is_stub)
+            for name in ("video.mp4", "render.json", "subtitles.ass", "cover.jpg", "contact-sheet.jpg", "storyboard.json", "narration.wav"):
+                source_asset = video.video_path.parent / name
+                if name in {"video.mp4", "render.json", "subtitles.ass"} or source_asset.is_file():
+                    shutil.copy2(source_asset, folder / name)
             shutil.rmtree(folder / ".video")
             store.finish(folder)
             results.append({"id": folder.name, "status": "awaiting_approval" if not is_stub else "stub_preview",

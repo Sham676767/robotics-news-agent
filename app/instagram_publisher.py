@@ -70,7 +70,8 @@ def publish_draft(reel_id: str, settings: Settings, *, dry_run: bool = False,
             save()
 
         def success(media_id: str | None) -> dict[str, Any]:
-            state.update(status="published", media_id=media_id, published_at=now_iso(), last_error=None)
+            publication_date = state.get("published_at") or now_iso()
+            state.update(status="published", media_id=media_id, published_at=publication_date, publication_date=publication_date, last_error=None)
             save()  # Record success BEFORE deleting the source object.
             cleanup()
             return {"id": reel_id, "status": "published", "media_id": state.get("media_id"),
@@ -110,7 +111,10 @@ def publish_draft(reel_id: str, settings: Settings, *, dry_run: bool = False,
                         raise ValueError("Presigned video URL expires too soon; increase S3_PRESIGN_TTL_SECONDS")
                 # Signed URLs are credentials; never persist or log them.
                 caption = (folder / "caption.txt").read_text(encoding="utf-8").rstrip("\n")
-                state["container_id"] = client.create_reel(stored.url, caption)
+                render = read_json(folder / "render.json")
+                cover = ({"thumb_offset_ms": round(render["cover_frame_seconds"] * 1000)}
+                         if render.get("schema_version") == 2 else {})
+                state["container_id"] = client.create_reel(stored.url, caption, **cover)
                 state["status"] = "processing"
                 save()
             result = client.wait_ready(state["container_id"])

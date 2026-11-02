@@ -15,8 +15,9 @@ from app.render_subtitles import build_subtitles, escape_ass, stamp
 from app.render_template import RenderTemplate, load_render_template
 from app.script_generator import save_script
 from app.script_review import digest, review_script
-from app.tts import SynthesizedSpeech, TTSProvider, TTSError
+from app.tts import TTSProvider, TTSError
 from app.tts_pipeline import synthesize_audio
+from app.stub_pipeline import ToneProvider
 from app.video_renderer import RenderError, probe_media, render_video, run_media, verify_video
 
 
@@ -30,7 +31,7 @@ def render_package(monkeypatch, tmp_path, script_topic, script_data, tts_setting
     review = review_script(script, script_topic, settings)
     path = save_script(script, script_topic, settings, tmp_path / "script.json", review=review)
     provider = Mock(spec=TTSProvider)
-    provider.synthesize.return_value = SynthesizedSpeech(wav_bytes(24), "mock", "model", "voice")
+    provider.synthesize.return_value = ToneProvider().synthesize(script.voiceover)
     audio = synthesize_audio(script.voiceover, settings, provider=provider, script_sha256=digest(script.to_dict()))
     monkeypatch.setattr("app.script_review.request_json", Mock(side_effect=AssertionError("Render must not call LLM")))
     monkeypatch.setattr("app.cli.Settings.from_env", Mock(return_value=settings))
@@ -61,19 +62,18 @@ def test_unknown_theme_key_rejected(tmp_path):
         load_render_template(path)
 
 
-def test_subtitles_include_all_words_norm_url_disclaimer_and_configurable_end(render_package):
+def test_subtitles_are_animated_without_urls_or_silent_end_screen(render_package):
     _, script, audio, _ = render_package
     loaded = load_render_audio(audio.timings_path, script)
     theme = RenderTemplate(service_name="Учебный бренд", contact="example.org")
     ass = build_subtitles(script, loaded, theme, "Сохраните ролик и поделитесь им")
-    lines = [line for line in ass.splitlines() if ",Caption," in line and line.startswith("Dialogue:")]
-    spoken = " ".join(line.split(",", 9)[9].replace(r"\N", " ") for line in lines)
-    assert spoken.split() == script.voiceover.split()
-    assert script.sources[0].url in ass
-    assert "ст. 999" in ass and "ч. 2" in ass
-    assert "Учебный бренд" in ass and "example.org" in ass
+    assert script.sources[0].url not in ass
+    # No norm is rotated onto screen when this legacy fixture does not speak it.
+    assert ",Norm," not in "\n".join(line for line in ass.splitlines() if line.startswith("Dialogue"))
+    assert "Учебный бренд" in ass
     assert "Не является юридической консультацией" in ass
-    assert ",0:00:24.00,0:00:27.00,End," in ass
+    assert r"\t(" in ass and r"\move(" in ass
+    assert ",End," not in ass
     assert loaded.timing_source == "estimated"
 
 
@@ -121,7 +121,7 @@ def test_missing_tools_report_actionable_error(render_package, monkeypatch):
 def test_over_90_seconds_rejected_before_tools(render_package, monkeypatch):
     path, script, audio, settings = render_package
     loaded = load_render_audio(audio.timings_path, script)
-    monkeypatch.setattr("app.video_renderer.load_render_audio", Mock(return_value=replace(loaded, duration=88)))
+    monkeypatch.setattr("app.video_renderer.load_render_audio", Mock(return_value=replace(loaded, duration=91)))
     with pytest.raises(ValueError, match="90 seconds"):
         render_video(path, audio.timings_path, settings)
     assert not settings.render_output_dir.exists()
@@ -189,7 +189,7 @@ def test_real_gradient_render_cli_and_ffprobe(render_package, media_tools, capsy
     output = json.loads(capsys.readouterr().out)
     video = Path(output["video_path"])
     probe = probe_media(video)
-    assert verify_video(probe, 27) == pytest.approx(27, abs=0.08)
+    assert verify_video(probe, 39) == pytest.approx(39, abs=0.08)
     metadata = json.loads(Path(output["metadata_path"]).read_text())
     assert metadata["publication_allowed"] is False and metadata["human_review_required"] is True
     assert metadata["script_sha256"] == digest(script.to_dict())
@@ -214,13 +214,15 @@ def test_real_mixed_local_clips_loop_and_ignore_background_sound(render_package,
                    "-f", "lavfi", "-i", "sine=frequency=600:duration=0.5", "-c:v", "libx264", "-pix_fmt", "yuv420p",
                    "-c:a", "aac", "-shortest", str(clips / f"clip '{index}.mp4")])
     result = render_video(path, audio.timings_path, settings, clips_dir=clips)
-    assert verify_video(probe_media(result.video_path), 27) == pytest.approx(27, abs=0.08)
+    assert verify_video(probe_media(result.video_path), 39) == pytest.approx(39, abs=0.08)
     assert json.loads(result.metadata_path.read_text())["background"] == "clips"
-    # Original narration is silent: the audible sine from clips must not leak into the reel.
+    assert "ТЕСТ: ВЫМЫШЛЕННЫЕ РЕКВИЗИТЫ" not in (result.video_path.parent / "subtitles.ass").read_text()
+    assert json.loads(result.metadata_path.read_text())["mode"] == "live"
+    # The captioned original narration and configured music are mixed, never the clip audio.
     raw = tmp_path / "decoded.pcm"
     run_media(["ffmpeg", "-v", "error", "-i", str(result.video_path), "-map", "0:a:0", "-f", "s16le", str(raw)])
-    assert set(raw.read_bytes()) == {0}
-    assert sorted(item.name for item in result.video_path.parent.iterdir()) == ["render.json", "subtitles.ass", "video.mp4"]
+    assert any(raw.read_bytes())
+    assert {"cover.jpg", "contact-sheet.jpg", "storyboard.json", "narration.wav"}.issubset({item.name for item in result.video_path.parent.iterdir()})
 
 
 @pytest.mark.parametrize("mutation", ["size", "codec", "audio", "duration"])

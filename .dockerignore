@@ -10,7 +10,9 @@ audio
 data
 logs
 renders
-backgrounds
+/backgrounds
+assets/backgrounds/**/*.png
+assets/backgrounds/**/[0-9a-f][0-9a-f][0-9a-f][0-9a-f]*.json
 .coverage
 .coverage.*
 htmlcov

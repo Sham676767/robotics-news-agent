@@ -27,7 +27,7 @@ from app.video_storage import StoredVideo, StorageError, VideoStorage
 
 @pytest.fixture
 def publish_settings(tmp_path):
-    return Settings(drafts_dir=tmp_path / "drafts", tts_output_dir=tmp_path / "audio", render_output_dir=tmp_path / "videos",
+    return Settings(render_template=Path("templates/engaging.yaml"), drafts_dir=tmp_path / "drafts", tts_output_dir=tmp_path / "audio", render_output_dir=tmp_path / "videos",
                     openrouter_api_key="sk-or-v1-fixture1234567890", elevenlabs_api_key="fixture-elevenlabs-key", elevenlabs_voice_id="fixture-voice",
                     publishing=PublishingSettings(instagram_user_id="12345", instagram_api_version="v25.0",
                         instagram_access_token="fixture-instagram-secret-token", poll_interval_seconds=0,
@@ -391,6 +391,77 @@ def test_real_stub_cli_creates_valid_mp4_and_cannot_be_approved(monkeypatch, pub
     assert main(["approve", item["id"]]) == 2
     assert main(["publish", item["id"]]) == 2
     assert "ТЕСТ: ВЫМЫШЛЕННЫЕ РЕКВИЗИТЫ" in (folder / "subtitles.ass").read_text()
+    from app.audio_edit import silence_ranges
+    from app.caption_phrases import dangling
+    from app.video_renderer import run_media
+    from PIL import Image, ImageChops, ImageStat
+    render = read_json(folder / "render.json")
+    assert render["mode"] == "stub"
+    assert 30 <= render["duration_seconds"] <= 45
+    assert all(shot["end"] - shot["start"] <= 4 for shot in render["shots"])
+    cta = next(item for item in render["overlays"] if item["kind"] == "cta")
+    assert 5 <= cta["end"] - cta["start"] <= 6
+    assert cta["end"] >= render["duration_seconds"] - .04
+    assert all(item["end"] <= cta["start"] for item in render["overlays"] if item["kind"] in {"caption", "number", "norm", "format", "expert"})
+    assert any("РАЗБОР" in item["text"] for item in render["overlays"] if item["kind"] == "cta")
+    assert all(not dangling(item["text"]) for item in render["overlays"] if item["kind"] == "caption")
+    assert all(90 <= item["bounds"][0] and item["bounds"][2] <= 930 and 250 <= item["bounds"][1] and item["bounds"][3] <= 1520 for item in render["overlays"])
+    quiet = silence_ranges(folder / "narration.wav")
+    assert not quiet or quiet[-1][1] < render["duration_seconds"] - .04 or quiet[-1][1] - quiet[-1][0] <= .5
+    for name in ("cover.jpg", "contact-sheet.jpg"):
+        with Image.open(folder / name) as image:
+            image.verify()
+    # Inspect actual ASS pixels on a black frame, independent of the background/video codec.
+    for time in (.5, render["duration_seconds"] - .6):
+        output = f"safe-{time:.1f}.png"
+        run_media(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "color=black:s=1080x1920:r=30:d=0.04", "-vf",
+                   f"setpts=PTS+{time}/TB,ass=subtitles.ass", "-frames:v", "1", "-update", "1", output], cwd=folder)
+        with Image.open(folder / output) as frame:
+            assert frame.crop((0, 0, 1080, 250)).getbbox() is None
+            assert frame.crop((0, 1520, 1080, 1920)).getbbox() is None
+            assert frame.crop((930, 0, 1080, 1920)).getbbox() is None
+            assert frame.crop((90, 250, 930, 1520)).getbbox() is not None
+        (folder / output).unlink()
+    # The encoded reel really changes content between its first two planned shots.
+    frames = []
+    for index, shot in enumerate(render["shots"][:2]):
+        name = f"visual-{index}.png"
+        run_media(["ffmpeg", "-v", "error", "-ss", str(shot["start"] + .5), "-i", "video.mp4", "-frames:v", "1", "-update", "1", name], cwd=folder)
+        with Image.open(folder / name) as image:
+            frames.append(image.convert("RGB").resize((108, 192)))
+        (folder / name).unlink()
+    assert sum(ImageStat.Stat(ImageChops.difference(*frames)).mean) / 3 > 5
+    # Inspect actual encoded pixels: no dark lower gradient and no illustration on CTA.
+    for time in (.5, render["duration_seconds"] - .6):
+        name = f"light-{time:.1f}.png"
+        run_media(["ffmpeg", "-v", "error", "-ss", str(time), "-i", "video.mp4", "-frames:v", "1", "-update", "1", name], cwd=folder)
+        with Image.open(folder / name) as frame:
+            if time == .5:
+                assert sum(ImageStat.Stat(frame.crop((0, 1152, 1080, 1920))).mean) / 3 > 60
+            else:
+                for point in ((20, 20), (20, 1800), (1060, 1800), (1060, 20)):
+                    assert max(abs(a-b) for a, b in zip(frame.getpixel(point), (234, 231, 224))) < 5
+        (folder / name).unlink()
     import os
     if destination := os.environ.get("STUB_DEMO_DIR"):
         shutil.copytree(folder, Path(destination) / "stub-demo", dirs_exist_ok=True)
+
+
+def test_v2_publication_uses_approved_cover_and_keeps_publication_date(bundle, fake_publication, monkeypatch):
+    store, reel_id, settings = bundle
+    store.approve(reel_id)
+    folder, manifest, fingerprint = store.verify(reel_id)
+    render = read_json(folder / "render.json")
+    render.update(schema_version=2, cover_frame_seconds=1.5)
+    write_json(folder / "render.json", render)
+    # Isolate publisher orchestration; real v2 asset verification is exercised by the stub integration.
+    monkeypatch.setattr(ReelDrafts, "verify", Mock(return_value=(folder, manifest, fingerprint)))
+    client, storage = fake_publication
+    publish_draft(reel_id, settings, client=client, storage=storage)
+    client.create_reel.assert_called_once()
+    assert client.create_reel.call_args.kwargs == {"thumb_offset_ms": 1500}
+    date = read_json(folder / "state.json")["publication_date"]
+    assert date == read_json(folder / "state.json")["published_at"]
+    publish_draft(reel_id, settings, client=client, storage=storage)
+    assert read_json(folder / "state.json")["publication_date"] == date
+    client.publish.assert_called_once()

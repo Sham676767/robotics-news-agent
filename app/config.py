@@ -10,6 +10,7 @@ from typing import Mapping
 
 from dotenv import dotenv_values
 from app.publishing_config import PublishingSettings
+from app.editorial import DEFAULT_CTA, client_cta
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,6 +27,18 @@ class Settings:
     retry_base_seconds: float = 2.0
     retry_max_seconds: float = 20.0
     script_cta: str = "Сохраните ролик и поделитесь им"
+    hook_variant: int | None = None
+    cta_keyword: str = "РАЗБОР"
+    cta_text: str = DEFAULT_CTA
+    cta_contact: str = "в директ"
+    expert_name: str = ""
+    brand_logo: Path | None = None
+    cover_frame_seconds: float = 1.0
+
+    @property
+    def client_cta(self) -> str:
+        return client_cta(self.cta_text, self.cta_keyword, self.cta_contact)
+
     tts_provider: str = "elevenlabs"
     tts_output_dir: Path = Path("audio")
     tts_timeout: float = 120.0
@@ -38,10 +51,33 @@ class Settings:
 
     render_output_dir: Path = Path("renders")
     render_template: Path = Path("templates/default.yaml")
+    music_manifest: Path | None = Path("assets/music/license.yaml")
+    overlays_dir: Path = Path("assets/overlays")
+    brand_handle: str = ""
+    background_provider: str = "library"
+    background_tag: str = "document"
+    background_image_provider: str = "openrouter"
+    background_image_model: str = "openai/gpt-image-2"
+    backgrounds_dir: Path = Path("assets/backgrounds")
+    background_prompt: Path = Path("templates/backgrounds/law-office.txt")
+    visuals_dir: Path = Path("assets/visuals")
     ffmpeg_bin: str = "ffmpeg"
     ffprobe_bin: str = "ffprobe"
 
     def __post_init__(self) -> None:
+        if self.background_image_provider != "openrouter" or not self.background_image_model.strip():
+            raise ValueError("BACKGROUND_IMAGE_PROVIDER must be openrouter and BACKGROUND_IMAGE_MODEL must not be empty")
+        if self.background_provider not in {"library", "stub"}:
+            raise ValueError("BACKGROUND_PROVIDER must be library or stub; image generation is a separate command")
+        if len(self.brand_handle) > 40 or any(ord(c) < 32 for c in self.brand_handle):
+            raise ValueError("BRAND_HANDLE must be a short single line")
+        self.client_cta
+        if self.hook_variant is not None and (type(self.hook_variant) is not int or not 0 <= self.hook_variant <= 2):
+            raise ValueError("HOOK_VARIANT must be empty, 0, 1 or 2")
+        if type(self.cover_frame_seconds) not in (int, float) or not math.isfinite(self.cover_frame_seconds) or not .3 <= self.cover_frame_seconds <= 2.7:
+            raise ValueError("COVER_FRAME_SECONDS must be between 0.3 and 2.7 (the opening hook)")
+        if len(self.expert_name) > 40 or any(ord(c) < 32 for c in self.expert_name):
+            raise ValueError("EXPERT_NAME must be a short single line")
         if self.log_level not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:
             raise ValueError("LOG_LEVEL must be DEBUG, INFO, WARNING, ERROR or CRITICAL")
         if not self.openrouter_model.strip():
@@ -116,8 +152,25 @@ class Settings:
             script_cta=env.get("SCRIPT_CTA", "Сохраните ролик и поделитесь им").strip(),
             render_output_dir=Path(env.get("RENDER_OUTPUT_DIR", "renders")),
             render_template=Path(env.get("RENDER_TEMPLATE", "templates/default.yaml")),
+            music_manifest=Path(env.get("MUSIC_MANIFEST", "assets/music/license.yaml")) if env.get("MUSIC_MANIFEST", "assets/music/license.yaml").strip() else None,
+            overlays_dir=Path(env.get("OVERLAYS_DIR", "assets/overlays")),
+            brand_handle=env.get("BRAND_HANDLE", ""),
+            background_provider=env.get("BACKGROUND_PROVIDER", "library"),
+            background_tag=env.get("BACKGROUND_TAG", "document"),
+            background_image_provider=env.get("BACKGROUND_IMAGE_PROVIDER", "openrouter"),
+            background_image_model=env.get("BACKGROUND_IMAGE_MODEL", "openai/gpt-image-2"),
+            backgrounds_dir=Path(env.get("BACKGROUNDS_DIR", "assets/backgrounds")),
+            background_prompt=Path(env.get("BACKGROUND_PROMPT", "templates/backgrounds/law-office.txt")),
+            visuals_dir=Path(env.get("VISUALS_DIR", "assets/visuals")),
             ffmpeg_bin=env.get("FFMPEG_BIN", "ffmpeg").strip(),
             ffprobe_bin=env.get("FFPROBE_BIN", "ffprobe").strip(),
+            hook_variant=int(env["HOOK_VARIANT"]) if env.get("HOOK_VARIANT", "").strip() else None,
+            cta_keyword=env.get("CTA_KEYWORD", "РАЗБОР").strip(),
+            cta_text=env.get("CTA_TEXT", DEFAULT_CTA).strip(),
+            cta_contact=env.get("CTA_CONTACT", "в директ").strip(),
+            expert_name=env.get("EXPERT_NAME", "").strip(),
+            brand_logo=Path(env["BRAND_LOGO"]) if env.get("BRAND_LOGO", "").strip() else None,
+            cover_frame_seconds=float(env.get("COVER_FRAME_SECONDS", "1")),
             tts_provider=env.get("TTS_PROVIDER", "elevenlabs").strip().lower(),
             tts_output_dir=Path(tts_output_dir), tts_timeout=tts_timeout,
             tts_max_attempts=tts_attempts, tts_retry_base_seconds=tts_base,

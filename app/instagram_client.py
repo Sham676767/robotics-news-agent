@@ -15,6 +15,7 @@ import httpx
 from app.publishing_config import PublishingSettings, public_video_url
 
 logger = logging.getLogger(__name__)
+INSIGHT_METRICS = ("views", "saved", "shares", "reposts")
 
 
 class InstagramError(RuntimeError):
@@ -122,11 +123,16 @@ class InstagramClient:
         if used >= total:
             raise InstagramError("publishing_quota_exhausted", retry_after=86400)
 
-    def create_reel(self, url: str, caption: str) -> str:
+    def create_reel(self, url: str, caption: str, *, thumb_offset_ms: int | None = None) -> str:
         public_video_url(url)
+        extra = {}
+        if thumb_offset_ms is not None:
+            if type(thumb_offset_ms) is not int or not 0 <= thumb_offset_ms < 45000:
+                raise ValueError("Cover offset must be an integer within the video duration")
+            extra["thumb_offset"] = str(thumb_offset_ms)
         data = self._request("POST", f"{self.settings.instagram_user_id}/media", data={
             "media_type": "REELS", "video_url": url, "caption": caption,
-            "share_to_feed": str(self.settings.instagram_share_to_feed).lower(),
+            "share_to_feed": str(self.settings.instagram_share_to_feed).lower(), **extra,
         })
         return graph_id(data.get("id"))
 
@@ -156,3 +162,38 @@ class InstagramClient:
             return graph_id(data.get("id"))
         except InstagramError:
             raise PublishUncertain("publish_response_missing_media_id") from None
+
+
+    def media_insights(self, media_id: str) -> tuple[dict[str, int | None], dict[str, str]]:
+        identifier = graph_id(media_id)
+        values: dict[str, int | None] = {metric: None for metric in INSIGHT_METRICS}
+        unavailable: dict[str, str] = {}
+        for metric in INSIGHT_METRICS:
+            try:
+                payload = self._request("GET", f"{identifier}/insights", params={"metric": metric})
+            except InstagramError as exc:
+                if exc.reason != "request_rejected":
+                    raise
+                # A version/media may not support a metric; keep independent results.
+                unavailable[metric] = "not_supported_or_rejected"
+                continue
+            try:
+                entries = payload["data"]
+                if not isinstance(entries, list) or len(entries) != 1 or entries[0]["name"] != metric:
+                    raise ValueError
+                entry = entries[0]
+                if entry.get("period", "lifetime") != "lifetime":
+                    raise ValueError
+                if "values" in entry:
+                    if not isinstance(entry["values"], list) or len(entry["values"]) != 1:
+                        raise ValueError
+                    value = entry["values"][0]["value"]
+                else:
+                    value = entry["total_value"]["value"]
+                if type(value) is not int or value < 0:
+                    raise ValueError
+            except (ValueError, KeyError, TypeError, IndexError):
+                unavailable[metric] = "missing_or_invalid_metric"
+                continue
+            values[metric] = value
+        return values, unavailable

@@ -24,6 +24,8 @@ FIXTURE_ACTIONS = (
     "в документе. Если ситуация вызывает сомнения, обсудите её с юристом, предоставив исходные "
     "материалы. Так разговор будет предметным и понятным."
 )
+EDITORIAL_ACTIONS = ("Соберите договор, приложения и переписку в одном месте; выпишите непонятные формулировки и вопросы, которые хотите задать. "
+                     "Сравните собственные ожидания с тем, что написано в документе; если ситуация вызывает сомнения, обсудите её с юристом, предоставив исходные материалы.")
 FIXTURE_NORM = "Синтетический реквизит для теста, не реальная норма: ч. 2 ст. 999 99999-ФЗ."
 
 
@@ -55,7 +57,7 @@ def script_topic():
                          "https://law.example/document/fixture", "Учебный материал для тестов.", True,
                          "\n".join([FIXTURE_NORM, FIXTURE_HOOK, FIXTURE_ESSENCE, FIXTURE_ACTIONS,
                                     "Соберите документы", "Подготовьте вопросы",
-                                    "Учебный пример подготовки вопросов по договору."])),))
+                                    "Учебный пример подготовки вопросов по договору.", "Проверьте детали договора.", EDITORIAL_ACTIONS])),))
 
 
 @pytest.fixture
@@ -78,7 +80,7 @@ def review_payload():
         primary = topic.references[0]
         checks = []
         for claim in review_claims(script, settings):
-            non_factual = claim.field == "hashtags" or claim.text.rstrip(".!?…") == settings.script_cta.rstrip(".!?…")
+            non_factual = claim.field == "hashtags" or claim.text.rstrip(".!?…") in {settings.script_cta.rstrip(".!?…"), settings.client_cta.rstrip(".!?…")}
             checks.append({"id": claim.id, "verdict": "non_factual" if non_factual else "supported",
                            "source_url": "" if non_factual else primary.url,
                            "quote": "" if non_factual else (FIXTURE_NORM if claim.field.startswith("sources[") else claim.text),
@@ -108,3 +110,17 @@ def wav_bytes():
             file.writeframes(b"\0\0" * round(duration * rate))
         return buffer.getvalue()
     return build
+
+
+@pytest.fixture
+def editorial_data(script_data):
+    data = dict(script_data)
+    paragraphs = data["voiceover"].split("\n\n")
+    # Three verbatim sentences from the synthetic source, without adding legal claims.
+    essence = ". ".join(paragraphs[1].split(". ")[:2]) + ". " + FIXTURE_NORM
+    actions = EDITORIAL_ACTIONS
+    data["voiceover"] = "\n\n".join((data["hook"], essence, actions, Settings().client_cta))
+    data["caption"] = "\n".join((data["hook"], script_data["caption"], script_data["on_screen_text"][0], Settings().client_cta))
+    data["hashtags"] = ["#договор", "#бизнес", "#юрист"]
+    data["editorial"] = {"format": "checklist", "hook_variants": [data["hook"], "Проверьте детали договора."], "selected_hook": 0, "emphasis": ["договор"], "scenes": [{"text": data["hook"], "tags": ["document"]}]}
+    return data
