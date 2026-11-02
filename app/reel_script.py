@@ -50,10 +50,11 @@ EDITORIAL_SCHEMA = copy.deepcopy(SCRIPT_SCHEMA)
 EDITORIAL_SCHEMA["required"].append("editorial")
 EDITORIAL_SCHEMA["properties"]["editorial"] = {
     "type": "object", "additionalProperties": False,
-    "required": ["format", "hook_variants", "selected_hook", "scenes"],
+    "required": ["format", "hook_variants", "selected_hook", "scenes", "emphasis"],
     "properties": {
         "format": {"type": "string", "enum": ["question_answer", "three_mistakes", "before_after", "checklist"]},
         "hook_variants": {"type": "array", "minItems": 2, "maxItems": 3, "items": dict(_STRING)},
+        "emphasis": {"type": "array", "minItems": 1, "maxItems": 2, "items": dict(_STRING)},
         "selected_hook": {"type": "integer", "minimum": 0, "maximum": 2},
         "scenes": {"type": "array", "minItems": 1, "maxItems": 30, "items": {
             "type": "object", "additionalProperties": False, "required": ["text", "tags"],

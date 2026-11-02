@@ -11,6 +11,7 @@ import yaml
 
 @dataclass(frozen=True, slots=True)
 class RenderTemplate:
+    style: str = "engaging"
     font: str = "DejaVu Sans"
     background_top: str = "DCE3E2"
     background_bottom: str = "EAE7E0"
@@ -28,6 +29,8 @@ class RenderTemplate:
     contact: str = ""
 
     def __post_init__(self) -> None:
+        if self.style not in {"engaging", "cinematic_still"}:
+            raise ValueError("Unknown render style")
         for name in ("background_top", "background_bottom", "text_color", "accent_color", "cta_background", "cta_color", "cta_accent"):
             if not isinstance(getattr(self, name), str) or not re.fullmatch(r"[0-9A-Fa-f]{6}", getattr(self, name)):
                 raise ValueError(f"Template {name} must be a six-digit RGB color")

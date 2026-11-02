@@ -16,3 +16,5 @@ cta_seconds: 5.5
 cta_background: 'EAE7E0'
 cta_color: '162B3B'
 cta_accent: '285F55'
+
+style: cinematic_still

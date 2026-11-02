@@ -109,6 +109,10 @@ def render_video(script_path: Path, timings_path: Path, settings: Settings, *,
             raise RenderError(f"Required media tool is not installed: {tool}")
         executables.append(str(Path(located).resolve()))
     ffmpeg, ffprobe = executables
+    if theme.style == "cinematic_still":
+        from app.cinematic_renderer import render_cinematic
+        return render_cinematic(script, topic, original, settings, theme, stub=stub,
+                                output_dir=output_dir, ffmpeg=ffmpeg, ffprobe=ffprobe)
     library = clips_dir if clips_dir is not None else settings.visuals_dir
     visual_assets = load_visuals(library)
     assets = [asset.path for asset in visual_assets]

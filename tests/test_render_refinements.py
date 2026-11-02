@@ -115,6 +115,7 @@ def test_scene_contract_roundtrip_and_order(scene_package):
         parse_editorial(bad, script.hook, script.voiceover)
     old = script.editorial.to_dict()
     del old["scenes"]
+    old.pop("emphasis", None)
     assert "scenes" not in parse_editorial(old, script.hook).to_dict()
 
 

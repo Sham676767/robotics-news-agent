@@ -52,6 +52,11 @@ class Settings:
     render_output_dir: Path = Path("renders")
     render_template: Path = Path("templates/default.yaml")
     music_manifest: Path | None = Path("assets/music/license.yaml")
+    overlays_dir: Path = Path("assets/overlays")
+    brand_handle: str = ""
+    background_provider: str = "library"
+    background_tag: str = "document"
+    background_image_provider: str = "openrouter"
     background_image_model: str = "openai/gpt-image-2"
     backgrounds_dir: Path = Path("assets/backgrounds")
     background_prompt: Path = Path("templates/backgrounds/law-office.txt")
@@ -60,6 +65,12 @@ class Settings:
     ffprobe_bin: str = "ffprobe"
 
     def __post_init__(self) -> None:
+        if self.background_image_provider != "openrouter" or not self.background_image_model.strip():
+            raise ValueError("BACKGROUND_IMAGE_PROVIDER must be openrouter and BACKGROUND_IMAGE_MODEL must not be empty")
+        if self.background_provider not in {"library", "stub"}:
+            raise ValueError("BACKGROUND_PROVIDER must be library or stub; image generation is a separate command")
+        if len(self.brand_handle) > 40 or any(ord(c) < 32 for c in self.brand_handle):
+            raise ValueError("BRAND_HANDLE must be a short single line")
         self.client_cta
         if self.hook_variant is not None and (type(self.hook_variant) is not int or not 0 <= self.hook_variant <= 2):
             raise ValueError("HOOK_VARIANT must be empty, 0, 1 or 2")
@@ -142,6 +153,11 @@ class Settings:
             render_output_dir=Path(env.get("RENDER_OUTPUT_DIR", "renders")),
             render_template=Path(env.get("RENDER_TEMPLATE", "templates/default.yaml")),
             music_manifest=Path(env.get("MUSIC_MANIFEST", "assets/music/license.yaml")) if env.get("MUSIC_MANIFEST", "assets/music/license.yaml").strip() else None,
+            overlays_dir=Path(env.get("OVERLAYS_DIR", "assets/overlays")),
+            brand_handle=env.get("BRAND_HANDLE", ""),
+            background_provider=env.get("BACKGROUND_PROVIDER", "library"),
+            background_tag=env.get("BACKGROUND_TAG", "document"),
+            background_image_provider=env.get("BACKGROUND_IMAGE_PROVIDER", "openrouter"),
             background_image_model=env.get("BACKGROUND_IMAGE_MODEL", "openai/gpt-image-2"),
             backgrounds_dir=Path(env.get("BACKGROUNDS_DIR", "assets/backgrounds")),
             background_prompt=Path(env.get("BACKGROUND_PROMPT", "templates/backgrounds/law-office.txt")),

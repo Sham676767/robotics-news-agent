@@ -6,6 +6,7 @@ import hashlib
 import io
 import json
 import re
+import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -38,11 +39,21 @@ class LibraryBackgroundProvider:
 
     def get(self, tag: str, *, variant: int = 0) -> Background:
         folder = self.root / validate_tag(tag)
-        files = sorted(p for p in folder.glob('*') if p.is_file() and not p.is_symlink()
-                       and p.suffix.lower() in {'.png', '.jpg', '.jpeg', '.mp4', '.webm'})
+        manifest = folder / 'library.json'
+        if manifest.is_file():
+            data = json.loads(manifest.read_text())
+            names = data.get('files') if isinstance(data, dict) else None
+            if not isinstance(names, list) or any(not isinstance(name, str) or Path(name).name != name for name in names):
+                raise ValueError('Invalid background library manifest')
+            files = [folder / name for name in names]
+            if len(set(names)) != len(names) or any(p.is_symlink() or not p.is_file() or p.suffix.lower() not in {'.png','.jpg','.jpeg','.mp4','.webm'} for p in files):
+                raise ValueError('Invalid local background file')
+        else:
+            files = sorted(p for p in folder.glob('*') if p.is_file() and not p.is_symlink()
+                           and p.suffix.lower() in {'.png', '.jpg', '.jpeg', '.mp4', '.webm'})
         if not files:
             raise ValueError("No local background for the requested scene tag; generate backgrounds separately")
-        return Background(files[variant % len(files)], tag, 'library')
+        return Background(files[variant % len(files)].resolve(), tag, 'library')
 
 
 class StubBackgroundProvider:
@@ -69,10 +80,29 @@ class ImageBackgroundProvider:
         name = hashlib.sha256(identity.encode()).hexdigest()[:24]
         return self.root / tag / (name + '.png')
 
-    def get(self, tag: str, *, variant: int = 0) -> Background:
+    def cached_path(self, tag: str, variant: int) -> Path | None:
         path = self.destination(tag, variant)
         if path.is_file():
-            return Background(path, tag, 'image-cache')
+            if path.is_symlink():
+                raise ValueError('Background cache must not be a symlink')
+            return path
+        # A Git checkout includes JPEG exports, so it can reuse the paid result
+        # even when the larger original PNG cache is absent on this computer.
+        prompt = self.prompt + f'\nComposition variant: {variant + 1}. Portrait 9:16, at least 1080x1920.'
+        for metadata in sorted(path.parent.glob('office-*.json')):
+            data = json.loads(metadata.read_text())
+            image = metadata.with_suffix('.jpg')
+            if (data.get('original_file') == path.name and data.get('model') == self.model and
+                    data.get('prompt') == prompt and image.is_file() and not image.is_symlink() and
+                    hashlib.sha256(image.read_bytes()).hexdigest() == data.get('sha256')):
+                return image
+        return None
+
+    def get(self, tag: str, *, variant: int = 0) -> Background:
+        path = self.destination(tag, variant)
+        cached = self.cached_path(tag, variant)
+        if cached:
+            return Background(cached, tag, 'image-cache')
         if not self._key:
             raise ValueError('OPENROUTER_API_KEY is required for background generation')
         prompt = self.prompt + f'\nComposition variant: {variant + 1}. Portrait 9:16, at least 1080x1920.'
@@ -122,7 +152,7 @@ def generate_batch(provider: ImageBackgroundProvider, tag: str, count: int, *, y
     validate_tag(tag)
     if not 1 <= count <= 10:
         raise ValueError('Background count must be 1–10')
-    missing = [i for i in range(count) if not provider.destination(tag, i).is_file()]
+    missing = [i for i in range(count) if provider.cached_path(tag, i) is None]
     plan = {'count': count, 'cached': count-len(missing), 'estimated_generations': len(missing),
             'maximum_http_requests': 2*len(missing), 'model': provider.model,
             'confirmation_required': bool(missing) and not yes}
@@ -130,3 +160,18 @@ def generate_batch(provider: ImageBackgroundProvider, tag: str, count: int, *, y
         return plan
     plan['files'] = [str(provider.get(tag, variant=i).path) for i in range(count)]
     return plan
+
+
+def reserve_library_background(root: Path, tag: str, state_path: Path) -> Background:
+    """Atomic rotation shared by standalone render and per-draft run-all directories."""
+    provider = LibraryBackgroundProvider(root)
+    provider.get(tag)  # Validate availability before modifying rotation state.
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    with sqlite3.connect(state_path) as connection:
+        connection.execute('CREATE TABLE IF NOT EXISTS rotation (tag TEXT PRIMARY KEY, count INTEGER NOT NULL)')
+        connection.execute('BEGIN IMMEDIATE')
+        key = str(root.resolve()) + ':' + tag
+        row = connection.execute('SELECT count FROM rotation WHERE tag=?', (key,)).fetchone()
+        variant = row[0] if row else 0
+        connection.execute('INSERT INTO rotation VALUES (?,?) ON CONFLICT(tag) DO UPDATE SET count=excluded.count', (key,variant+1))
+    return provider.get(tag, variant=variant)

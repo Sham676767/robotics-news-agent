@@ -77,14 +77,34 @@ def dry_run(settings: Settings, sources: Path, *, count: int = 1, stub: bool = F
             licensed_music(settings.music_manifest)
         except (ValueError, OSError):
             issues.append("Музыка отсутствует или не подтверждена лицензия на коммерческое использование")
-    library = clips_dir or settings.visuals_dir
-    from app.scene_visuals import load_visuals
-    try:
-        assets = load_visuals(library)
-        if any(not os.access(asset.path, os.R_OK) for asset in assets):
-            raise ValueError
-    except (ValueError, OSError):
-        issues.append("Библиотека фонов должна содержать 1–20 доступных фото или клипов и корректные теги library.yaml")
+    if theme and theme.style == "cinematic_still":
+        from app.cinematic_media import overlay_inputs
+        from app.backgrounds import LibraryBackgroundProvider
+        if clips_dir:
+            issues.append("--clips-dir относится к шаблону engaging; для cinematic_still задайте BACKGROUNDS_DIR")
+        if not settings.music_manifest:
+            issues.append("cinematic_still: требуется лицензированная музыка для финала")
+        try:
+            overlay_inputs(settings.overlays_dir)
+        except (ValueError, OSError):
+            issues.append("Не найдены локальные fire_loop, dust_loop и маска")
+        if mode == "live":
+            if not settings.brand_handle:
+                issues.append("BRAND_HANDLE обязателен для cinematic_still")
+            if settings.background_provider == "library":
+                try:
+                    LibraryBackgroundProvider(settings.backgrounds_dir).get(settings.background_tag)
+                except (ValueError, OSError):
+                    issues.append("Нет фона для BACKGROUND_TAG; выполните generate-backgrounds отдельно")
+    else:
+        library = clips_dir or settings.visuals_dir
+        from app.scene_visuals import load_visuals
+        try:
+            assets = load_visuals(library)
+            if any(not os.access(asset.path, os.R_OK) for asset in assets):
+                raise ValueError
+        except (ValueError, OSError):
+            issues.append("Библиотека фонов должна содержать 1–20 доступных фото или клипов и корректные теги library.yaml")
     from app.editorial import FORMATS
     for name in FORMATS:
         try:
@@ -135,7 +155,8 @@ def dry_run(settings: Settings, sources: Path, *, count: int = 1, stub: bool = F
             "semantic_dedup_upper_bound": semantic,
             "max_openrouter_attempts": (semantic + 2 * count) * settings.openrouter_max_attempts,
             "max_tts_attempts": count * settings.tts_max_attempts} if mode == "live" else {"total": 0}
-    return {"dry_run": True, "ready": not issues, "issues": issues, "mode": mode, "video_count": count,
+    return {"dry_run": True, "ready": not issues, "issues": issues, "mode": mode, "video_count": count, "render_style": theme.style if theme else None,
+            "background_provider": settings.background_provider, "background_generation_calls": 0,
             "model": settings.openrouter_model if mode == "live" else "local-stub",
             "voice_id": settings.elevenlabs_voice_id if mode == "live" else "local-tone",
             "stages": (["collect", "script", "source_review", "tts", "render", "save_draft", "wait_for_approve"]

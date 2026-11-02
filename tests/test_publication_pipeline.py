@@ -27,7 +27,7 @@ from app.video_storage import StoredVideo, StorageError, VideoStorage
 
 @pytest.fixture
 def publish_settings(tmp_path):
-    return Settings(drafts_dir=tmp_path / "drafts", tts_output_dir=tmp_path / "audio", render_output_dir=tmp_path / "videos",
+    return Settings(render_template=Path("templates/engaging.yaml"), drafts_dir=tmp_path / "drafts", tts_output_dir=tmp_path / "audio", render_output_dir=tmp_path / "videos",
                     openrouter_api_key="sk-or-v1-fixture1234567890", elevenlabs_api_key="fixture-elevenlabs-key", elevenlabs_voice_id="fixture-voice",
                     publishing=PublishingSettings(instagram_user_id="12345", instagram_api_version="v25.0",
                         instagram_access_token="fixture-instagram-secret-token", poll_interval_seconds=0,

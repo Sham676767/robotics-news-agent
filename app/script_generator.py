@@ -93,6 +93,7 @@ def generate_script(topic: Topic, settings: Settings) -> ReelScript:
         "Для before_after обе редакции должны быть в источниках, иначе выбери другой формат. "
         "hook_variants — 2–3 разных подтверждённых источником хука, selected_hook — индекс "
         "выбранного, с нуля; если selected_hook_index задан, используй этот индекс и создай достаточно вариантов; hook дословно совпадает с выбранным вариантом. "
+        "emphasis — 1–2 дословных фрагмента voiceover, каждый 1–3 коротких слова для крупного акцента (предпочитай одно слово до 8 букв); без новых фактов. "
         "scenes — последовательные дословные фрагменты voiceover с tags: document, phone, money, court, parcels, marketplace или background. Покрой весь текст, кроме CTA; тег выбирай по смыслу фразы, не добавляй новых фактов. "
         "caption: первая строка hook, затем 2–3 строки пользы, последняя строка дословный CTA. "
         "URL, дисклеймер и хэштеги программа допишет из проверенных полей, не дублируй их. "
@@ -113,6 +114,8 @@ def generate_script(topic: Topic, settings: Settings) -> ReelScript:
         script = parse_script(data, topic, settings)
         if not script.editorial.scenes:
             raise ValueError("Generated scripts require scene tags")
+        if not script.editorial.emphasis:
+            raise ValueError("Generated scripts require one or two emphasis fragments")
         if settings.hook_variant is not None and script.editorial.selected_hook != settings.hook_variant:
             raise ValueError("The configured hook variant must be selected")
 

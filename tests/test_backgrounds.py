@@ -69,3 +69,27 @@ def test_library_rotation_and_stub_are_offline(tmp_path):
     with Image.open(stub.path) as image: assert image.size==(1080,1920)
     with pytest.raises(ValueError):library.get('../outside')
     with pytest.raises(ValueError):library.get('missing')
+
+
+def test_checked_in_jpeg_exports_reuse_paid_cache_without_key_or_network(tmp_path,monkeypatch):
+    import json,hashlib
+    provider=ImageBackgroundProvider(tmp_path,'','model','prompt')
+    folder=tmp_path/'document';folder.mkdir()
+    image=folder/'office-01.jpg';Image.new('RGB',(1080,1920)).save(image)
+    metadata={'original_file':provider.destination('document',0).name,'model':'model',
+              'prompt':'prompt\nComposition variant: 1. Portrait 9:16, at least 1080x1920.',
+              'sha256':hashlib.sha256(image.read_bytes()).hexdigest()}
+    image.with_suffix('.json').write_text(json.dumps(metadata))
+    monkeypatch.setattr(httpx,'post',Mock(side_effect=AssertionError('Must not regenerate existing paid image')))
+    result=generate_batch(provider,'document',1)
+    assert result['cached']==1 and result['estimated_generations']==0
+    assert result['files']==[str(image)]
+
+
+@pytest.mark.parametrize('names',[['../outside.png'],['one.jpg','one.jpg'],['missing.jpg']])
+def test_library_manifest_rejects_unsafe_duplicate_or_missing_files(tmp_path,names):
+    import json
+    folder=tmp_path/'document';folder.mkdir()
+    (folder/'one.jpg').write_bytes(b'fixture')
+    (folder/'library.json').write_text(json.dumps({'files':names}))
+    with pytest.raises(ValueError):LibraryBackgroundProvider(tmp_path).get('document')

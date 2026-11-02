@@ -140,7 +140,9 @@ class ReelDrafts:
                 edited = folder / "narration.wav"
                 if checksum(edited) != render["edited_audio_sha256"]:
                     raise ValueError("Edited narration does not match render metadata")
-                expected = math.ceil(wav_duration(edited.read_bytes()) * 30 - 1e-8) / 30
+                narration_duration = wav_duration(edited.read_bytes())
+                brand_seconds = 1.5 if render.get("style") == "cinematic_still" else 0
+                expected = math.ceil((narration_duration + brand_seconds) * 30 - 1e-8) / 30
                 if not 30 <= expected <= 45 or abs(expected - render["duration_seconds"]) > .08:
                     raise ValueError("Edited narration must match the 30–45 second render")
                 if render["hook"] != script.hook or render["cta"] != (self.settings.client_cta if script.editorial else self.settings.script_cta):
@@ -150,7 +152,7 @@ class ReelDrafts:
                                         render["hook_variants"] != list(script.editorial.hook_variants)):
                     raise ValueError("Render A/B metadata does not match the script")
                 quiet = silence_ranges(edited)
-                if quiet and quiet[-1][1] >= expected - .04 and quiet[-1][1] - quiet[-1][0] > .5:
+                if quiet and quiet[-1][1] >= narration_duration - .04 and quiet[-1][1] - quiet[-1][0] > .5:
                     raise ValueError("Edited narration has a silent tail")
             if (render["script_sha256"] != digest(script.to_dict()) or render["audio_sha256"] != audio.sha256
                     or render["video_sha256"] != manifest["assets"]["video.mp4"]

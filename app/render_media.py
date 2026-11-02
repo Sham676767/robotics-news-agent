@@ -75,12 +75,13 @@ def mix_video(stage: Path, ffmpeg: str, narration: Path, duration: float, music:
          "-pix_fmt", "yuv420p", "-color_range", "tv", "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-movflags", "+faststart", "video.mp4"], cwd=stage)
 
 
-def review_images(stage: Path, ffmpeg: str, duration: float, cover_time: float, run: Callable) -> None:
+def review_images(stage: Path, ffmpeg: str, duration: float, cover_time: float, run: Callable, *, count: int | None = None) -> None:
     run([ffmpeg, "-v", "error", "-nostdin", "-n", "-filter_threads", "1", "-ss", f"{cover_time:.3f}", "-i", "video.mp4",
          "-frames:v", "1", "-update", "1", "-q:v", "2", "cover.jpg"], cwd=stage)
     # Sample the middle of each <=3.5-second shot, preserving a readable full-frame sheet.
-    count = math.ceil(duration / 3.5)
-    step = duration / count
+    explicit_count = count is not None
+    count = count or math.ceil(duration / 3.5)
+    step = (duration - .6) / (count - 1) if explicit_count else duration / count
     rows = math.ceil(count / 4)
     run([ffmpeg, "-v", "error", "-nostdin", "-n", "-filter_threads", "1", "-i", "video.mp4", "-vf",
          f"select='gte(t,0.35)*isnan(prev_selected_t)+gte(t-prev_selected_t,{step:.6f})',scale=270:480,tile=4x{rows}:padding=8:margin=8:color=0x101C32",

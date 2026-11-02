@@ -45,14 +45,16 @@ class EditorialPlan:
     hook_variants: tuple[str, ...]
     selected_hook: int
     scenes: tuple[SceneCue, ...] = ()
+    emphasis: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {"format": self.format, "hook_variants": list(self.hook_variants), "selected_hook": self.selected_hook,
+                **({"emphasis": list(self.emphasis)} if self.emphasis else {}),
                 **({"scenes": [scene.to_dict() for scene in self.scenes]} if self.scenes else {})}
 
 
 def parse_editorial(value: Any, hook: str, voiceover: str = "") -> EditorialPlan:
-    if not isinstance(value, dict) or set(value) not in ({"format", "hook_variants", "selected_hook"}, {"format", "hook_variants", "selected_hook", "scenes"}):
+    if not isinstance(value, dict) or (set(value) - {"emphasis"}) not in ({"format", "hook_variants", "selected_hook"}, {"format", "hook_variants", "selected_hook", "scenes"}):
         raise ValueError("editorial requires exactly format, hook_variants, selected_hook")
     variants, selected = value["hook_variants"], value["selected_hook"]
     if value["format"] not in FORMATS:
@@ -85,7 +87,13 @@ def parse_editorial(value: Any, hook: str, voiceover: str = "") -> EditorialPlan
                 raise ValueError("Scene fragments must occur in voiceover, in order without overlap")
             cursor = position + len(text)
             scenes.append(SceneCue(text, tuple(dict.fromkeys(scene["tags"]))))
-    return EditorialPlan(value["format"], tuple(variants), selected, tuple(scenes))
+    emphasis = value.get("emphasis", [])
+    if (not isinstance(emphasis, list) or len(emphasis) > 2 or any(not isinstance(text, str) or
+            not 1 <= len(text.split()) <= 3 or not re.search(r"(?<!\w)"+re.escape(text)+r"(?!\w)", voiceover) for text in emphasis)):
+        raise ValueError("emphasis must contain up to two verbatim 1–3-word speech fragments")
+    if len(set(emphasis)) != len(emphasis):
+        raise ValueError("emphasis fragments must be unique")
+    return EditorialPlan(value["format"], tuple(variants), selected, tuple(scenes), tuple(emphasis))
 
 
 def publication_caption(script: Any, *, music_credit: str = "") -> str:

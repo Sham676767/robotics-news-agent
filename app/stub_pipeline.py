@@ -36,7 +36,7 @@ def stub_script(settings: Settings) -> tuple[Topic, ReelScript, ScriptReview]:
         (PrimaryReference("document", "Техническая фикстура", primary, NORM, True, content),))
     raw = {"hook": HOOK, "voiceover": "\n\n".join((HOOK, ESSENCE, ACTIONS, settings.client_cta)),
            "on_screen_text": screens, "caption": "\n".join((HOOK, caption, screens[0], settings.client_cta)), "hashtags": ["#тест", "#демо", "#оформление"],
-           "editorial": {"format": "checklist", "hook_variants": [HOOK, "Проверьте договор: техническая демонстрация."], "selected_hook": 0, "scenes": [
+           "editorial": {"format": "checklist", "hook_variants": [HOOK, "Проверьте договор: техническая демонстрация."], "selected_hook": 0, "emphasis": ["риск?"], "scenes": [
                {"text": HOOK, "tags": ["document"]},
                {"text": ESSENCE, "tags": ["phone"]},
                {"text": ACTIONS, "tags": ["document"]}]},
